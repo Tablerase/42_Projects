@@ -137,7 +137,7 @@ Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 
   - To change between dhcp and static change upper code in interface
   - Restart: `sudo systemctl restart networking`
-- Check DNS:
+- Check DNS:https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10
   - Leave as default, to access do `sudo nano /etc/resolv.conf`
 
 - Apply change: `sudo systemctl restart networking`

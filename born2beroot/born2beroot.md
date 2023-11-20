@@ -8,7 +8,6 @@ To do:
 - [ ] Check if passwd rules are applied
 - [ ] ...
 
-
 📔 [Notes](#notes)
 
 ✅ [Correction CMD](#correction-cmd)
@@ -153,7 +152,6 @@ Port Fowarding(In VM change tunnel from 4444 to 4242):
 |Rule | Protocol | Host ip | host port | Guest Ip | Guest Port
 | ----| --------| ------- | --------- | ---------| --------
 | SSH  | TCP| 127.0.0.1 | 4444 | 10.0.2.15 | 4242
-
 
 ## Manage Passwords
 
@@ -396,6 +394,18 @@ Hostname et Partitions:
     - NOTE (If you want to keep new hostname): You can get error `sudo: unable to resolve host debian11: Name or service not known` when you change host name. To correct do `sudo nano /etc/hosts` (replace hostname with new_hostname).
 - Ask evaluated person to display partitions: `lsblk`
 - Explain LVM and benefits.
+
+SSH:
+
+- check ssh installed: `ssh your_user_id@127.0.0.1 -p port`
+- check to log as root, normal response should be no log possible.
+
+Script:
+
+- explain cron
+- setup script with crontab (`sudo crontab -u root -e`)
+  - change to have the script rune every minute.
+  - stop the script from running without touching script
 
 ## NOTES
 

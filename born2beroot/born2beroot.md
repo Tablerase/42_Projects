@@ -2,6 +2,17 @@
 
 Env: Linux/Debian
 
+To do:
+
+- [ ] Change root passwd (has to be diff from user)
+- [ ] Check if passwd rules are applied
+- [ ] ...
+
+
+📔 [Notes](#notes)
+
+✅ [Correction CMD](#correction-cmd)
+
 ## Setup VM
 
 - Download [Debian].iso
@@ -13,7 +24,7 @@ Env: Linux/Debian
   - `Virtual Box Disk Image`
   - Storage type: `Dynamically alloc` (12gb)
 - Install Debian on your VM
-  - Details > Storage > Controler IDE > Empty -> Optical Drive - Select Image Disk File -> Select Debian.iso
+  - Details > Storage > Controler IDE > Empty -> Optical Drive - Select Image Disk File -> Select `Debian.iso`
 - Start VM
 
 ## Access VM
@@ -23,10 +34,10 @@ Env: Linux/Debian
   - Language
   - location
   - Keyboard
-  - Hostname: `rcutte` (machine name)
+  - Hostname: `rcutte42` (machine name)
   - Domain name: `none`
-  - Root passwd: `pass42`
-  - User name && pass: `test42` `pass42`
+  - Root passwd: `Pass42pass`
+  - User name && pass: `rcutte`
   - Partition disk: `guided use entire disk and set up encrypted LVM`
     - SCSI3
     - Separate home, var and tmp partitions
@@ -56,9 +67,7 @@ Env: Linux/Debian
 
 - `su -`
 
-### Config VM
-
-### Sudo
+## Sudo
 
 1. First type `su -` to login in as the root user.
 2. Then type `apt-get update -y` -y means 'yes' prevent confirmation prompt
@@ -68,12 +77,12 @@ Env: Linux/Debian
 6. Type `sudo visudo` to open sudoers file
 7. Lastly find - # User privilege specification, type `your_username  ALL=(ALL) ALL` - Add sudo privilege to user `your_username`
 
-### Git
+## Git
 
 1. Then type `apt-get install git -y` to install Git
 2. Then type `git --version` to check the Git Version
 
-### SSH (Secure Shell Host)
+## SSH (Secure Shell Host)
 
 1. Type `sudo apt install openssh-server`
 2. Type `sudo systemctl status ssh` to check SSH Server Status
@@ -84,7 +93,7 @@ Env: Linux/Debian
 7. Then type `sudo grep Port /etc/ssh/sshd_config` to check if the port settings are right
 8. Lastly type `sudo service ssh restart` to restart the SSH Service
 
-### UFW (Uncomplicated FireWall)
+## UFW (Uncomplicated FireWall)
 
 1. First type `apt-get install ufw` to install UFW
 2. Type `sudo ufw enable` to inable UFW
@@ -94,7 +103,7 @@ Env: Linux/Debian
 
 - Pb to connect via port 4242 : Tunneling in VM to port 4444 -> 4242 (without changing firewall).
 
-### Connect to SSH
+## Connect to SSH
 
 - Go in VirtualBox
 - To exit your Virtual Machine and use your mouse, press command on your Apple Keyboard and your mouse should appear
@@ -110,6 +119,9 @@ Env: Linux/Debian
 - Lastly type exit to quit your SSH iTerm Connection
 
 ### IP / Ports
+
+- ss -tunlp
+  - display open ports
 
 Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 
@@ -129,7 +141,7 @@ Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 - Check DNS:
   - Leave as default, to access do `sudo nano /etc/resolv.conf`
 
-- Apply change: sudo systemctl restart networking
+- Apply change: `sudo systemctl restart networking`
 - `ifup` : if DHCP down to Start it
 - `ip a`: config reseau
 - `ip r`: route reseau (list ip root - CDIR(use to get netmask) - Gateway - Address ...)
@@ -142,27 +154,28 @@ Port Fowarding(In VM change tunnel from 4444 to 4242):
 | ----| --------| ------- | --------- | ---------| --------
 | SSH  | TCP| 127.0.0.1 | 4444 | 10.0.2.15 | 4242
 
-### Manage Passwords
+
+## Manage Passwords
 
 1. First type `sudo apt-get install libpam-pwquality` to install Password Quality Checking Library
 2. Then type `sudo vim /etc/pam.d/common-password`
 3. Find this line. `password  requisite  pam_deny.so`
 4. Add this to the end of that line `minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root`.
  The line should now look like this `- password  requisite     pam_pwquality.so  retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root`
-   1. `minlen=10`: This sets the minimum length of the password to 10 characters redhat.com, linuxtechi.com.
-   2. `ucredit=-1`: This means that at least one uppercase letter is required in the password networkworld.com, linuxtechi.com.
-   3. `dcredit=-1`: This means that at least one digit is required in the password networkworld.com, linuxtechi.com.
-   4. `maxrepeat=3`: This sets the maximum number of repeated characters allowed in the password to 3 redhat.com.
-   5. `reject_username`: This option, when set, rejects passwords that are the same as the username redhat.com.
-   6. `difok=7`: This sets the minimum number of required different characters in the password to 7 redhat.com.
-   7. `enforce_for_root`: This option, when set, enforces the password policy for the root user redhat.com.
+   1. `minlen=10`: This sets the minimum length of the password to 10 characters.
+   2. `ucredit=-1`: This means that at least one uppercase letter is required in the password.
+   3. `dcredit=-1`: This means that at least one digit is required in the password.
+   4. `maxrepeat=3`: This sets the maximum number of repeated characters allowed in the password to 3.
+   5. `reject_username`: This option, when set, rejects passwords that are the same as the username.
+   6. `difok=7`: This sets the minimum number of required different characters in the password to 7.
+   7. `enforce_for_root`: This option, when set, enforces the password policy for the root user.
 5. Save and Exit Vim
 6. Next type in your Virtual Machine `sudo vim /etc/login.defs`
 7. Find this part `PASS_MAX_DAYS 9999 PASS_MIN_DAYS 0 PASS_WARN_AGE 7`
 8. Change that part to `PASS_MAX_DAYS 30` (max days for a pwd) and `PASS_MIN_DAYS 2` (min days between change of pwd). Keep `PASS_WARN_AGE 7` (warn to change pwd) as the same
 9. Lastly type `sudo reboot` to reboot the change affects
 
-### User Groups
+## User Groups
 
 - create a group: `sudo groupadd user42`
 - create an evaluating group: `sudo groupadd evaluating`
@@ -188,7 +201,12 @@ Add/Remove user:
 - Add: `sudo useradd username` add `-m` to create a user dir
 - Remove: `sudo deluser username` add `--remove-home` to remove user dir
 
-### Logs for Sudo commands
+Add/Remove group:
+
+- Add: `sudo groudadd group_name`
+- Delete: `sudo grouddel group_name`
+
+## Logs for Sudo commands
 
 - First type `cd ~/../` (go to root folder etc, var, home...)
 - Then type `cd var/log`
@@ -222,7 +240,7 @@ Defaults requiretty
 - `Defaults log_input, log_output`: These lines instruct sudo to log both the input and output of the commands that are run.
 - `Defaults requiretty`: This line requires that sudo commands be run from a terminal. This is a security measure to prevent unauthorized users from running sudo commands.
 
-### Script Setup
+## Script Setup
 
 - Then type `apt-get install -y net-tools` to install the netstat tools or ss tools (nestat deprecated)
 - Then type `cd /usr/local/bin/`
@@ -289,7 +307,7 @@ Add permission to exec script without password:
 - In sudo file, `sudo visudo` add the following line in #Allow members of group sudo to exec any command:
   - `your_username ALL=(ALL) NOPASSWD: /usr/local/bin/monitoring.sh`
 
-### Cron config
+## Cron config
 
 - Type `sudo /usr/local/bin/monitoring.sh` to execute your script as su (super user)
 - Type `sudo crontab -u root -e` to open the crontab and add the rule
@@ -297,22 +315,34 @@ Add permission to exec script without password:
   - `-e` open editor `-u root` to specifies the user for whom the cron job will be set.
 - Lastly at the end of the crontab, type the following `*/10 * * * * /usr/local/bin/monitoring.sh` this means that every 10 mins, this script will show
 
-### App Armor
+## App Armor
 
 `sudo apt -y install apparmor`
 
-### Check cmd
+## Partitions
 
-- `head -n 2 /etc/os-release`: display os version and name
-- in `home/username` as root -> do `/etc/sbin/aa-status`
-  - apparmor module is loaded : should be display
-- ss -tunlp
-  - display open ports
-  - (if 68 open: to disable do systemctl stop/disable (name of dhcp), to know the name of dhcp do `systemctl status` - but ssh will not be accessible because IP not reach because dhcp not stopped)
-- ufw status
-  - display allow port / service
+- Display partitions: `lsblk`
+- Display volume group: `sudo vgs`
+- Add a volume group to encrypted partitions
+  - Create logical volume with `lvcreate` -L for size of volume, -n for name of the logical volume
+  - 4G for var/log
+    - `sudo lvcreate -L 1G -n rcutte-vg-var-log rcutte-vg`
+    - `sudo mkfs.ext4 /dev/rcutte-vg/var--log`
+    - `sudo mkdir /var/log`
+    - `sudo mount /dev/rcutte-vg/var--log /var/log`
+  - Same for: 3G for srv
+    - `sudo lvcreate -L 1G -n rcutte-vg-srv rcutte-vg` ...
 
-### VM INFOS
+Notes:
+
+- To reduce space:
+  - Check size/space of disk: `df -Th`
+  - umount to prevent data loss: `sudo umount /home` remount after operation
+  - `sudo lvreduce -L -3G /dev/vg-name/lv-name`
+- Add space in VM, Use GParted live iso to edit partitions. (for non encrypted partitions)
+🕸️ [Details](https://www.pragmaticlinux.com/2020/09/how-to-increase-the-disk-size-in-a-virtualbox-virtual-machine/)
+
+## VM INFOS
 
 - os: `Debian`
 - hostname: `rcutte42` (req: 42 login follow by 42)
@@ -323,12 +353,75 @@ Add permission to exec script without password:
 
 - user test: `test` passwd: `Pass42pass`
 
+## Correction CMD
+
+Log:
+
+- Verify password with pass rules:
+  - min 10 char: at least one maj, min, number. Max 3 consective same char.
+  - root different from user passwd
+
+OS Distro:
+
+- Check distro: `uname` -a for all (hostname, os, distro etc)
+- Check apparmor: `sudo aa-status`
+
+Check UFW/SSH:
+
+- UFW: `ufw status`
+- SSH: `ssh login@ip -p port` (explanation needed in case of error)
+
+Group:
+
+- check group list: `groups`
+  - shoulb be present: `sudo`, `user42`
+- check user group: `groups login`
+
+User:
+
+- Add a user: `sudo useradd new_user`
+  - during password check if passwd rules are applied:
+    - `sudo chage -l username` check password expire rules
+  - explanation of how they where applied (here with in `sudo vim /etc/pam.d/common-password` with lib `libpam-pwquality`, PAM (Pluggable Authentication Modules)
+- Add a group: `sudo groupadd evaluating` check with `groups` or `getent group`
+- Assign user to `evaluating` group: `sudo usermod -aG evaluating new_user` check with `getent group evaluating`
+- Check passwd policy: `sudo vim /etc/login.defs`
+
+Hostname et Partitions:
+
+- Check hostname:
+  - Check `hostname` or `hostnamectl` for full details
+  - Change hostname with your log in `sudo hostnamectl set-hostname new_hostname`, reboot.
+  - Check `hostname` -> then restore original hostname.
+    - NOTE (If you want to keep new hostname): You can get error `sudo: unable to resolve host debian11: Name or service not known` when you change host name. To correct do `sudo nano /etc/hosts` (replace hostname with new_hostname).
+- Ask evaluated person to display partitions: `lsblk`
+- Explain LVM and benefits.
+
 ## NOTES
 
-Command key : `Right CTRL` Allow to exit VM window <br/>
+Command key : `Right CTRL` Allow to exit VM window
+
 View: `scale`
 
-`systemctl` is a command-line tool used for controlling and managing the systemd system and service manager. It is part of a range of system management utilities, libraries, and daemons
+Difference between `Debian` and `Rocky`
+
+- Debian is known for its stability and has a massive software repository, making it a versatile option for various server applications. It uses the apt package manager, which is reliable but may lack flexibility for complex software deployments.
+
+- Rocky Linux is a community enterprise operating system designed to be 100% bug-for-bug compatible with RHEL. It's led by Gregory Kurtzer, the founder of the CentOS project. Rocky Linux uses yum and dnf as its package managers, supporting automatic dependency resolution, versioning, and modular content. This makes it a potentially better choice for businesses looking to stay on the cutting edge of technology without sacrificing stability. (Security-Enhanced Linux (SELinux) is a security architecture for Linux systems that provides administrators with more control over who can access the system. It was originally developed by the United States National Security Agency (NSA) and was released to the open-source community)
+
+- In conclusion, while Debian is a reliable and versatile option, Rocky Linux may be a better choice for businesses looking to stay on the cutting edge of technology and require superior SELinux implementation
+
+`VMs` have many benefits:
+
+- Flexibility: VMs are faster and easier to set up than installing an OS on a physical server. Developers and software testers can create new environments on demand to handle new tasks as they arise.
+- Security: VMs improve security by allowing an entire snapshot of the VM to be created at any point in time and then restored to that state if it becomes infected with malware. This effectively takes the VM back in time, making it easier to recover from malware infections.
+- Efficient DevOps: VMs allow for simplified testing and development processes for applications and websites. Maintenance operations have minimal impact on your production environment, and there is often no need for downtime when performing maintenance.
+- Hardware Independence: VMs can be provisioned or migrated to any physical server, providing flexibility and scalability.
+- Support for Legacy Applications: VMs can run multiple operating system environments on a single physical computer, supporting legacy applications and reducing the cost of migrating to a new operating system.
+- Easy Provisioning and Maintainability: VMs are easy to manage and maintain, and they offer several advantages over physical machines. They can run multiple operating system environments on a single physical computer, saving physical space, time, and management costs.
+- High Availability: VMs can provide integrated disaster recovery and application provisioning options.
+- Snapshot Capability: VMs allow for the creation of system-level snapshots that can be instantly restored whenever needed. This provides a more comprehensive system restore option
+- They also have potential disadvantages. Running multiple VMs on one physical machine can result in unstable performance if infrastructure requirements are not met. Additionally, VMs are less efficient and run slower than a full physical computer.
 
 `AppArmor`, short for Application Armor, is a Linux kernel security module that allows system administrators to restrict the capabilities of programs using per-program profiles.
 
@@ -337,9 +430,41 @@ View: `scale`
 
 `APT` is a lower-level package manager that is primarily used by other higher-level package managers. It handles package installation, upgrades, system upgrades, purging packages, and resolving dependencies. APT operates on the command line and does not have a user interface
 
+- add a package: `sudo apt-get install pack_name`
+- remove a package: `sudo apt-get remove pack_name`
+  - remove with config: `sudo apt-get remove --purge package_name`
+
 `Aptitude`, on the other hand, is a higher-level package manager that integrates the functionalities of APT and its other variants, including apt-mark and apt-cache. It provides a text-only and interactive user interface along with the option of command-line operation. Aptitude can handle a lot more than APT, including functionalities like searching for a package in the list of installed packages, marking a package to be automatically or manually installed, holding a package making it unavailable for upgrade
 
-![SSH Schema](/media/SSH_simplified_protocol_diagram-2.webp)
+The `Logical Volume Manager (LVM)` in Linux provides several advantages over traditional disk partitioning and management:
+
+- Flexibility: LVM allows for dynamic resizing of storage volumes. You can increase or decrease the size of logical volumes as needed, without having to worry about the physical storage space. This is achieved by creating logical volumes that can span multiple physical volumes, and by adding or removing physical volumes from a volume group.
+- Efficient use of storage: LVM allows for the aggregation of multiple physical volumes into a single volume group. This can lead to more efficient use of storage space, as it allows for the consolidation of small, fragmented volumes into larger, contiguous volumes 7.
+- Snapshotting: LVM supports the creation of snapshots of logical volumes. Snapshots are read-only copies of the original volume at a specific point in time. This can be useful for backup purposes, or for creating a temporary space to test changes without affecting the original data 8.
+- Data protection: LVM supports RAID configurations, which can provide data protection by mirroring data across multiple physical volumes. This can help to prevent data loss in the event of a disk failure 8.
+- Improved management: LVM provides a more organized and simplified way to manage storage devices. Instead of dealing with individual partitions on each disk, you can manage all your storage through volume groups and logical volumes.
+
+`lsblk` command in Linux is used to list information about all available block devices, whether they are mounted or not. Block devices can include physical devices such as hard drives and SSDs, as well as virtual devices such as loop devices and LVM logical volumes.
+
+- When you run the lsblk command without any options, it displays information in a tree-like structure, with each device represented by a line in the output. The command gets its information from the sysfs file system
+
+The lsblk command displays the following columns by default:
+
+- NAME: The name of the block device.
+- MAJ:MIN: The major and minor device number.
+- RM: This column shows whether the device is removable or not.
+- SIZE: This column gives information on the size of the device.
+- RO: This indicates whether a device is read-only.
+- TYPE: This column shows the block device is a disk or a partition(part) within a disk.
+- MOUNTPOINT: This column indicates the mount point on which the device is mounted
+
+`sda` stands for the first SCSI(Small Computer System Interface) disk in the system. This naming convention is used to identify and refer to block devices, such as hard drives or SSDs.
+
+`mkfs.ext4` command is used to create an ext4 file system on a disk partition in a Linux system. Ext4 is a native Linux filesystem that was developed as the successor to ext3. It offers stability, high capacity, reliability, and performance while requiring minimal maintenance. You can resize (increase/decrease) the filesystem without a problem.
+
+`systemctl` is a command-line tool used for controlling and managing the systemd system and service manager. It is part of a range of system management utilities, libraries, and daemons
+
+![SSH Schema](./media/SSH_simplified_protocol_diagram-2.webp)
 
 `SSH`, or Secure Shell, is a protocol used for secure remote login from one computer to another. It provides several alternative options for strong authentication and protects communications security and integrity with strong encryption. SSH is a secure alternative to non-protected login protocols such as telnet and rlogin, and insecure file transfer methods such as FTP.
 
@@ -369,6 +494,7 @@ The `sudoers` file in Debian is a configuration file for the sudo command. It al
   - `sudo systemctl stop dhcpcd`
   - `sudo systemctl disable dhcpcd`
   - in my VM: `systemctl stop ifup@enp0s3.service` or disable
+- To reactivate do `ifup nameofservice`
 
 Scripts cmd:
 
@@ -390,7 +516,7 @@ The `head` command in Linux is used to output the first part of files. By defaul
 
 `TTY` stands for Teletypewriter. It was originally a hardware device that allowed messages to be typed, encoded, sent, received, decoded, and printed. The name TTY has been repurposed in modern systems to refer to the terminal, which is a software interface for interacting with the system
 
-![Cron](/media/cron%20schema.jpg)
+![Cron](./media/cron%20schema.jpg)
 
 `Crontab`, short for cron table, is a configuration file used by the cron daemon in Unix-based operating systems. This file allows users to schedule tasks (known as cron jobs) to run automatically at specified times or intervals. Each line within the crontab file represents a job and follows a specific syntax to determine when and how frequently that job should be run
 

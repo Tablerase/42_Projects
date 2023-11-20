@@ -317,7 +317,9 @@ Add permission to exec script without password:
 
 `sudo apt -y install apparmor`
 
-## Partitions
+## Bonus
+
+### Partitions
 
 - Display partitions: `lsblk`
 - Display volume group: `sudo vgs`
@@ -339,6 +341,37 @@ Notes:
   - `sudo lvreduce -L -3G /dev/vg-name/lv-name`
 - Add space in VM, Use GParted live iso to edit partitions. (for non encrypted partitions)
 🕸️ [Details](https://www.pragmaticlinux.com/2020/09/how-to-increase-the-disk-size-in-a-virtualbox-virtual-machine/)
+
+### WordPress
+
+...
+
+### Additionnal service
+
+Add service: [Docker](https://docs.docker.com/engine/install/debian/#install-using-the-repository)
+
+- Add docker dowload repo source to apt
+
+```bash
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+- Install Docker Engine: `sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
+
+- Check Setup: `sudo docker run hello-world`
+  - This command downloads a test image and runs it in a container. When the container runs, it prints a confirmation message and exits.
 
 ## VM INFOS
 
@@ -406,6 +439,12 @@ Script:
 - setup script with crontab (`sudo crontab -u root -e`)
   - change to have the script rune every minute.
   - stop the script from running without touching script
+
+Bonus:
+
+- Check partitions: `lsblk`
+- WordPress
+- Free of choice service
 
 ## NOTES
 

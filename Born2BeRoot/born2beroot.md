@@ -137,7 +137,7 @@ Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 
   - To change between dhcp and static change upper code in interface
   - Restart: `sudo systemctl restart networking`
-- Check DNS:https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10
+- Check DNS:<https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10>
   - Leave as default, to access do `sudo nano /etc/resolv.conf`
 
 - Apply change: `sudo systemctl restart networking`
@@ -344,7 +344,64 @@ Notes:
 
 ### WordPress
 
-...
+Install requirements (Wordpress, lighttpd, MariaDB, and PHP)
+
+#### lighttpd
+
+- Pronounced "lighty", is an open-source web server software that is known for its speed, efficiency, and flexibility. It is optimized for high-performance environments, using memory and CPU efficiently and having lower resource use than other popular web servers
+- Lighttpd supports the FastCGI, SCGI, and CGI interfaces to external programs, allowing web applications written in any programming language to be served by Lighttpd. It also supports the `Secure Socket Layer and Transport Layer Security` cryptographic protocols, providing secure connections between the web server and clients
+- `CGI` stands for Common Gateway Interface. It's a standard protocol for web servers to execute programs and return their output to the web browser. CGI is used to generate dynamic web content, meaning the content is created on-the-fly in response to user actions or requests
+
+Installation
+
+- `sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove -y sudo reboot now`
+- `sudo apt-get install lighttpd`
+
+- Start/Enable and Check the server
+  - `sudo service lighttpd start`
+  - `sudo systemctl enable lighttpd`
+  - `sudo systemctl status lighttpd`
+
+- After PHP and mariaDB add
+  - `sudo lighty-enable-mod fastcgi fastcgi-php`
+  - `sudo service lighttpd force-reload`
+
+#### MariaDB
+
+- MariaDB is intended to maintain high compatibility with MySQL, with exact matching with MySQL APIs and commands, allowing it in many cases to function as a drop-in replacement for MySQL. However, new features are diverging. It includes new storage engines like Aria, ColumnStore, and MyRocks.
+- MariaDB is one of the most popular open source relational databases. It’s made by the original developers of MySQL and guaranteed to stay open source. It is part of most cloud offerings and the default in most Linux distributions
+
+Setup
+
+- Install: `sudo apt-get install mariadb-server`
+- Check: `sudo systemctl status mariadb`
+
+#### PHP
+
+- PHP, which stands for Hypertext Preprocessor, is an open-source, interpreted, object-oriented server-side scripting language primarily used for web development.
+- PHP is not limited to output HTML. You can output images or PDF files, and you can also output any text, such as XHTML and XML. It can create, open, read, write, delete, and close files on the server
+- PHP can easily connect to all databases, both relational and non-relational, so it can connect in no time to MySQL, Postgress, MongoDB, or any other database.
+
+Setup
+
+- Install: `sudo apt install php8.2-mysql -y` (install apache2 by default with php)
+- `sudo apt install php8.2-cgi`
+
+[PHP Doc with lighttpd](https://www.php.net/manual/fr/install.unix.lighttpd-14.php)
+
+#### Config
+
+Configure PHP with Lighttpd and MariaDB:
+
+Restart lighttpd : `sudo systemctl restart lighttpd`
+
+PHP config:
+
+- Check config: `php -l /etc/php/8.2/cli/php.ini`
+
+#### WordPress Setup
+
+[WordPress install exemple](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10)
 
 ### Additionnal service
 

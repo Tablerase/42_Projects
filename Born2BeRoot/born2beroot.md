@@ -137,7 +137,7 @@ Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 
   - To change between dhcp and static change upper code in interface
   - Restart: `sudo systemctl restart networking`
-- Check DNS:<https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10>
+- Check DNS:
   - Leave as default, to access do `sudo nano /etc/resolv.conf`
 
 - Apply change: `sudo systemctl restart networking`
@@ -190,6 +190,8 @@ Add user to groups:
 - Type `groups` to see which groups the user account belongs to
 - Lastly type `chage -l new_username` to check if the password rules are working in users
 
+To change manually passwd rule for a account use: `sudo chage` cmd with needed option.
+
 To change a passwd:
 
 - Use `sudo passwd username`
@@ -214,7 +216,7 @@ Add/Remove group:
 
 ### Sudo config
 
-First type `sudo nano /etc/sudoers` to go the sudoers file
+First type `sudo nano /etc/sudoers` or `sudo visudo` to go the sudoers file
 
 Edit to add the following code:
 
@@ -224,14 +226,14 @@ Defaults mail_badpass
 Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"
 Defaults badpass_message="Password is wrong, please try again!"
 Defaults passwd_tries=3
-Defaults logfile="/var/log/sudo.log"
+Defaults logfile="/var/log/sudo/sudo.log"
 Defaults log_input, log_output
 Defaults requiretty
 ```
 
-- `Defaults env_reset`: This line resets the terminal environment to remove any user variables. This is a safety measure used to clear potentially harmful environmental variables from the sudo session digitalocean.com.
-- `Defaults mail_badpass`: This line tells the system to mail notices of bad sudo password attempts to the configured mailto user. By default, this is the root account digitalocean.com.
-- `Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"`: This line specifies the PATH (the places in the filesystem the operating system will look for applications) that will be used for sudo operations. This prevents using user paths which may be harmful digitalocean.com.
+- `Defaults env_reset`: This line resets the terminal environment to remove any user variables. This is a safety measure used to clear potentially harmful environmental variables from the sudo session.
+- `Defaults mail_badpass`: This line tells the system to mail notices of bad sudo password attempts to the configured mailto user. By default, this is the root account.
+- `Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"`: This line specifies the PATH (the places in the filesystem the operating system will look for applications) that will be used for sudo operations. This prevents using user paths which may be harmful.
 - `Defaults badpass_message="Password is wrong, please try again ... !"`: This line sets the message that will be displayed when a user enters an incorrect password.
 - `Defaults passwd_tries=3`: This line sets the number of times a user can enter a wrong password before being locked out.
 - `Defaults logfile="/var/log/sudo.log"`: This line sets the log file where sudo will record its activities.
@@ -264,7 +266,7 @@ lb=$(who -b | awk '$1 == "system" {print $3 " " $4}')
 lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
 ctcp=$(ss -neopt state established | wc -l)
 ulog=$(users | wc -w)
-ip=$(hostname -I)
+ip=$(hostname -I | awk '{ print $1}')
 mac=$(ip link show | grep "ether" | awk '{print $2}')
 cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 wall " #Architecture: $arc
@@ -342,7 +344,7 @@ Notes:
 - Add space in VM, Use GParted live iso to edit partitions. (for non encrypted partitions)
 🕸️ [Details](https://www.pragmaticlinux.com/2020/09/how-to-increase-the-disk-size-in-a-virtualbox-virtual-machine/)
 
-### WordPress
+<!-- ### WordPress
 
 Install requirements (Wordpress, lighttpd, MariaDB, and PHP)
 
@@ -352,28 +354,134 @@ Install requirements (Wordpress, lighttpd, MariaDB, and PHP)
 - Lighttpd supports the FastCGI, SCGI, and CGI interfaces to external programs, allowing web applications written in any programming language to be served by Lighttpd. It also supports the `Secure Socket Layer and Transport Layer Security` cryptographic protocols, providing secure connections between the web server and clients
 - `CGI` stands for Common Gateway Interface. It's a standard protocol for web servers to execute programs and return their output to the web browser. CGI is used to generate dynamic web content, meaning the content is created on-the-fly in response to user actions or requests
 
-Installation
+#### Installation 
+
+[Guide for lighttpd with wordpress](https://www.atlantic.net/dedicated-server-hosting/how-to-install-wordpress-with-lighttpd-web-server-on-ubuntu-20-04/)
 
 - `sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove -y sudo reboot now`
-- `sudo apt-get install lighttpd`
 
-- Start/Enable and Check the server
-  - `sudo service lighttpd start`
-  - `sudo systemctl enable lighttpd`
-  - `sudo systemctl status lighttpd`
+- Full install cmd:
+`sudo apt-get install mariadb-server lighttpd php php-fpm php-mysql php-cli php-curl php-xml php-json php-zip php-mbstring php-gd php-intl php-cgi -y`
 
-- After PHP and mariaDB add
-  - `sudo lighty-enable-mod fastcgi fastcgi-php`
-  - `sudo service lighttpd force-reload`
+- Remove Apache:
+`sudo apt-get remove apache2 -y`
+`sudo systemctl stop apache2`
+
+- Init lighttpd server:
+`sudo systemctl start lighttpd` `sudo systemctl enable lighttpd`
+
+- Config PHP
+  - PHP-FPM(It works as a process manager, managing PHP processes and handling PHP requests separately from the web server. This allows it to efficiently handle multiple PHP requests concurrently, leading to a significant reduction in latency and improved overall performance) conf files:
+    - `nano /etc/php/8.2/fpm/pool.d/www.conf`
+    - find `listen = /run/php/php8.2-fpm.sock`
+    - change to `listem = 127.0.0.1:9000`
+  - Edit PHP conf file:
+    - `nano /etc/lighttpd/conf-available/15-fastcgi-php.conf`
+
+    ```config
+    fastcgi.server += ( ".php" =>
+        ((
+                "bin-path" => "/usr/bin/php-cgi",
+                "socket" => "/var/run/lighttpd/php.socket",
+                "max-procs" => 1,
+                "bin-environment" => (
+                        "PHP_FCGI_CHILDREN" => "4",
+                        "PHP_FCGI_MAX_REQUESTS" => "10000"
+                ),
+                "bin-copy-environment" => (
+                        "PATH", "SHELL", "USER"
+                ),
+                "broken-scriptfilename" => "enable"
+        ))
+    ```
+
+    - find `"bin-path" => "/usr/bin/php-cgi",
+"socket" => "/var/run/lighttpd/php.socket",`
+    - replace with:
+
+    ```config
+    "host" => "127.0.0.1",
+    "port" => "9000",
+    ```
+
+  - Enable php cgi(common gateway interface - allow dynamic web content data can be process in database and return to web page) modules with lighttpd server: `lighty-enable-mod fastcgi` `lighty-enable-mod fastcgi-php`
+
+  - Restart service to apply changes: `systemctl restart lighttpd` `systemctl restart php8.2-fpm`
+
+- Create Database
+  - Open mariadb: `mysql`
+  - Create database: `CREATE DATABASE wpdb;`
+  - Allow access to wpuser to db: `GRANT ALL PRIVILEGES ON wpdb.* TO 'wpuser'@'localhost' IDENTIFIED BY 'password';`
+  - Reload grant (privilege table) to apply changes of privilege: `FLUSH PRIVILEGES; EXIT;`
+
+- Install WordPress
+  - Go to lighttpd web root dir and dl wordpress `cd /var/www/html` `wget https://wordpress.org/latest.tar.gz`
+  - Open archive: `tar -xvzf latest.tar.gz`
+  - Go to wordpress dir and change conf name to enable it: `cd wordpress` `mv wp-config-sample.php wp-config.php`
+  - Edit conf: `nano wp-config.php` change to next conf:
+  
+   ```config
+   /** The name of the database for WordPress */
+   define( 'DB_NAME', 'wpdb' );
+
+   /** MySQL database username */
+   define( 'DB_USER', 'wpuser' );
+
+   /** MySQL database password */
+   define( 'DB_PASSWORD', 'password' );
+
+   /** MySQL hostname */
+   define( 'DB_HOST', 'localhost' );
+
+   /** Database Charset to use in creating database tables. */
+   define( 'DB_CHARSET', 'utf8' );
+   ```
+
+  - Add permissions to config (www-data is a common user and group for web servers, so this command changes the owner and group of the directory to www-data):
+  `chown -R www-data:www-data /var/www/html/wordpress` `chmod -R 755 /var/www/html/wordpress`
+  - Create a directory to store the virtual host configuration file (this allow to process different web application - 1 virtual host for each web app): `mkdir -p /etc/lighttpd/vhosts.d/`
+  - Edit lighttpd conf (Mod_rewrite module in Lighttpd is used to rewrite URLs based on certain conditions. It's a powerful tool for URL manipulation, which can be used for a variety of purposes such as creating user-friendly URLs, redirecting old URLs to new ones, and more):
+    - Add the mod_rewrite module:
+
+    ```config
+    server.modules = (
+        "mod_access",
+        "mod_alias",
+        "mod_compress",
+        "mod_redirect",
+        "mod_rewrite",
+    )
+    ```
+
+    - Define the path of your virtual host configuration directory: `include_shell "cat /etc/lighttpd/vhosts.d/*.conf"`
+  - Create a virtual host conf for wordpress: `nano /etc/lighttpd/vhosts.d/wordpress.conf`
+
+    ```config
+    $HTTP["host"] =~ "(^|.)wordpress.example.com$" {
+    server.document-root = "/var/www/html/wordpress"
+    server.errorlog = "/var/log/lighttpd/wordpress-error.log"
+
+    }
+    ```
+
+    - This configuration block is used to set up a virtual host for wordpress.example.com and its subdomains. It sets the document root to the directory where WordPress files are stored and sets the location of the error log
+
+  - Restart lighttpd: `systemctl restart lighttpd`
+
+- Access Wordpress dashboard
+  ... fails
+
+Start/Enable and Check the server
+
+- `sudo service lighttpd start`
+- `sudo systemctl enable lighttpd`
+- `sudo systemctl status lighttpd`
 
 #### MariaDB
 
 - MariaDB is intended to maintain high compatibility with MySQL, with exact matching with MySQL APIs and commands, allowing it in many cases to function as a drop-in replacement for MySQL. However, new features are diverging. It includes new storage engines like Aria, ColumnStore, and MyRocks.
 - MariaDB is one of the most popular open source relational databases. It’s made by the original developers of MySQL and guaranteed to stay open source. It is part of most cloud offerings and the default in most Linux distributions
 
-Setup
-
-- Install: `sudo apt-get install mariadb-server`
 - Check: `sudo systemctl status mariadb`
 
 #### PHP
@@ -381,11 +489,6 @@ Setup
 - PHP, which stands for Hypertext Preprocessor, is an open-source, interpreted, object-oriented server-side scripting language primarily used for web development.
 - PHP is not limited to output HTML. You can output images or PDF files, and you can also output any text, such as XHTML and XML. It can create, open, read, write, delete, and close files on the server
 - PHP can easily connect to all databases, both relational and non-relational, so it can connect in no time to MySQL, Postgress, MongoDB, or any other database.
-
-Setup
-
-- Install: `sudo apt install php8.2-mysql -y` (install apache2 by default with php)
-- `sudo apt install php8.2-cgi`
 
 [PHP Doc with lighttpd](https://www.php.net/manual/fr/install.unix.lighttpd-14.php)
 
@@ -401,7 +504,7 @@ PHP config:
 
 #### WordPress Setup
 
-[WordPress install exemple](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10)
+[WordPress install exemple](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-nginx-mariadb-and-php-on-debian-10) -->
 
 ### Additionnal service
 
@@ -430,18 +533,33 @@ sudo apt-get update
 - Check Setup: `sudo docker run hello-world`
   - This command downloads a test image and runs it in a container. When the container runs, it prints a confirmation message and exits.
 
+#### Additionnal Custom
+
+OhMyZsh
+
+`sudo apt install zsh`
+
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+
 ## VM INFOS
 
 - os: `Debian`
 - hostname: `rcutte42` (req: 42 login follow by 42)
 - username: `rcutte` (req : user with 42 login)
-- userpass: `Pass42pass` same for root
+- userpass: `Pass42pass`, for root passwd: `Pass42demo`
 - encryption pass: `pass42pass`
 - open port: `4242`
 
 - user test: `test` passwd: `Pass42pass`
 
+- wordpress:
+  - user: `wpuser` passwd: `password`
+
 ## Correction CMD
+
+Signature:
+
+- check signature: `sha1sum Born2BeRoot.vdi`
 
 Log:
 
@@ -485,9 +603,23 @@ Hostname et Partitions:
 - Ask evaluated person to display partitions: `lsblk`
 - Explain LVM and benefits.
 
+Sudo:
+
+- Check if sudo is installed with a sudo cmd
+- Add new_user to sudo group
+
+UFW:
+
+- Explain UFW
+- Add a rule: `ufw allow rule_to_add` here `8080`
+- Delete a rule: `ufw status numbered` -> `ufw delete num_of_rule`
+
 SSH:
 
-- check ssh installed: `ssh your_user_id@127.0.0.1 -p port`
+- check ssh installed: `sudo systmctl status sshd`
+- Explain SSH
+- Check port: `ss -tnulp` only 4242 should be use
+- try to connect with ssh: `ssh your_user_id@127.0.0.1 -p port -v`
 - check to log as root, normal response should be no log possible.
 
 Script:
@@ -570,7 +702,7 @@ The lsblk command displays the following columns by default:
 
 `systemctl` is a command-line tool used for controlling and managing the systemd system and service manager. It is part of a range of system management utilities, libraries, and daemons
 
-![SSH Schema](./media/SSH_simplified_protocol_diagram-2.webp)
+![SSH Schema](./Media/SSH_simplified_protocol_diagram-2.webp)
 
 `SSH`, or Secure Shell, is a protocol used for secure remote login from one computer to another. It provides several alternative options for strong authentication and protects communications security and integrity with strong encryption. SSH is a secure alternative to non-protected login protocols such as telnet and rlogin, and insecure file transfer methods such as FTP.
 
@@ -622,12 +754,28 @@ The `head` command in Linux is used to output the first part of files. By defaul
 
 `TTY` stands for Teletypewriter. It was originally a hardware device that allowed messages to be typed, encoded, sent, received, decoded, and printed. The name TTY has been repurposed in modern systems to refer to the terminal, which is a software interface for interacting with the system
 
-![Cron](./media/cron%20schema.jpg)
+![Cron](./Media/cron%20schema.jpg)
 
 `Crontab`, short for cron table, is a configuration file used by the cron daemon in Unix-based operating systems. This file allows users to schedule tasks (known as cron jobs) to run automatically at specified times or intervals. Each line within the crontab file represents a job and follows a specific syntax to determine when and how frequently that job should be run
 
 - Cron is a time-based job scheduler in Unix-like operating systems.
 - An inadvertent mistake could wipe your entire crontab. You can export your entries using the command `crontab -l > crontab_backup.txt` and then restore them with `crontab crontab_backup.txt`
+
+`chage` command in Linux is used for managing and viewing user password expiration policies. The term "chage" is derived from "change age". It allows system administrators to modify various aspects of user account passwords, such as setting expiration dates for passwords, enforcing password history, and configuring other password-related policies.
+
+Linux:
+![Linux Structure](./Media/linus_structure.png)
+
+Git: version control
+![Git sheet](./Media/git-commands-cheatsheet.jpeg)
+
+Grep:
+![Grep Sheet](./Media/grep-cheatsheet.png)
+
+AWK:
+![AWK sheet](./Media/awk_sheet.jpg)
+
+[Sheat Sheet](https://osslab.tw/books/linux-administration/page/cheat-sheets)
 
 [Debian]: https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
 [SSH]: https://www.ssh.com/academy/ssh

@@ -763,6 +763,18 @@ The `head` command in Linux is used to output the first part of files. By defaul
 
 `chage` command in Linux is used for managing and viewing user password expiration policies. The term "chage" is derived from "change age". It allows system administrators to modify various aspects of user account passwords, such as setting expiration dates for passwords, enforcing password history, and configuring other password-related policies.
 
+A `socket` is a software structure within a network node of a computer network that serves as an endpoint for sending and receiving data across the network. It is a way to enable inter-process communication between programs running on a computer, or between programs running on separate computers.
+
+There are several types of sockets, including:
+
+- Stream sockets: These use the Transmission Control Protocol (TCP) to encapsulate and ensure reliable delivery of a stream of data.
+- Datagram sockets: These use the User Datagram Protocol (UDP) to transmit datagrams, without needing to establish a persistent connection between systems.
+- Unix Domain Sockets: These use local files to send and receive data instead of network interfaces and IP packets.
+- Raw sockets: These allow applications to create and modify packets instead of relying on the host operating system.
+- Each IP-based socket on a system is unique and is identified by a combination of IP address, the protocol that the socket is using (TCP or UDP), and a numeric port number.
+
+In programming, a socket is often referred to by a unique integer value called a socket descriptor within the operating system and the application that created the socket
+
 Linux:
 ![Linux Structure](./Media/linus_structure.png)
 

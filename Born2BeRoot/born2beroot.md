@@ -784,7 +784,7 @@ Git: version control
 Grep:
 ![Grep Sheet](./Media/grep-cheatsheet.png)
 
-AWK:
+AWK: [More](https://quickref.me/awk.html)
 ![AWK sheet](./Media/awk_sheet.jpg)
 
 [Sheat Sheet](https://osslab.tw/books/linux-administration/page/cheat-sheets)

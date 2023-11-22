@@ -584,7 +584,7 @@ OhMyZsh
 - os: `Debian`
 - hostname: `rcutte42` (req: 42 login follow by 42)
 - username: `rcutte` (req : user with 42 login)
-- userpass: `Pass42pass`, for root passwd: `Pass42demo`
+- userpass: `Pass42pwds`, for root passwd: `Pass42demo`
 - encryption pass: `pass42pass`
 - open port: `4242`
 

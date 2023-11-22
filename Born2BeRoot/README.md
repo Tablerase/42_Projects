@@ -4,8 +4,7 @@ Env: Linux/Debian
 
 To do:
 
-- [ ] Change root passwd (has to be diff from user)
-- [ ] Check if passwd rules are applied
+- [ ] Check PermitRootlogin with ssh in /etc/ssh/sshd_config
 - [ ] ...
 
 📔 [Notes](#notes)
@@ -87,7 +86,7 @@ To do:
 2. Type `sudo systemctl status ssh` to check SSH Server Status
 3. Type `sudo vim /etc/ssh/sshd_config` - if vim is install
 4. Find this line `#Port22`
-5. Change the line to Port 4242 `without the #` (Hash) in front of it
+5. Change the line to Port 4242 `without the #` (Hash) in front of it. And change PermitRootLogin to no
 6. Save and Exit Vim
 7. Then type `sudo grep Port /etc/ssh/sshd_config` to check if the port settings are right
 8. Lastly type `sudo service ssh restart` to restart the SSH Service
@@ -284,22 +283,61 @@ wall " #Architecture: $arc
 ```
 
 - `arc=$(uname -a)`: This line uses the uname -a command to get the architecture of the system and store it in the arc variable
+
 - `pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l)`: This line uses grep to find lines containing "physical id" in the /proc/cpuinfo file, sorts them, removes duplicates with uniq, and counts the number of unique physical CPUs with wc -l. The result is stored in the pcpu variable.
+
 - `vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)`: This line uses grep to find lines starting with "processor" in the /proc/cpuinfo file and counts them with wc -l. The result is stored in the vcpu variable.
+  - The ^ symbol in the grep command is used to indicate the start of a line. So, grep "^processor" is used to search for lines that start with the word "processor".
+  - In the context of this script, grep "^processor" /proc/cpuinfo is used to count the number of virtual CPUs. The /proc/cpuinfo file contains information about the system's CPUs, and each CPU is represented by a block of lines that start with "processor". By counting the number of these blocks, the script can determine the number of virtual CPUs.
+
 - `fram=$(free -m | awk '\$1 == "Mem:" {print \$2}')`: This line uses the free -m command to get the total amount of RAM in megabytes and stores it in the fram variable.
+  - if first element is Mem ($1 == "Mem:") choose the row that start with mem, then print second element in the row
+
 - `uram=$(free -m | awk '\$1 == "Mem:" {print \$3}')`: This line uses the free -m command to get the used amount of RAM in megabytes and stores it in the uram variable.
+
 - `pram=$(free | awk '\$1 == "Mem:" {printf("%.2f"), \$3/\$2*100}')`: This line uses the free command to get the percentage of used RAM and stores it in the pram variable.
+  - if first element Mem: then use prinf cmd with param third_element/second_element * 100 to display percentage use
+
 - `fdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{ft += \$2} END {print ft}')`: This line uses the df -BG command to get the total size of all file systems in gigabytes, excluding the /boot partition, and stores it in the fdisk variable.
+  - `-BG` option is to get result in Gigabytes(G). `/dev/` is for devices files so for the disk usage of the device here the VM. `-v` to unselect unwanted elements here `/boot$`. `ft` is a var to add result of each second element in selected rows. the `END` keyword is to exec after all input lines have been processed, in this case when all blocks of mem add into ft var. Then ft is print.
+
 - `udisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += \$3} END {print ut}')`: This line uses the df -BM command to get the used size of all file systems in megabytes, excluding the /boot partition, and stores it in the udisk variable.
+
 - `pdisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += \$3} {ft+= \$2} END {printf("%d"), ut/ft*100}')`: This line uses the df -BM command to get the percentage of used space of all file systems, excluding the /boot partition, and stores it in the pdisk variable.
+  - `%d` to specify we want to print an integer, so if var is a float truncation will be apply.
+
 - `cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), \$1 + \$3}')`: This line uses the top -bn1 command to get the CPU usage and stores it in the cpul variable.
+  - `top` command is used to display dynamic real-time information about running processes. The `-b` option tells top to run in batch mode, which is useful for sending output from top to other programs or to a file. The `-n1` option tells top to only update the process list once.
+  - `^%Cpu` search line (here the column) start with %Cpu.
+  - `cut -c 9-` command is used to extract characters from each line of input. The `-c` option tells cut to operate on characters, and `9-` specifies that it should extract characters from the 9th character to the end of the line. This is used to remove the "%Cpu" part from the output of the grep command and keep only the CPU usage percentages
+  - `xargs` command is used to build and execute commands from standard input. In this case, it's used to convert the output of the cut command into arguments for the awk command
+  - `{printf("%.1f%%"), $1 + $3}` part formats the output of the awk command to be a floating-point number followed by a percentage sign. The `$1 + $3` part adds the first and third fields (columns) of each line (which are the CPU usage percentages for user and system processes).
+
 - `lb=$(who -b | awk '\$1 == "system" {print \$3 " " \$4}')`: This line uses the who -b command to get the last boot time and stores it in the lb variable.
-- `lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]`; then echo no; else echo yes; fi): This line checks if there are any logical volumes in the system and stores "yes" or "no" in the lvmu variable.
+  - `who` command in Linux is used to display information about users who are currently logged into the system.
+
+- `lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)`: This line checks if there are any logical volumes in the system and stores "yes" or "no" in the lvmu variable.
+  - if [] conditions here if count of lvm in lsblk = 0, then print `no` else `yes`.
+
 - `ctcp=$(ss -neopt state established | wc -l)`: This line uses the ss -neopt state established command to get the number of established TCP connections and stores it in the ctcp variable.
+  - `-n`: This option tells ss to display addresses and port numbers in numerical form.
+  - `-e`: This option tells ss to display TCP connections.
+  - `-o`: This option tells ss to display timers.
+  - `-p`: This option tells ss to show process using the socket
+
 - `ulog=$(users | wc -w)`: This line uses the users command to get the number of logged-in users and stores it in the ulog variable.
-- `ip=$(hostname -I): This line uses the hostname -I` command to get the IP address of the system and stores it in the ip variable.
+  - wc -w : counts words
+
+- `ip=$(hostname -I)`: This line uses the hostname -I command to get the IP address of the system and stores it in the ip variable.
+
 - `mac=$(ip link show | grep "ether" | awk '{print \$2}')`: This line uses the ip link show command to get the MAC address of the system and stores it in the mac variable.
+  - `ip link show`: This command displays information about all network interfaces on the system. The output includes the name of the interface, its MAC address, and other details.
+  - `ether` display MAC address (Media Access Control).
+
 - `cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)`: This line uses the journalctl _COMM=sudo command to get the number of sudo commands executed and stores it in the cmds variable.
+  - `journalctl`: This is the command itself, which is used to interact with the systemd journal. The systemd journal is a centralized logging system that collects and stores log data from various sources, including system services, kernel events, and user applications.
+  - `_COMM=sudo`: This is a filter that tells journalctl to only show log messages where the _COMM field (which contains the command that generated the log message) is "sudo". In other words, it filters the log messages to only include those that were generated by the sudo command
+
 - `wall` " #Architecture: $arc ...: This line uses the wall command to display the collected information to all logged-in users.
 
 Add permission to exec script without password:
@@ -588,7 +626,7 @@ User:
 - Add a user: `sudo useradd new_user`
   - during password check if passwd rules are applied:
     - `sudo chage -l username` check password expire rules
-  - explanation of how they where applied (here with in `sudo vim /etc/pam.d/common-password` with lib `libpam-pwquality`, PAM (Pluggable Authentication Modules)
+  - explanation of how they where applied (here with in `sudo vim /etc/pam.d/common-password`) with lib `libpam-pwquality`, PAM (Pluggable Authentication Modules)
 - Add a group: `sudo groupadd evaluating` check with `groups` or `getent group`
 - Assign user to `evaluating` group: `sudo usermod -aG evaluating new_user` check with `getent group evaluating`
 - Check passwd policy: `sudo vim /etc/login.defs`
@@ -774,6 +812,8 @@ There are several types of sockets, including:
 - Each IP-based socket on a system is unique and is identified by a combination of IP address, the protocol that the socket is using (TCP or UDP), and a numeric port number.
 
 In programming, a socket is often referred to by a unique integer value called a socket descriptor within the operating system and the application that created the socket
+
+The `MAC address` is a unique identifier assigned to a network interface controller (NIC) for use as a network address in communications within a network segment.
 
 Linux:
 ![Linux Structure](./Media/linus_structure.png)

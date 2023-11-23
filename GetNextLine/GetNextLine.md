@@ -101,3 +101,21 @@ Forbidden:
 - [Tripouille testeur](https://github.com/Tripouille/gnlTester)
 
 - Fill a file.txt with some text. And call them with the function.
+
+<img src="./Media/file-descriptor-illustration.webp" align="right" title="file descriptor resume">
+
+## File descriptor
+
+| Descriptor | Explanation | Abrev |
+| -----------| ----------- | --- |
+0 |Represents standard input. | stdin
+1 |Represents standard output. |  stdout
+2 |Represents standard error. | stderr
+
+File descriptor resource limit
+
+- The number of file descriptors that can be allocated to a process is governed by a resource limit. The default value is set in the `/etc/security/limits` file and is typically set at 2000. The limit can be changed by the `ulimit -n` command or the setrlimit subroutine. The maximum size is defined by the constant OPEN_MAX.
+
+<img src="./Media/file-descriptor-table.webp" title="table file descriptor">
+
+🔗 [Details](https://www.ibm.com/docs/en/aix/7.1?topic=volumes-using-file-descriptors)

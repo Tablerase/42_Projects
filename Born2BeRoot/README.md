@@ -2,11 +2,6 @@
 
 Env: Linux/Debian
 
-To do:
-
-- [ ] Check PermitRootlogin with ssh in /etc/ssh/sshd_config
-- [ ] ...
-
 📔 [Notes](#notes)
 
 ✅ [Correction CMD](#correction-cmd)

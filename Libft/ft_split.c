@@ -42,7 +42,7 @@ char	**ft_split(const char *s, char c)
 	int		j;
 	int		s_word;
 
-	ft_initiate_vars(&i, &j, &s_word);
+	ft_savespaceforvariable(&i, &j, &s_word);
 	res = ft_calloc((word_count(s, c) + 1), sizeof(char *));
 	if (!res)
 		return (NULL);

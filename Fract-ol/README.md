@@ -21,9 +21,25 @@ and deal with keyboard and mouse events
 
 ## MiniLibX
 
-Manuel, dispo dans le terminal: ``
+Manuel, dispo dans le terminal: `man 3 mlx`
 
 📑 Documentation: [MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx.html)
+
+Setup env: `sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev`
+
+Compile and install:
+
+- Clone: `git clone https://github.com/42Paris/minilibx-linux minilibx_linux`
+- Compile and Install:
+
+  ```code
+  cd minilibx_linux
+  make
+  sudo cp libmlx.a /usr/local/lib
+  sudo cp mlx.h /usr/local/include
+  ```
+
+- Install Manual: `sudo cp man/man3/mlx*.3 /usr/local/man/man3`
 
 ## Julia and Mandelbrot Sets
 
@@ -51,7 +67,7 @@ z is repeatedly updated using:  $\ Z = Z^2 + c$  where $\ c$ is another complex 
 
 A complex number is a number that can be written in the form $\ a+bi$, where **a** and **b** are **real numbers** and **i** is the **imaginary unit** defined by $\ i^2=−1 $.
 
-The set of complex numbers, denoted by $\mathbb{C} $ , includes the set of real numbers $\mathbb{R}$ and the set of pure imaginary numbers.
+The set of complex numbers, denoted by $\mathbb{C}$ , includes the set of real numbers $\mathbb{R}$ and the set of pure imaginary numbers.
 
 Based on the nature of the real part and imaginary part, any complex number can be classified into four types:
 

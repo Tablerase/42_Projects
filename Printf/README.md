@@ -38,6 +38,16 @@ You have to implement the following conversions:
 
 Printf: 🔗 [Details](https://learn.microsoft.com/fr-fr/cpp/c-runtime-library/format-specification-syntax-printf-and-wprintf-functions?view=msvc-170)
 
+Limits:
+
+- Long long:
+  - max : `9,223,372,036,854,775,807`, Len 19 char
+  - binary long long max: `0111111111111111111111111111111111111111111111111111111111111111`, Len: 64 char
+
+- Unsigned int max = `4294967295`
+- Int max = `2147483647`;
+- Int min = `-2147483648`;
+
 ## Variadic Functions
 
 header: `#include <stdarg.h>`

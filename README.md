@@ -6,10 +6,20 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ## Projects
 
+### Piscine
+
 * [PiscineReloaded](/PiscineReloaded/)
+
+### Rank 1
+
 * [Libft](/Libft/)
 * [Born2BeRoot](/Born2BeRoot/)
 * [GetNextLine](/GetNextLine/)
+* [Ft_Printf](/Ft_printf/)
+
+### Rank 2
+
+* [Fract-ol](/Fract-ol/)
 
 ## Configs
 

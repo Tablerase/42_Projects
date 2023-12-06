@@ -65,11 +65,6 @@ static data_type variable_name;
 
 Static variables are initialized with a default value, either 0 or NULL. If not initialized explicitly, static variables are initialized as 0
 
-## Requierements
-
-- Makefile (with at least: rules $(NAME), all, clean, fclean and re).
-- Bonus add a rule bonus and use different *_bonus.h,*_bonus.c
-
 ## Mandatory
 
 RETURN:

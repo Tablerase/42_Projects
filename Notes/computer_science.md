@@ -71,10 +71,22 @@ printf("%i", rgba);
    42    |    100    |    255    |    255    |
 0010 1010 | 0110 0100 | 1111 1111 | 1111 1111 |
 
+#### >> : left  shift
+
+#### & : AND operator
+
+- & : takes two numbers as operands and does AND on every bit of two numbers. The result of AND is 1 only if both bits are 1
+
 ```c
-  printf("\nred = %i", rgba >> 24);
-  printf("\ngreen = %i", rgba >> 16 & 0xFF);
-  printf("\nblue = %i", rgba >> 8 & 0xFF);
-  printf("\nalpha = %i", rgba & 0xFF);
+  printf("\n red = %i", rgba >> 24);
+  printf("\n green = %i", rgba >> 16 & 0xFF);
+  printf("\n blue = %i", rgba >> 8 & 0xFF);
+  printf("\n alpha = %i", rgba & 0xFF);
+
+  // output:
+  // red = 42
+  // green = 100
+  // blue = 255
+  // alpha = 25
 ```
 

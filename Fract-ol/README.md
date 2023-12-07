@@ -19,28 +19,6 @@ Various natural phenomena – like the romanesco cabbage – have some fractal f
 and deal with keyboard and mouse events
 - Use the mathematical notion of **complex numbers**, to take a peek at the concept of **optimization** in computer graphics and practice **event handling**
 
-## MiniLibX
-
-Manuel, dispo dans le terminal: `man 3 mlx`
-
-📑 Documentation: [MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx.html)
-
-Setup env: `sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev`
-
-Compile and install:
-
-- Clone: `git clone https://github.com/42Paris/minilibx-linux minilibx_linux`
-- Compile and Install:
-
-  ```code
-  cd minilibx_linux
-  make
-  sudo cp libmlx.a /usr/local/lib
-  sudo cp mlx.h /usr/local/include
-  ```
-
-- Install Manual: `sudo cp man/man3/mlx*.3 /usr/local/man/man3`
-
 ## Julia and Mandelbrot Sets
 
 :1234: [Live Preview + Explanation](https://www.dynamicmath.xyz/mandelbrot-julia/)

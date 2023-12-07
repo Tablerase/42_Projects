@@ -1,12 +1,12 @@
-# Notes
+# 📓 Notes
 
-## Makefile
+* [Makefile](/Notes/makefile.md)
+* [Minilibx](/Notes/minilibx.md)
 
-Make:
+## 🏗️ Workflow
 
-- -C `/path/to/directory` :
-  - make changes to the directory /path/to/directory before it starts reading the makefiles. This is useful when you want to build a project that resides in a different directory, but you're currently in a different directory.
+* [Git](/Notes/git.md)
 
-Shell commands:
+## 🤖 AI
 
-To run the **shell** command, it has to be within the brackets and prefixed with shell. Example: `$(shell uname)`
+* [Copilot](/Notes/copilot.md)

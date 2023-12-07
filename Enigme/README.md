@@ -22,3 +22,12 @@ Script:
 -------------.+++.+++ ++++.---.----.+++++++++++++++++.---------------
 --.-.<<.>>+++++.+++++.<<.>-------...
 ```
+
+## Fractol
+
+Script:
+
+```code
+file.bfe:VAD2sO2qgbqPEXROeASsmsgnY0o0sDMJev7zFHhw
+QS8mvM8V5xQQpLc6cDCFXDWTiFzZ2H9skYkiJ/DpQtnM/uZ0
+```

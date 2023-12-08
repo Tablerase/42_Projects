@@ -16,7 +16,7 @@ Bit shifting is an operation done on all the bits of a binary value in which the
 
 Bit shifting is often used in programming and has at least one variation in each programming language. Bit shifting may also be known as a bitwise operation.
 
-1 byte = 8 bits = 256 values
+1 byte = 8 bits = 256 values (0...255)
 
 1 int = 4 bytes = 32 bits
 
@@ -50,7 +50,7 @@ Here's how it works:
 
 - It takes two numbers as operands.
 - It compares each bit of the first operand to the corresponding bit of the second operand.
-- If either bit is `1`, the corresponding result bit is set to `1`. Otherwise, the corresponding result bit is `0`.
+- **If either bit is `1`, the corresponding result bit is set to `1`**. Otherwise, the corresponding result bit is `0`.
 
 In the context of the code, `r << 24 | g << 16 | b << 8 | a` is used to combine the bits of the shifted values of `r`, `g`, `b`, and `a` into a single integer. Each color component occupies 8 bits in the `rgba` integer. The bitwise OR operation ensures that the bits from each color component are preserved in the correct location within the `rgba` integer.
 
@@ -75,13 +75,23 @@ printf("%i", rgba);
 
 #### & : AND operator
 
-- & : takes two numbers as operands and does AND on every bit of two numbers. The result of AND is 1 only if both bits are 1
+- & : takes two numbers as operands and does AND on every bit of two numbers. The result of AND is **1 only if both bits are 1**
 
 ```c
-  printf("\n red = %i", rgba >> 24);
+  printf("\n red = %i", rgba >> 24 & 0xFF);
   printf("\n green = %i", rgba >> 16 & 0xFF);
   printf("\n blue = %i", rgba >> 8 & 0xFF);
   printf("\n alpha = %i", rgba & 0xFF);
+
+  
+  // g =                  00000000 00000000 00000000 01100100 | = 100
+  // g << 16 =            00000000 01100100                   | != 100 (100 before right shift)
+
+  // rgba =               00101010 01100100 11111111 11111111 |
+  // rgba >> 16 =                           00101010 01100100 | 11111111 11111111
+  // 0xFF =               00000000 00000000 00000000 11111111 | = 255
+  //   & : AND                                        ||  |  = only when 1 and 1 -> 1 else 0
+  // rgba >> 16 & 0xFF =  00000000 00000000 00000000 01100100 = 100
 
   // output:
   // red = 42
@@ -89,4 +99,3 @@ printf("%i", rgba);
   // blue = 255
   // alpha = 25
 ```
-

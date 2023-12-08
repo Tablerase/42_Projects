@@ -10,7 +10,9 @@ remains the same at every scale.
 Various natural phenomena – like the romanesco cabbage – have some fractal features.
 ![Romanesco Brocoli](./Media/fractal_cabbage.webp)
 
-⏯️ [**FRACTALES**](https://youtu.be/wUlVFYJIUNA)
+![fractal gif](https://upload.wikimedia.org/wikipedia/commons/d/d5/JSr07885.gif)
+
+⏯️ [**FRACTALES Videos presentation**](https://youtu.be/wUlVFYJIUNA)
 
 ## Requirements
 
@@ -21,7 +23,7 @@ and deal with keyboard and mouse events
 
 ## Julia and Mandelbrot Sets
 
-:1234: [Live Preview + Explanation](https://www.dynamicmath.xyz/mandelbrot-julia/)
+:1234: [Live Preview + Explanation](https://www.dynamicmath.xyz/mandelbrot-julia/) | 🧮 [Math in details](https://en.wikipedia.org/wiki/Julia_set)
 
 [![alt text](https://img.youtube.com/vi/R1gpm7WsNhg/0.jpg)](https://www.youtube.com/watch?v=R1gpm7WsNhg)
 
@@ -36,6 +38,8 @@ $\ Z = a + bi$ where **a** and **b** => are x and y axis.
 $\ Z$ is repeatedly updated using:  $\ Z = Z^2 + c$  where $\ c$ is another complex number that gives a specific Julia set.
 
 After numerous iterations, if the **magnitude** of $\ Z$ is less than **2** we say that pixel is in the Julia set and color it accordingly. Performing this calculation for a whole grid of pixels gives a fractal image.
+
+![Fractal with coord](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Julia_set%2C_plotted_with_Matplotlib.svg/1920px-Julia_set%2C_plotted_with_Matplotlib.svg.png)
 
 ### Math
 
@@ -66,6 +70,22 @@ For $\ Z=a+ib$, the following four cases arise:
 **Every real number is a complex number, but every complex number is not necessarily a real number.**
 
 The set of all complex numbers is denoted by $\ Z ∈ \mathbb{C} $. The set of all imaginary numbers is denoted as $\ Z ∈ \mathbb{C−R} $.
+
+#### Magnitude
+
+<img src="https://www.mathsisfun.com/algebra/images/vector-mag-dir.svg" align="right">
+
+The magnitude of a number (also called its absolute value) is its distance from zero, so
+
+- the magnitude of 6 is 6
+- the magnitude of −6 is also 6
+
+The magnitude of a vector is its length (ignoring direction).
+
+For a complex number $\ Z = a + bi$, we define the magnitude, $\ |Z|$, as
+follows:
+
+$ |Z| = \sqrt{a2 + b2} $
 
 ## Others
 

@@ -14,6 +14,8 @@ Various natural phenomena – like the romanesco cabbage – have some fractal f
 
 ⏯️ [**FRACTALES Videos presentation**](https://youtu.be/wUlVFYJIUNA)
 
+⏯️ [How to make Julia FRACTALES](https://youtu.be/fAsaSkmbF5s)
+
 ## Requirements
 
 - Use the school graphical library: the `MiniLibX`
@@ -31,13 +33,23 @@ and deal with keyboard and mouse events
 
 ➿ [Explanation with great creation a fractal step by step ⬆️ ⬆️](https://www.karlsims.com/julia.html)
 
-Julia and Mandelbrot sets: $\ Z_{n + 1} = Z_n + c$
+### Julia Set
+
+Julia sets: $\ Z_{n + 1} = Z_n + c$
 
 $\ Z = a + bi$ where **a** and **b** => are x and y axis.
 
 $\ Z$ is repeatedly updated using:  $\ Z = Z^2 + c$  where $\ c$ is another complex number that gives a specific Julia set.
 
 After numerous iterations, if the **magnitude** of $\ Z$ is less than **2** we say that pixel is in the Julia set and color it accordingly. Performing this calculation for a whole grid of pixels gives a fractal image.
+
+$\ Z = Z^2 + c$
+
+$\ Z = (x + yi)^2 + c$
+
+$\ Z = x^2 + 2xyi + (yi)^2 + c$ En prenant en compte: $\ i = \sqrt{-1}$
+
+$\ Z = x^2 + 2xyi - y^2 + c$
 
 ![Fractal with coord](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Julia_set%2C_plotted_with_Matplotlib.svg/1920px-Julia_set%2C_plotted_with_Matplotlib.svg.png)
 

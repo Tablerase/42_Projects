@@ -10,7 +10,7 @@
   - Big Endian : opposite of Little Endian
   - ![Endian Difference](https://getkt.com/wp-content/uploads/2019/04/Endianness-Little-Endian-Big-Endian.jpg)
 
-### Bit Shifting / Bitwise Operation
+### [Bit Shifting / Bitwise Operation](https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/)
 
 Bit shifting is an operation done on all the bits of a binary value in which they are moved by a determined number of places to either the left or right. Bit shifting is used when the operand is being used as a series of bits rather than as a whole. In other words, the operand is treated as individual bits that stand for something and not as a value.
 
@@ -46,6 +46,13 @@ red = red << 24;
 
 #### | : OR operator
 
+```bitwise
+0 0 0 1
+0 0 1 1
+    | |
+0 0 1 1
+```
+
 Here's how it works:
 
 - It takes two numbers as operands.
@@ -75,6 +82,13 @@ printf("%i", rgba);
 
 #### & : AND operator
 
+```bitwise
+0 0 0 1
+0 0 1 1
+    | |
+0 0 0 1
+```
+
 - & : takes two numbers as operands and does AND on every bit of two numbers. The result of AND is **1 only if both bits are 1**
 
 ```c
@@ -99,3 +113,24 @@ printf("%i", rgba);
   // blue = 255
   // alpha = 25
 ```
+
+#### ^ : XOR bitwise
+
+```bitwise
+0 0 0 1
+0 0 1 1
+    | |
+0 0 1 0
+```
+
+The result of XOR is **1 if the two bits are different**.
+
+#### ~ : NOT bitwise
+
+```bitwise
+0 0 1 1
+| | | |
+1 1 0 0
+```
+
+Takes **one number** and **inverts all bits** of it.

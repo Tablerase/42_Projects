@@ -1,3 +1,24 @@
+# TODO
+
+Rendering
+
+- Your program must offer the Julia set and the Mandelbrot set.
+- The mouse wheel zooms in and out, almost infinitely (within the limits of the computer). This is the very principle of fractals.
+- You must be able to create different Julia sets by passing different parameters to the program.
+- A parameter is passed on the command line to define what type of fractal will be displayed in a window.
+  - You can handle more parameters to use them as rendering options.
+  - If no parameter is provided, or if the parameter is invalid, the program displays a list of available parameters and exits properly.
+- ✅You must use at least a few colors to show the depth of each fractal. It’s even better if you hack away on psychedelic effects.
+
+Graphic management
+
+- Your program has to display the image in a window.
+- The management of your window must remain smooth (changing to another window, minimizing, and so forth).
+- ✅Pressing ESC must close the window and quit the program in a clean way.
+- ✅Clicking on the cross on the window’s frame must close the window and quit the program in a clean way.
+- The use of the images of the MiniLibX is mandatory.
+
+
 # Fract-ol
 
 The term fractal was first used by mathematician Benoit Mandelbrot in 1974. 
@@ -90,6 +111,8 @@ To center content/ offset with $\ c$ :
 - x and y are the pixel coordinates in the display. WIDTH and HEIGHT are the dimensions of your display area. The `(x - WIDTH / 2.0)` and `(y - HEIGHT / 2.0)` parts **shift the coordinate system so that the center** of your display corresponds to (0, 0) in the complex plane.
 - The multiplication by `4.0 / WIDTH` and `4.0 / HEIGHT` **scales the coordinates** so that you are looking at a region that **spans -2 to 2** (both in real and imaginary parts) in the complex plane. This scaling factor of 4.0 is somewhat arbitrary and **can be adjusted based on your preferences to zoom in or out** of the Mandelbrot set.
 
+[Mandelbrot - Complexe Analysis](https://complex-analysis.com/content/mandelbrot_set.html)
+
 ![Fractal with coord](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Julia_set%2C_plotted_with_Matplotlib.svg/1920px-Julia_set%2C_plotted_with_Matplotlib.svg.png)
 
 ### Math
@@ -136,8 +159,21 @@ The magnitude of a vector is its length (ignoring direction).
 For a complex number $\ Z = a + bi$, we define the magnitude, $\ |Z|$, as
 follows:
 
-$ |Z| = \sqrt{a2 + b2} $
+$\ |Z| = \sqrt{a2 + b2} $
 
-## Others
+## Coloring
 
-Math in markdown = Latex Syntax
+🔗 [Coloring/Plotting Algorithm](https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set#Coloring_algorithms)
+
+### [Escape Time](https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set#Escape_time_algorithm)
+
+The simplest algorithm for generating a representation of the Mandelbrot set is known as the "escape time" algorithm. A repeating calculation is performed for each x, y point in the plot area and based on the behavior of that calculation, a color is chosen for that pixel.
+
+Color based on escape of iterations loop within bound $\R$ of the circle of radius ($\ |Z| < 2$ for exemple with mandelbrot)
+
+### [Normalize Iterations Count Algorithm](https://linas.org/art-gallery/escape/escape.html)
+
+The escape time algorithm is popular for its simplicity. However, it creates bands of color, which, as a type of aliasing, can detract from an image's aesthetic value. This can be improved using an algorithm known as "normalized iteration count", which provides a smooth transition of colors between iterations. The algorithm associates a real number ν \nu with each value of z by using the connection of the iteration number with the potential function.
+
+...
+

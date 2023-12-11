@@ -33,7 +33,15 @@ To do this, simply add the following arguments at linking time:
 
 ## Hook
 
-...
+![Mlx loop](https://firebasestorage.googleapis.com/v0/b/aurelienbrabant-com.appspot.com/o/blog%2Fevents-with-the-minilibx%2Fmlx-loop-flowchart.webp?alt=media&token=cdd0424a-a8c7-4527-8782-f67c4419bbff)
+
+The `mlx_loop` function is called to start the event loop. This function will keep the program running until the window is closed.
+
+## Event
+
+MiniLibX used event from X11 library. 🔗[X11 Doc](https://tronche.com/gui/x/xlib/events/)
+
+- X button on window: The `DestroyNotify` event is triggered when the window is closed.
 
 ## Images
 

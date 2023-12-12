@@ -2,7 +2,7 @@
 
 ## Format
 
-### XMP
+### XPM
 
 XPM (X PixMap) is an image file format used by the X Window System, created in 1989. It is primarily intended for creating icon pixmaps and supports transparent pixels. XPM files are plain text files in the XPM2 format or of a C programming language syntax, which can be included in a C program file.
 
@@ -62,3 +62,39 @@ static char * blarg_xpm[] = {
 ```
 
 ![xmp image demo](https://upload.wikimedia.org/wikipedia/commons/4/43/Blarg.xpm.png)
+
+#### Integration in Code
+
+XPM2 format is a plain text format, while the XPM3 format is a C programming language syntax.
+
+With MinilibX - Use XPM3 inside a plain text to.
+
+#### Version
+
+XPM2 - Plain text
+
+```xpm2
+! XPM2
+48 4 2 1
+a c #FFFFFF
+b c #000000
+abaabaababaaabaabababaabaabaababaabaaababaabaaab
+abaabaababaaabaabababaabaabaababaabaaababaabaaab
+abaabaababaaabaabababaabaabaababaabaaababaabaaab
+abaabaababaaabaabababaabaabaababaabaaababaabaaab
+```
+
+XPM3 - Inside C files
+
+```c
+/* XPM */
+static char * XFACE[] = {
+"48 4 2 1",
+"a c #ffffff",
+"b c #000000",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab",
+"abaabaababaaabaabababaabaabaababaabaaababaabaaab"
+};
+```

@@ -79,3 +79,21 @@ int main(void)
  img = mlx_xpm_file_to_image(mlx, relative_path, &img_width, &img_height);
 }
 ```
+
+If you read a file your file must contains XPM3 Syntax to work.
+
+```c
+/* XPM */
+static char * XFACE[] = {
+"16 7 2 1",
+"* c #000000",
+". c #ffffff",
+"**..*...........",
+"*.*.*...........",
+"**..*..**.**..**",
+"*.*.*.*.*.*..*.*",
+"**..*..**.*...**",
+"...............*",
+".............**."
+};
+```

@@ -7,7 +7,7 @@ Rendering
 - You must be able to create different Julia sets by passing different parameters to the program.
 - A parameter is passed on the command line to define what type of fractal will be displayed in a window.
   - You can handle more parameters to use them as rendering options.
-  - If no parameter is provided, or if the parameter is invalid, the program displays a list of available parameters and exits properly.
+  - ✅If no parameter is provided, or if the parameter is invalid, the program displays a list of available parameters and exits properly.
 - ✅You must use at least a few colors to show the depth of each fractal. It’s even better if you hack away on psychedelic effects.
 
 Graphic management
@@ -18,6 +18,13 @@ Graphic management
 - ✅Clicking on the cross on the window’s frame must close the window and quit the program in a clean way.
 - The use of the images of the MiniLibX is mandatory.
 
+Bonus
+
+- One more different fractal (more than a hundred different types of fractals are
+referenced online).
+- The zoom follows the actual mouse position.
+- In addition to the zoom: moving the view by pressing the arrows keys.
+- Make the color range shift.
 
 # Fract-ol
 
@@ -105,6 +112,36 @@ $\ a = aa + c_x$ with $\ c_x = (x - \frac{WIDTH}{2.0}) + \frac{4.0}{HEIGHT}$
 $\ b = bb + c_y$ with $\ c_y = (y - \frac{HEIGHT}{2.0}) + \frac{4.0}{WIDTH}$
 
 If magnitude $\ Z = a + b$ diverge out of bound (> 4), the set diverge else it converge. Display the set accordingly.
+
+```c
+int ft_mandelbrot_set(double x, double y, int max_iterations)
+{
+ double scaled_x;
+ double scaled_y;
+ double real;
+ double imaginary;
+ double a;
+ double b;
+ int  count;
+
+ scaled_x = (x - WIDTH / 2) * 4 / WIDTH;
+ scaled_y = (y - HEIGHT / 2) * 4 / HEIGHT;
+ a = 0;
+ b = 0;
+ count = 0;
+ while (count < max_iterations)
+ {
+  real = (a * a) - (b * b);
+  imaginary = 2 * a * b;
+  a = real + scaled_x;
+  b = imaginary + scaled_y;
+  if (b + a > 4)
+   return (count);
+  count++;
+ }
+ return (count);
+}
+```
 
 To center content/ offset with $\ c$ :
 

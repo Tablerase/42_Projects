@@ -33,6 +33,17 @@ To do this, simply add the following arguments at linking time:
 
 ## Hook
 
+- Key code: Use lib X11/keysim
+  - To use just call: `X_keyname` in your code
+- Event code: Use lib X11/X
+  - To use just call: `X_event` in your code
+
+  ```c
+  // Keyboard keys library / X11 events
+  # include <X11/keysym.h>
+  # include <X11/X.h>
+  ```
+
 ![Mlx loop](https://firebasestorage.googleapis.com/v0/b/aurelienbrabant-com.appspot.com/o/blog%2Fevents-with-the-minilibx%2Fmlx-loop-flowchart.webp?alt=media&token=cdd0424a-a8c7-4527-8782-f67c4419bbff)
 
 The `mlx_loop` function is called to start the event loop. This function will keep the program running until the window is closed.

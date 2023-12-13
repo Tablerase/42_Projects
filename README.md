@@ -26,7 +26,6 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 * [MinilibX](/Notes/minilibx.md)
 * [Makefile](/Notes/makefile.md)
 
-## Configs
+## [Configs](/Config/)
 
-* [VIM/Neovim]()
-
+* [VIM/Neovim](/Config/VIM/)

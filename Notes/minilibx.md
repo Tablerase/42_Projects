@@ -33,7 +33,26 @@ To do this, simply add the following arguments at linking time:
 
 ## Hook
 
-...
+- Key code: Use lib X11/keysim
+  - To use just call: `X_keyname` in your code
+- Event code: Use lib X11/X
+  - To use just call: `X_event` in your code
+
+  ```c
+  // Keyboard keys library / X11 events
+  # include <X11/keysym.h>
+  # include <X11/X.h>
+  ```
+
+![Mlx loop](https://firebasestorage.googleapis.com/v0/b/aurelienbrabant-com.appspot.com/o/blog%2Fevents-with-the-minilibx%2Fmlx-loop-flowchart.webp?alt=media&token=cdd0424a-a8c7-4527-8782-f67c4419bbff)
+
+The `mlx_loop` function is called to start the event loop. This function will keep the program running until the window is closed.
+
+## Event
+
+MiniLibX used event from X11 library. 🔗[X11 Doc](https://tronche.com/gui/x/xlib/events/)
+
+- X button on window: The `DestroyNotify` event is triggered when the window is closed.
 
 ## Images
 
@@ -70,4 +89,22 @@ int main(void)
  mlx = mlx_init();
  img = mlx_xpm_file_to_image(mlx, relative_path, &img_width, &img_height);
 }
+```
+
+If you read a file your file must contains XPM3 Syntax to work.
+
+```c
+/* XPM */
+static char * XFACE[] = {
+"16 7 2 1",
+"* c #000000",
+". c #ffffff",
+"**..*...........",
+"*.*.*...........",
+"**..*..**.**..**",
+"*.*.*.*.*.*..*.*",
+"**..*..**.*...**",
+"...............*",
+".............**."
+};
 ```

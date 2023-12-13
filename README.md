@@ -28,8 +28,5 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ## Configs
 
-Configuration of zsh, vim, etc...
+* [VIM/Neovim]()
 
-* vimrc
-* zshrc
-* ...

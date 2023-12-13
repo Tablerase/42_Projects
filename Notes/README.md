@@ -14,3 +14,12 @@
 ## 🤖 AI
 
 * [Copilot](/Notes/copilot.md)
+
+## 🖼️ Color / Images / Media
+
+* [Images](/Notes/images.md)
+* [Color](/Notes/color.md)
+
+## 🔗 Useful links
+
+* [Useful link](/Notes/useful%20link.md)

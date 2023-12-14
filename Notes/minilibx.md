@@ -31,10 +31,15 @@ To do this, simply add the following arguments at linking time:
 - Linux:
   - .
 
-## Hook
+## Hooks and Events
+
+📚 [Official Documentation X System](https://www.x.org/releases/X11R7.6/doc/xproto/x11protocol.html)
+
+### Hook
 
 - Key code: Use lib X11/keysim
   - To use just call: `X_keyname` in your code
+  - Here a list of all keycode:  🔗[Doc](https://www.oreilly.com/library/view/xlib-reference-manual/9780937175262/16_appendix-h.html)
 - Event code: Use lib X11/X
   - To use just call: `X_event` in your code
 
@@ -48,7 +53,7 @@ To do this, simply add the following arguments at linking time:
 
 The `mlx_loop` function is called to start the event loop. This function will keep the program running until the window is closed.
 
-## Event
+### Event
 
 MiniLibX used event from X11 library. 🔗[X11 Doc](https://tronche.com/gui/x/xlib/events/)
 

@@ -37,8 +37,11 @@ To do this, simply add the following arguments at linking time:
 
 ### Hook
 
+- Mouse code:
+  
+  ![mouse code](https://harm-smits.github.io/42docs/libs/minilibx/res/mouse-schema.png)
 - Key code: Use lib X11/keysim
-  - To use just call: `X_keyname` in your code
+  - To use just call: `XC_keyname` in your code
   - Here a list of all keycode:  🔗[Doc](https://www.oreilly.com/library/view/xlib-reference-manual/9780937175262/16_appendix-h.html)
 - Event code: Use lib X11/X
   - To use just call: `X_event` in your code
@@ -58,6 +61,71 @@ The `mlx_loop` function is called to start the event loop. This function will ke
 MiniLibX used event from X11 library. 🔗[X11 Doc](https://tronche.com/gui/x/xlib/events/)
 
 - X button on window: The `DestroyNotify` event is triggered when the window is closed.
+
+- Mouse event:
+  - `MotionNotify` event is triggered when the mouse cursor moves within the specified window.
+    - `PointerMotionMask`, is a mask that specifies which events the hook should be triggered for. In this case, `PointerMotionMask` indicates that the hook should be triggered for mouse motion events.
+
+      <details>
+      <summary> 🖱️ Exemple print mouse position with MinilibX</summary>
+
+      ```c
+      #include "../mlx/mlx.h"
+      #include "../libft/Includes/libft.h"
+      #include <X11/X.h>
+
+      typedef struct s_fractol
+      {
+        void *mlx;
+        void *win;
+        int  mouse_x;
+        int  mouse_y;
+      } t_fractol;
+
+      int ft_test(int mouse_x, int mouse_y, t_fractol *fractol)
+      {
+        mlx_mouse_get_pos(fractol->mlx, fractol->win, &mouse_x, \
+          &mouse_y);
+        fractol->mouse_x = mouse_x;
+        fractol->mouse_y = mouse_y;
+        static int i = 0;
+        i++;
+        ft_printf("test %i | mouse x: %i mouse y: %i\n", i, \
+          fractol->mouse_x, fractol->mouse_y);
+        return (0);
+      }
+
+      int ft_exit(t_fractol *fractol)
+      {
+        mlx_destroy_window(fractol->mlx, fractol->win);
+        mlx_destroy_display(fractol->mlx);
+        free(fractol->mlx);
+        exit(0);
+        return (0);
+      }
+
+      int main()
+      {
+        t_fractol fractol;
+
+        fractol.mlx = mlx_init();
+        if (!fractol.mlx)
+        {
+          mlx_destroy_display(fractol.mlx);
+          free(fractol.mlx);
+          return(1);
+        }
+        fractol.win = mlx_new_window(fractol.mlx, 500, 500, "test");
+        mlx_hook(fractol.win, MotionNotify, PointerMotionMask, ft_test, &fractol);
+        mlx_hook(fractol.win, DestroyNotify, NoEventMask, ft_exit, &fractol);
+
+        mlx_loop(fractol.mlx);
+        ft_exit(&fractol);
+        return (0);
+      }
+      ```
+
+      </details>
 
 ## Images
 

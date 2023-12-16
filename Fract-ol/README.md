@@ -20,6 +20,7 @@ Graphic management
 
 Bonus
 
+- :red_square: rules and files, need to add suffix
 - One more different fractal (more than a hundred different types of fractals are
 referenced online).
 - ✅ The zoom follows the actual mouse position.

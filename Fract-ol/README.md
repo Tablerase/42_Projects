@@ -4,9 +4,9 @@ Rendering
 
 - ✅ Your program must offer the Julia set and the Mandelbrot set.
 - ✅ The mouse wheel zooms in and out, almost infinitely (within the limits of the computer). This is the very principle of fractals.
-- You must be able to create different Julia sets by passing different parameters to the program.
-- A parameter is passed on the command line to define what type of fractal will be displayed in a window.
-  - You can handle more parameters to use them as rendering options.
+- ✅You must be able to create different Julia sets by passing different parameters to the program.
+- ✅A parameter is passed on the command line to define what type of fractal will be displayed in a window.
+  - ✅You can handle more parameters to use them as rendering options.
   - ✅ If no parameter is provided, or if the parameter is invalid, the program displays a list of available parameters and exits properly.
 - ✅ You must use at least a few colors to show the depth of each fractal. It’s even better if you hack away on psychedelic effects.
 

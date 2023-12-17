@@ -21,8 +21,7 @@ Graphic management
 Bonus
 
 - :red_square: rules and files, need to add suffix
-- One more different fractal (more than a hundred different types of fractals are
-referenced online).
+- ✅ One more different fractal (more than a hundred different types of fractals are referenced online).
 - ✅ The zoom follows the actual mouse position.
 - In addition to the zoom: moving the view by pressing the arrows keys.
 - ✅ Make the color range shift.
@@ -188,6 +187,88 @@ static int ft_julia_set(double x, double y, int max_iterations)
 [julia set - complexe analysis](https://complex-analysis.com/content/julia_set.html)
 
 ![Fractal with coord](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Julia_set%2C_plotted_with_Matplotlib.svg/1920px-Julia_set%2C_plotted_with_Matplotlib.svg.png)
+
+### [Burning Ship](https://en.wikipedia.org/wiki/Burning_Ship_fractal)
+
+The difference between this calculation and that for the Mandelbrot set is that the real and imaginary components are set to their respective absolute values before squaring at each iteration.
+
+<details>
+  <summary>Code for burning ship</summary>
+
+```c
+static int ft_burningship_set(
+ double x,
+ double y,
+ t_fractol *fractol,
+ int count)
+{
+ double scaled_x;
+ double real;
+ double imaginary;
+ double a;
+ double b;
+
+ scaled_x = fractol->fra.x + (x - WIDTH / 2) * fractol->fra.zoom / WIDTH;
+ fractol->fra.param_storage = fractol->fra.y
+  + (y - HEIGHT / 2) * fractol->fra.zoom / HEIGHT;
+ a = 0;
+ b = 0;
+ count = 0;
+ while (count < fractol->fra.max_iterations)
+ {
+  real = (a * a) - (b * b);
+  imaginary = 2 * a * b;
+  a = fabs(real + scaled_x);
+  b = fabs(imaginary + fractol->fra.param_storage);
+  if (b + a > 4)
+   return (count);
+  count++;
+ }
+ return (count);
+}
+
+/**
+ * * Draw mandelbrot fractal
+ * @param: fractol
+*/
+void ft_burningship(t_fractol *fractol)
+{
+ double x;
+ double y;
+ int  iter;
+
+ iter = 0;
+ x = 0;
+ while (x < WIDTH)
+ {
+  y = 0;
+  while (y < HEIGHT)
+  {
+   iter = ft_burningship_set(x, y, fractol, iter);
+   if (iter == fractol->fra.max_iterations)
+    fractol->fra.fractal_data[(int)(x + y * WIDTH)]
+     = fractol->col.color_array[fractol->col.color_number - 1];
+   else
+    fractol->fra.fractal_data[(int)(x + y * WIDTH)]
+     = fractol->col.color_array[ft_colormode(iter, fractol)];
+   y++;
+  }
+  x++;
+ }
+}
+```
+
+</details>
+
+![Burning Ship display](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Burning_Ship_20210818.png/1920px-Burning_Ship_20210818.png)
+
+### Ideas for other (escaped time) fractales
+
+- [Newton fractal](https://en.wikipedia.org/wiki/Newton_fractal)
+![Newton display](https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Julia_set_for_the_rational_function.png/1280px-Julia_set_for_the_rational_function.png)
+
+- [Lyapunov fractal](https://en.wikipedia.org/wiki/Lyapunov_fractal)
+![Lyapunov fractal display](https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Lyapunov-fractal-AABAB.png/1024px-Lyapunov-fractal-AABAB.png)
 
 ### Math
 

@@ -16,12 +16,46 @@ On little-endian systems, this is equivalent to BGRA byte order. On big-endian s
 
 In OpenGL and Portable Network Graphics (PNG), the RGBA byte order is used, where the colors are stored in memory such that R is at the lowest address, G after it, B after that, and A last. On a little endian architecture this is equivalent to ABGR32.
 
+<details>
+  <summary>Color handler in c</summary>
+
+```c
+// Bit shifting / Bitwise operators
+// handle color argb (alpha, red, green, blue)
+
+int create_argb(int a, int r, int g, int b)
+{
+ return (a << 24 | r << 16 | g << 8 | b);
+}
+
+int get_alpha(int argb)
+{
+ return ((argb >> 24) & 0xFF);
+}
+
+int get_red(int argb)
+{
+ return ((argb >> 16) & 0xFF);
+}
+
+int get_green(int argb)
+{
+ return ((argb >> 8) & 0xFF);
+}
+
+int get_blue(int argb)
+{
+ return (argb & 0xFF);
+}
+```
+
+</details>
+
 ## HSV
 
 ![HSV vs Other](https://www.researchgate.net/profile/Hamid-Jalab/publication/329019029/figure/fig1/AS:960478280957952@1606007275709/Color-representation-in-different-color-models-a-RGB-color-space-b-HSV-color-space-c.png)
 
 a = RGB b = HSV, c = CIE, d = YUV
-
 
 HSL (for hue, saturation, lightness) and **HSV** (for hue, saturation, value; also known as HSB, for hue, saturation, brightness) are alternative representations of the RGB color model, designed in the 1970s by computer graphics researchers.
 

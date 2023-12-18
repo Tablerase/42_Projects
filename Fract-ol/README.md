@@ -1,31 +1,3 @@
-# TODO
-
-Rendering
-
-- ✅ Your program must offer the Julia set and the Mandelbrot set.
-- ✅ The mouse wheel zooms in and out, almost infinitely (within the limits of the computer). This is the very principle of fractals.
-- ✅You must be able to create different Julia sets by passing different parameters to the program.
-- ✅A parameter is passed on the command line to define what type of fractal will be displayed in a window.
-  - ✅You can handle more parameters to use them as rendering options.
-  - ✅ If no parameter is provided, or if the parameter is invalid, the program displays a list of available parameters and exits properly.
-- ✅ You must use at least a few colors to show the depth of each fractal. It’s even better if you hack away on psychedelic effects.
-
-Graphic management
-
-- ✅ Your program has to display the image in a window.
-- ✅ The management of your window must remain smooth (changing to another window, minimizing, and so forth).
-- ✅ Pressing ESC must close the window and quit the program in a clean way.
-- ✅ Clicking on the cross on the window’s frame must close the window and quit the program in a clean way.
-- ✅ The use of the images of the MiniLibX is mandatory.
-
-Bonus
-
-- :red_square: rules and files, need to add suffix
-- ✅ One more different fractal (more than a hundred different types of fractals are referenced online).
-- ✅ The zoom follows the actual mouse position.
-- In addition to the zoom: moving the view by pressing the arrows keys.
-- ✅ Make the color range shift.
-
 # Fract-ol
 
 The term fractal was first used by mathematician Benoit Mandelbrot in 1974. 
@@ -62,8 +34,6 @@ and deal with keyboard and mouse events
 [![alt text](https://img.youtube.com/vi/-V8HnG9XB2g/0.jpg)](https://www.youtube.com/watch?v=-V8HnG9XB2g)
 
 ➿ [Explanation with great creation a fractal step by step ⬆️ ⬆️](https://www.karlsims.com/julia.html)
-
-
 
 ### Mandelbrot Set $\ Z_{n+1} = {Z_{n}}^2 + {Z_0} $
 

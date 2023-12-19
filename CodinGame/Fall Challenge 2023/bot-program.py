@@ -1,13 +1,35 @@
 import sys
 import math
 
-# Classes
+############### Classes ###############
 class Game:
     def __init__(self, max_turns, max_x, max_y):
         self.max_turns = max_turns
         self.max_x = max_x
         self.max_y = max_y
+        # drone
+        self.drone_autorange = 800
+        self.drone_range_light = 2000
+        self.drone_range_light_cost = 5
+        # fish
+        self.fish_speed = 200
+        self.fish_rebound = 600
+        self.fish_frightened_speed = 400
+        self.fish_frightened_range = 1400
+
+        self.fish_escape_xmax = 9999
+        self.fish_escape_xmin = 0
+
+        self.fish_type_0 = FishType(0, 2500, 5000)
+        self.fish_type_1 = FishType(1, 5000, 7500)
+        self.fish_type_2 = FishType(2, 7500, 10000)
         self.turn = 0
+
+class FishType:
+    def __init__(self, type_id, min_y, max_y):
+        self.type_id = type_id
+        self.min_y = min_y
+        self.max_y = max_y
 
 class Player:
     def __init__(self, score, scan_count, drone_count):
@@ -16,7 +38,7 @@ class Player:
         self.drone_count = drone_count
         self.drones_list = []
         self.fishes_list = []
-        self.paths_list = []
+        self.list_of_paths = []
     def add_fish_to_list(self, creature_id, new_fish):
         found = False
         for fish in self.fishes_list:
@@ -39,12 +61,12 @@ class Creature:
 		self._type = type
 
 class Drone:
-	def __init__(self, drone_id, drone_x, drone_y, emergency, battery):
-		self.drone_id = drone_id
-		self.drone_x = drone_x
-		self.drone_y = drone_y
-		self.emergency = emergency
-		self.battery = battery
+    def __init__(self, drone_id, drone_x, drone_y, emergency, battery):
+        self.drone_id = drone_id
+        self.drone_x = drone_x
+        self.drone_y = drone_y
+        self.emergency = emergency
+        self.battery = battery
 
 class Fish:
     def __init__(self, creature_id, creature_x, creature_y, creature_vx, creature_vy):
@@ -59,9 +81,9 @@ creatures = []
 drones = []
 fishes = []
 
-# Functions
-def move_to(x, y, light):
-	print("MOVE {} {} {}".format(x, y, light))
+################## Functions ##################
+def move_to(x, y, light, battery):
+	print("MOVE {} {} {} {}".format(x, y, light, battery))
 
 def wait(light):
 	print("WAIT {}".format(light))
@@ -96,14 +118,47 @@ def add_or_update_drone(drone_id, drone_x, drone_y, emergency, battery, drones_l
     if not found:
         drones_list.append(Drone(drone_id, drone_x, drone_y, emergency, battery))
 
-# Initialization
+# * Willy's pathing
+# Cycle through the list of paths
+# @params: drone, paths_list
+def pathing(drone, paths_list):
+    if drone.drone_x == paths_list[0].x and drone.drone_y == paths_list[0].y:
+        paths_list[0].reached = True
+        move_to(paths_list[1].x, paths_list[1].y, 1, drone.battery)
+        paths_list[1].reached = False
+    elif drone.drone_x == paths_list[1].x and drone.drone_y == paths_list[1].y:
+        paths_list[1].reached = True
+        move_to(paths_list[2].x, paths_list[2].y, 1, drone.battery)
+        paths_list[2].reached = False
+    elif drone.drone_x == paths_list[2].x and drone.drone_y == paths_list[2].y:
+        paths_list[2].reached = True
+        move_to(paths_list[0].x, paths_list[0].y, 1, drone.battery)
+        paths_list[0].reached = False
+    elif paths_list[0].reached == False:
+        move_to(paths_list[0].x, paths_list[0].y, 1, drone.battery)
+    elif paths_list[1].reached == False:
+        move_to(paths_list[1].x, paths_list[1].y, 1, drone.battery)
+    elif paths_list[2].reached == False:
+        move_to(paths_list[2].x, paths_list[2].y, 1, drone.battery)
+    else:
+        print("Willy is lost", file=sys.stderr, flush=True)
+
+######### Initialization #########
 # 10k u per axis | 200 turns
 GameInfos = Game(200, 10000, 10000)
 
 # Willy = Stardew Valley Fisherman
 Willy = Player(0, 0, 1)
-Willy.paths_list.append(Path(5000, 3000, False))
-Willy.paths_list.append(Path(5000, 9200, False))
+# Paths
+Path1 = []
+Path1.append(Path(2000, 3000, False))
+Path1.append(Path(2000, 9200, False))
+Path1.append(Path(2000, 500, False))
+Path2 = []
+Path2.append(Path(8000, 3000, False))
+Path2.append(Path(8000, 9200, False))
+Path2.append(Path(8000, 500, False))
+Paths = [Path1, Path2]
 
 # Score points by scanning valuable fish faster than your opponent.
 
@@ -155,73 +210,99 @@ while True:
         creature_id = int(inputs[1])
         radar = inputs[2]
     for i in range(my_drone_count):
-
         # Write an action using print
         # To debug: print("Debug messages...", file=sys.stderr, flush=True)
         # MOVE <x> <y> <light (1|0)> | WAIT <light (1|0)>
-        print("Drone coord = {} {}", Willy.drones_list[0].drone_x, Willy.drones_list[0].drone_y, file=sys.stderr, flush=True)
-        if Willy.drones_list[i].drone_x == Willy.paths_list[0].x and Willy.drones_list[i].drone_y == Willy.paths_list[0].y:
-            Willy.paths_list[0].reached = True
-            move_to(Willy.paths_list[1].x, Willy.paths_list[1].y, 1)
-            Willy.paths_list[1].reached = False
-        elif Willy.drones_list[i].drone_x == Willy.paths_list[1].x and Willy.drones_list[i].drone_y == Willy.paths_list[1].y:
-            Willy.paths_list[1].reached = True
-            move_to(Willy.paths_list[0].x, Willy.paths_list[0].y, 1)
-            Willy.paths_list[0].reached = False
-        elif Willy.paths_list[0].reached == False:
-            move_to(Willy.paths_list[0].x, Willy.paths_list[0].y, 1)
-        elif Willy.paths_list[1].reached == False:
-            move_to(Willy.paths_list[1].x, Willy.paths_list[1].y, 1)
-        
-        else:
-            print("Willy is lost", file=sys.stderr, flush=True)
-             
+        print("Drone coord = {} {}", Willy.drones_list[i].drone_x, Willy.drones_list[i].drone_y, file=sys.stderr, flush=True)
+        pathing(Willy.drones_list[i], Paths[i])
 
 
 # Context & Rules
-""" Game Protocol
-Initialization Input
-First line: creatureCount an integer for the number of creatures in the game zone. Will always be 12.
-Next creatureCount lines: 3 integers describing each creature:
-
-    creatureId for this creature's unique id.
-    color (0 to 3) and type (0 to 2).
-
-Input for One Game Turn
-myScore for you current score.
-foeScore for you opponent's score.
-
-myScanCount for your amount of scans
-Next myScanCount lines: creatureId for each scan.
-
-foeScanCount for your opponent's amount of scans.
-Next foeScanCount lines: creatureId for each scan of your opponent.
-
-For your drone:
-
-    droneId: this drone's unique id.
-    droneX and droneY: this drone's position.
-    battery: this drone's current battery level. 
-
-Next, for your opponent's drone:
-
-    droneId: this drone's unique id.
-    droneX and droneY: this drone's position.
-    battery: this drone's current battery level. 
+""" Wood 1
+If a drone has its motors activated within a distance of less than 1400u, 
+the fish will enter “frightened” mode in the next turn: in this mode, 
+the fish will start swimming in the direction opposite to the nearest drone at a speed of 400u per turn. 
+While frightened, the fish cannot exit its habitat on the y-coordinate (it will stay at that y-coordinate without bouncing), 
+but if its x-coordinate becomes negative or greater than 9999, it will permanently leave the map and cannot be scanned anymore.
 
 
-For every fish:
-
-    creatureId: this creature's unique id.
-    creatureX and creatureY: this creature's position.
-    creatureVx and creatureVy: this creature's current speed.
-
-The rest of the variables can be ignored and will be used in later leagues.
-Output
-One line: one valid instruction for your drone:
+Next myDroneCount lines: one valid instruction for each of your drones, in the same order the drones were provided to you:
 
     MOVE x y light: makes the drone move towards (x,y), engines on.
     WAIT light. Switches engines off. The drone will sink but can still use light to scan nearby creatures.
 
-Set light to 1 to activate the powerful light, 0 otherwise. 
+Set light to 1 to activate the powerful light, 0 otherwise.
+Constraints
+creatureCount = 12 in this league
+myDroneCount = 2
+"""
+
+""" Game Protocol - Wood 2
+Goal
+Win more points than your opponent by scanning the most fish.
+
+To protect marine life, it is crucial to understand it. Explore the ocean floor using your drone to scan as many fish as possible to better understand them!
+  Rules
+
+The game is played turn by turn. Each turn, each player gives an action for their drone to perform.
+The Map
+
+The map is a square of 10,000 units on each side. Length units will be denoted as "u" in the rest of the statement. The coordinate (0, 0) is located at the top left corner of the map.
+Drones
+
+Each player has a drone to explore the ocean floor and scan the fish. Each turn, the player can decide to move their drone in a direction or not activate its motors.
+
+Your drone continuously emits light around it. If a fish is within this light radius, it is automatically scanned. You can increase the power of your light (and thus your scan radius), but this will drain your battery.
+
+In order to save your scans and score points, you will need to resurface with your drone.
+Fish
+
+On the map, different fish are present. Each fish has a specific type and color. In addition to the points earned if you scan a fish and bring the scan back to the surface, bonuses will be awarded if you scan all the fish of the same type or same color, or if you are the first to do so.
+
+Each fish moves within a habitat zone, depending on its type. Only fish within the light radius of your drone will be visible to you.
+Unit Detai
+
+On the map, different fish are present. Each fish has a specific type and color. In addition to the points earned if you scan a fish and bring the scan back to the surface, bonuses will be awarded if you scan all the fish of the same type or same color, or if you are the first to do so.
+
+Each fish moves within a habitat zone, depending on its type. Only fish within the light radius of your drone will be visible to you.
+Unit Details
+Drones
+
+Drones move towards the given point, with a maximum distance per turn of 600u. If the motors are not activated in a turn, the drone will sink by 300u.
+
+At the end of the turn, fish within a radius of 800u will be automatically scanned.
+
+If you have increased the power of your light, this radius becomes 2000u, but the battery drains by 5 points. If the powerful light is not activated, the battery recharges by 1. The battery has a capacity of 30 and is fully charged at the beginning of the game.
+
+If the drone is near the surface (y ≤ 500u), the scans will be automatically saved, and points will be awarded.
+Radar
+
+To better navigate the dark depths, drones are equipped with radars. For each creature (fish or monster) in the game zone, the radar will indicate:
+
+    TL: if the entity is somewhere top left of the drone.
+    TR: if the entity is somewhere top right of the drone.
+    BR: if the entity is somewhere bottom right of the drone.
+    BL: if the entity is somewhere bottom left of the drone.
+
+Note: If the entity shares the same x-coordinate as the drone, it will be considered as being on the left. If the entity shares the same y-coordinate as the drone, it will be considered as being on the top.
+Fish
+
+Fish move 200u each turn, in a randomly chosen direction at the beginning of the game. Each fish moves within a habitat zone based on its type. If it reaches the edge of its habitat zone, it will rebound off the edge.
+Fish 	type 	Y min 	Y max
+	0 	2500 	5000
+	1 	5000 	7500
+	2 	7500 	10000
+
+If a fish comes within 600u of another, it will begin to swim in the opposite direction to the nearest fish.
+Score Details
+
+Points are awarded for each scan depending on the type of scanned fish. Being the first to save a scan or a combination allows you to earn double the points.
+Scan 	Points 	Points if first to save
+Type 0 	1 	2
+Type 1 	2 	4
+Type 2 	3 	6
+All fish of one color 	3 	6
+All fish of one type 	4 	8
+
+At the end of the game, all unsaved scans are automatically saved, and associated points are awarded.
 """

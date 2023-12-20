@@ -20,7 +20,7 @@ Env: Linux/Debian
   - Details > Storage > Controler IDE > Empty -> Optical Drive - Select Image Disk File -> Select `Debian.iso`
 - Start VM
 
-## Access VM
+## Access VM (use the passwd of your choice, the one here do not respect passwd syntaxe rules)
 
 - Start
 - Install
@@ -31,6 +31,7 @@ Env: Linux/Debian
   - Domain name: `none`
   - Root passwd: `Pass42pass`
   - User name && pass: `rcutte`
+Choose if you want bonus now (i didnt)
   - Partition disk: `guided use entire disk and set up encrypted LVM`
     - SCSI3
     - Separate home, var and tmp partitions
@@ -103,7 +104,7 @@ Env: Linux/Debian
 - Go to your Virtual Box Program
 - Click on your Virtual Machine and select Settings
 - Click Network then Adapter 1 then Advanced and then click on Port Forwarding
-- Change the Host Port and Guest Port to `4242`
+- Change the Host Port `4444` and Guest Port to `4242`
 - Then head back to your Virtual Machine
 - Type `sudo systemctl restart ssh` to restart your SSH Server
 - Type `sudo service sshd status` to check your SSH Status
@@ -116,6 +117,7 @@ Env: Linux/Debian
 - ss -tunlp
   - display open ports
 
+#### Not needed (additional infos)
 Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 
 - Edit the network configuration file (Change ip to static and close port 68 use by DHClient when ip dyn)
@@ -141,6 +143,7 @@ Change IP to Static and Disable DHCP(Dyn Host Config Protocol)
 - `traceroute 8.8.8.8`: trace ip root of packet/ping
 - Disable if needed: `systemctl stop ifup@enp0s3.service` then `disable` (change stop to disable in cmd)
 
+#### Port Fowarding (useful if port 4242 already used in the campus network)
 Port Fowarding(In VM change tunnel from 4444 to 4242):
 
 |Rule | Protocol | Host ip | host port | Guest Ip | Guest Port
@@ -352,9 +355,9 @@ Add permission to exec script without password:
 
 `sudo apt -y install apparmor`
 
-## Bonus
+## Bonus (Only docker working - Ignore the rest)
 
-### Partitions
+### Partitions (Additional infos - Not working with Encrypted partitions)
 
 - Display partitions: `lsblk`
 - Display volume group: `sudo vgs`

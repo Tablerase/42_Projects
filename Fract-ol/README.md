@@ -298,7 +298,7 @@ The magnitude of a vector is its length (ignoring direction).
 For a complex number $\ Z = a + bi$, we define the magnitude, $\ |Z|$, as
 follows:
 
-$\ |Z| = \sqrt{a2 + b2} $
+$\ |Z| = \sqrt{a^2 + b^2} $
 
 ## Coloring
 

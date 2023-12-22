@@ -1,4 +1,3 @@
-from hmac import new
 import sys
 import math
 
@@ -14,23 +13,34 @@ class Game:
         self.drone_range_light = 2000
         self.drone_range_light_cost = 5
         self.drone_optimal_light_init = 2000
+        self.drone_optimal_light_end = 4200
+        self.drone_search_range = [800, 9200]
+        self.drone_escape_range = [0, 9999]
+        self.drone_safe_y = 2500
+        self.drone_speed = 600
+        self.drone_sink = 300
+        self.drone_battery_max = 30
+        self.drone_battery_recharge = 1
+        self.drone_scan_return = 500
         # fish
         self.fish_speed = 200
         self.fish_rebound = 600
         self.fish_frightened_speed = 400
         self.fish_frightened_range = 1400
-
-        self.fish_escape_xmax = 9999
-        self.fish_escape_xmin = 0
+        self.fish_escape_x = [0, 9999]
 
         self.fish_type_0 = FishType(0, 2500, 5000)
+        self.fish_type_0_list = [4, 5, 10, 11]
         self.fish_type_1 = FishType(1, 5000, 7500)
+        self.fish_type_1_list = [6, 7, 12, 13]
         self.fish_type_2 = FishType(2, 7500, 10000)
+        self.fish_type_2_list = [8, 9, 14, 15]
         self.fish_color = [0, 1, 2, 3]
         # monster
         self.monster_speed = 270
         self.monster_aggressive_speed = 540
         self.monster_range = 500
+        self.monster_reached_range = 1040
         self.monster_rebound = 600
         self.monster_scan_range = 2300
         self.monster = FishType(-1, 2500, 10000)
@@ -55,16 +65,17 @@ class Player:
         self.scan_count = scan_count
         self.drone_count = drone_count
         self.drones_list = []
-        self.fishes_list = []
+        self.storage_list = []
+        self.current_scans = []
         self.list_of_paths = []
     def add_fish_to_list(self, creature_id, new_fish):
         found = False
-        for fish in self.fishes_list:
+        for fish in self.storage_list:
             if fish.creature_id == creature_id:
                 found = True
                 break
         if not found:
-            self.fishes_list.append(new_fish)
+            self.storage_list.append(new_fish)
 
 class Path:
     def __init__(self, x, y, bool):
@@ -79,6 +90,8 @@ class Drone:
         self.drone_y = drone_y
         self.emergency = emergency
         self.battery = battery
+        self.ascend = False
+        self.descend = True
         self.scans_list = []
         self.radar_list = []
 
@@ -109,33 +122,69 @@ def add_or_update_radar(new_radar, drone):
     if not found:
         drone.radar_list.append(new_radar)
 
+def go_to_radar(drone) -> Path:
+    for radar in drone.radar_list:
+        if radar.creature_id not in drone.scans_list and get_type(radar.creature_id, Creatures) != -1:
+            if radar.radar_location == "TL":
+                return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, False)
+            elif radar.radar_location == "TR":
+                return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, False)
+            elif radar.radar_location == "BR":
+                return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, False)
+            elif radar.radar_location == "BL":
+                return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, False)
+    return Path(0, 0, False)
+
+################## Monster ##################
+
+def get_closest_monster(drone, visible_creatures, player: Player):
+    closest_monster = None
+    min_distance = 1000000
+    for creature in visible_creatures:
+        if creature.type == -1:
+            dist = distance(drone.drone_x, drone.drone_y, creature.creature_x, creature.creature_y)
+            if dist < min_distance and fish.type != -1 and (fish not in drone.scans_list) and (fish not in player.current_scans) and (fish not in player.storage_list) and fish.creature_x >= GameInfos.fish_escape_x[0] and fish.creature_x <= GameInfos.fish_escape_x[1]:
+                min_distance = dist
+                closest_monster = creature
+    return closest_monster
+
 ################## Drone ##################
 
-def add_or_update_drone(drone_id, drone_x, drone_y, emergency, battery, drones_list):
+# remove elements in list2 that are in list1
+def del_elements_in_list(list1, list2):
+    for element in list1:
+        if element in list2:
+            list2.remove(element)
+
+def add_or_update_drone(drone_id, drone_x, drone_y, emergency, battery, player: Player):
     found = False
-    for drone in drones_list:
+    for drone in player.drones_list:
         if drone.drone_id == drone_id:
             drone.drone_x = drone_x
             drone.drone_y = drone_y
             drone.emergency = emergency
             if drone.emergency == 1:
+                del_elements_in_list(drone.scans_list, player.current_scans)
                 del drone.scans_list[:]
             drone.battery = battery
             found = True
             break
     if not found:
-        drones_list.append(Drone(drone_id, drone_x, drone_y, emergency, battery))
+        player.drones_list.append(Drone(drone_id, drone_x, drone_y, emergency, battery))
 
 ################## Fish ##################
 
-def add_or_update_fish(new_fish, fishes_list):
+def add_or_update_fish(new_fish: Fish, fishes_list: list[Fish]):
     found = False
     for fish in fishes_list:
         if new_fish.creature_id == fish.creature_id:
-            fish.creature_x = new_fish.creature_x
-            fish.creature_y = new_fish.creature_y
-            fish.creature_vx = new_fish.creature_vx
-            fish.creature_vy = new_fish.creature_vy
+            if fish.creature_x <= GameInfos.fish_escape_x[0] or fish.creature_x >= GameInfos.fish_escape_x[1]:
+                fishes_list.remove(fish)
+            else:
+                fish.creature_x = new_fish.creature_x
+                fish.creature_y = new_fish.creature_y
+                fish.creature_vx = new_fish.creature_vx
+                fish.creature_vy = new_fish.creature_vy
             found = True
             break
     if not found:
@@ -154,17 +203,26 @@ def get_color(creature_id, creature_list):
 def get_position(creature_id, creature_list):
     for creature in creature_list:
         if creature.creature_id == creature_id:
-            return creature.creature_x, creature.creature_y
+            return creature.creature_x, creature.creature_y, creature.creature_vx, creature.creature_vy
+
+def get_closest_fish(drone: Drone, fishes: list[Fish], player: Player):
+    closest_fish = None
+    min_distance = 1000000
+    for fish in fishes:
+        dist = distance(drone.drone_x, drone.drone_y, fish.creature_x, fish.creature_y)
+        if dist < min_distance and fish.type != -1 and (fish not in drone.scans_list) and (fish not in player.current_scans) and (fish not in player.storage_list) and fish.creature_x >= GameInfos.fish_escape_x[0] and fish.creature_x <= GameInfos.fish_escape_x[1]:
+            min_distance = dist
+            closest_fish = fish
+    return closest_fish
 
 ################## Functions ##################
 def move_to(drone, x, y, light, battery):
-    if drone.drone_y >= GameInfos.drone_optimal_light_init and drone.drone_y <= 4200:
-        print("MOVE {} {} {} {}".format(x, y, 1, battery))
-    else:
-	    print("MOVE {} {} {} {}".format(x, y, 0, battery))
+    light = 1 if light else 0
+    print("MOVE {} {} {} {}".format(x, y, light, battery))
 
 def wait(light):
-	print("WAIT {}".format(light))
+    light = 1 if light else 0
+    print("WAIT {}".format(light))
      
 def debug(text):
     print("WAIT {}".format(1, text))
@@ -172,22 +230,6 @@ def debug(text):
 
 def distance(x1, y1, x2, y2):
 	return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-
-def get_closest_fish(drone, fishes):
-	closest_fish = None
-	min_distance = 1000000
-	for fish in fishes:
-		dist = distance(drone.drone_x, drone.drone_y, fish.creature_x, fish.creature_y)
-		if dist < min_distance:
-			min_distance = dist
-			closest_fish = fish
-	return closest_fish
-
-def add_fish_to_list(new_fish, fishes_list):
-    if new_fish.creature_id not in fishes_list:
-        fishes_list.append(new_fish)
-
-
 
 # * Willy's pathing
 # Cycle through the list of paths
@@ -215,16 +257,75 @@ def pathing(drone, paths_list):
         debug("Willy is lost")
 
 ###################### Navigation System ######################
-# * Willy's navigation system
+"""
+TODO: handling radar, go away from monster if in range, go to fish not in other drone scan list
+* Willy's navigation system
+Get the closest fish and move to it
+Check radar if no fish is in range
+Go away from monsters if they are in range and shut down light
+Activate light if fish is in range and battery is sufficient, and monster is not in range
+@params: drone, radar_fish, visible_fish 
+"""
+def NavigationSystem(drone: Drone, visible_fish: list[Fish], player: Player) -> None:
+    light_status = True
+    path = Path(0, 0, False)
+    if drone.emergency == 1:
+        print("WAIT {} {}".format(0, "TIG !"))
+    else:
+        closest_monster = get_closest_monster(drone, visible_fish, player)
+        closest_fish = get_closest_fish(drone, visible_fish, player)
+        # Light Status
+        if closest_monster != None and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) <= GameInfos.monster_scan_range:
+            light_status = False
+        else:
+            light_status = True
+        # Ascend
+        if drone.ascend == True:
+            if drone.drone_y == GameInfos.drone_scan_return:
+                drone.ascend = False
+                drone.scans_list.clear()
+                drone.descend = True
+                wait(light_status)
+                return
+            else:
+                move_to(drone, drone.drone_x, GameInfos.drone_scan_return, light_status, "Ascending")
+                return
+        # Descend
+        if drone.descend == True:
+            # Monster nearby
+            if closest_monster != None and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) <= GameInfos.monster_reached_range:
+                # Too close to monster, go away
+                # TODO: go away from monster actively (move to the opposite direction of the monster)
+                drone.ascend = True
+                drone.descend = False
+                move_to(drone, drone.drone_x, GameInfos.drone_scan_return, light_status, "Monster nearby")
+                return
+            # Fish nearby
+            if (closest_fish != None and len(drone.scans_list) <= 4) and (closest_fish not in player.current_scans):
+                print("Willy is following fish {}".format(closest_fish.creature_id), file=sys.stderr, flush=True)
+                move_to(drone, closest_fish.creature_x, closest_fish.creature_y, light_status, "Lighting Fish")
+                return
+            if closest_fish == None and len(drone.scans_list) <= 4:
+                path = go_to_radar(drone)
+                move_to(drone, path.x, path.y, light_status, "Fishing in the dark!")
+                return
+            # Return to surface
+            if closest_monster != None and len(drone.scans_list) >= 4:
+                drone.ascend = True
+                drone.descend = False
+                move_to(drone, drone.drone_x, GameInfos.drone_scan_return, light_status, "Returning Scans")
+                return
+        
 
-# def NavigationSystem(drone, radar_fish, visible_fish):
-#     ...
-
-######### Initialization #########
-# 10k u per axis | 200 turns
+###################### Main ######################
+global GameInfos
 GameInfos = Game(200, 10000, 10000)
+
+global Creatures 
 Creatures = []
+
 Visible_Creatures = []
+Monsters = []
 
 # Willy = Stardew Valley Fisherman
 Willy = Player(0, 0, 1)
@@ -258,6 +359,8 @@ while True:
     Willy.scan_count = my_scan_count
     for i in range(my_scan_count):
         creature_id = int(input())
+        # recover data
+        Willy.add_fish_to_list(creature_id, Creature(creature_id, get_color(creature_id, Creatures), get_type(creature_id, Creatures)))
 
     foe_scan_count = int(input())
     for i in range(foe_scan_count):
@@ -267,7 +370,7 @@ while True:
     for i in range(my_drone_count):
         drone_id, drone_x, drone_y, emergency, battery = [int(j) for j in input().split()]
         # recover data
-        add_or_update_drone(drone_id, drone_x, drone_y, emergency, battery, Willy.drones_list)
+        add_or_update_drone(drone_id, drone_x, drone_y, emergency, battery, Willy)
 
     foe_drone_count = int(input())
     for i in range(foe_drone_count):
@@ -282,6 +385,7 @@ while True:
                 for fish in Visible_Creatures:
                     if fish.creature_id == creature_id:
                         add_or_update_fish(fish, drone.scans_list)
+                        add_or_update_fish(fish, Willy.current_scans)
                         break
 
     visible_creature_count = int(input())
@@ -291,7 +395,7 @@ while True:
         for creature in Creatures:
             if creature.creature_id == creature_id:
                 new_fish = Fish(creature_id, creature_x, creature_y, creature_vx, creature_vy, creature.color, creature.type)
-                add_fish_to_list(new_fish, Visible_Creatures)
+                add_or_update_fish(new_fish, Visible_Creatures)
                 break
 
     # Radar
@@ -312,15 +416,16 @@ while True:
         # Write an action using print
         # To debug: print("Debug messages...", file=sys.stderr, flush=True)
         # MOVE <x> <y> <light (1|0)> | WAIT <light (1|0)>
+    for scan in Willy.current_scans:
+        print("Willy has scanned fish {}".format(scan.creature_id), file=sys.stderr, flush=True)
+    
     for i in range(my_drone_count):    
-        print("Drone coord = {} {}".format(Willy.drones_list[i].drone_x, Willy.drones_list[i].drone_y), file=sys.stderr, flush=True)
-        pathing(Willy.drones_list[i], Paths[i])
+        print("Drone coord = {} {} Battery= {}".format(Willy.drones_list[i].drone_x, Willy.drones_list[i].drone_y, Willy.drones_list[i].battery), file=sys.stderr, flush=True)
+        NavigationSystem(Willy.drones_list[i], Visible_Creatures, Willy)
         for scans in Willy.drones_list[i].scans_list:
-            print("Drone {} has scanned fish of type {}".format(Willy.drones_list[i].drone_id, scans.type), file=sys.stderr, flush=True)
-        for radar in Willy.drones_list[i].radar_list:
-            print("Drone {} has detected fish {} of type {} and coord:{}".format(Willy.drones_list[i].drone_id, radar.radar_location, get_type(radar.creature_id, Creatures), get_position(radar.creature_id, Visible_Creatures)), file=sys.stderr, flush=True)
-        # NavigationSystem()
-
+            print("Drone {} has scanned fish {}".format(Willy.drones_list[i].drone_id, scans.creature_id), file=sys.stderr, flush=True)
+        # for radar in Willy.drones_list[i].radar_list:
+        #     print("Drone {} has detected fish {} of type {} and coord:{}".format(Willy.drones_list[i].drone_id, radar.radar_location, get_type(radar.creature_id, Creatures), get_position(radar.creature_id, Visible_Creatures)), file=sys.stderr, flush=True)
 
 # Context & Rules
 """

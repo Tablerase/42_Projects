@@ -1,5 +1,7 @@
+from platform import java_ver
 import sys
 import math
+from typing import Optional
 
 ############### Classes ###############
 class Game:
@@ -78,10 +80,10 @@ class Player:
             self.storage_list.append(new_fish)
 
 class Path:
-    def __init__(self, x, y, bool):
+    def __init__(self, x, y, direction):
         self.x = x
         self.y = y
-        self.reached = bool
+        self.direction = direction
 
 class Drone:
     def __init__(self, drone_id, drone_x, drone_y, emergency, battery):
@@ -92,6 +94,10 @@ class Drone:
         self.battery = battery
         self.ascend = False
         self.descend = True
+        self.light = False
+        self.dodge = False
+        self.fish_target = None
+        self.target: Optional[Path] = None
         self.scans_list = []
         self.radar_list = []
 
@@ -121,20 +127,7 @@ def add_or_update_radar(new_radar, drone):
             break
     if not found:
         drone.radar_list.append(new_radar)
-
-def go_to_radar(drone) -> Path:
-    for radar in drone.radar_list:
-        if radar.creature_id not in drone.scans_list and get_type(radar.creature_id, Creatures) != -1:
-            if radar.radar_location == "TL":
-                return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, False)
-            elif radar.radar_location == "TR":
-                return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, False)
-            elif radar.radar_location == "BR":
-                return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, False)
-            elif radar.radar_location == "BL":
-                return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, False)
-    return Path(0, 0, False)
-
+                    
 ################## Monster ##################
 
 def get_closest_monster(drone, visible_creatures, player: Player):
@@ -143,7 +136,7 @@ def get_closest_monster(drone, visible_creatures, player: Player):
     for creature in visible_creatures:
         if creature.type == -1:
             dist = distance(drone.drone_x, drone.drone_y, creature.creature_x, creature.creature_y)
-            if dist < min_distance and fish.type != -1 and (fish not in drone.scans_list) and (fish not in player.current_scans) and (fish not in player.storage_list) and fish.creature_x >= GameInfos.fish_escape_x[0] and fish.creature_x <= GameInfos.fish_escape_x[1]:
+            if dist < min_distance and creature.type == -1:
                 min_distance = dist
                 closest_monster = creature
     return closest_monster
@@ -205,15 +198,35 @@ def get_position(creature_id, creature_list):
         if creature.creature_id == creature_id:
             return creature.creature_x, creature.creature_y, creature.creature_vx, creature.creature_vy
 
-def get_closest_fish(drone: Drone, fishes: list[Fish], player: Player):
-    closest_fish = None
-    min_distance = 1000000
-    for fish in fishes:
-        dist = distance(drone.drone_x, drone.drone_y, fish.creature_x, fish.creature_y)
-        if dist < min_distance and fish.type != -1 and (fish not in drone.scans_list) and (fish not in player.current_scans) and (fish not in player.storage_list) and fish.creature_x >= GameInfos.fish_escape_x[0] and fish.creature_x <= GameInfos.fish_escape_x[1]:
-            min_distance = dist
-            closest_fish = fish
-    return closest_fish
+# * Get fish direction
+# Calculate direction with current pos and next pos
+# @params: fish
+# @return: direction (TL, TR, BL, BR)
+def get_fish_direction(fish: Fish):
+    if fish.creature_vx >= fish.creature_x:
+        if fish.creature_vy <= fish.creature_y:
+            return "TR"
+        else:
+            return "BR"
+    else:
+        if fish.creature_vy <= fish.creature_y:
+            return "TL"
+        else:
+            return "BL"
+
+# * Check if fish already scanned, tracked or stored
+# @params: fish, player
+# @return: bool
+def check_fish(creature_id, drone: Drone, player: Player) -> bool:
+    if any(fish.creature_id == creature_id for fish in player.current_scans) or any(fish.creature_id == creature_id for fish in player.storage_list):
+        return False
+    if drone.drone_id == 0 and player.drones_list[1].fish_target is not None:
+        if creature_id == player.drones_list[1].fish_target:
+            return False
+    if drone.drone_id == 1 and player.drones_list[0].fish_target is not None:
+        if creature_id == player.drones_list[0].fish_target:
+            return False
+    return True
 
 ################## Functions ##################
 def move_to(drone, x, y, light, battery):
@@ -231,34 +244,142 @@ def debug(text):
 def distance(x1, y1, x2, y2):
 	return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
-# * Willy's pathing
-# Cycle through the list of paths
-# @params: drone, paths_list
-def pathing(drone, paths_list):
-    if drone.drone_x == paths_list[0].x and drone.drone_y == paths_list[0].y:
-        paths_list[0].reached = True
-        move_to(drone, paths_list[1].x, paths_list[1].y, 1, drone.battery)
-        paths_list[1].reached = False
-    elif drone.drone_x == paths_list[1].x and drone.drone_y == paths_list[1].y:
-        paths_list[1].reached = True
-        move_to(drone, paths_list[2].x, paths_list[2].y, 1, drone.battery)
-        paths_list[2].reached = False
-    elif drone.drone_x == paths_list[2].x and drone.drone_y == paths_list[2].y:
-        paths_list[2].reached = True
-        move_to(drone, paths_list[0].x, paths_list[0].y, 1, drone.battery)
-        paths_list[0].reached = False
-    elif paths_list[0].reached == False:
-        move_to(drone, paths_list[0].x, paths_list[0].y, 1, drone.battery)
-    elif paths_list[1].reached == False:
-        move_to(drone, paths_list[1].x, paths_list[1].y, 1, drone.battery)
-    elif paths_list[2].reached == False:
-        move_to(drone, paths_list[2].x, paths_list[2].y, 1, drone.battery)
-    else:
-        debug("Willy is lost")
-
 ###################### Navigation System ######################
+
+# * Get direction to target
+# @params: drone, target
+# @return: direction (TL, TR, BL, BR)
+def get_drone_direction(drone: Drone, target: Fish):
+    if drone.drone_x >= target.creature_x:
+        if drone.drone_y <= target.creature_y:
+            return "TL"
+        else:
+            return "BL"
+    else:
+        if drone.drone_y <= target.creature_y:
+            return "TR"
+        else:
+            return "BR"
+
+# * Get dodge path
+# Calculate dodge path with drone pos and monster direction of attack
+# @params: drone, monster
+# @return: path
+def get_dodge_path(drone: Drone, monster: Fish):
+    monster_path = get_fish_direction(monster)
+    if monster_path == "TL":
+        if drone.target and drone.target.direction == "TL":
+            return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, "TR")
+        elif drone.target and drone.target.direction == "BR":
+            return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, "BL")
+    if monster_path == "TR":
+        if drone.target and drone.target.direction == "TR":
+            return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, "TL")
+        elif drone.target and drone.target.direction == "BL":
+            return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, "BR")
+    if monster_path == "BL":
+        if drone.target and drone.target.direction == "BL":
+            return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, "BR")
+        elif drone.target and drone.target.direction == "TR":
+            return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, "TL")
+    if monster_path == "BR":
+        if drone.target and drone.target.direction == "BR":
+            return Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, "TR")
+        elif drone.target and drone.target.direction == "TL":
+            return Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, "BL")
+    return drone.target if drone.target is not None else None    
+
+# * Current target
+# @params: drone, visible_fish, player
+def current_target(drone: Drone, visible_fish: list[Fish], player: Player):
+    closest_fish = None
+    min_distance = 1000000
+    # visible fish
+    for fish in visible_fish:
+        dist = distance(drone.drone_x, drone.drone_y, fish.creature_x, fish.creature_y)
+        if dist < min_distance and fish.type != -1 and check_fish(fish.creature_id, drone, player) == True and fish.creature_x >= GameInfos.fish_escape_x[0] and fish.creature_x <= GameInfos.fish_escape_x[1]:
+            min_distance = dist
+            closest_fish = fish
+    if closest_fish != None:
+        drone.target = Path(closest_fish.creature_x, closest_fish.creature_y, get_drone_direction(drone, closest_fish))
+        drone.fish_target = closest_fish.creature_id
+        return
+    #radar fish
+    else:
+        for radar in drone.radar_list:
+            if get_type(radar.creature_id, Creatures) != -1 and check_fish(radar.creature_id, drone, player) == True:
+                # adapt target and path to radar location
+                if radar.radar_location == "TL":
+                    if drone.drone_x >= GameInfos.drone_search_range[0] and drone.drone_y >= GameInfos.drone_search_range[0]:
+                        drone.target = Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, "TL")
+                        drone.fish_target = radar.creature_id
+                        return
+                    else:
+                        continue
+                elif radar.radar_location == "TR":
+                    if drone.drone_x <= GameInfos.drone_search_range[1] and drone.drone_y >= GameInfos.drone_search_range[0]:
+                        drone.target = Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y - GameInfos.drone_speed, "TR")
+                        drone.fish_target = radar.creature_id
+                        return
+                    else:
+                        continue
+                elif radar.radar_location == "BL":
+                    if drone.drone_x >= GameInfos.drone_search_range[0] and drone.drone_y <= GameInfos.drone_search_range[1]:
+                        drone.target = Path(drone.drone_x - GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, "BL")
+                        drone.fish_target = radar.creature_id
+                        return
+                    else:
+                        continue
+                elif radar.radar_location == "BR":
+                    if drone.drone_x <= GameInfos.drone_search_range[1] and drone.drone_y <= GameInfos.drone_search_range[1]:
+                        drone.target = Path(drone.drone_x + GameInfos.drone_speed, drone.drone_y + GameInfos.drone_speed, "BR")
+                        drone.fish_target = radar.creature_id
+                        return
+                    else:
+                        continue
+        # no fish found
+        print("Drone {} No fish found".format(drone.drone_id), file=sys.stderr, flush=True)
+        drone.ascend = True
+        drone.descend = False
+        drone.fish_target = None
+        drone.target = Path(drone.drone_x, GameInfos.drone_scan_return, "TL")
+
+# * Current Monster
+# @params: drone, visible_fish, player
+def current_monster(drone: Drone, visible_fish: list[Fish], player: Player):
+    closest_monster = None
+    min_distance = 1000000
+    for fish in visible_fish:
+        if fish.type == -1:
+            dist = distance(drone.drone_x, drone.drone_y, fish.creature_x, fish.creature_y)
+            if dist < min_distance:
+                min_distance = dist
+                closest_monster = fish
+    if closest_monster != None and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) <= GameInfos.monster_reached_range:
+        drone.dodge = True
+        drone.light = False
+        drone.target = get_dodge_path(drone, closest_monster)
+    elif closest_monster != None and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) > GameInfos.monster_reached_range and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) <= GameInfos.monster_scan_range:
+        drone.dodge = False
+        drone.light = False
+    else:
+        drone.dodge = False
+        drone.light = True
+
+# * Check if drone scans amounts
+# Determine if drone has enough scans to go back to surface
+# check if drone is already ascending because if no fish left auto ascend with function current_target
+# @params: drone
+# @return: bool
+def check_drone_scans(drone: Drone):
+    if drone.ascend != True:
+        if len(drone.scans_list) >= 4:
+            drone.ascend = True
+            drone.descend = False
+        else:
+            drone.ascend = False
+            drone.descend = True
 """
-TODO: handling radar, go away from monster if in range, go to fish not in other drone scan list
 * Willy's navigation system
 Get the closest fish and move to it
 Check radar if no fish is in range
@@ -267,55 +388,36 @@ Activate light if fish is in range and battery is sufficient, and monster is not
 @params: drone, radar_fish, visible_fish 
 """
 def NavigationSystem(drone: Drone, visible_fish: list[Fish], player: Player) -> None:
-    light_status = True
-    path = Path(0, 0, False)
     if drone.emergency == 1:
         print("WAIT {} {}".format(0, "TIG !"))
     else:
-        closest_monster = get_closest_monster(drone, visible_fish, player)
-        closest_fish = get_closest_fish(drone, visible_fish, player)
-        # Light Status
-        if closest_monster != None and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) <= GameInfos.monster_scan_range:
-            light_status = False
-        else:
-            light_status = True
-        # Ascend
-        if drone.ascend == True:
-            if drone.drone_y == GameInfos.drone_scan_return:
-                drone.ascend = False
-                drone.scans_list.clear()
-                drone.descend = True
-                wait(light_status)
-                return
+        current_target(drone, visible_fish, player)
+        current_monster(drone, visible_fish, player)
+        check_drone_scans(drone)
+        if drone.dodge != True:
+            if drone.ascend == True:
+                if drone.drone_y <= GameInfos.drone_scan_return:
+                    drone.ascend = False
+                    drone.descend = True
+                    drone.light = False
+                    drone.target = Path(drone.drone_x, GameInfos.drone_search_range[1], "BL")
+            elif drone.descend == True:
+                if drone.drone_y >= GameInfos.drone_search_range[1]:
+                    drone.ascend = True
+                    drone.descend = False
+                    drone.light = False
+                    drone.target = Path(drone.drone_x, GameInfos.drone_scan_return, "TL")
+        if drone.fish_target is not None:
+            print("Drone {} has target {} {}".format(drone.drone_id, drone.fish_target, drone.target.direction if drone.target else None), file=sys.stderr, flush=True)
+        if drone.target is not None:
+            if drone.dodge == True:
+                move_to(drone, drone.target.x, drone.target.y, drone.light, "Dodge")
             else:
-                move_to(drone, drone.drone_x, GameInfos.drone_scan_return, light_status, "Ascending")
-                return
-        # Descend
-        if drone.descend == True:
-            # Monster nearby
-            if closest_monster != None and distance(drone.drone_x, drone.drone_y, closest_monster.creature_x, closest_monster.creature_y) <= GameInfos.monster_reached_range:
-                # Too close to monster, go away
-                # TODO: go away from monster actively (move to the opposite direction of the monster)
-                drone.ascend = True
-                drone.descend = False
-                move_to(drone, drone.drone_x, GameInfos.drone_scan_return, light_status, "Monster nearby")
-                return
-            # Fish nearby
-            if (closest_fish != None and len(drone.scans_list) <= 4) and (closest_fish not in player.current_scans):
-                print("Willy is following fish {}".format(closest_fish.creature_id), file=sys.stderr, flush=True)
-                move_to(drone, closest_fish.creature_x, closest_fish.creature_y, light_status, "Lighting Fish")
-                return
-            if closest_fish == None and len(drone.scans_list) <= 4:
-                path = go_to_radar(drone)
-                move_to(drone, path.x, path.y, light_status, "Fishing in the dark!")
-                return
-            # Return to surface
-            if closest_monster != None and len(drone.scans_list) >= 4:
-                drone.ascend = True
-                drone.descend = False
-                move_to(drone, drone.drone_x, GameInfos.drone_scan_return, light_status, "Returning Scans")
-                return
-        
+                move_to(drone, drone.target.x, drone.target.y, drone.light, drone.battery)
+        else:
+            # Provide default values if drone.target is None
+            print("Drone {} has no target".format(drone.drone_id), file=sys.stderr, flush=True)
+            move_to(drone, 0, 0, drone.light, drone.battery)
 
 ###################### Main ######################
 global GameInfos

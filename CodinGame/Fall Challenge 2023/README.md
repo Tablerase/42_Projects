@@ -2,8 +2,8 @@
 
 Todo:
 
-- List current scan in player for all his drones
-- List current fishes recover by player
+- List fishes that have leave area
+- List check why no return after scan amount reached
 
 - Navigation system basic
 

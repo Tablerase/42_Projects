@@ -1,5 +1,3 @@
-from ast import List
-from platform import java_ver
 import sys
 import math
 from typing import Optional
@@ -420,7 +418,7 @@ Get the closest fish and move to it
 Check radar if no fish is in range
 Go away from monsters if they are in range and shut down light
 Activate light if fish is in range and battery is sufficient, and monster is not in range
-@params: drone, radar_fish, visible_fish 
+@params: drone, radar_fish, visible_fish, player
 """
 def NavigationSystem(drone: Drone, visible_fish: list[Fish], player: Player) -> None:
     if drone.emergency == 1:
@@ -437,7 +435,7 @@ def NavigationSystem(drone: Drone, visible_fish: list[Fish], player: Player) -> 
                 return
             else:
                 if drone.returning == True:
-                    if drone.target.y >= drone.drone_y:
+                    if drone.target.y <= drone.drone_y:
                         move_to(drone, drone.target.x, GameInfos.drone_search_range[1], drone.light, "Returning and Fishing")
                         return
                     else:

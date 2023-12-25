@@ -2,7 +2,6 @@
 
 Todo:
 
-- List fishes that have leave area
 - List check why no return after scan amount reached
 
 - Navigation system basic

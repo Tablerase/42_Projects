@@ -23,7 +23,6 @@ class Game:
         self.drone_battery_recharge = 1
         self.drone_scan_return = 500
         self.drone_search_range_x = [800, 9200]
-        self.drone_escape_range_x = [0, 9999]
         # fish
         self.fish_speed = 200
         self.fish_avoid_range = 600
@@ -177,7 +176,7 @@ def check_target(id, drone: Drone, drone_radar_blips: list[RadarBlip], my_scans:
     return True
 
 # Check if target is in range
-def choose_target(drone: Drone, visible_fish: list[Fish], drone_radar_blips: list[RadarBlip], my_scans: list[int], my_drones: list[Drone]):
+def targeting_system(drone: Drone, visible_fish: list[Fish], drone_radar_blips: list[RadarBlip], my_scans: list[int], my_drones: list[Drone]):
     closest_fish = None
     min_distance = 1000000
     for fish in visible_fish:
@@ -186,6 +185,7 @@ def choose_target(drone: Drone, visible_fish: list[Fish], drone_radar_blips: lis
             min_distance = dist
             closest_fish = fish
     if closest_fish != None:
+        drone.message = "Fish in visual"
         drone.target = closest_fish.id
         drone.target_type = closest_fish.type
         drone.target_color = closest_fish.color
@@ -196,13 +196,18 @@ def choose_target(drone: Drone, visible_fish: list[Fish], drone_radar_blips: lis
         drone.target_distance = min_distance
         drone.target_direction = get_direction(closest_fish.x, closest_fish.y, closest_fish.vx, closest_fish.vy)
         return
-    else:  
+    else:
         for blip in drone_radar_blips:
             if check_target(blip.id, drone, drone_radar_blips, my_scans, my_drones):
+                drone.message = "Fish in radar"
                 drone.target = blip.id
                 drone.target_type = get_type(blip.id, Creatures)
                 drone.target_color = get_color(blip.id, Creatures)
                 drone.target_x, drone.target_y = get_radar_hypothetical_position(drone.x, drone.y, blip.radar_location)
+                drone.target_vx = None
+                drone.target_vy = None
+                drone.target_distance = get_distance(drone.x, drone.y, drone.target_x, drone.target_y)
+                drone.target_direction = blip.radar_location
                 return
     print_debug(f"Error: No target found")
     drone.target = None
@@ -215,17 +220,74 @@ def choose_target(drone: Drone, visible_fish: list[Fish], drone_radar_blips: lis
     drone.target_distance = None
     drone.target_direction = None
 
+# * Get next position of a drone
+# @params: drone
+# @return: x, y
+def drone_next_position(drone: Drone) -> tuple[int, int]:
+    distance = GameInfos.drone_speed
+        # Step 2: Compute the differences
+    dx = drone.target_x - drone.x
+    dy = drone.target_y - drone.y
+    # Step 3: Normalize the direction vector
+    magnitude = math.sqrt(dx**2 + dy**2)
+    unit_vector = (dx / magnitude, dy / magnitude)
+    # Step 4: Compute the displacement
+    displacement = (unit_vector[0] * distance, unit_vector[1] * distance)
+    # Step 5: Add the displacement to A
+    new_point = (drone.x + displacement[0], drone.y + displacement[1])
+    return new_point
+
+# * Avoid monsters
+# Avoid monsters if they are in range, if not, return to normal mode
+# @params: drone, visible_fish
+def monster_avoid_system(drone: Drone, visible_fish: list[Fish]):
+    next_drone_position = drone_next_position(drone)
+    closest_monster = None
+    min_distance = 1000000
+    for fish in visible_fish:
+        dist = get_distance(drone.x, drone.y, fish.x, fish.y)
+        if dist < min_distance and fish.type == -1:
+            min_distance = dist
+            closest_monster = fish
+    if closest_monster != None:
+        if get_distance(drone.x, drone.y, closest_monster.x, closest_monster.y) <= GameInfos.monster_scan_range:
+            drone.dodge = False
+            drone.message = "Monster nearby"
+        if get_distance(drone.x, drone.y, closest_monster.x, closest_monster.y) <= GameInfos.monster_reached_range:
+            drone.dodge = True
+            drone.message = "Dodging"
+            print_debug(f"Drone {drone.drone_id} : Monster {closest_monster.id} position {closest_monster.x},{closest_monster.y}")
+            # print_debug(f"Drone {drone.drone_id} : vx {next_drone_position[0]} vy {next_drone_position[1]}")
+            if get_distance(next_drone_position[0], next_drone_position[1], closest_monster.x + closest_monster.vx, closest_monster.y + closest_monster.vy) <= 600:
+                print_debug(f"Drone {drone.drone_id} : Monster collision")
+                drone.message = "Collision"
+                #drone.target_x = 5000
+                #drone.target_y = 5000
+            return
+    drone.dodge = False
+    drone.light = 1
+    return
+
 # TODO: Implement emergency mode, Implement dodge mode, Implement return mode
 # * Navigation System (main function)
 # Handle drone movements
 def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: list[RadarBlip], my_scans: list[int], my_drones: list[Drone]):
-    choose_target(drone, visible_fish, drone_radar_blips, my_scans, my_drones)
     # Emergency mode
     if drone.emergency == True:
         drone.message = "Emergency"
         print_emergency(drone.message)
         return
-
+    targeting_system(drone, visible_fish, drone_radar_blips, my_scans, my_drones)
+    # if no target found return scans
+    if drone.target == None and len(my_scans) > 0:
+        drone.message = "Nothing to scan"
+        print_action(5000, 500, 0, drone.message)
+        return
+    monster_avoid_system(drone, visible_fish)
+    # Dodge
+    if drone.dodge == True:
+        print_action(drone.target_x, drone.target_y, drone.light, drone.message)
+        return
     # Return according to scans
     if len(drone.scans) == 0:
         drone.returning = False
@@ -237,14 +299,7 @@ def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: 
 
     # Targeting
     if drone.target != None and drone.returning == False:
-        drone.message = "Targeting"
         print_action(drone.target_x, drone.target_y, drone.light, drone.message)
-        return
-    
-    # if no target found return scans
-    if drone.target == None:
-        drone.message = "Nothing to scan"
-        print_action(5000, 500, 0, drone.message)
         return
 
 # ? ###############################################################################
@@ -265,6 +320,7 @@ def print_emergency(message):
 # ? ###############################################################################
 # ? #################################### MAIN #####################################
 # ? ###############################################################################
+
 global GameInfos
 GameInfos = Game(200, 10000, 10000)
 
@@ -289,8 +345,8 @@ while True:
 
     my_score = int(input())
     foe_score = int(input())
-
     my_scan_count = int(input())
+
     for _ in range(my_scan_count):
         fish_id = int(input())
         #
@@ -314,11 +370,11 @@ while True:
     foe_drone_count = int(input())
     for _ in range(foe_drone_count):
         drone_id, drone_x, drone_y, dead, battery = map(int, input().split())
-        # 
+        #
         drone = Drone(drone_id, drone_x, drone_y, dead, battery)
         drone_by_id[drone_id] = drone
         foe_drones.append(drone)
-    
+
     drone_scan_count = int(input())
     for _ in range(drone_scan_count):
         drone_id, fish_id = map(int, input().split())
@@ -341,17 +397,17 @@ while True:
 
     # Debug
     print(f"Scans:{my_scans} Visible fish:{visible_fish_count}", file=sys.stderr, flush=True)
+    for fish in visible_fish:
+        print(f"Fish:{fish.id}", file=sys.stderr, flush=True)
 
     for drone in my_drones:
-        
+
         # TODO: Implement emergency mode, Implement dodge mode, Implement return mode
         NavigationSystem(drone, visible_fish, my_radar_blips[drone.drone_id], my_scans, my_drones)
         # Debug
-        print(f"Drone:{drone.drone_id} Scans:{drone.scans} Target:{drone.target} {drone.target_type} {drone.target_color} Target coord:{drone.target_x},{drone.target_y} target dir:{drone.target_vx},{drone.target_vy} dist:{drone.target_distance} dir: {drone.target_direction}", file=sys.stderr, flush=True)
+        print(f"Drone:{drone.drone_id} Scans:{drone.scans} Target:{drone.target} Target coord:{drone.target_x},{drone.target_y} target dir:{drone.target_vx},{drone.target_vy} dist:{drone.target_distance} dir: {drone.target_direction}", file=sys.stderr, flush=True)
 
-
-""" Context and Rules of the Game:
-
+"""
 GoalWin more points than your opponent by scanning the most fish.
 
 To protect marine life, it is crucial to understand it. Explore the ocean floor using your drones to scan as many fish as possible to better understand them!

@@ -1,10 +1,11 @@
 # Fall Challenge
 
+⭐ If this code help you dont forget to leave a star of appreciation.
+
 Todo:
 
-- List check why no return after scan amount reached
-
-- Navigation system basic
+- Monster avoid system, with calcul of best avoid path depending on monsters futur positions and closest fish direction.
+  - Escape path with checking function to test different path and get optimal one.
 
 ## [Euclidean Distance](https://www.cuemath.com/euclidean-distance-formula/)
 

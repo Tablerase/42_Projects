@@ -18,3 +18,7 @@ $ \ d^2 = (x_2 – x_1)^2 + (y_2 – y_1)^2 $
 $ \ d = \sqrt{(x_2 – x_1)^2 + (y_2 – y_1)^2} $
 
 ![Image pythagora Theorem](https://d138zd1ktt9iqe.cloudfront.net/media/seo_landing_files/euclidean-distance-formula-derivation-1624039182.png)
+
+## Intersection point of vectors
+
+[Program for 2 line intersection](https://www.geeksforgeeks.org/program-for-point-of-intersection-of-two-lines/)

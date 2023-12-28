@@ -1,6 +1,7 @@
 from enum import Enum
 from os import path
 from re import T, escape
+import stat
 import sys
 import math
 from typing import Dict, List, Optional
@@ -94,6 +95,11 @@ class Drone:
         self.target_distance: Optional[float] = None
         self.target_direction: Optional[Directions] = None
 
+class DroneInfos:
+    def __init__(self, drone_id):
+        self.drone_id = drone_id
+        self.force_return = False
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -109,6 +115,20 @@ class RadarBlip:
     def __init__(self, creature_id, radar_location):
         self.id = creature_id
         self.radar_location: Optional[Directions] = radar_location
+
+# ? ###############################################################################
+# ? ################################## Static #####################################
+# ? ###############################################################################
+        
+# * Add or update drone infos
+# @params: drone_id, StaticDrone_List
+def add_drone_infos(drone_id, StaticDrone_List: list[DroneInfos]):
+    found = False
+    for drone in StaticDrone_List:
+        if drone.drone_id == drone_id:
+            found = True
+    if found == False:
+        StaticDrone_List.append(DroneInfos(drone_id))
 
 # ? ###############################################################################
 # ? ################################## Monsters ###################################
@@ -284,13 +304,16 @@ def drone_next_position(drone: Drone) -> Point:
 # use pathfinding to find escape vector and avoid collision
 # @params: drone, monster, monster_list
 # @return: escape_vector(x, y)
-def path_escape_vector(drone: Drone, closest_monster: Fish, monster_list: list[Fish], visible_list: list[Fish]) -> Point:
+def path_escape_vector(drone: Drone, closest_monster: Fish, monster_list: list[Fish], static_drone: DroneInfos) -> Point:
     escape_vector = Point(5000, 500)
     escape_priority = 0
     if len(drone.scans) > 0 and drone.y <= 2000:
         escape_vector.x = drone.x
         escape_vector.y = GameInfos.drone_scan_return
-    if len(drone.scans) >= 5:
+        static_drone.force_return = True
+        return escape_vector
+    if len(drone.scans) >= 5 or static_drone.force_return == True:
+        static_drone.force_return = True
         if escape_priority == 0:
             escape_vector.x = drone.x
             escape_vector.y = drone.y - GameInfos.drone_speed
@@ -324,6 +347,8 @@ def path_escape_vector(drone: Drone, closest_monster: Fish, monster_list: list[F
             escape_vector.y = drone.y
             if check_collision(drone, escape_vector, closest_monster, Monster_list) == False:
                 return escape_vector
+            else:
+                print_debug(f"Drone {drone.drone_id} : No return vector found")
     escape_priority = 0
     if drone.target != None:
         if escape_priority == 0:
@@ -422,8 +447,8 @@ def check_collision(drone: Drone, drone_next_pos: Point, monster: Fish, Monster_
 
 # * Avoid monsters
 # Avoid monsters if they are in range, if not, return to normal mode
-# @params: drone, visible_fish
-def monster_avoid_system(drone: Drone, Monster_list: list[Fish], visible_fish: list[Fish]):
+# @params: drone, monster_list, visible_fish, StaticDrone_List
+def monster_avoid_system(drone: Drone, Monster_list: list[Fish], visible_fish: list[Fish], static_drone: DroneInfos):
     next_drone_position = drone_next_position(drone)
     closest_monster = None
     min_distance = 1000000
@@ -432,6 +457,11 @@ def monster_avoid_system(drone: Drone, Monster_list: list[Fish], visible_fish: l
         if dist < min_distance:
             min_distance = dist
             closest_monster = monster
+    if static_drone.force_return == True and closest_monster != None:
+        escape_vector = path_escape_vector(drone, closest_monster, Monster_list, static_drone)
+        drone.target_x = escape_vector.x
+        drone.target_y = escape_vector.y
+        return
     if closest_monster != None:
         if get_distance(drone.x, drone.y, closest_monster.x, closest_monster.y) <= GameInfos.monster_scan_range:
             drone.dodge = False
@@ -440,35 +470,51 @@ def monster_avoid_system(drone: Drone, Monster_list: list[Fish], visible_fish: l
             drone.dodge = True
             drone.message = "Dodging"
             print_debug(f"Drone {drone.drone_id} : Monster {closest_monster.id} position {closest_monster.x},{closest_monster.y} dist {min_distance}")
-            # if get_distance(next_drone_position.x, next_drone_position.y, closest_monster.x + closest_monster.vx, closest_monster.y + closest_monster.vy) <= GameInfos.monster_hitbox + GameInfos.drone_hitbox + 100:
             if check_collision(drone, next_drone_position, closest_monster, Monster_list) == True:
-                escape_vector = path_escape_vector(drone, closest_monster, Monster_list, visible_fish)
+                escape_vector = path_escape_vector(drone, closest_monster, Monster_list, static_drone)
                 drone.target_x = escape_vector.x
                 drone.target_y = escape_vector.y
-                print_debug(f"Drone {drone.drone_id} : Monster {closest_monster.id} collision")
                 drone.message = "Brace for impact"
             return
     drone.dodge = False
     drone.light = 1
     return
 
-# TODO: Implement emergency mode, Implement dodge mode, Implement return mode
+# TODO: Implement a good dodge system and return system
 # * Navigation System (main function)
 # Handle drone movements
-def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: list[RadarBlip], my_scans: list[int], my_drones: list[Drone], Monster_list: list[Fish]):
+def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: list[RadarBlip], my_scans: list[int], my_drones: list[Drone], Monster_list: list[Fish], StaticDrone_List: list[DroneInfos]):
     # Emergency mode
     if drone.emergency == True:
         drone.message = "Emergency"
         print_emergency(drone.message)
         return
+    # Static elements
+    static_drone = DroneInfos(0)
+    for drony in StaticDrone_List:
+        if drony.drone_id == drone.drone_id:
+            static_drone = drony
+
+    # ********************************************************************************* #
     targeting_system(drone, visible_fish, drone_radar_blips, my_scans, my_drones)
-    monster_avoid_system(drone, Monster_list, visible_fish)
+    monster_avoid_system(drone, Monster_list, visible_fish, static_drone)
+    # ********************************************************************************* #
+
     # Reset search
     if len(drone.scans) == 0:
         drone.returning = False
+        static_drone.force_return = False
         drone.message = "Reset search"
-    if drone.y <= GameInfos.drone_scan_return and drone.dodge == True:
-        drone.dodge = False
+    # Force return
+    if len(drone.scans) >= 4 and drone.y <= GameInfos.drone_safe_y:
+        static_drone.force_return = True
+    if static_drone.force_return == True:
+        print_debug(f"Drone {drone.drone_id} : Force return")
+    if static_drone.force_return == True and drone.y <= GameInfos.drone_safe_y:
+        drone.message = "Force return"
+        print_action(drone.x, GameInfos.drone_scan_return, drone.light, drone.message)
+        return
+
     # Dodge
     if drone.dodge == True:
         if drone.target != None:
@@ -479,6 +525,7 @@ def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: 
             drone.target_y = 500
             print_action(drone.target_x, drone.target_y, drone.light, drone.message)
         return
+
     # Return
     if drone.returning == True:
         drone.message = "Returning"
@@ -486,7 +533,7 @@ def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: 
         return
     if len(drone.scans) >= 4 and drone.message == "Monster nearby":
         drone.message = "Monster - Return scans"
-        drone.returning = True
+        static_drone.force_return = True
         print_action(5000, 500, drone.light, drone.message)
         return
 
@@ -498,6 +545,7 @@ def NavigationSystem(drone: Drone, visible_fish: list[Fish], drone_radar_blips: 
     # if no target found return scans
     if drone.target == None and len(my_scans) > 0:
         drone.message = "Nothing to scan"
+        static_drone.force_return = True
         print_action(5000, 500, 0, drone.message)
         return
     # End of search
@@ -533,6 +581,9 @@ Creatures = []
 
 # Monsters
 Monster_list: List[Fish] = []
+
+# Drone static infos
+StaticDrone_List: List[DroneInfos] = []
 
 creature_count = int(input())
 for i in range(creature_count):
@@ -577,6 +628,8 @@ while True:
         drone_by_id[drone_id] = drone
         my_drones.append(drone)
         my_radar_blips[drone_id] = []
+        # Static drone infos
+        add_drone_infos(drone_id, StaticDrone_List)
 
     foe_drone_count = int(input())
     for _ in range(foe_drone_count):
@@ -622,7 +675,7 @@ while True:
     for drone in my_drones:
 
         # TODO: Implement emergency mode, Implement dodge mode, Implement return mode
-        NavigationSystem(drone, visible_fish, my_radar_blips[drone.drone_id], my_scans, my_drones, Monster_list)
+        NavigationSystem(drone, visible_fish, my_radar_blips[drone.drone_id], my_scans, my_drones, Monster_list, StaticDrone_List)
         # Debug
         print(f"Drone:{drone.drone_id} Scans:{drone.scans} Target:{drone.target} Target coord:{drone.target_x},{drone.target_y} target dir:{drone.target_vx},{drone.target_vy} dist:{drone.target_distance} dir: {drone.target_direction}", file=sys.stderr, flush=True)
 

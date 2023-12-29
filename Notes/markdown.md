@@ -426,7 +426,7 @@ flowchart TD
 #### [Git Graph](http://mermaid.js.org/syntax/gitgraph.html)
 
 ```mermaid
-    gitGraph
+    gitGraph LR:
        commit id: "ZERO"
        branch develop
        commit id:"A"

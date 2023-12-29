@@ -134,3 +134,40 @@ The result of XOR is **1 if the two bits are different**.
 ```
 
 Takes **one number** and **inverts all bits** of it.
+
+### [Complexity](https://victoria.dev/blog/a-coffee-break-introduction-to-time-complexity-of-algorithms/)
+
+Complexity is a way to describe how an algorithm performs as the input size increases. It's a way to compare the efficiency of different approaches to a problem. It's also a way to describe how much time and memory an algorithm will require to run. There are two types of complexity:
+
+- Time Complexity: Time taken by the algorithm to run as a function of the length of the input.
+- Space Complexity: Space taken by the algorithm to run as a function of the length of the input.
+
+The most common way to describe complexity is using Big $O$ notation. Big $O$ notation is a way to describe the upper bound of the complexity of an algorithm. It's a way to describe the worst-case scenario. It's also a way to describe the growth rate of the algorithm.
+
+Let's look at some common sorting algorithms and their complexities:
+
+- Bubble Sort:
+  - Time Complexity: Best - $O(n)$, Average - $O(n^2)$, Worst - $O(n^2)$
+  - Space Complexity: $O(1)$
+
+- Selection Sort:
+  - Time Complexity: Best - $O(n^2)$, Average - $O(n^2)$, Worst - $O(n^2)$
+  - Space Complexity: $O(1)$
+
+- Insertion Sort:
+  - Time Complexity: Best - $O(n)$, Average - $O(n^2)$, Worst - $O(n^2)$
+  - Space Complexity: $O(1)$
+
+- Merge Sort:
+  - Time Complexity: Best - $O(n log(n))$, Average - $O(n log(n))$, Worst - $O(n log(n))$
+  - Space Complexity: $O(n)$
+
+- Quick Sort:
+  - Time Complexity: Best - $O(n log(n))$, Average - $O(n log(n))$, Worst - $O(n^2)$
+  - Space Complexity: $O(log n)$
+
+- Heap Sort:
+  - Time Complexity: Best - $O(n log(n))$, Average - $O(n log(n))$, Worst - $O(n log(n))$
+  - Space Complexity: $O(1)$
+
+![Complexity](https://victoria.dev/blog/a-coffee-break-introduction-to-time-complexity-of-algorithms/graph.png)

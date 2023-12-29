@@ -98,15 +98,15 @@ flowchart TD
   subgraph Arguments
     argc:::data --> C
     argv:::data --> C
-    C[ft_check_args]:::neutral
+    C{ft_check_args}:::neutral
     C -.- |1|D[ft_isdigit]
     C -.- |2|E[ft_atoi]
-    C -.- |3|F[ft_isint]
+    C -.- |3|F[ft_isnumber]
     C -.- |4|I[ft_isdup]
   end
 
   Arguments --> |YES| Initialization
-  Arguments --> |NO| error[ft_error in stderror]:::invalid
+  Arguments --> |NO| error["ERROR\n" in stderror]:::invalid
   Arguments --> |None| NoParameters[??? What to prompt back ???]:::neutral
   NoParameters --> exit:::neutral
   error --> exit

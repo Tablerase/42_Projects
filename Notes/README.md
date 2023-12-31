@@ -10,6 +10,7 @@
 ## 🏗️ Workflow
 
 * [Git](/Notes/git.md)
+* [Markdown](/Notes/markdown.md)
 
 ## 🤖 AI
 

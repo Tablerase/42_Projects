@@ -8,7 +8,7 @@ Typesetting of complex mathematical formulas
 
 Format:
 
-- Inline: `$ a = bx $`: $ a = bx $
+- Inline: `$ a = bx $`: $\ a = bx $
 - Block:
 
   ```

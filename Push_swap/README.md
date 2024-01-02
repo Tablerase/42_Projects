@@ -57,7 +57,7 @@ differ.
 | Item | Description |
 | --- | --- |
 | Program name | **push_swap** |
-| Turn in files | Makefile, *.h, *.c |
+| Turn in files | `Makefile`, `*.h`, `*.c` |
 | Makefile | `NAME`, `all`, `clean`, `fclean`, `re` |
 | Arguments | stack a: A list of integers |
 | External functs. | `read`, `write`, `malloc`, `free`, `exit`, `ft_printf` and any equivalent you coded|
@@ -84,45 +84,85 @@ Errors include for example: **some arguments aren’t integers**, **some argumen
 
 ## Coding part
 
-### Structure and functions
+### Code Flowchart
 
 ```mermaid
-flowchart TD
+flowchart
   classDef valid stroke:#0f0
   classDef invalid stroke:#f00
   classDef neutral stroke:#00f
   classDef data stroke:#ff0
+  classDef nodes stroke:#ee82ee
   A[push_swap] --> B[main]
   B --> Arguments
 
   subgraph Arguments
+    direction TB
     argc:::data --> C
     argv:::data --> C
     C{ft_check_args}:::neutral
-    C -.- |1|D[ft_isdigit]
-    C -.- |2|E[ft_atoi]
-    C -.- |3|F[ft_isnumber]
-    C -.- |4|I[ft_isdup]
+    C -.- ft_isnumber
+    C -.- ft_isint
+    C -.- ft_isdigit
+    C -.- ft_atoi
+    C -.- ft_isdup
   end
 
   Arguments --> |YES| Initialization
   Arguments --> |NO| error["ERROR\n" in stderror]:::invalid
-  Arguments --> |None| NoParameters[??? What to prompt back ???]:::neutral
-  NoParameters --> exit:::neutral
+  Arguments --> |None| exit:::neutral
   error --> exit
   
   subgraph Initialization
-    G[ft_init_stack]:::valid
-    G -.- stack_a:::data
-    G -.- stack_b:::data
+    direction TB
+    G[ft_init_stacks]:::valid
+    G -.-> |Fill|stack_a:::data
+    G -.-> |Empty|stack_b:::data
   end
 
   subgraph Sorting
     J[ft_select_sort]:::neutral --> K[ft_sort]
   end
 
-  
+  subgraph Memory
+    ft_free_stacks
+    ft_free_stacks -.- ft_free_stack
+  end
 
   Initialization --> Sorting
 
+  subgraph SortingFunctions
+    sa
+    sb
+    ss
+    pa
+    pb
+    ra
+    rb
+    rr
+    rra
+    rrb
+    rrr
+  end
+
+  subgraph Nodes
+    ft_new_node:::nodes
+    ft_del_last:::nodes
+    ft_add_first:::nodes
+    ft_add_last:::nodes
+    ft_stack_size
+  end
+```
+
+### Structures
+
+```mermaid
+flowchart LR
+    t_node -->|Contains| value:int
+    t_node -->|Points to| next:t_node
+    t_node -->|Points to| prev:t_node
+    t_stack -->|Points to| head:t_node
+    t_stack -->|Contains| size:int
+    t_stacks -->|Points to| a:t_stack
+    t_stacks -->|Points to| b:t_stack
 ```

@@ -31,3 +31,12 @@ Script:
 file.bfe:VAD2sO2qgbqPEXROeASsmsgnY0o0sDMJev7zFHhw
 QS8mvM8V5xQQpLc6cDCFXDWTiFzZ2H9skYkiJ/DpQtnM/uZ0
 ```
+
+## Push_Swap
+
+Script:
+
+```code
+file.bfe:VABB7yO9xm7xWXROeASsmsgnY0o0sDMJev7zFHhwQS8mvM8V5xQQp
+Lc6cDCFXDWTiFzZ2H9skYkiJ/DpQtnM/uZ0
+```

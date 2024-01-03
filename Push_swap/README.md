@@ -197,9 +197,14 @@ flowchart LR
     t_node -->|Points to| next:t_node
     t_node -->|Points to| prev:t_node
     t_stack -->|Points to| head:t_node
+    head:t_node -.- t_node
     t_stack -->|Contains| size:int
     t_stacks -->|Points to| a:t_stack
     t_stacks -->|Points to| b:t_stack
+    t_stacks -->|Points to| sort_sequence:t_stack
+    a:t_stack -.- t_stack
+    b:t_stack -.- t_stack
+    sort_sequence:t_stack -.- t_stack
 ```
 
 ## Useful links

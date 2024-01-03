@@ -108,49 +108,84 @@ flowchart
     C -.- ft_isdup
   end
 
-  Arguments --> |YES| Initialization
+  Arguments ==> |YES| Initialization
   Arguments --> |NO| error["ERROR\n" in stderror]:::invalid
   Arguments --> |None| exit:::neutral
   error --> exit
-  
+
+  Nodes -.- Initialization
+  subgraph Nodes
+    ft_new_node:::nodes
+    ft_del_last:::nodes
+    ft_del_first:::nodes
+    ft_add_first:::nodes
+    ft_add_last:::nodes
+    ft_stack_size
+  end
+
+  Initialization ==> Sorting
   subgraph Initialization
     direction TB
     G[ft_init_stacks]:::valid
     G -.-> |Fill|stack_a:::data
     G -.-> |Empty|stack_b:::data
+    G -.-> |Empty|sort_sequence:::data
   end
 
+  ft_stack_size -.-> Sorting
   subgraph Sorting
-    J[ft_select_sort]:::neutral --> K[ft_sort]
+    J[ft_select_sort]:::neutral -.-> |== 2|ft_sort_two
+    J -.-> |== 3|ft_sort_three
+    J -.-> |<= 5|ft_sort_five
+    J -.-> |> 5|ft_sort_many
   end
 
-  subgraph Memory
+  Sorting ==> fill_sort_sequence:::data
+  fill_sort_sequence ==> Sequence
+  Sequence -.- SortingFunctions
+  subgraph Sequence
+    ft_add_sequence
+    ft_del_sequence
+    ft_print_sequence:::valid
+  end
+  ft_print_sequence ==> ft_exit_success
+  ft_exit_success ==> exit
+  ft_exit_error -.-> exit
+
+  subgraph Memory/Exit
     ft_free_stacks
     ft_free_stacks -.- ft_free_stack
+    ft_exit_error:::invalid
+    ft_exit_success:::valid
   end
 
-  Initialization --> Sorting
-
+  Sorting -.- SortingFunctions
   subgraph SortingFunctions
-    sa
-    sb
-    ss
-    pa
-    pb
-    ra
-    rb
-    rr
-    rra
-    rrb
-    rrr
+    ft_choose_sorter:::neutral
+    ft_choose_sorter --> ft_sort_swap
+    ft_choose_sorter --> ft_sort_swap_both
+    ft_choose_sorter --> ft_sort_push_a
+    ft_choose_sorter --> ft_sort_push_b
+    ft_choose_sorter --> ft_sort_rotate
+    ft_choose_sorter --> ft_sort_rotate_both
+    ft_choose_sorter --> ft_sort_reverse_rotate
+    ft_choose_sorter --> ft_sort_reverse_rotate_both
+    ft_sort_swap -.- |0|sa
+    ft_sort_swap -.- |1|sb
+    ft_sort_swap_both -.- |2|ss
+    ft_sort_push_a -.- |3|pa
+    ft_sort_push_b -.- |4|pb
+    ft_sort_rotate -.- |5|ra
+    ft_sort_rotate -.- |6|rb
+    ft_sort_rotate_both -.- |7|rr
+    ft_sort_reverse_rotate -.- |8|rra
+    ft_sort_reverse_rotate -.- |9|rrb
+    ft_sort_reverse_rotate_both -.- |10|rrr
   end
 
-  subgraph Nodes
-    ft_new_node:::nodes
-    ft_del_last:::nodes
-    ft_add_first:::nodes
-    ft_add_last:::nodes
-    ft_stack_size
+
+  subgraph Debug
+    ft_print_stacks
   end
 ```
 
@@ -166,3 +201,9 @@ flowchart LR
     t_stacks -->|Points to| a:t_stack
     t_stacks -->|Points to| b:t_stack
 ```
+
+## Useful links
+
+- [Sorting Algorithm](https://www.programiz.com/dsa/sorting-algorithm)
+
+- 📖 [Push Swap article](https://medium.com/@julien-ctx/push-swap-an-easy-and-efficient-algorithm-to-sort-numbers-4b7049c2639a)

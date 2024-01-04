@@ -99,7 +99,9 @@ flowchart
   subgraph Arguments
     direction TB
     argc:::data --> C
-    argv:::data --> C
+    argv:::data --> |> 1|C
+    argv --> |== 1| ft_split_argument
+    ft_split_argument --> C
     C{ft_check_args}:::neutral
     C -.- ft_isnumber
     C -.- ft_isint
@@ -112,6 +114,10 @@ flowchart
   Arguments --> |NO| error["ERROR\n" in stderror]:::invalid
   Arguments --> |None| exit:::neutral
   error --> exit
+
+  ft_split_argument -.- s([splitted]):::data
+  s([splitted]) -.- ft_free_split
+  Initialization -.-> |Used|ft_free_split
 
   Nodes -.- Initialization
   subgraph Nodes
@@ -183,7 +189,6 @@ flowchart
     ft_sort_reverse_rotate_both -.- |10|rrr
   end
 
-
   subgraph Debug
     ft_print_stacks
   end
@@ -209,6 +214,21 @@ flowchart LR
 
 ## Useful links
 
+### Testers
+
+- ⚙️ [Push Swap tester](https://github.com/laisarena/push_swap_tester)
+
+- 📊 [Push Swap Visualizer](https://github.com/o-reo/push_swap_visualizer)
+
+### Articles
+
 - [Sorting Algorithm](https://www.programiz.com/dsa/sorting-algorithm)
 
-- 📖 [Push Swap article](https://medium.com/@julien-ctx/push-swap-an-easy-and-efficient-algorithm-to-sort-numbers-4b7049c2639a)
+- 📖 [Push Swap article - Quick sort (pre sort) -> (sort) algo to make less moves according to sorted array](https://medium.com/@julien-ctx/push-swap-an-easy-and-efficient-algorithm-to-sort-numbers-4b7049c2639a)
+  - Tester from article:
+
+  ```shell
+  git clone git@github.com:julien-ctx/push-swap-tester.git && mv push-swap-tester/tester.py . && mv push-swap-tester/checker_linux . && rm -rf push-swap-tester && chmod 777 checker_linux && sed -i -- 's/checker_Mac/checker_linux/g' tester.py && make && python3 tester.py
+  ```
+
+- ⏯️ [Push Swap video - Oceano - Own algo](https://www.youtube.com/watch?v=OaG81sDEpVk)

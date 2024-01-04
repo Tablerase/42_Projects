@@ -92,15 +92,16 @@ flowchart
   classDef invalid stroke:#f00
   classDef neutral stroke:#00f
   classDef data stroke:#ff0
+  classDef free stroke:#f0f8ff
   classDef nodes stroke:#ee82ee
-  A[push_swap] --> B[main]
-  B --> Arguments
+  B[Main] --> argc:::data
+  B --> argv:::data
 
+  argc --> C
+  argv --> |> 1|C
+  argv --> |== 1| ft_split_argument
   subgraph Arguments
     direction TB
-    argc:::data --> C
-    argv:::data --> |> 1|C
-    argv --> |== 1| ft_split_argument
     ft_split_argument --> C
     C{ft_check_args}:::neutral
     C -.- ft_isnumber
@@ -116,7 +117,7 @@ flowchart
   error --> exit
 
   ft_split_argument -.- s([splitted]):::data
-  s([splitted]) -.- ft_free_split
+  s([splitted]) -.- ft_free_split:::free
   Initialization -.-> |Used|ft_free_split
 
   Nodes -.- Initialization
@@ -159,8 +160,8 @@ flowchart
   ft_exit_error -.-> exit
 
   subgraph Memory/Exit
-    ft_free_stacks
-    ft_free_stacks -.- ft_free_stack
+    ft_free_stacks:::free
+    ft_free_stacks -.- ft_free_stack:::free
     ft_exit_error:::invalid
     ft_exit_success:::valid
   end

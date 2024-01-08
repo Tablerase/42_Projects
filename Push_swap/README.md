@@ -52,6 +52,8 @@ differ.
     - do `rra` and `rrb` at the same
     time.
 
+  ![Diagram Demo](https://miro.medium.com/v2/resize:fit:720/format:webp/1*q7PpPErimGAKpdUhBy-bbg.png)
+
 ## Push Swap Program
 
 | Item | Description |
@@ -128,6 +130,8 @@ flowchart
     ft_add_first:::nodes
     ft_add_last:::nodes
     ft_stack_size
+    ft_get_closest_node_head
+    ft_get_closest_node_tail
   end
 
   Initialization ==> Sorting
@@ -144,7 +148,16 @@ flowchart
     J[ft_select_sort]:::neutral -.-> |== 2|ft_sort_two
     J -.-> |== 3|ft_sort_three
     J -.-> |<= 5|ft_sort_five
-    J -.-> |> 5|ft_sort_many
+    J -.-> |> 5|ft_sort_many:::neutral
+  end
+
+  ft_sort_many -.- Sort_Many_Idea1:::neutral
+  subgraph Sort_Many_Idea1
+    ft_push_AinB
+    ft_sort_array -.- ft_sort_int_tab
+    ft_define_index
+    ft_intructions_amount
+    ft_go_to_index
   end
 
   Sorting ==> fill_sort_sequence:::data
@@ -154,6 +167,9 @@ flowchart
     ft_add_sequence
     ft_del_sequence
     ft_print_sequence:::valid
+    ft_check_rrr -.- ft_print_sequence
+    ft_check_rr -.- ft_print_sequence
+    ft_check_useless -.- ft_print_sequence
   end
   ft_print_sequence ==> ft_exit_success
   ft_exit_success ==> exit

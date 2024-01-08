@@ -86,6 +86,8 @@ Errors include for example: **some arguments aren’t integers**, **some argumen
 
 ## Coding part
 
+Similarity to Insertion sort algo
+
 ### Code Flowchart
 
 ```mermaid

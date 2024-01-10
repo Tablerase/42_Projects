@@ -90,6 +90,27 @@ Errors include for example: **some arguments aren’t integers**, **some argumen
 
 ```mermaid
 flowchart
+  classDef neutral stroke:#0f0
+  subgraph Sort_Many
+  direction TB
+    ft_sort_many:::neutral
+    ft_sort_many --> l((loop))
+    l ---|quantity > 3| d([ft_duplicate_stacks])
+    d --- ft_less_instructions:::neutral
+    ft_less_instructions --- f([ft_free_duplicated_stacks])
+    f --- l
+
+    ft_less_instructions --> ft_moves_to_sort
+    ft_moves_to_sort --> ll((loop))
+    ll --- node
+    node -.- |moves| calc_moves:::data
+    node --- ll
+    ll -.->|value \n min moves node| ft_moves_to_sort
+  end
+```
+
+```mermaid
+flowchart
   classDef valid stroke:#0f0
   classDef invalid stroke:#f00
   classDef neutral stroke:#00f
@@ -133,6 +154,7 @@ flowchart
     ft_stack_size
     ft_get_closest_node_head
     ft_get_closest_node_tail
+    ft_get_closest_node_value
   end
 
   Initialization ==> Sorting

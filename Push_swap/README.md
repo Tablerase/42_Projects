@@ -52,7 +52,30 @@ differ.
     - do `rra` and `rrb` at the same
     time.
 
-  ![Diagram Demo](https://miro.medium.com/v2/resize:fit:720/format:webp/1*q7PpPErimGAKpdUhBy-bbg.png)
+```mermaid
+flowchart TD
+  classDef instruc fill:#f9f,stroke:#333,stroke-width:2px
+  subgraph StackA
+    direction TB
+    1 --- 2 --- 3 --- 4 --- 5
+    1 <-.->|sa| 2
+  end
+  1 -.->|pb| StackB
+  subgraph StackB
+    direction TB
+    6 --- 7 --- 8
+    6 <-.->|sb| 7
+    6 -.->|rrb| 7
+    8 -.->|rb| 7
+  end
+  6 -.->|pa| StackA
+  subgraph StackBoth
+    direction TB
+    up -.->|rr| down
+    down -.->|rrr| up
+    up <-.->|ss| down
+  end
+```
 
 ## Push Swap Program
 
@@ -88,6 +111,8 @@ Errors include for example: **some arguments aren’t integers**, **some argumen
 
 ### Code Flowchart
 
+!TODO: Check moves by advance into simulation stacks for like (2 or 3 moves in future)
+
 ```mermaid
 flowchart
   classDef neutral stroke:#0f0
@@ -100,12 +125,16 @@ flowchart
     ft_less_instructions --- f([ft_free_duplicated_stacks])
     f --- l
 
-    ft_less_instructions --> ft_moves_to_sort
-    ft_moves_to_sort --> ll((loop))
+    ft_less_instructions --> |ascend/descend|ll((loop))
+    ft_less_instructions --> ft_get_less_moves
+    ft_get_less_moves --> |ascend/descend|ft_apply_instru
+    ft_less_instructions --> |ascend/descend|ft_apply_instru
+  
     ll --- node
-    node -.- |moves| calc_moves:::data
+    node -.- moves:::data
+    moves --> |ascend/descend|ft_moves
     node --- ll
-    ll -.->|value \n min moves node| ft_moves_to_sort
+    ll -.->|value \n min moves node| ft_get_less_moves
   end
 ```
 

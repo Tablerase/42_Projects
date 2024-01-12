@@ -20,6 +20,7 @@
 
 * [Images](/Notes/images.md)
 * [Color](/Notes/color.md)
+* [ASCII art/ ANSI color](/Notes/ascii-art.md)
 
 ## 🔗 Useful links
 

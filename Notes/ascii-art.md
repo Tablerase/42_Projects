@@ -78,3 +78,13 @@ PURPLE_B_YELLOW_BG = \033[1;95;103m
 ```
 
 This will make the text bold and bright purple, and set the background to bright yellow. The `1` in the sequence `\033[1;95;103m` stands for bold, `95` stands for bright purple text color, and `103` stands for bright yellow background.
+
+### 8 bit colors
+
+Example:
+
+```makefile
+GREY = \033[38;5;240m
+```
+
+This will give you a grey color. The `38;5;240` is a 8-bit color code. **`38;5`** is the **prefix for 8-bit foreground color** and `240` is the color code for grey.

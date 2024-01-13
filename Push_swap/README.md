@@ -111,30 +111,26 @@ Errors include for example: **some arguments aren’t integers**, **some argumen
 
 ### Code Flowchart
 
-!TODO: Check moves by advance into simulation stacks for like (2 or 3 moves in future)
-
 ```mermaid
 flowchart
-  classDef neutral stroke:#0f0
-  subgraph Sort_Many
-  direction TB
-    ft_sort_many:::neutral
-    ft_sort_many --> l((loop))
-    l ---|quantity > 3| d([ft_duplicate_stacks])
-    d --- ft_less_instructions:::neutral
-    ft_less_instructions --- f([ft_free_duplicated_stacks])
-    f --- l
-
-    ft_less_instructions --> |ascend/descend|ll((loop))
-    ft_less_instructions --> ft_get_less_moves
-    ft_get_less_moves --> |ascend/descend|ft_apply_instru
-    ft_less_instructions --> |ascend/descend|ft_apply_instru
-  
-    ll --- node
-    node -.- moves:::data
-    moves --> |ascend/descend|ft_moves
-    node --- ll
-    ll -.->|value \n min moves node| ft_get_less_moves
+  classDef point fill:#f9f,stroke:#333,stroke-width:2px
+  subgraph Sort_Algo
+    direction LR
+    ft_sort_many
+    ft_sort_many -.- ft_init_medians
+    ft_sort_many --> |medians| ft_sort_into_b
+    ft_sort_into_b --> ft_sort_into_a
+  end
+  subgraph Loop_Medians
+    direction TB
+    ft_sort_into_b -.-> loop
+    loop((loop medians)) --> |medians| ft_push_b_med
+    ft_push_b_med --o |each node <= median| push_b_node((pb)):::point
+  end
+  subgraph Loop_Max
+    direction TB
+    ft_sort_into_a -.-> loop_into_a
+    loop_into_a((loop max)) --o |each node == max| push_a_node((pa)):::point
   end
 ```
 
@@ -147,6 +143,7 @@ flowchart
   classDef free stroke:#f0f8ff
   classDef nodes stroke:#ee82ee
   classDef padded stroke:#00f,stroke-width:3px
+  classDef point fill:#f9f,stroke:#333,stroke-width:2px
   B[Main] --> argc:::data
   B --> argv:::data
 
@@ -200,25 +197,44 @@ flowchart
     J[ft_select_sort]:::neutral -.-> |== 2|ft_sort_two
     J -.-> |== 3|ft_sort_three
     J -.-> |<= 5|ft_sort_five
-    J -.-> |> 5|ft_sort_many:::neutral
   end
 
   ft_sort_many -.- X:::neutral
   class X padded
-  subgraph X[Sort_Many_Radix]
-    ft_sort_array -.- ft_sort_int_tab
+  subgraph X[Sort_Algo]
+    J -.-> |> 5|ft_sort_many:::neutral
+    subgraph Sort_Algo
+      ft_sort_many
+      ft_sort_many -.- ft_init_medians
+      ft_sort_many --> |medians| ft_sort_into_b
+      ft_sort_into_b --> ft_sort_into_a
+    end
+    subgraph Loop_Medians
+      ft_sort_into_b -.-> loop
+      loop((loop medians)) --> |medians| ft_push_b_med
+      ft_push_b_med --o |each node <= median| push_b_node((pb)):::point
+    end
+    subgraph Loop_Max
+      ft_sort_into_a -.-> loop_into_a
+      loop_into_a((loop max)) --o |each node == max| push_a_node((pa)):::point
+    end
   end
 
   Sorting ==> fill_sort_sequence:::data
   fill_sort_sequence ==> Sequence
   Sequence -.- SortingFunctions
   subgraph Sequence
-    ft_add_sequence
-    ft_del_sequence
     ft_print_sequence:::valid
-    ft_check_rrr -.- ft_print_sequence
-    ft_check_rr -.- ft_print_sequence
-    ft_check_useless -.- ft_print_sequence
+    ft_print_sequence -.- Sanitize_Sequence
+    subgraph Sanitize_Sequence
+      direction TB
+      ft_sanitize_sequence --> ft_loop_occurence
+      ft_loop_occurence --> ft_init_occurences
+      ft_loop_occurence --> ft_del_occurence
+      ft_del_occurence --> ft_del_occu_part2
+      ft_del_occurence --> ft_node_delone:::nodes
+      ft_del_occu_part2 --> ft_node_delone
+    end
   end
   ft_print_sequence ==> ft_exit_success
   ft_exit_success ==> exit
@@ -262,6 +278,8 @@ flowchart
 
 ### Structures
 
+Structure for the stacks of nodes:
+
 ```mermaid
 flowchart LR
     t_node -->|Contains| value:int
@@ -270,12 +288,27 @@ flowchart LR
     t_stack -->|Points to| head:t_node
     head:t_node -.- t_node
     t_stack -->|Contains| size:int
+    t_stack -->|Contains| limits["limits:int[2]"]
     t_stacks -->|Points to| a:t_stack
     t_stacks -->|Points to| b:t_stack
     t_stacks -->|Points to| sort_sequence:t_stack
     a:t_stack -.- t_stack
     b:t_stack -.- t_stack
     sort_sequence:t_stack -.- t_stack
+```
+
+Structure to help sanitize sequence before printing it:
+
+```mermaid
+flowchart LR
+    t_occurence -->|Contains| node:void*
+    t_occurence -->|Contains| key:int
+    t_occurence -->|Contains| amount:int
+    t_occurences -->|Contains| list1:t_occurence
+    t_occurences -->|Contains| list2:t_occurence
+    t_occurences -->|Contains| new_instru:int
+    list1:t_occurence -.- t_occurence
+    list2:t_occurence -.- t_occurence
 ```
 
 ## Useful links
@@ -287,6 +320,10 @@ flowchart LR
 - 📊 [Push Swap Visualizer](https://github.com/o-reo/push_swap_visualizer)
 
 ### Articles
+
+- [Median Algorithm](https://www.oreilly.com/library/view/algorithms-in-a/9780596516246/ch04s03.html)
+
+![Median Schema](https://www.oreilly.com/api/v2/epubs/9780596516246/files/httpatomoreillycomsourceoreillyimages595748.png)
 
 - [Sorting Algorithm](https://www.programiz.com/dsa/sorting-algorithm)
 

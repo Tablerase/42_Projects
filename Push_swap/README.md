@@ -273,6 +273,7 @@ flowchart
 
   subgraph Debug
     ft_print_stacks
+    ft_print_array
   end
 ```
 

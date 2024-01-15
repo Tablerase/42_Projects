@@ -184,7 +184,7 @@ flowchart
   argv --> |== 1| ft_split_argument
   subgraph Arguments
     direction TB
-    ft_split_argument --> C
+    ft_split_argument --> |splitted = 1|C
     C{ft_check_args}:::neutral
     C -.- ft_isnumber
     C -.- ft_isint

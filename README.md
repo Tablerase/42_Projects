@@ -21,6 +21,7 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 * [Fract-ol](/Fract-ol/)
 * [Push_Swap](/Push_swap/)
+* [Pipex](/Pipex/)
 
 ## [Notes](/Notes/)
 

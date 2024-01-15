@@ -111,6 +111,8 @@ Errors include for example: **some arguments aren’t integers**, **some argumen
 
 ### Code Flowchart
 
+#### Sort of <= 100 numbers:
+
 ```mermaid
 flowchart
   classDef point fill:#f9f,stroke:#333,stroke-width:2px
@@ -133,6 +135,36 @@ flowchart
     loop_into_a((loop max)) --o |each node == max| push_a_node((pa)):::point
   end
 ```
+
+#### Sort of >= 500 numbers:
+
+```mermaid
+graph TB
+    ft_sort_big -.- ft_init_medians_big
+    ft_sort_big --> Big_Sort_Medians
+    Big_Sort_Medians --> Big_Sort_A
+    subgraph Big_Sort_Medians
+      direction TB
+      ft_sortbig_into_b -.-> loopbig
+      loopbig((loop middle)) -.-> |<= middle median| ft_pushbig_b_med
+      ft_pushbig_b_med --o |each node <= median| pushbig_b_node((pb)):::point
+      loopbig -->|half num in b| loopbig2
+      loopbig2(("loop median\n<= middle")) -.-> |medians\n<= middle median| ft_pushbig_a_med
+      ft_pushbig_a_med --o |each node <= median| pushbig_a_node((pa)):::point
+      loopbig2 -->|all num in a\nhalf median sorted\nmiddle to min| loopbig3
+      loopbig3(("loop push\nto b")) -.-> |sorted num\ninf middle median| ft_pushbig_b_med
+      loopbig3 -->|half median sorted\nin b min to middle| loopbig4
+      loopbig4(("loop median\n > middle")) -.-> |medians >\nmiddle median| ft_pushbig_b_med
+      loopbig4 -->|all num in b\nmedian sorted| Big_Sort_A
+    end
+    subgraph Big_Sort_A
+      direction TB
+      ft_sortbig_into_a -.-> loopbig_into_a
+      loopbig_into_a((loop max)) --o |each node == max| pushbig_a_node2((pa)):::point
+    end
+```
+
+#### Full flowchart
 
 ```mermaid
 flowchart
@@ -199,11 +231,10 @@ flowchart
     J -.-> |<= 5|ft_sort_five
   end
 
-  ft_sort_many -.- X:::neutral
-  class X padded
   subgraph X[Sort_Algo]
-    J -.-> |> 5|ft_sort_many:::neutral
+    J -.-> |<= 100|ft_sort_many:::neutral
     subgraph Sort_Algo
+      direction LR
       ft_sort_many
       ft_sort_many -.- ft_init_medians
       ft_sort_many --> |medians| ft_sort_into_b
@@ -217,6 +248,32 @@ flowchart
     subgraph Loop_Max
       ft_sort_into_a -.-> loop_into_a
       loop_into_a((loop max)) --o |each node == max| push_a_node((pa)):::point
+    end
+  end
+
+  subgraph Y[Sort_Big]
+    J -.-> |> 100|ft_sort_big:::neutral
+    ft_sort_big -.- ft_init_medians_big
+    ft_sort_big --> Big_Sort_Medians
+    Big_Sort_Medians --> Big_Sort_A
+    subgraph Big_Sort_Medians
+      direction TB
+      ft_sortbig_into_b -.-> loopbig
+      loopbig((loop middle)) -.-> |<= middle median| ft_pushbig_b_med
+      ft_pushbig_b_med --o |each node <= median| pushbig_b_node((pb)):::point
+      loopbig -->|half num in b| loopbig2
+      loopbig2(("loop median\n<= middle")) -.-> |medians\n<= middle median| ft_pushbig_a_med
+      ft_pushbig_a_med --o |each node <= median| pushbig_a_node((pa)):::point
+      loopbig2 -->|all num in a\nhalf median sorted\nmiddle to min| loopbig3
+      loopbig3(("loop push\nto b")) -.-> |sorted num\ninf middle median| ft_pushbig_b_med
+      loopbig3 -->|half median sorted\nin b min to middle| loopbig4
+      loopbig4(("loop median\n > middle")) -.-> |medians >\nmiddle median| ft_pushbig_b_med
+      loopbig4 -->|all num in b\nmedian sorted| Big_Sort_A
+    end
+    subgraph Big_Sort_A
+      direction TB
+      ft_sortbig_into_a -.-> loopbig_into_a
+      loopbig_into_a((loop max)) --o |each node == max| pushbig_a_node2((pa)):::point
     end
   end
 
@@ -314,7 +371,7 @@ flowchart LR
 
 ## Useful links
 
-### Testers
+### Tests
 
 - ⚙️ [Push Swap tester](https://github.com/laisarena/push_swap_tester)
 

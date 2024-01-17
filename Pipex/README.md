@@ -43,7 +43,95 @@ Should behave like: `< infile grep a1 | wc -w > outfile`
 
 ## Code
 
-...
+### Overview
+
+#### Simplify
+```mermaid
+
+graph LR
+  classDef cmd fill:#6d6;
+  classDef file fill:#ff6;
+  classDef filedescriptor fill:#fa0;
+  classDef note fill:#c4c4c4,stroke-width:0.5px;
+  infile:::file --> cmd1_in
+  CMD1:::cmd
+  subgraph CMD1
+    direction LR
+    cmd1_in["stdin"] --> cmd1["cmd1"]
+    cmd1(["cmd1"]) --> cmd1_out["stdout"]
+    cmd1 --> cmd1_err["stderr"]
+  end
+  cmd1_out --> end1:::filedescriptor
+  subgraph Pipe
+    direction LR
+    end1["fd[1]"] <-.-> end2["fd[0]"]:::filedescriptor
+  end
+  end2 --> cmd2_in
+  CMD2:::cmd
+  subgraph CMD2
+    direction LR
+    cmd2_in["stdin"] --> cmd2["cmd2"]
+    cmd2(["cmd2"]) --> cmd2_out["stdout"]
+    cmd2 --> cmd2_err["stderr"]
+  end
+  cmd2_out --> outfile:::file
+```
+
+#### Real
+
+```mermaid
+flowchart TB
+  classDef cmd fill:#6d6;
+  classDef file fill:#ff6;
+  classDef filedescriptor fill:#fa0;
+  classDef note fill:#c4c4c4,stroke-width:0.5px;
+  classDef valid stroke:#0f0
+  classDef invalid stroke:#f00
+  classDef neutral stroke:#00f
+  classDef data stroke:#ff0
+  classDef free stroke:#f0f8ff
+  classDef nodes stroke:#ee82ee
+  classDef padded stroke:#00f,stroke-width:3px
+  classDef point fill:#f9f,stroke:#333,stroke-width:2px
+  Main --> argc:::data
+  Main --> argv:::data
+  Main --> envp:::data
+  argc -.- A
+  argv -.- A
+  envp -.- A
+  subgraph A["Parsing"]
+    direction LR
+    files:::file
+    cmds_with_args:::cmd
+  end
+  subgraph B["Check data"]
+    direction LR
+    Valid:::valid
+    Error:::invalid
+    files --> ft_check_files["ft_check_files()"]
+    ft_check_files -.-> |0| Valid
+    ft_check_files -.-> |-1| Error
+    cmds_with_args --> ft_check_cmds["ft_check_cmds()"]
+    ft_check_cmds -.-> |0| Valid
+    ft_check_cmds -.-> |-1| Error
+  end
+```
+
+### Structures
+
+## Test and Debug
+
+### Valgrind
+
+```shell
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --track-origins=yes ./pipex infile "grep a1" "wc -w" outfile
+```
+
+To display leak in a file:
+
+```shell
+--callgrind-out-file=callgrind.out
+```
 
 ## Ressources
 
@@ -51,6 +139,7 @@ Should behave like: `< infile grep a1 | wc -w > outfile`
 
 - 📑 [Pipeline](https://www.mbillaud.fr/notes/pipeline.html)
 - 📑 [Pipes notion with visual representation](http://www.zeitoun.net/articles/communication-par-tuyau/start)
+- 📑 [wait-waitpid](https://www.geeksforgeeks.org/wait-system-call-c/) and [man-wait-waitpid](http://manpagesfr.free.fr/man/man2/wait.2.html)
 
 ## Notions
 
@@ -58,16 +147,16 @@ Should behave like: `< infile grep a1 | wc -w > outfile`
 
 - `perror`: Prints a descriptive error message to stderr.
 - `strerror`: Returns a pointer to a string that describes the error code passed.
-- `access`: Checks whether the calling process can access the file pathname.
-- `dup`: Creates a copy of the file descriptor oldfd.
-- `dup2`: Makes newfd be the copy of oldfd, closing newfd first if necessary.
-- `execve`: Replaces the current process image with a new process image.
 - `exit`: Causes normal process termination.
-- `fork`: Creates a new process by duplicating the existing process.
-- `pipe`: Creates a pipe, a unidirectional data channel for interprocess communication.
-- `unlink`: Deletes a name from the filesystem.
-- `wait`: Makes the calling process wait until one of its child processes exits.
-- `waitpid`: Waits for the process specified by pid to terminate.
+- [`dup`](#dup): Creates a copy of the file descriptor oldfd.
+- [`dup2`](#dup): Makes newfd be the copy of oldfd, closing newfd first if necessary.
+- [`fork`](#fork): Creates a new process by duplicating the existing process.
+- [`pipe`](#pipe): Creates a pipe, a unidirectional data channel for interprocess communication.
+- [`access`](#access): Checks whether the calling process can access the file pathname.
+- [`execve`](#execve): Replaces the current process image with a new process image.
+- [`unlink`](#unlink): Deletes a name from the filesystem.
+- [`wait`](#waitwaitpid): Makes the calling process wait until one of its child processes exits.
+- [`waitpid`](#waitwaitpid): Waits for the process specified by pid to terminate.
 
 ```c
 #include <stdio.h>
@@ -120,36 +209,6 @@ graph LR
     end1["fd[1]"] <-.-> end2["fd[0]"]:::filedescriptor
   end
   end2 -.- note_end2{{read end of the pipe\ndata can be read here}}:::note
-```
-
-```mermaid
-graph LR
-  classDef cmd fill:#6d6;
-  classDef file fill:#ff6;
-  classDef filedescriptor fill:#fa0;
-  classDef note fill:#c4c4c4,stroke-width:0.5px;
-  infile:::file --> cmd1_in
-  CMD1:::cmd
-  subgraph CMD1
-    direction LR
-    cmd1_in["stdin"] --> cmd1["cmd1"]
-    cmd1(["cmd1"]) --> cmd1_out["stdout"]
-    cmd1 --> cmd1_err["stderr"]
-  end
-  cmd1_out --> end1:::filedescriptor
-  subgraph Pipe
-    direction LR
-    end1["fd[1]"] <-.-> end2["fd[0]"]:::filedescriptor
-  end
-  end2 --> cmd2_in
-  CMD2:::cmd
-  subgraph CMD2
-    direction LR
-    cmd2_in["stdin"] --> cmd2["cmd2"]
-    cmd2(["cmd2"]) --> cmd2_out["stdout"]
-    cmd2 --> cmd2_err["stderr"]
-  end
-  cmd2_out --> outfile:::file
 ```
 
 On linux, you can check your fds currently open with the command `ls -la /proc/$$/fd` ( 0, 1 and 2 are by default assigned to stdin, stdout and stderr). 
@@ -216,7 +275,7 @@ Total Number of Processes = $2^n$, where $n$ is the number of fork system calls.
       ```
     </details>
 
-### Dup2
+### Dup
 
 The **dup()** system call creates a copy of a file descriptor.
 
@@ -303,3 +362,402 @@ flowchart LR
   newfd --> file2["file1"]:::file
   stdout -.-> file2
 ```
+
+### Access
+
+The **access()** system call checks whether the calling process can access the file pathname. If pathname is a symbolic link, it is dereferenced.
+
+```c
+/**
+ * @param pathname path to the file to be checked.
+ * @param mode mode to be checked.
+ * @return 0 on success, -1 on error.
+ */
+int access(const char *pathname, int mode);
+```
+
+<details>
+  <summary> Example </summary>
+
+  ```c
+  #include <stdio.h>
+  #include <unistd.h>
+  #include <errno.h>
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <fcntl.h>
+
+  extern int errno;
+
+  int main(int argc, const char *argv[]) {
+      int fd = access("sample.txt", F_OK);
+      if (fd == -1) {
+          printf("Error Number: %d\n", errno);
+          perror("Error Description:");
+      } else {
+          printf("No error\n");
+      }
+      return 0;
+  }
+  ```
+
+  Note: perror() is used to print the error and errno is used to print the error code.
+
+  ```shell
+  $> ./a.out
+  Error Number: 2
+  Error Description:: No such file or directory
+  ```
+</details>
+
+#### Mode
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Description</th>
+    </tr>
+   </thead>
+   <tr>
+      <td>F_OK</td>
+      <td>Used to check for the existence of file.</td>
+   </tr>
+   <tr>
+      <td>R_OK</td>
+      <td>Used to check for read permission bit.</td>
+   </tr>
+   <tr>
+      <td>W_OK</td>
+      <td>Used to check for write permission bit.</td>
+   </tr>
+   <tr>
+      <td>X_OK</td>
+      <td>Used to check for execute permission bit.</td>
+   </tr>
+</table>
+
+#### Error List
+
+<table>
+ <thead>
+   <tr>
+       <th>Error</th>
+       <th>Description</th>
+   </tr>
+ </thead>
+ <tbody>
+  <tr>
+    <td>EACCES</td>
+    <td>The requested access would be denied to the file, or search permission is denied for one of the directories in the path prefix of pathname. (See also path_resolution(7).)</td>
+  </tr>
+  <tr>
+      <td>ELOOP</td>
+      <td>Too many symbolic links were encountered in resolving pathname.</td>
+  </tr>
+  <tr>
+      <td>ENAMETOOLONG</td>
+      <td>pathname is too long.</td>
+  </tr>
+  <tr>
+      <td>ENOENT</td>
+      <td>A component of pathname does not exist or is a dangling symbolic link.</td>
+  </tr>
+  <tr>
+      <td>ENOTDIR</td>
+      <td>A component used as a directory in pathname is not, in fact, a directory.</td>
+  </tr>
+  <tr>
+      <td>EROFS</td>
+      <td>Write permission was requested for a file on a read-only file system.</td>
+  </tr>
+  <tr>
+      <td>EFAULT</td>
+      <td>pathname points outside your accessible address space.</td>
+  </tr>
+  <tr>
+      <td>EINVAL</td>
+      <td>mode was incorrectly specified.</td>
+  </tr>
+  <tr>
+      <td>EIO</td>
+      <td>An I/O error occurred.</td>
+  </tr>
+  <tr>
+      <td>ENOMEM</td>
+      <td>Insufficient kernel memory was available.</td>
+  </tr>
+  <tr>
+      <td>ETXTBSY</td>
+      <td>Write access was requested to an executable which is being executed.</td>
+  </tr>
+ </tbody>
+</table>
+
+
+### Execve
+
+The **`execve()`** system call is used to execute a binary executable or a script. It replaces the current process image with a new process image.
+
+The argument vector and environment can be accessed by the new program's main function, when it is defined as:
+```c
+int main(int argc, char *argv[], char *envp[])
+```
+`envp` represents the environment variables (PATH, OS, ...).
+
+`envp` is an array of pointers to strings, each of which is of the form `name=value`. The array of pointers must be terminated by a NULL pointer.
+
+```c
+/**
+ * @param filename path to the executable file.
+ * @param argv array of arguments passed to the executable.
+ * @note The last element of argv must be NULL.
+ * @param envp array of environment variables.
+ * @note The last element of envp must be NULL.
+ * @return -1 on error, nothing on success.
+ */
+int execve(const char *filename, char *const argv[], char *const envp[]);
+```
+
+```mermaid
+flowchart LR
+  classDef file fill:#ff6;
+  classDef cmd fill:#6d6;
+  classDef note fill:#c4c4c4,stroke-width:0.5px;
+  classDef filedescriptor fill:#fa0;
+  subgraph A["Process"]
+    direction LR
+    Content
+  end
+  A --> |arguments|execve["execve()"]
+  execve --> B
+  subgraph B["New Process"]
+    direction LR
+    program["Program"]
+  end
+  B -.-> |-1 = error|execve
+  B -.-> |nothing = success|execve
+```
+
+### Unlink
+
+`unlink` system call in Linux is used to **delete (remove) a file from the file system**. Once a file is unlinked, it is removed from the directory structure, and its data blocks are marked as available for reuse. However, if a process has the file open, the file’s data remains accessible until the last file descriptor is closed.
+  
+  ```c
+  /**
+   * @param pathname path to the file to be deleted.
+   * @return 0 on success, -1 on error.
+   */
+  int unlink(const char *pathname);
+  ```
+    
+  ```mermaid
+  flowchart LR
+    classDef file fill:#ff6;
+    classDef cmd fill:#6d6;
+    classDef note fill:#c4c4c4,stroke-width:0.5px;
+    classDef filedescriptor fill:#fa0;
+    file["file1"]:::file --> file_path["file1_path"]:::filedescriptor
+    file_path --> unlink["unlink(file1_path)"]
+    unlink -.-x |0 = success\nfile delete|file
+    unlink -.-> |-1 = error\nfail to del file|file
+  ```
+
+### Wait/Waitpid
+
+#### Wait
+The **wait()** system call suspends execution of the calling process until one of its children terminates. 
+
+Children process may terminate due to any of these :
+- It calls exit();
+- It returns (an int) from main
+- It receives a signal (from the OS or another process) whose default action is to terminate.
+
+Returns:
+- If any process has more than one child processes, then after calling wait(), parent process has to be in wait state if no child terminates. 
+- If only one child process is terminated, then return a wait() returns process ID of the terminated child process. 
+- If more than one child processes are terminated than wait() reap any arbitrarily child and return a process ID of that child process. 
+- When wait() returns they also define exit status (which tells our, a process why terminated) via pointer, If status are not NULL.
+- If any process has no child process then wait() returns immediately “-1”.
+
+NOTE: “This codes does not run in simple IDE because of environmental problem so use terminal for run the code” 
+
+```c
+#include <sys/types.h>
+#include <sys/wait.h>
+
+pid_t wait(int *status);
+
+pid_t waitpid(pid_t pid, int *status, int options);
+```
+
+```mermaid
+flowchart LR
+  classDef file fill:#ff6;
+  classDef cmd fill:#6d6;
+  classDef note fill:#c4c4c4,stroke-width:0.5px;
+  classDef filedescriptor fill:#fa0;
+  fork["fork()"] --> |parent|P
+  fork --> |child|C
+  subgraph P["Parent"]
+    direction LR
+    Content
+    status["int status"]
+  end
+  status -.-|&status| wait
+  exit -.-|status| wait
+  subgraph C["Child"]
+    direction LR
+    execve["execve()"]
+    execve --> exit["exit()"]
+  end
+  P --> wait["wait(&status)"]
+  C --> |"terminated\nstatus = return of exit()"|wait
+  wait --> |"resume Parent\nstatus = exit status of children"|resume((" "))
+```
+
+#### Status
+
+Status information about the child reported by wait is more than just the exit status of the child, it also includes 
+
+- normal/abnormal termination
+- termination cause
+- exit status
+
+For find information about status, we use 
+WIF….macros
+
+<details>
+  <summary> Example </summary>
+
+  ```c
+  // C program to demonstrate working of status
+  // from wait.
+  #include<stdio.h>
+  #include<stdlib.h>
+  #include<sys/wait.h>
+  #include<unistd.h>
+
+  void waitexample()
+  {
+    int stat;
+
+    // This status 1 is reported by WEXITSTATUS
+    if (fork() == 0)
+      exit(1);
+    else
+      wait(&stat);
+    if (WIFEXITED(stat))
+      printf("Exit status: %d\n", WEXITSTATUS(stat));
+    else if (WIFSIGNALED(stat))
+      psignal(WTERMSIG(stat), "Exit signal");
+  }
+
+  // Driver code
+  int main()
+  {
+    waitexample();
+    return 0;
+  }
+  ```
+  ```shell
+  $> ./a.out
+  Exit status: 1
+  ```
+</details>
+
+##### WIF macros
+
+- Si status n'est pas NULL, wait() et waitpid() enregistre les informations sur l'état dans l'entier int sur lequel il pointe. Cet entier est analysé avec les macros suivantes (qui prennent en argument l'entier lui-même, pas un pointeur sur lui, comme cela est fait dans `wait()` et `waitpid`()!) :
+
+- `WIFEXITED`(status)
+  -  renvoie vrai si le fils s'est terminé normalement, c'est-à-dire par un appel à exit(3) ou _exit(2), ou bien par un retour de main(). 
+- `WEXITSTATUS`(status)
+  -  renvoie le code de sortie du fils. Ce code est constitué par les 8 bits de poids faibles de l'argument status que le fils a fourni à exit(3) ou à _exit(2) ou l'argument d'une commande de retour dans main(). Cette macro ne peut être évaluée que si `WIFEXITED` a renvoyé vrai. 
+- `WIFSTOPPED`(status)
+  -  renvoie vrai si le fils a été arrêté par la délivrance d'un signal. Cette macro n'a de sens que si l'on a effectué l'appel avec l'option `WUNTRACED` ou lorsque l'appel est en cours de suivi (voir ptrace(2)). 
+- `WSTOPSIG`(status)
+  -  renvoie le numéro du signal qui a causé l'arrêt du fils. Cette macro ne peut être évaluée que si `WIFSTOPPED` renvoie vrai. 
+- `WIFSIGNALED`(status)
+  -  renvoie vrai si le fils s'est terminé à cause d'un signal. 
+- `WTERMSIG`(status)
+  -  renvoie le numéro du signal qui a causé la fin du fils. Cette macro ne peut être évaluée que si `WIFSIGNALED` a renvoyé vrai. 
+- `WCOREDUMP`(status)
+  -  renvoie vrai si le fils a créé un fichier core. Cette macro ne peut être évaluée que si `WIFSIGNALED` a renvoyé vrai. Cette macro n'est pas décrite par POSIX.1-2001 et n'est pas disponible sur certaines implémentations (par exemple AIX, SunOS). N'utilisez ceci qu'encadré par #ifdef `WCOREDUMP` ... #endif. 
+- `WIFCONTINUED`(status)
+  -  (depuis Linux 2.6.10) renvoie vrai si le processus fils a été relancé par la délivrance du signal `SIGCONT`.
+
+<details>
+  <summary> Example </summary>
+
+  ```c
+  // C program to demonstrate waitpid()
+  #include<stdio.h>
+  #include<stdlib.h>
+  #include<sys/wait.h>
+  #include<unistd.h>
+
+  void waitexample()
+  {
+    int i, stat;
+    pid_t pid[5];
+    for (i=0; i<5; i++)
+    {
+      if ((pid[i] = fork()) == 0)
+      {
+        sleep(1);
+        exit(100 + i);
+      }
+    }
+
+    // Using waitpid() and printing exit status
+    // of children.
+    for (i=0; i<5; i++)
+    {
+      pid_t cpid = waitpid(pid[i], &stat, 0);
+      if (WIFEXITED(stat))
+        printf("Child %d terminated with status: %d\n",
+          cpid, WEXITSTATUS(stat));
+    }
+  }
+
+  // Driver code
+  int main()
+  {
+    waitexample();
+    return 0;
+  }
+  ```
+  ```shell
+  $> ./a.out
+  Child 50 terminated with status: 100
+  Child 51 terminated with status: 101
+  Child 52 terminated with status: 102
+  Child 53 terminated with status: 103
+  Child 54 terminated with status: 104
+  ```
+</details>
+
+#### Waitpid
+
+if we want to reap any specific child process, we use waitpid() function
+  
+  ```c
+  /**
+   * @param pid process id of the child process to be reaped.
+   * @param status pointer to an int where status information is stored.
+   * @param options options to be used.
+   * @return process id of the reaped child process on success, -1 on error.
+   */
+  pid_t waitpid(pid_t pid, int *status, int options);
+  ```
+
+by default waitpid() wait only for terminated child process, but we can change this behavior by using options.
+
+- `WNOHANG`
+  -  revenir immédiatement si aucun fils n'est achevé. 
+- `WUNTRACED`
+  -  revenir si un fils est bloqué (mais non suivi par ptrace(2)). L'état des fils suivis est fourni même sans cette option. traced 
+- `WCONTINUED` (Depuis Linux 2.6.10)
+  -  revenir si un fils bloqué a été relancé par la délivrance du signal `SIGCONT`. 
+  

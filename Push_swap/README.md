@@ -1,4 +1,4 @@
-# Push Swap
+# Push Swap (90%)
 
 ## Description
 

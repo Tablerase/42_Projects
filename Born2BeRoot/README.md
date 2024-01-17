@@ -1,4 +1,4 @@
-# Born2beroot
+# Born2beroot (Not Perfect)
 
 Env: Linux/Debian
 

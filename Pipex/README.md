@@ -72,7 +72,7 @@ graph LR
     direction LR
     cmd2_in["stdin"] --> cmd2["cmd2"]
     cmd2(["cmd2"]) --> cmd2_out["stdout"]
-    cmd2 --> cmd2_err["stderr"]
+    cmd2 --> cmd2_err["stderr"] 
   end
   cmd2_out --> outfile:::file
 ```
@@ -85,6 +85,7 @@ flowchart TB
   classDef file fill:#ff6;
   classDef filedescriptor fill:#fa0;
   classDef note fill:#c4c4c4,stroke-width:0.5px;
+  classDef exit fill:#000,stroke:none,color:#fff,stroke-width:2px;
   classDef valid stroke:#0f0
   classDef invalid stroke:#f00
   classDef neutral stroke:#00f
@@ -96,22 +97,31 @@ flowchart TB
   Main --> argc:::data
   Main --> argv:::data
   Main --> envp:::data
-  argc -.- A
-  argv -.- A
-  envp -.- A
+  ft_check_args{"ft_check_args()"}
+  argc -.- ft_check_args
+  argv -.- ft_check_args
+  envp -.- ft_check_args
+  ft_check_args --> |Valid| A
+  ft_check_args --> |Invalid| exit:::exit
   subgraph A["Parsing"]
     direction LR
+    path:::data
+    envp2[envp]:::data -.- ft_find_path["ft_find_path()"]
+    ft_find_path -.-> path
     files:::file
-    cmds_with_args:::cmd
+    argv2[argv]:::data -.- ft_get_cmds["ft_get_cmds()"]
+    argc2[argc]:::data -.- ft_get_cmds
+    ft_get_cmds -.-> cmds_with_args:::cmd
+    argv2 -.- ft_get_files["ft_get_files()"]
+    argc2 -.- ft_get_files
+    ft_get_files -.-> files
   end
   subgraph B["Check data"]
     direction LR
     Valid:::valid
     Error:::invalid
-    files --> ft_check_files["ft_check_files()"]
     ft_check_files -.-> |0| Valid
     ft_check_files -.-> |-1| Error
-    cmds_with_args --> ft_check_cmds["ft_check_cmds()"]
     ft_check_cmds -.-> |0| Valid
     ft_check_cmds -.-> |-1| Error
   end
@@ -241,9 +251,9 @@ graph TB
 Fork system call is used for **creating a new process** in Linux, and Unix systems, which is called the child process, which **runs concurrently** with the process that makes the fork() call (parent process). After a new child process is created, **both processes will execute the next instruction following the fork() system call**.
 
 Below are different values returned by fork() :
-- Negative Value: The creation of a child process was unsuccessful.
-- Zero: Returned to the newly created child process.
-- Positive value: Returned to parent or caller. The value contains the process ID of the newly created child process.
+- **Negative Value**: The creation of a child process was **unsuccessful**.
+- **0**: *Returned to* the newly created ***child** process*.
+- **Positive value**: *Returned to **parent*** or caller. The value contains the **process ID** of the newly created child process.
 
 Total Number of Processes = $2^n$, where $n$ is the number of fork system calls.
   - Exemple: $\ n = 3$ $\Rightarrow$ $2^3 = 8$ processes
@@ -401,13 +411,21 @@ int access(const char *pathname, int mode);
   }
   ```
 
-  Note: perror() is used to print the error and errno is used to print the error code.
-
   ```shell
   $> ./a.out
   Error Number: 2
   Error Description:: No such file or directory
   ```
+
+  Note: `perror()` is used to print the error and `errno` is used to print the error code.
+
+  Note:
+  - In C programming, `extern` is a keyword that is used to declare a variable or function which is defined in another file or in other scope. It tells the compiler that the variable or function exists, even if the compiler hasn't yet seen its definition during the compiling process.
+
+  - Here are a few key points about `extern`:
+
+    - It is used to access the global variables from different files. These variables are declared in one file and can be used in other files using `extern`.
+    - It can also be used to declare a function that is implemented in another file.
 </details>
 
 #### Mode
@@ -518,6 +536,31 @@ int main(int argc, char *argv[], char *envp[])
  */
 int execve(const char *filename, char *const argv[], char *const envp[]);
 ```
+
+<details>
+<summary> Example </summary>
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+
+	char *arguments[] = {"ls", "-la", NULL};
+	pid_t pid;
+	if ((pid = fork()) ==-1)
+		perror("fork error");
+	else if (pid == 0) 
+	{
+		execve("/bin/ls", arguments, envp);
+		printf("Return not expected. Must be an execve error.\n");
+	}
+}
+```
+</details>
 
 ```mermaid
 flowchart LR

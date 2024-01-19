@@ -49,9 +49,9 @@ Should behave like: `< infile grep a1 | wc -w > outfile`
 ```mermaid
 
 graph LR
-  classDef cmd fill:#6d6;
-  classDef file fill:#ff6;
-  classDef filedescriptor fill:#fa0;
+  classDef cmd fill:#6d6, color:#fff;
+  classDef file fill:#ff6, color:#000;
+  classDef filedescriptor fill:#fa0, color:#000;
   classDef note fill:#c4c4c4,stroke-width:0.5px;
   infile:::file --> cmd1_in
   CMD1:::cmd
@@ -81,9 +81,9 @@ graph LR
 
 ```mermaid
 flowchart TB
-  classDef cmd fill:#6d6;
-  classDef file fill:#ff6;
-  classDef filedescriptor fill:#fa0;
+  classDef cmd fill:#6d6, color:#fff;
+  classDef file fill:#ff6, color:#000;
+  classDef filedescriptor fill:#fa0, color:#000;
   classDef note fill:#c4c4c4,stroke-width:0.5px;
   classDef exit fill:#000,stroke:none,color:#fff,stroke-width:2px;
   classDef valid stroke:#0f0
@@ -221,7 +221,71 @@ graph LR
   end2 -.- note_end2{{read end of the pipe\ndata can be read here}}:::note
 ```
 
-On linux, you can check your fds currently open with the command `ls -la /proc/$$/fd` ( 0, 1 and 2 are by default assigned to stdin, stdout and stderr). 
+On linux, you can check your fds currently open with the command `ls -la /proc/$$/fd` ( 0, 1 and 2 are by default assigned to stdin, stdout and stderr).
+
+Parent and child sharing a pipe
+
+When we use fork in any process, file descriptors remain open across child process and also parent process. If we call **fork after creating a pipe**, then the **parent and child can communicate via the pipe**.
+
+<details>
+<summary> Example </summary>
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <string.h>
+
+int main() 
+{
+   int fd[2];
+   char str[] = "Hello, World!";
+   char buffer[50];
+   pid_t pid;
+
+   if (pipe(fd) == -1) {
+       fprintf(stderr,"Pipe failed");
+       return 1;
+   }
+
+   pid = fork();
+
+   if (pid < 0) {
+       fprintf(stderr, "Fork failed");
+       return 1;
+   }
+
+   if (pid > 0) { // Parent process
+       // Close the unused end of the pipe
+       close(fd[0]);
+
+       // Write to the pipe
+       write(fd[1], str, sizeof(str));
+
+       // Close the write end of the pipe
+       close(fd[1]);
+   } else { // Child process
+       // Close the unused end of the pipe
+       close(fd[1]);
+
+       // Read from the pipe
+       read(fd[0], buffer, sizeof(buffer));
+
+       // Close the read end of the pipe
+       close(fd[0]);
+
+       printf("Received string: %s\n", buffer);
+   }
+
+   return 0;
+}
+```
+
+```shell
+$> ./a.out
+Received string: Hello, World!
+```
+</details>
 
 ### Fork
 
@@ -233,13 +297,13 @@ graph TB
     direction LR
     Content
   end
-  Parent --> fork["fork()"]
-  fork --> C
+  Parent -->|if error = <0| fork["fork()"]
+  fork -->|0| C
   subgraph C["Child"]
     direction LR
     content1["Content"]
   end
-  fork --> B
+  fork -->|>0| B
   subgraph B["Parent"]
     direction LR
     content2["Content"]

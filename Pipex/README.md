@@ -111,19 +111,12 @@ flowchart TB
     files:::file
     argv2[argv]:::data -.- ft_get_cmds["ft_get_cmds()"]
     argc2[argc]:::data -.- ft_get_cmds
-    ft_get_cmds -.-> cmds_with_args:::cmd
+    ft_get_cmds --> ft_find_cmd["ft_find_cmd()"]
+    ft_find_cmd -.-> cmds_with_args:::cmd
     argv2 -.- ft_get_files["ft_get_files()"]
     argc2 -.- ft_get_files
-    ft_get_files -.-> files
-  end
-  subgraph B["Check data"]
-    direction LR
-    Valid:::valid
-    Error:::invalid
-    ft_check_files -.-> |0| Valid
-    ft_check_files -.-> |-1| Error
-    ft_check_cmds -.-> |0| Valid
-    ft_check_cmds -.-> |-1| Error
+    ft_get_files --> ft_check_files["ft_check_files()"]
+    ft_check_files -.-> files
   end
 ```
 
@@ -150,6 +143,8 @@ To display leak in a file:
 - 📑 [Pipeline](https://www.mbillaud.fr/notes/pipeline.html)
 - 📑 [Pipes notion with visual representation](http://www.zeitoun.net/articles/communication-par-tuyau/start)
 - 📑 [wait-waitpid](https://www.geeksforgeeks.org/wait-system-call-c/) and [man-wait-waitpid](http://manpagesfr.free.fr/man/man2/wait.2.html)
+
+- ⏯️ [Unix Process in C](https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
 
 ## Notions
 
@@ -337,7 +332,8 @@ Total Number of Processes = $2^n$, where $n$ is the number of fork system calls.
         return 0;
       }
       ```
-      ```c
+
+      ```shell
       hello
       hello
       hello
@@ -348,6 +344,46 @@ Total Number of Processes = $2^n$, where $n$ is the number of fork system calls.
       hello
       ```
     </details>
+
+Without wait() system call, the order of execution of the processes is **not guaranteed**. It is totally dependent upon the **scheduling algorithm** of the OS.
+
+Both processes (parent and child) **have their own address space**. Child process is an exact copy of the parent process. Child process has **same program counter** as of parent process. Memory space of the child process is a **duplicate** of the parent process.
+
+#### Multiple Fork
+
+In case of multiple fork() system calls, the child process created by the first fork() system call, becomes the parent process for next fork() system call and so on.
+
+Example with 2 fork() system calls:
+
+```mermaid
+graph LR
+  classDef fork1 fill:#c4c4c4;
+  classDef fork2 fill:#aaf;
+  
+  subgraph Fork2["id2 = fork()"]
+    subgraph Fork1["id1 = fork()"]
+      subgraph Parent
+        id1["id1 = Child"]
+        id2["id2 = Child2"]
+      end
+      subgraph Child
+        id3["id1 = 0"]
+        id4["id2 = GrandChild"]
+      end
+      Parent:::fork1 --> Child:::fork1
+    end
+    Parent --> Child2:::fork2
+    Child --> GrandChild:::fork2
+    subgraph GrandChild
+      id5["id1 = 0"]
+      id6["id2 = 0"]
+    end
+    subgraph Child2
+      id7["id1 = Child"]
+      id8["id2 = 0"]
+    end
+  end
+```
 
 ### Dup
 
@@ -682,7 +718,7 @@ Children process may terminate due to any of these :
 
 Returns:
 - If any process has more than one child processes, then after calling wait(), parent process has to be in wait state if no child terminates. 
-- If only one child process is terminated, then return a wait() returns process ID of the terminated child process. 
+- If only one child process is terminated, then return a wait() **returns process ID of the terminated child process**. 
 - If more than one child processes are terminated than wait() reap any arbitrarily child and return a process ID of that child process. 
 - When wait() returns they also define exit status (which tells our, a process why terminated) via pointer, If status are not NULL.
 - If any process has no child process then wait() returns immediately “-1”.
@@ -867,4 +903,33 @@ by default waitpid() wait only for terminated child process, but we can change t
   -  revenir si un fils est bloqué (mais non suivi par ptrace(2)). L'état des fils suivis est fourni même sans cette option. traced 
 - `WCONTINUED` (Depuis Linux 2.6.10)
   -  revenir si un fils bloqué a été relancé par la délivrance du signal `SIGCONT`. 
-  
+
+### Getpid/Getppid (Not in the project)
+
+Getpid() is used to return the process ID of the calling process. 
+
+Getppid() is used to return the process ID of the parent of the calling process.
+
+```c
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main()
+{
+    pid_t c_pid = getpid();
+    pid_t p_pid = getppid();
+
+    printf("Child PID is %d\n", c_pid);
+    printf("Parent PID is %d\n", p_pid);
+
+    return 0;
+}
+```
+
+```shell
+$> ./a.out
+Child PID is 1234
+Parent PID is 1233
+```
+
+If the parent process has already exited when getppid() is called, then the child process is assigned a new parent process, also known as a zombie process.

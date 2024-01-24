@@ -77,7 +77,7 @@ graph LR
   cmd2_out --> outfile:::file
 ```
 
-#### Real
+#### Mandatory
 
 ```mermaid
 flowchart TB
@@ -85,6 +85,7 @@ flowchart TB
   classDef file fill:#ff6, color:#000;
   classDef filedescriptor fill:#fa0, color:#000;
   classDef note fill:#c4c4c4,stroke-width:0.5px;
+  classDef pipe fill:#f0f8ff, color:#000;
   classDef exit fill:#000,stroke:none,color:#fff,stroke-width:2px;
   classDef valid stroke:#0f0
   classDef invalid stroke:#f00
@@ -94,6 +95,8 @@ flowchart TB
   classDef nodes stroke:#ee82ee
   classDef padded stroke:#00f,stroke-width:3px
   classDef point fill:#f9f,stroke:#333,stroke-width:2px
+  classDef fork1 fill:#c4c4c4;
+  classDef fork2 fill:#aaf;
   Main --> argc:::data
   Main --> argv:::data
   Main --> envp:::data
@@ -104,25 +107,91 @@ flowchart TB
   ft_check_args --> |Valid| A
   ft_check_args --> |Invalid| exit:::exit
   subgraph A["Parsing"]
-    direction LR
+    direction TB
+    subgraph Files
+      direction
+      files:::file
+      argv2[argv]:::data
+      argc2[argc]:::data
+      argv2 -.- ft_get_files["ft_get_files()"]
+      argc2 -.- ft_get_files
+      ft_get_files --> ft_check_files{"ft_check_files()"}
+      ft_check_files -.->|Yes| files
+    end
+    subgraph Nodes
+      direction TB
+      cmd1:::cmd -.->|next| cmd2:::cmd
+    end
+    ft_init_cmd["ft_init_cmd()"] -.->|arguments stored\ninto nodes| Nodes
     path:::data
-    envp2[envp]:::data -.- ft_find_path["ft_find_path()"]
+    envp2[envp]:::data -.- ft_find_path{"ft_find_path()"}
     ft_find_path -.-> path
-    files:::file
-    argv2[argv]:::data -.- ft_get_cmds["ft_get_cmds()"]
-    argc2[argc]:::data -.- ft_get_cmds
-    ft_get_cmds --> ft_find_cmd["ft_find_cmd()"]
-    ft_find_cmd -.-> cmds_with_args:::cmd
-    argv2 -.- ft_get_files["ft_get_files()"]
-    argc2 -.- ft_get_files
-    ft_get_files --> ft_check_files["ft_check_files()"]
-    ft_check_files -.-> files
   end
+  A --> |Valid| B
+  subgraph B["Process"]
+    direction TB
+    Parent --> Fork1
+    subgraph Fork2["id2 = fork()"]
+      subgraph Fork1["id1 = fork()"]
+        subgraph Parent
+          pipe["pipe()"]
+          pipe --> Pipe:::pipe
+          subgraph Pipe
+            direction LR
+            end1["fd[1]"]:::filedescriptor <-.-> end2["fd[0]"]:::filedescriptor
+          end
+          id1["id1 = Child"]
+          id2["id2 = Child2"]
+          subgraph PostForks
+            close_all_fd["close all file descriptors"]:::filedescriptor
+            waitpid["waitpid(id1)"]
+            waitpid2["waitpid(id2)"]
+            waitpid --> ft_free_pipex["ft_free_pipex()"]
+            waitpid2 --> ft_free_pipex
+          end
+        end
+        subgraph Child
+          id3["id1 = 0"]
+          id4["id2 = GrandChild"]
+          ft_cmd0(["ft_cmd0()"]):::cmd
+        end
+        Parent:::fork1 --> Child:::fork1
+      end
+      Parent --> Child2:::fork2
+      Child --> GrandChild:::fork2
+      subgraph GrandChild
+        id5["id1 = 0"]
+        id6["id2 = 0"]
+        DoTheSameAsParent:::filedescriptor
+      end
+      GrandChild -->|Do the same| Parent
+      subgraph Child2
+        id7["id1 = Child"]
+        id8["id2 = 0"]
+        ft_cmd1(["ft_cmd1()"]):::cmd
+      end
+    end
+  end
+  B -->|After end of all process| exit
+  ft_find_cmd
+  ft_find_path -.->|No| exit
+  ft_check_files -.->|No| exit
+```
+
+#### Bonus
+
+```mermaid
+flowchart TB
+  A --> B
 ```
 
 ### Structures
 
 ## Test and Debug
+
+### Testeur
+  
+- 🔧 [Testeur](https://github.com/vfurmane/pipex-tester)
 
 ### Valgrind
 
@@ -136,7 +205,9 @@ To display leak in a file:
 --callgrind-out-file=callgrind.out
 ```
 
-## Ressources
+## Useful Ressources
+
+- ⏯️ [Unix Process in C](https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
 
 - 📖 [Article Pipex](https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901)
 
@@ -144,9 +215,7 @@ To display leak in a file:
 - 📑 [Pipes notion with visual representation](http://www.zeitoun.net/articles/communication-par-tuyau/start)
 - 📑 [wait-waitpid](https://www.geeksforgeeks.org/wait-system-call-c/) and [man-wait-waitpid](http://manpagesfr.free.fr/man/man2/wait.2.html)
 
-- ⏯️ [Unix Process in C](https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
-
-## Notions
+## 📚 Notions
 
 ### Functions
 

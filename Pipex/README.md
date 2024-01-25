@@ -109,7 +109,6 @@ flowchart TB
   subgraph A["Parsing"]
     direction TB
     subgraph Files
-      direction
       files:::file
       argv2[argv]:::data
       argc2[argc]:::data
@@ -193,6 +192,8 @@ flowchart TB
   
 - 🔧 [Testeur](https://github.com/vfurmane/pipex-tester)
 
+
+
 ### Valgrind
 
 ```shell
@@ -214,13 +215,14 @@ To display leak in a file:
 - 📑 [Pipeline](https://www.mbillaud.fr/notes/pipeline.html)
 - 📑 [Pipes notion with visual representation](http://www.zeitoun.net/articles/communication-par-tuyau/start)
 - 📑 [wait-waitpid](https://www.geeksforgeeks.org/wait-system-call-c/) and [man-wait-waitpid](http://manpagesfr.free.fr/man/man2/wait.2.html)
+- 📑 [heredoc](https://linuxize.com/post/bash-heredoc/) 
 
 ## 📚 Notions
 
 ### Functions
 
-- `perror`: Prints a descriptive error message to stderr.
-- `strerror`: Returns a pointer to a string that describes the error code passed.
+- [`perror`](#perror): Prints a descriptive error message to stderr.
+- [`strerror`](#strerror): Returns a pointer to a string that describes the error code passed.
 - `exit`: Causes normal process termination.
 - [`dup`](#dup): Creates a copy of the file descriptor oldfd.
 - [`dup2`](#dup): Makes newfd be the copy of oldfd, closing newfd first if necessary.
@@ -231,6 +233,9 @@ To display leak in a file:
 - [`unlink`](#unlink): Deletes a name from the filesystem.
 - [`wait`](#waitwaitpid): Makes the calling process wait until one of its child processes exits.
 - [`waitpid`](#waitwaitpid): Waits for the process specified by pid to terminate.
+
+Other functions (for knowledges):
+- [`getpid`](#getpidgetppid-not-in-the-project) : Returns the process ID (PID) of the calling process.
 
 ```c
 #include <stdio.h>
@@ -270,6 +275,32 @@ PID stands for **Process IDentifier**.
 In the context of operating systems like Unix, Linux, or Windows, a PID is a **unique number** that is **assigned to each process** when it is started. This number is used by the operating system to manage and track processes. 
 
 For example, when you want to terminate a process, you would use its PID to specify which process to terminate.
+
+### Here document : here_doc
+
+Heredoc is a way to **pass multiple lines of input to a program**. It is used in shell scripting and programming languages such as Perl, Ruby, and PHP.
+  
+  ```shell
+  $> cat << EOF
+  > Hello
+  > World
+  > EOF
+  Hello
+  World
+  ```
+
+Syntax:
+
+```shell
+[COMMAND] <<[-] 'DELIMITER'
+  HERE-DOCUMENT
+DELIMITER
+```
+
+- `<<`: The here document symbol. It is used to indicate the start of the here document.
+- `COMMAND`: The command that will read the here document. If no command is specified, the current shell will be used.
+- `DELIMITER`: A sequence of characters that will mark the end of the here document. It can be any sequence of characters, but it is usually `EOF` or `END`.
+- `-` (optional): If the hyphen is used, all leading tab characters will be stripped from input lines and the line containing the delimiter.
 
 ## Understanding
 
@@ -972,6 +1003,90 @@ by default waitpid() wait only for terminated child process, but we can change t
   -  revenir si un fils est bloqué (mais non suivi par ptrace(2)). L'état des fils suivis est fourni même sans cette option. traced 
 - `WCONTINUED` (Depuis Linux 2.6.10)
   -  revenir si un fils bloqué a été relancé par la délivrance du signal `SIGCONT`. 
+
+### Strerror
+
+The `strerror()` function in C is used to **convert error codes into human-readable error messages**. It takes an **integer error number as an argument and returns a pointer to a string** that describes the error. This string is generated based on the current locale and cannot be modified by the application. 
+
+The function `strerror()` is declared in the header file `string.h`. The `errno.h` header file defines the integer error numbers.
+
+Syntax:
+
+```c
+#include <string.h>
+char *strerror(int errnum);
+```
+
+<details>
+<summary> Example </summary>
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+int main () {
+   FILE *fp;
+
+   fp = fopen("file.txt","r");
+   if( fp == NULL ) {
+      printf("Error: %s\n", strerror(errno));
+   }
+   
+   return(0);
+}
+```
+
+```shell
+$> ./a.out
+Error: No such file or directory
+```
+
+</details>
+
+### Perror
+
+The `perror` function in C is a standard library function that prints a descriptive error message to the standard error stream (stderr). It is often used for error detection and reporting in C programs. 
+
+The error message is based on the global variable `errno`, which holds the error code for the most recent system call that failed
+
+Syntax:
+
+```c
+#include <stdio.h>
+void perror(const char *str);
+```
+
+<details>
+<summary> Example </summary>
+
+```c
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+int main () {
+   FILE *fp;
+
+   fp = fopen("file.txt","r");
+   if( fp == NULL ) {
+      fprintf(stderr, "Value of errno: %d\n", errno);
+      perror("Error printed by perror");
+      fprintf(stderr, "Error opening file: %s\n", strerror(errno));
+   }
+   
+   return(0);
+}
+```
+
+```shell
+$> ./a.out
+Value of errno: 2
+Error printed by perror: No such file or directory
+Error opening file: No such file or directory
+```
+
+</details>
 
 ### Getpid/Getppid (Not in the project)
 

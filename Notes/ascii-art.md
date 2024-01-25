@@ -2,11 +2,11 @@
 
 ## Usefull websites
 
-- 🔗[Ascii Drawing](https://asciiflow.com/#/)
+- 🔗 [Ascii Drawing](https://asciiflow.com/#/)
 
 ## Unicode
 
-- 🔗[List of Unicodes](https://symbl.cc/en/unicode/table/)
+- 🔗 [List of Unicodes](https://symbl.cc/en/unicode/table/)
 
 ### Box Drawing
 

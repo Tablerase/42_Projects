@@ -12,7 +12,7 @@
 * [Git](/Notes/git.md)
 * [Markdown](/Notes/markdown.md)
 
-## Debug
+## :bug: Debug
 
 * [Valgrind](/Notes/valgrind.md)
 

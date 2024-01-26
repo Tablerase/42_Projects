@@ -12,6 +12,10 @@
 * [Git](/Notes/git.md)
 * [Markdown](/Notes/markdown.md)
 
+## Debug
+
+* [Valgrind](/Notes/valgrind.md)
+
 ## 🤖 AI
 
 * [Copilot](/Notes/copilot.md)

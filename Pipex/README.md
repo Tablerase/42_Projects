@@ -208,7 +208,7 @@ To display leak in a file:
 
 ## Useful Ressources
 
-- ⏯️ [Unix Process in C](https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
+- ⏯️ [Unix Process in C - by CodeVault](https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
 
 - 📖 [Article Pipex](https://csnotes.medium.com/pipex-tutorial-42-project-4469f5dd5901)
 
@@ -381,6 +381,44 @@ $> ./a.out
 Received string: Hello, World!
 ```
 </details>
+
+#### Multiple Pipe
+
+You need to close the unused end of the pipes. So if you have 3 pipes, you need to close 6 file descriptors in each process after using them.
+
+```mermaid
+graph LR
+  classDef pipe fill:#ff0, color:#000;
+  subgraph Process1
+    content1["content"]
+  end
+  subgraph Process2
+    content2["content"]
+  end
+  subgraph Process3
+    content3["content"]
+  end
+  Process1 o--> Pipe1:::pipe
+  subgraph Pipe1
+    direction LR
+    end1["fd[1]"] <-.-> end2["fd[0]"]:::filedescriptor
+  end
+  Pipe1 --> Process2
+  Process2 --> Pipe2:::pipe
+  subgraph Pipe2
+    direction LR
+    end3["fd[1]"] <-.-> end4["fd[0]"]:::filedescriptor
+  end
+  Pipe2 --> Process3
+  Process3 --> Pipe3:::pipe
+  subgraph Pipe3
+    direction LR
+    end5["fd[1]"] <-.-> end6["fd[0]"]:::filedescriptor
+  end
+  Pipe3 ---o Process1
+```
+
+⏯️ [Multiple Pipes by CodeVault](https://www.youtube.com/watch?v=NkfIUo_Qq4c)
 
 ### Fork
 

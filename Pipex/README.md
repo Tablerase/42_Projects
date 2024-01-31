@@ -167,6 +167,9 @@ flowchart TB
       ft_open_files -.- infile_fd:::filedescriptor
       ft_open_files -.- outfile_fd:::filedescriptor
     end
+    dub2["dup2()"]
+    NeededFileDescriptors --> dub2
+    dub2 --> Exec
     subgraph Exec
       ft_close_all["ft_close_all()"]:::filedescriptor
       ft_close_all --> ft_find_path
@@ -189,6 +192,13 @@ flowchart TB
 #### Bonus
 
 Same as mandatory but with [here doc](#here-document--here_doc) and [multiple pipes](#multiple-pipe).
+
+```mermaid
+flowchart
+
+a --> b
+
+```
 
 ### Structures
 

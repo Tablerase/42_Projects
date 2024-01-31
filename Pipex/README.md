@@ -106,7 +106,7 @@ flowchart TB
   envp -.- ft_check_args
   ft_check_args --> |Valid| A
   ft_check_args --> |Invalid| exit:::exit
-  subgraph A["Parsing"]
+  subgraph A["Parsing and Initialization"]
     direction TB
     subgraph Files
       files:::file
@@ -114,17 +114,13 @@ flowchart TB
       argc2[argc]:::data
       argv2 -.- ft_get_files["ft_get_files()"]
       argc2 -.- ft_get_files
-      ft_get_files --> ft_check_files{"ft_check_files()"}
-      ft_check_files -.->|Yes| files
     end
+    ft_init_pipex["ft_init_pipex()"]
+    ft_init_cmd["ft_init_cmd()"] -.->|arguments stored\ninto nodes| Nodes
     subgraph Nodes
       direction TB
       cmd1:::cmd -.->|next| cmd2:::cmd
     end
-    ft_init_cmd["ft_init_cmd()"] -.->|arguments stored\ninto nodes| Nodes
-    path:::data
-    envp2[envp]:::data -.- ft_find_path{"ft_find_path()"}
-    ft_find_path -.-> path
   end
   A --> |Valid| B
   subgraph B["Process"]
@@ -143,10 +139,9 @@ flowchart TB
           id2["id2 = Child2"]
           subgraph PostForks
             close_all_fd["close all file descriptors"]:::filedescriptor
-            waitpid["waitpid(id1)"]
-            waitpid2["waitpid(id2)"]
-            waitpid --> ft_free_pipex["ft_free_pipex()"]
-            waitpid2 --> ft_free_pipex
+            close_all_fd --> ft_wait
+            wait(["wait(&status)"]) -.- |wait for all children| ft_wait
+            ft_wait["ft_wait()"] --> ft_free_pipex
           end
         end
         subgraph Child
@@ -157,13 +152,6 @@ flowchart TB
         Parent:::fork1 --> Child:::fork1
       end
       Parent --> Child2:::fork2
-      Child --> GrandChild:::fork2
-      subgraph GrandChild
-        id5["id1 = 0"]
-        id6["id2 = 0"]
-        DoTheSameAsParent:::filedescriptor
-      end
-      GrandChild -->|Do the same| Parent
       subgraph Child2
         id7["id1 = Child"]
         id8["id2 = 0"]
@@ -171,18 +159,36 @@ flowchart TB
       end
     end
   end
-  B -->|After end of all process| exit
-  ft_find_cmd
+  Commands:::cmd
+  subgraph Commands
+    subgraph NeededFileDescriptors
+      ft_check_files
+      ft_check_files --> |Yes| ft_open_files
+      ft_open_files -.- infile_fd:::filedescriptor
+      ft_open_files -.- outfile_fd:::filedescriptor
+    end
+    subgraph Exec
+      ft_close_all["ft_close_all()"]:::filedescriptor
+      ft_close_all --> ft_find_path
+      path:::data
+      envp2[envp]:::data -.- ft_find_path{"ft_find_path()"}
+      ft_find_path -.-> |Yes| path
+      path -.- ft_find_cmd{"ft_find_cmd()"}
+      ft_find_cmd -.-> |Absolute| ft_check_cmd_access["ft_check_cmd_access()"]
+      ft_find_cmd -.-> |Relative| ft_check_cmd_access
+      execve1["execve()"]:::cmd
+      ft_check_cmd_access -.-> |Yes| execve1
+    end
+  end
+  ft_check_cmd_access -.-> |No| exit:::exit
   ft_find_path -.->|No| exit
   ft_check_files -.->|No| exit
+  B -->|After end of all process| exit
 ```
 
 #### Bonus
 
-```mermaid
-flowchart TB
-  A --> B
-```
+Same as mandatory but with [here doc](#here-document--here_doc) and [multiple pipes](#multiple-pipe).
 
 ### Structures
 
@@ -191,8 +197,7 @@ flowchart TB
 ### Testeur
   
 - 🔧 [Testeur](https://github.com/vfurmane/pipex-tester)
-
-
+<!-- - 🔧 [Testeur for Bonus and some of Minishell return values](https://github.com/bastienkody/pipex_tester) -->
 
 ### Valgrind
 

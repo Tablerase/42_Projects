@@ -39,3 +39,21 @@ Lc6cDCFXDWTiFzZ2H9skYkiJ/DpQtnM/uZ0
 file.bfe:VACsSfsWN1cy33ROeASsmsgnY0o0sDMJev7zFHhw
 QS8mvM8V5xQQpLc6cDCFXDWTiFzZ2H9skYkiJ/DpQtnM/uZ0
 ```
+
+## MiniShell
+
+The character below are not presented like in the pdf (they is different size of space between them)
+
+```code
+M L Q * d z O k v P
+: )? e Q 6 u nk] R *
+f *q lV - O , ?ZP
+7 c 1V H
+e 9 () 8
+U
+’ > D s / w
+; E ’ > M
+q < >
+z b H ( 3
+l X 0g E 6
+```

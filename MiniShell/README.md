@@ -48,3 +48,32 @@ Needed to be able to do:
   - `exit` without any options
 
 ### Bonus
+
+- Handle `&&` and `||` with parenthesis `()` for priority
+- Wildcards `*` should work for the current directory
+
+## Notions
+
+### Interacting Mode
+
+In a shell environment, an interactive shell is one that allows a user to input commands and receive output. This shell reads startup files that occur during activation and displays a prompt. It also enables job control by default. An example of starting an interactive shell is by typing bash after logging into the system. The prompt variable for an interactive shell is set to `$PS1`. Interactive scripts require user input and cannot run in the background.
+
+#### PS1 : Prompt String 1
+
+<div>
+  <span style="color: green;">[user@host</span>
+  <span style="color: blue;"> ~]</span>
+  <span style="color: red;">$</span>
+  </br>
+</div>
+
+Different variable to customize the prompt: [🔗 bash syntax prompt](https://ss64.com/bash/syntax-prompt.html)
+
+WebSite to customize PS1: [🔗 prompt preview](https://www.kirsle.net/wizards/ps1.html)
+
+#### Non-interactive Mode
+
+On the other hand, a non-interactive shell does not interact with the user. It can be run through a script or an automated process. In this case, .bashrc and .profile files do not get executed. Non-interactive scripts can run in the background smoothly. This shell is typically a non-login shell because the calling user has already logged in. A shell running a script is always considered a non-interactive shell
+
+### Builtins
+

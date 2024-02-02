@@ -171,17 +171,17 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 ## Fonctions
 
-- `readline`: Reads a line from the terminal and returns it. Used in command line interfaces.
+- [`readline`](#readline): Reads a line from the terminal and returns it. Used in command line interfaces.
 
-- `rl_clear_history`: Clears the readline history.
+- [`rl_clear_history`](#rl_clear_history): Clears the readline history.
 
-- `rl_on_new_line`: Informs readline that the cursor is on a new line.
+- [`rl_on_new_line`](#rl_on_new_line): Informs readline that the cursor is on a new line.
 
-- `rl_replace_line`: Replaces the current line in readline with the given text.
+- [`rl_replace_line`](#rl_replace_line): Replaces the current line in readline with the given text.
 
-- `rl_redisplay`: Redraws the current line.
+- [`rl_redisplay`](#rl_redisplay): Redraws the current line.
 
-- `add_history`: Adds a line to the readline history.
+- [`add_history`](#add_history): Adds a line to the readline history.
 
 - `printf`: Prints formatted output to stdout.
 
@@ -191,7 +191,7 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 - `write`: Writes data to a file or a file descriptor.
 
-- `access`: Checks the accessibility of a file.
+- [`access`](/Pipex/README.md#access): Checks the accessibility of a file.
 
 - `open`: Opens a file or device.
 
@@ -199,11 +199,11 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 - `close`: Closes a file or a file descriptor.
 
-- `fork`: Creates a new process.
+- [`fork`](/Pipex/README.md#fork): Creates a new process.
 
-- `wait`: Waits for a process to change state.
+- [`wait`](/Pipex/README.md#wait): Waits for a process to change state.
 
-- `waitpid`: Waits for a specific process to change state.
+- [`waitpid`](/Pipex/README.md#waitpid): Waits for a specific process to change state.
 
 - `wait3`: Waits for a child process to stop or terminate.
 
@@ -276,3 +276,269 @@ Wildcards can also be used to represent a range of characters. For example, the 
 - `tgoto`: Moves the cursor to specified position.
 
 - `tputs`: Applies padding information to a string and outputs it.
+
+### Readline
+
+The `readline` function is part of the GNU Readline library, which provides a set of functions for use by applications that allow users to edit command lines as they are typed in. 
+
+Here's a brief overview of how `readline` works:
+
+1. When called, `readline` displays a prompt (if given) and waits for the user to input a line of text.
+
+2. While waiting for input, `readline` provides a number of editing capabilities, including (but not limited to):
+   - Moving the cursor left and right on the line
+   - Deleting characters
+   - Cutting and pasting text
+   - Using history commands to recall previously entered lines
+
+3. The line editing is done using key bindings and key sequences similar to those used in GNU Emacs or vi, depending on the Readline configuration.
+
+4. Once the user presses the Enter key, `readline` returns the text of the line the user typed in. If the line is not empty, it is added to the history list for later recall.
+
+5. If the user signals an end-of-file (usually by pressing Ctrl-D), `readline` returns a NULL pointer.
+
+The `readline` function makes it easier to build interactive command-line applications by handling a lot of the line editing and history functionality that users expect from modern shells.
+
+To use in C, you need to include the `readline/readline.h` header file and link against the Readline library using the `-lreadline` flag.
+
+<details>
+  <summary>Example</summary>
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main() {
+    char* input;
+
+    while(1) {
+        input = readline(">> ");
+
+        if (!input) {
+            break;
+        }
+
+        add_history(input);
+        printf("You entered: %s\n", input);
+
+        free(input);
+    }
+
+    return 0;
+}
+```
+
+```shell
+gcc -o myprogram myprogram.c -lreadline
+```
+
+</details>
+
+[🔗 Readline Documentation](https://tiswww.case.edu/php/chet/readline/readline.html)
+
+[🔗 Readline Manual](https://www.gnu.org/software/bash/manual/html_node/Command-Line-Editing.html)
+
+[🔗 Readline Library](https://tiswww.case.edu/php/chet/readline/rltop.html)
+
+### rl_clear_history
+
+The `rl_clear_history` function is part of the GNU Readline library. 
+
+Here's a brief overview of how `rl_clear_history` works:
+
+1. `rl_clear_history` is a function that clears the history list maintained by readline. 
+
+2. The history list is a list of lines previously entered by the user. This list can be navigated using certain key bindings, allowing the user to easily recall and edit previous inputs.
+
+3. When `rl_clear_history` is called, it removes all items from the history list, freeing the memory used by these items.
+
+4. After `rl_clear_history` has been called, the history list is empty, and the user can no longer recall previous lines using the history navigation commands until new lines are added to the history.
+
+<details>
+  <summary>Example</summary>
+
+Here's a simple example of how to use `rl_clear_history` in a C program:
+
+```c
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main() {
+    char* input;
+
+    while(1) {
+        input = readline(">> ");
+
+        if (!input) {
+            break;
+        }
+
+        add_history(input);
+        printf("You entered: %s\n", input);
+
+        if(strcmp(input, "clear_history") == 0) {
+            rl_clear_history();
+            printf("History cleared.\n");
+        }
+
+        free(input);
+    }
+
+    return 0;
+}
+```
+
+In this example, the program clears the readline history when the user enters "clear_history".
+
+</details>
+
+### rl_on_new_line
+
+The `rl_on_new_line` function is part of the GNU Readline library.
+
+Here's a brief overview of how `rl_on_new_line` works:
+
+1. `rl_on_new_line` is a function that informs the readline library that the cursor is on a new line.
+
+2. This function is typically used after a newline character has been printed or the cursor has been moved to a new line in some other way.
+
+3. It's used to maintain the internal state of the readline library, ensuring that it correctly tracks the position of the cursor.
+
+4. It doesn't directly affect the user's input or the history list.
+
+<details>
+
+  <summary>Example</summary>
+
+Here's an example of how you might use `rl_on_new_line` in a C program:
+
+```c
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main() {
+    char* input;
+
+    while(1) {
+        input = readline(">> ");
+
+        if (!input) {
+            break;
+        }
+
+        add_history(input);
+        printf("You entered: %s\n", input);
+
+        printf("\n");  // print a newline
+        rl_on_new_line();  // inform readline that we're on a new line
+
+        free(input);
+    }
+
+    return 0;
+}
+```
+
+In this example, the program informs readline that it's on a new line after printing a newline character. This is not typically necessary in a simple readline loop like this, but it might be needed in more complex programs that manipulate the terminal in other ways.
+
+For example, if your program prints a multi-line message to the terminal in the middle of a readline loop, you would want to call `rl_on_new_line` after printing the message to ensure that readline correctly tracks the cursor position.
+
+</details>
+
+### rl_replace_line
+
+```c
+/**
+ * *Replaces the current line in readline with the given text.
+ * @param text The text to replace the current line with.
+ * @param clear_undo If non-zero, the replaced line will be saved in the undo list.
+ * @return 0 on success, -1 on error.
+ */
+int rl_replace_line(const char *text, int clear_undo);
+```
+
+`rl_replace_line` is a function that is part of the GNU Readline library.
+
+- It replaces the current line that readline is working with, with the text provided as an argument.
+
+- This function is typically used when you want to programmatically change the text that the user is editing.
+
+- It doesn't directly affect the history list, but the replaced line will be added to the history if the user presses Enter.
+
+<details>
+
+  <summary>Example</summary>
+
+Here's an example of how you might use `rl_replace_line` in a C program:
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+int main() {
+    char* input;
+
+    while(1) {
+        input = readline(">> ");
+
+        if (!input) {
+            break;
+        }
+
+        if(strcmp(input, "replace_line") == 0) {
+            rl_replace_line("This line has been replaced.", 0);
+            printf("The readline \"%s\" -> was replace with: \"%s\"\n", input, rl_copy_text(0, rl_end));
+        } else {
+            add_history(input);
+            printf("You entered: %s\n", input);
+        }
+
+        free(input);
+    }
+
+    return 0;
+}
+```
+
+In this example, the program replaces the current line with "This line has been replaced." when the user enters "replace_line".
+
+The `rl_end` variable in the GNU Readline library refers to the index of the last character in the current line buffer (`rl_line_buffer`). The line buffer is where the input line being edited is stored. When the cursor is at the end of the line, `rl_point` and `rl_end` are equal. The `rl_end` variable is useful when you want to manipulate or retrieve the entire line from the line buffer.
+
+</details>
+
+### rl_redisplay
+
+```c
+void rl_redisplay(void);
+```
+
+`rl_redisplay` is a function that is part of the GNU Readline library.
+
+- It redraws the current line that readline is working with.
+
+- This function is typically used when you want to update the display after making changes to the line buffer programmatically.
+
+### add_history
+
+```c
+/**
+ * *Adds a line to the readline history.
+ * @param string The line to add to the history.
+ */
+void add_history(const char *string);
+```
+
+`add_history` is a function that is part of the GNU Readline library.
+
+- It adds a line to the history list maintained by readline.
+
+- The history list is a list of lines previously entered by the user. This list can be navigated using certain key bindings, allowing the user to easily recall and edit previous inputs.
+
+- When `add_history` is called, it adds the provided line to the history list, making it available for later recall.
+

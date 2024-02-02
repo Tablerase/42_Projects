@@ -69,19 +69,27 @@ Example of file `.gitignore`
 
 ```gitignore
 # Program
-program_name
+program
+program_bonus
 
 # Files generated to ignore
 *.a
 *.o
 *.so
 *.out
+*.txt
 
 # Prevent send of git ignore into project
 .gitignore
 
 # miniLibX
 /mlx/
+
+# VSCode
+.vscode/
+
+# Test
+/Test/
 ```
 
 ## Stash

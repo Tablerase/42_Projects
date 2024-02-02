@@ -209,13 +209,13 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 - `wait4`: Waits for a child process to stop or terminate, with resource usage information.
 
-- `signal`: Sets a function to handle a signal.
+- [`signal`](#signal): Sets a function to handle a signal.
 
-- `sigaction`: Examines and changes a signal action.
+- [`sigaction`](#sigaction): Examines and changes a signal action.
 
-- `sigemptyset`: Initializes a signal set to empty.
+- [`sigemptyset`](#sigemptyset): Initializes a signal set to empty.
 
-- `sigaddset`: Adds a signal to a signal set.
+- [`sigaddset`](#sigaddset): Adds a signal to a signal set.
 
 - `kill`: Sends a signal to a process or a group of processes.
 
@@ -231,15 +231,15 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 - `fstat`: Like `stat`, but takes a file descriptor instead of a file name.
 
-- `unlink`: Deletes a name from the filesystem.
+- [`unlink`](/Pipex/README.md#unlink): Deletes a name from the filesystem.
 
-- `execve`: Executes a program.
+- [`execve`](/Pipex/README.md#execve): Executes a program.
 
-- `dup`: Duplicates a file descriptor.
+- [`dup`](/Pipex/README.md#dup): Duplicates a file descriptor.
 
-- `dup2`: Duplicates a file descriptor to a specified file descriptor.
+- [`dup2`](/Pipex/README.md#dup): Duplicates a file descriptor to a specified file descriptor.
 
-- `pipe`: Creates a pipe.
+- [`pipe`](/Pipex/README.md#pipe): Creates a pipe.
 
 - `opendir`: Opens a directory.
 
@@ -247,9 +247,9 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 - `closedir`: Closes a directory.
 
-- `strerror`: Returns a string describing an error number.
+- [`strerror`](/Pipex/README.md#strerror): Returns a string describing an error number.
 
-- `perror`: Prints a descriptive error message to stderr.
+- [`perror`](/Pipex/README.md#perror): Prints a descriptive error message to stderr.
 
 - `isatty`: Tests whether a file descriptor refers to a terminal.
 
@@ -541,4 +541,265 @@ void add_history(const char *string);
 - The history list is a list of lines previously entered by the user. This list can be navigated using certain key bindings, allowing the user to easily recall and edit previous inputs.
 
 - When `add_history` is called, it adds the provided line to the history list, making it available for later recall.
+
+### signal
+
+The `signal` function is a part of the C Standard Library, specifically included in the `signal.h` (or `csignal` in C++) header file. It's used to handle signals, which are software interrupts sent to a process to notify it of certain events.
+
+Here's the function prototype:
+
+```c
+void (*signal(int signum, void (*handler)(int)))(int);
+```
+
+- `signum`: This is the signal number that you want to handle. There are several predefined signals like `SIGINT` for interrupt signal, `SIGABRT` for abort signal, etc.
+
+- `handler`: This is a pointer to a function that takes an integer as an argument and returns void. This function will be called when the process receives the specified signal. There are also two special handlers: `SIG_IGN` and `SIG_DFL`. `SIG_IGN` tells the process to ignore the signal and `SIG_DFL` tells the process to perform the default action for the signal.
+
+The `signal` function returns the previous handler for the signal. If an error occurs, it returns `SIG_ERR`.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `signal` function:
+
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int signal_received = 0;
+
+void handle_sigint(int sig) 
+{ 
+    printf("\nCaught signal %d\n", sig);
+	signal_received++;
+	printf("Signal to exit: %d\n", 3 - signal_received);
+	if (signal_received == 3)
+		exit(0);
+} 
+
+int main() 
+{
+    signal(SIGINT, handle_sigint); 
+    while (1) ; 
+    return 0; 
+}
+```
+
+In this example, the `handle_sigint` function is set to handle the `SIGINT` signal (which is typically sent when the user presses Ctrl+C). When `SIGINT` is received, the program will print "Caught signal 2" and continue running.
+
+</details>
+
+Here are some common signals: (Note: The signal numbers may vary depending on the system)
+
+| Signal Number (`signum`) | Description |
+|--------------------------|-------------|
+| `SIGINT`                 | Interrupt signal. This is typically sent when the user presses Ctrl+C. |
+| `SIGABRT`                | Abort signal. This is sent by the `abort` function. |
+| `SIGFPE`                 | Floating point exception signal. This is sent when a floating point or arithmetic error occurs. |
+| `SIGILL`                 | Illegal instruction signal. This is sent when an illegal instruction is encountered. |
+| `SIGSEGV`                | Segmentation fault signal. This is sent when a program accesses memory incorrectly. |
+| `SIGTERM`                | Termination signal. This is sent to request the termination of a program. |
+
+| Signal Mask (`sigmask`) | Description |
+|-------------------------|-------------|
+| `SIG_BLOCK`             | The set of blocked signals is the union of the current set and the set argument. |
+| `SIG_UNBLOCK`           | The signals in set are removed from the current set of blocked signals. It is permissible to attempt to unblock a signal which is not blocked. |
+| `SIG_SETMASK`           | The set of blocked signals is set to the argument set. |
+
+| Signal Flags (`sigflags`) | Description |
+|---------------------------|-------------|
+| `SA_NOCLDSTOP`            | If signum is `SIGCHLD`, do not receive notification when child processes stop. |
+| `SA_NOCLDWAIT`            | If signum is `SIGCHLD`, do not transform children into zombies when they terminate. |
+| `SA_NODEFER`              | Do not prevent the signal from being received from within its own signal handler. |
+| `SA_ONSTACK`              | Call the signal handler on an alternate signal stack provided by `sigaltstack`. |
+| `SA_RESETHAND`            | Reset the signal handler to the default upon entry to the signal handler. |
+| `SA_RESTART`              | Provide behavior compatible with BSD signal semantics by making certain system calls restartable across signals. |
+| `SA_SIGINFO`              | The signal handler takes three arguments, not one. |
+
+### sigaction
+
+The `sigaction` function is a part of the POSIX standard and is used to change the action taken by a process on receipt of a specific signal. It's more reliable and flexible than the `signal` function.
+
+Here's the function prototype:
+
+```c
+int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+```
+
+- `signum`: This is the signal number that you want to handle.
+
+- `act`: This is a pointer to a `struct sigaction` which specifies the new action for the signal.
+
+- `oldact`: This is a pointer to a `struct sigaction` where `sigaction` will store the old action for the signal. If it's NULL, the old action is not saved.
+
+The `struct sigaction` looks like this:
+
+```c
+struct sigaction {
+    void     (*sa_handler)(int);
+    void     (*sa_sigaction)(int, siginfo_t *, void *);
+    sigset_t   sa_mask;
+    int        sa_flags;
+    void     (*sa_restorer)(void);
+};
+```
+
+- `sa_handler`: This is a pointer to a signal handling function or one of the macros `SIG_IGN` or `SIG_DFL`.
+
+- `sa_sigaction`: This is a pointer to a signal handling function which takes three arguments, instead of one. This is used if the `SA_SIGINFO` flag is specified in `sa_flags`.
+
+- `sa_mask`: This is a set of signals to be blocked during execution of the signal handling function.
+
+- `sa_flags`: This is a set of flags which modify the behavior of the signal.
+
+- `sa_restorer`: This is not used in modern systems.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `sigaction` function:
+
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int g_signal_received = 0;
+
+void handle_sigint(int sig)
+{ 
+    printf("\nCaught signal %d\n", sig);
+	g_signal_received++;
+	printf("Signal to exit: %d\n", 3 - g_signal_received);
+	if (g_signal_received == 3)
+		exit(0);
+}
+
+int main()
+{
+    struct sigaction sa;
+    sa.sa_handler = handle_sigint;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
+    while (1) ;
+    return 0;
+}
+```
+
+In this example, the `handle_sigint` function is set to handle the `SIGINT` signal (which is typically sent when the user presses Ctrl+C). When `SIGINT` is received, the program will print "Caught signal 2" and continue running.
+
+</details>
+
+### sigemptyset
+
+The `sigemptyset` function is a part of the POSIX standard and is used to initialize a signal set to be empty. It's typically used in conjunction with other signal handling functions like `sigaction`.
+
+Here's the function prototype:
+
+```c
+int sigemptyset(sigset_t *set);
+```
+
+- `set`: This is a pointer to a `sigset_t` structure that you want to initialize to empty.
+
+The function returns 0 on success, and -1 on error.
+
+The `sigset_t` structure is used to represent a set of signals. It's used by various signal handling functions to define a set of signals to be blocked, unblocked or waited for.
+
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `sigemptyset` function:
+
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int g_signal_received = 0;
+
+void handle_sigint(int sig)
+{ 
+    printf("\nCaught signal %d\n", sig);
+	g_signal_received++;
+	printf("Signal to exit: %d\n", 3 - g_signal_received);
+	if (g_signal_received == 3)
+		exit(0);
+}
+
+int main() 
+{ 
+    struct sigaction sa;
+    sa.sa_handler = handle_sigint;
+    sigemptyset(&sa.sa_mask); // Initialize the mask to empty
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
+    while (1) ; 
+    return 0; 
+}
+```
+
+In this example, `sigemptyset` is used to initialize `sa.sa_mask` to be empty. This means that no signals are blocked while the `handle_sigint` function is running.
+
+</details>
+
+The actual implementation of `sigset_t` is not defined in the POSIX standard, and it can vary between different systems. It's typically implemented as a bit array or integer type that's large enough to support all the signals that the system provides.
+
+Because the actual implementation of `sigset_t` is not defined, you should not manipulate `sigset_t` objects directly. Instead, you should use the functions provided by the POSIX standard to manipulate signal sets. These functions include `sigemptyset`, `sigfillset`, `sigaddset`, `sigdelset`, `sigismember`, and others.
+
+### sigaddset
+
+The `sigaddset` function is part of the POSIX standard and is used to add a specific signal to a signal set.
+
+Here's the function prototype:
+
+```c
+int sigaddset(sigset_t *set, int signum);
+```
+
+- `set`: This is a pointer to a `sigset_t` structure that represents the signal set.
+- `signum`: This is the signal number that you want to add to the set.
+
+The function returns 0 on success, and -1 on error.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `sigaddset` function:
+
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int main() 
+{ 
+    sigset_t set;
+
+    // Initialize the signal set to be empty
+    sigemptyset(&set);
+
+    // Add SIGINT to the set
+    sigaddset(&set, SIGBUS);
+
+    // Check if SIGINT is in the set
+    if (sigismember(&set, SIGINT)) {
+        printf("SIGINT is in the set\n");
+    }
+
+	// Add SIGINT to the set
+	printf("Adding SIGINT to the set\n");
+	sigaddset(&set, SIGINT);
+
+	// Check if SIGINT is in the set
+	if (sigismember(&set, SIGINT)) {
+		printf("SIGINT is in the set\n");
+	}
+
+    return 0; 
+}
+```
+
+In this example, `sigemptyset` is used to initialize the signal set to be empty, and then `sigaddset` is used to add `SIGINT` to the set. The `sigismember` function is then used to check if `SIGINT` is in the set, and it prints "SIGINT is in the set".
+
+</details>
 

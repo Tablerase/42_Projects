@@ -13,6 +13,7 @@
   * [Operator Precedence](#operator-precedence)
     * [Precedence Level](#precedence-level)
   * [Wildcards](#wildcards)
+  * [Restrict : `restrict` keyword](#restrict--restrict-keyword)
 * [Fonctions](#fonctions)
 
 ## Description
@@ -169,6 +170,27 @@ report.txt report1.txt report2.txt report4.txt
 
 Wildcards can also be used to represent a range of characters. For example, the wildcard `[a-z]` represents all lowercase letters, while the wildcard `[0-9]` represents all numbers. The wildcard `[!a-z]` represents all characters except lowercase letters.
 
+### Restrict : `restrict` keyword
+
+The `restrict` keyword is a pointer qualifier used in C and C++ (in C++ it's not part of the language standard but can be used as a compiler extension). It was introduced in the C99 standard.
+
+When a pointer is qualified with `restrict`, it tells the compiler that for the scope of the pointer declaration, the object pointed to by this pointer is only accessed through this pointer and not through any other pointer.
+
+This allows the compiler to optimize the code, knowing that there are no aliasing issues, i.e., no other pointer will be used to access the same memory during the lifetime of the `restrict`-qualified pointer.
+
+Here's an example:
+
+```c
+void update(int *restrict ptr1, int *restrict ptr2, int *restrict ptr3)
+{
+    *ptr1 += 5;
+    *ptr2 += 6;
+    *ptr3 += 7;
+}
+```
+
+In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`, and `ptr3` are the only ways to access their respective objects in memory during the execution of the function. This allows the compiler to make certain optimizations it might not otherwise be able to make.
+
 ## Fonctions
 
 - [`readline`](#readline): Reads a line from the terminal and returns it. Used in command line interfaces.
@@ -217,15 +239,15 @@ Wildcards can also be used to represent a range of characters. For example, the 
 
 - [`sigaddset`](#sigaddset): Adds a signal to a signal set.
 
-- `kill`: Sends a signal to a process or a group of processes.
+- [`kill`](#kill): Sends a signal to a process or a group of processes.
 
 - `exit`: Terminates the process.
 
-- `getcwd`: Gets the current working directory.
+- [`getcwd`](#getcwd): Gets the current working directory.
 
-- `chdir`: Changes the current working directory.
+- [`chdir`](#chdir): Changes the current working directory.
 
-- `stat`: Gets file status.
+- [`stat`](#stat): Gets file status.
 
 - `lstat`: Like `stat`, but if the file is a symbolic link, then it returns information about the link itself, not the file it refers to.
 
@@ -803,3 +825,311 @@ In this example, `sigemptyset` is used to initialize the signal set to be empty,
 
 </details>
 
+### kill
+
+The `kill` function is a part of the POSIX standard and is used to send a signal to a process or a group of processes.
+
+Here's the function prototype:
+
+```c
+int kill(pid_t pid, int sig);
+```
+
+- `pid`: This is the process ID to which the signal is sent. There are several special values:
+  - If `pid` is `> 0`, the signal is sent to the process with the ID `pid`.
+  - If `pid` is `0`, the signal is sent to every process in the process group of the calling process.
+  - If `pid` is `-1`, the signal is sent to every process for which the calling process has permission to send signals, except for process 1 (init), but see below.
+  - If `pid` is `< -1`, the signal is sent to every process in the process group `-pid`.
+
+- `sig`: This is the signal number that you want to send. If `sig` is 0, then no signal is sent, but error checking is still performed.
+
+The function returns 0 on success, and -1 on error.
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `kill` function:
+
+```c
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+
+int main() 
+{ 
+    printf("Sending SIGINT to this process\n");
+
+    // Send SIGINT to the current process
+    // This will cause the process to interrupt
+    kill(getpid(), SIGINT);
+
+    return 0; 
+}
+```
+
+In this example, the `kill` function is used to send the `SIGINT` signal to the current process, which causes the process to interrup. The `getpid` function is used to get the process ID of the current process.
+
+</details>
+
+### getcwd
+
+The `getcwd` function is a part of the POSIX standard and is used to get the current working directory of the process.
+
+Here's the function prototype:
+
+```c
+char *getcwd(char *buf, size_t size);
+```
+
+- `buf`: This is a pointer to a buffer where the current working directory will be stored.
+- `size`: This is the size of the buffer.
+
+The function returns a pointer to the buffer on success, and NULL on error. If the length of the absolute pathname of the current working directory, including the terminating null byte, exceeds `size` bytes, NULL is returned, and `errno` is set to `ERANGE`.
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `getcwd` function:
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() 
+{ 
+    char buf[1024];
+
+    // Get the current working directory
+    if (getcwd(buf, sizeof(buf)) != NULL) {
+        printf("Current working directory: %s\n", buf);
+    } else {
+        perror("getcwd() error");
+        return 1;
+    }
+
+    return 0; 
+} 
+```
+
+In this example, the `getcwd` function is used to get the current working directory and store it in `buf`. The current working directory is then printed to the console. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### chdir
+
+The `chdir` function is a part of the POSIX standard and is used to change the current working directory of the process.
+
+Here's the function prototype:
+
+```c
+int chdir(const char *path);
+```
+
+- `path`: This is a string that specifies the path to the new working directory.
+
+The function returns 0 on success, and -1 on error.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `chdir` function:
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() 
+{ 
+    char buf[1024];
+
+	// Get the current working directory
+	if (getcwd(buf, sizeof(buf)) != NULL) {
+		printf("Current working directory: %s\n", buf);
+	} else {
+		perror("getcwd() error");
+		return 1;
+	}
+	
+	printf("Changing working directory to /tmp\n");
+    // Change the current working directory
+    if (chdir("/tmp") == 0) {
+        // Get the new current working directory
+        if (getcwd(buf, sizeof(buf)) != NULL) {
+            printf("New working directory: %s\n", buf);
+        } else {
+            perror("getcwd() error");
+            return 1;
+        }
+    } else {
+        perror("chdir() error");
+        return 1;
+    }
+
+    return 0; 
+} 
+```
+
+In this example, the `chdir` function is used to change the current working directory to `/tmp`. The new current working directory is then retrieved with `getcwd` and printed to the console. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### stat
+
+The `stat` function is a part of the POSIX standard and is used to get file status information.
+
+Here's the function prototype:
+
+```c
+int stat(const char *restrict path, struct stat *restrict buf);
+```
+
+- `path`: This is a string that specifies the path to the file.
+- `buf`: This is a pointer to a `struct stat` where the file status information will be stored.
+
+The function returns 0 on success, and -1 on error.
+
+The `struct stat` is defined as follows:
+
+```c
+struct stat {
+    dev_t     st_dev;     /* ID of device containing file */
+    ino_t     st_ino;     /* inode number */
+    mode_t    st_mode;    /* protection */
+    nlink_t   st_nlink;   /* number of hard links */
+    uid_t     st_uid;     /* user ID of owner */
+    gid_t     st_gid;     /* group ID of owner */
+    dev_t     st_rdev;    /* device ID (if special file) */
+    off_t     st_size;    /* total size, in bytes */
+    blksize_t st_blksize; /* blocksize for file system I/O */
+    blkcnt_t  st_blocks;  /* number of 512B blocks allocated */
+    time_t    st_atime;   /* time of last access */
+    time_t    st_mtime;   /* time of last modification */
+    time_t    st_ctime;   /* time of last status change */
+};
+```
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `stat` function:
+
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+
+int main() 
+{ 
+    struct stat sb;
+
+    // Get file status information
+    if (stat("/tmp", &sb) == 0) {
+        printf("Last status change: %s", ctime(&sb.st_ctime));
+        printf("Last file access: %s", ctime(&sb.st_atime));
+        printf("Last file modification: %s", ctime(&sb.st_mtime));
+    } else {
+        perror("stat() error");
+        return 1;
+    }
+
+    return 0; 
+} 
+```
+
+In this example, the `stat` function is used to get the status information of the `/tmp` directory. The times of the last status change, last access, and last modification are then printed to the console. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### lstat
+
+The `lstat` function is similar to `stat`, but when the named file is a symbolic link, `lstat` returns information about the link itself, not the file it refers to.
+
+Here's the function prototype:
+
+```c
+int lstat(const char *restrict path, struct stat *restrict buf);
+```
+
+- `path`: This is a string that specifies the path to the file.
+- `buf`: This is a pointer to a `struct stat` where the file status information will be stored.
+
+The function returns 0 on success, and -1 on error.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `lstat` function:
+
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+
+int main() 
+{ 
+    struct stat sb;
+
+    // Get file status information
+    if (lstat("/tmp/symlink", &sb) == 0) {
+        printf("Last status change: %s", ctime(&sb.st_ctime));
+        printf("Last file access: %s", ctime(&sb.st_atime));
+        printf("Last file modification: %s", ctime(&sb.st_mtime));
+    } else {
+        perror("lstat() error");
+        return 1;
+    }
+
+    return 0; 
+}
+```
+
+In this example, the `lstat` function is used to get the status information of the `/tmp/symlink` symbolic link. The times of the last status change, last access, and last modification are then printed to the console. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### fstat
+
+The `fstat` function is a part of the POSIX standard and is used to get file status information about an open file.
+
+Here's the function prototype:
+
+```c
+int fstat(int fd, struct stat *buf);
+```
+
+- `fd`: This is a file descriptor of an open file.
+- `buf`: This is a pointer to a `struct stat` where the file status information will be stored.
+
+The function returns 0 on success, and -1 on error.
+
+Here's an example of how to use the `fstat` function:
+
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() 
+{ 
+    struct stat sb;
+    int fd;
+
+    fd = open("/tmp", O_RDONLY);
+    if (fd == -1) {
+        perror("open() error");
+        return 1;
+    }
+
+    // Get file status information
+    if (fstat(fd, &sb) == 0) {
+        printf("File size: %lld bytes\n", (long long) sb.st_size);
+    } else {
+        perror("fstat() error");
+        return 1;
+    }
+
+    close(fd);
+    return 0; 
+} 
+```
+
+In this example, the `fstat` function is used to get the status information of the file opened with the `open` function. The size of the file is then printed to the console. If an error occurs, an error message is printed to the console.

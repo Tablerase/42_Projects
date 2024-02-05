@@ -1942,19 +1942,26 @@ Here's an example of how to use the `tgetstr` function:
 #include <termcap.h>
 #include <stdlib.h>
 
-char bp[1024];
+#define MAXTERM 1024
+#define MAXENTRY 512
+
+
+char bp[MAXTERM];
 char *area;
 
 int main() {
     char *tgetstr();
     char *p, *q;
-    char tc[10];
 
     p = getenv("TERM");
     tgetent(bp,p);
     q = area;
     p = tgetstr("cl",&q);
-    tputs(p, 1, putchar);
+    if (p == NULL) {
+        printf("Clear screen capability not found.\n");
+    } else {
+        tputs(p, 1, putchar);
+    }
 
     return 0;
 }
@@ -2009,4 +2016,118 @@ Please note that not all terminals define all capabilities, and the actual capab
 
 ### tgoto
 
+`tgoto` is a function in the termcap library, which is used for terminal handling in Unix-like operating systems.
+
+The `tgoto` function is used to generate a cursor addressing string. It takes three arguments: the cursor motion string (obtained from `tgetstr`), and the destination column and row.
+
+Here's the function prototype:
+
+```c
+#include <term.h>
+
+char* tgoto(const char* cap, int col, int row);
+```
+
+* `cap` is the cursor motion string, usually obtained from `tgetstr("cm", &buffer)`.
+* `col` is the destination column.
+* `row` is the destination row.
+
+The function returns a pointer to a string which can be used to move the cursor to the specified position. If the cursor motion string is not valid, it returns a pointer to an error message.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `tgoto` function:
+
+```c
+#include <termcap.h>
+#include <stdlib.h>
+
+char bp[1024];
+char *area;
+
+int main() {
+    char *tgetstr();
+    char *p, *q;
+
+    p = getenv("TERM");
+    tgetent(bp,p);
+    q = area;
+    p = tgetstr("cm",&q);
+    if (p == NULL) {
+        printf("Cursor motion capability not found.\n");
+    } else {
+        char* cursor_move = tgoto(p, 25, 20);
+        tputs(cursor_move, 1, putchar);
+    }
+
+	// printf at 25 column, 20 row
+	printf("Input moved to 25, 20:");
+	char str[64];
+	scanf("%s", str);
+
+	// printf at normal position
+	printf("You entered: %s\n", str);
+	
+    return 0;
+}
+```
+
+In this example, the `tgetstr` function is used to retrieve the "cm" (cursor motion) terminal capability. The `tgoto` function is then used to generate a string that moves the cursor to the position (10, 5). This string is output to the terminal using `tputs`.
+
+</details>
+
 ### tputs
+
+`tputs` is a function in the termcap library, which is used for terminal handling in Unix-like operating systems.
+
+The `tputs` function is used to output a string to the terminal. It takes three arguments: the string to output, an integer indicating the number of lines affected by the output, and a pointer to an output function.
+
+Here's the function prototype:
+
+```c
+#include <term.h>
+
+int tputs(const char* str, int affcnt, int (*putc)(int));
+```
+
+* `str` is the string to output.
+* `affcnt` is the number of lines affected by the output. This is used to add padding characters if necessary.
+* `putc` is a pointer to an output function. This function is called to output each character of the string.
+
+The function returns an integer. If it completes successfully, it returns OK. If an error occurs, it returns ERR.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `tputs` function:
+
+```c
+#include <term.h>
+#include <curses.h>
+#include <stdlib.h>
+
+char bp[1024];
+char *area;
+
+int main() {
+    char *tgetstr();
+    char *p, *q;
+
+    p = getenv("TERM");
+    tgetent(bp,p);
+    q = area;
+    p = tgetstr("cl",&q);
+    if (p == NULL) {
+        printf("Clear screen capability not found.\n");
+    } else {
+        tputs(p, 1, putchar);
+    }
+
+    return 0;
+}
+```
+
+In this example, the `tgetstr` function is used to retrieve the "cl" (clear screen) terminal capability. The resulting string is then output to the terminal using `tputs`.
+
+</details>

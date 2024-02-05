@@ -249,9 +249,9 @@ In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`,
 
 - [`stat`](#stat): Gets file status.
 
-- `lstat`: Like `stat`, but if the file is a symbolic link, then it returns information about the link itself, not the file it refers to.
+- [`lstat`](#lstat): Like `stat`, but if the file is a symbolic link, then it returns information about the link itself, not the file it refers to.
 
-- `fstat`: Like `stat`, but takes a file descriptor instead of a file name.
+- [`fstat`](#fstat): Like `stat`, but takes a file descriptor instead of a file name.
 
 - [`unlink`](/Pipex/README.md#unlink): Deletes a name from the filesystem.
 
@@ -263,21 +263,21 @@ In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`,
 
 - [`pipe`](/Pipex/README.md#pipe): Creates a pipe.
 
-- `opendir`: Opens a directory.
+- [`opendir`](#opendir): Opens a directory.
 
-- `readdir`: Reads a directory.
+- [`readdir`](#readdir): Reads a directory.
 
-- `closedir`: Closes a directory.
+- [`closedir`](#closedir): Closes a directory.
 
 - [`strerror`](/Pipex/README.md#strerror): Returns a string describing an error number.
 
 - [`perror`](/Pipex/README.md#perror): Prints a descriptive error message to stderr.
 
-- `isatty`: Tests whether a file descriptor refers to a terminal.
+- [`isatty`](#isatty): Tests whether a file descriptor refers to a terminal.
 
-- `ttyname`: Returns the name of the terminal.
+- [`ttyname`](#ttyname): Returns the name of the terminal.
 
-- `ttyslot`: Returns the terminal slot number.
+- [`ttyslot`](#ttyslot): Returns the terminal slot number.
 
 - `ioctl`: Controls device.
 
@@ -1100,6 +1100,9 @@ int fstat(int fd, struct stat *buf);
 
 The function returns 0 on success, and -1 on error.
 
+<details>
+  <summary>Example</summary>
+
 Here's an example of how to use the `fstat` function:
 
 ```c
@@ -1133,3 +1136,310 @@ int main()
 ```
 
 In this example, the `fstat` function is used to get the status information of the file opened with the `open` function. The size of the file is then printed to the console. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### opendir
+
+The `opendir` function is a part of the POSIX standard and is used to open a directory stream corresponding to a given directory, so that the contents of the directory can be retrieved.
+
+Here's the function prototype:
+
+```c
+DIR* opendir(const char *name);
+```
+
+- `name`: This is a string representing the path to the directory.
+
+The function returns a pointer to a `DIR` structure representing the directory stream. If an error occurs (for example, if the directory does not exist), `opendir` returns `NULL`.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `opendir` function:
+
+```c
+#include <dirent.h>
+
+int main() 
+{ 
+    DIR* dir = opendir("/path/to/directory");
+    if (dir == NULL) {
+        perror("opendir() error");
+        return 1;
+    }
+
+    // Use the directory stream...
+    // Don't forget to close it when you're done
+    closedir(dir);
+
+    return 0; 
+} 
+```
+
+In this example, the `opendir` function is used to open a directory stream for the directory at `/path/to/directory`. If the directory stream is successfully opened, `opendir` returns a pointer to a `DIR` structure representing the directory stream. If an error occurs, an error message is printed to the console.
+
+</details>
+
+#### DIR structure
+
+The `DIR` structure represents a directory stream in the C programming language. It's defined in the `dirent.h` header file. However, the exact contents of the `DIR` structure are not defined in the POSIX standard, and they can vary between different operating systems and C libraries.
+
+Because of this, you generally shouldn't need to access the members of the `DIR` structure directly. Instead, you should use the functions provided by the `dirent.h` header file, such as `opendir`, `readdir`, and `closedir`, to work with directory streams.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how you might use these functions to read the contents of a directory:
+
+```c
+#include <dirent.h>
+#include <stdio.h>
+
+int main() {
+    DIR *dir;
+    struct dirent *entry;
+
+    dir = opendir("/home/");
+    if (dir == NULL) {
+        perror("opendir() error");
+        return 1;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        printf("%s\n", entry->d_name);
+    }
+
+    closedir(dir);
+    return 0;
+}
+```
+
+In this example, `opendir` is used to open a directory stream, `readdir` is used to read the entries in the directory, and `closedir` is used to close the directory stream when we're done with it. The `d_name` member of the `struct dirent` structure represents the name of the directory entry.
+
+</details>
+
+### readdir
+
+The `readdir` function is a part of the `dirent.h` library in C and is used to read a directory entry from a directory stream. It allows you to retrieve the contents of the directory.
+
+Here's the function prototype:
+
+```c
+struct dirent* readdir(DIR *dirp);
+```
+
+- `dirp`: This is a pointer to a `DIR` structure representing the directory stream.
+
+The function returns a pointer to a `dirent` structure representing the next directory entry in the directory stream. If there are no more entries to read, or if an error occurs, `readdir` returns `NULL`.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `readdir` function:
+
+```c
+#include <dirent.h>
+
+int main() 
+{ 
+    DIR* dir = opendir("/path/to/directory");
+    if (dir == NULL) {
+        perror("opendir() error");
+        return 1;
+    }
+
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        printf("%s\n", entry->d_name);
+    }
+
+    // Don't forget to close the directory stream when you're done
+    closedir(dir);
+
+    return 0; 
+} 
+```
+
+In this example, the `readdir` function is used to read all the entries in the directory at `/path/to/directory`. For each entry, the name of the entry is printed to the console. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### closedir
+
+The `closedir` function is a part of the `dirent.h` library in C and is used to close a directory stream that was previously opened by `opendir`. It's important to close directory streams when you're done with them to free up system resources.
+
+Here's the function prototype:
+
+```c
+int closedir(DIR *dirp);
+```
+
+- `dirp`: This is a pointer to a `DIR` structure representing the directory stream.
+
+The function returns 0 on success. If an error occurs, `closedir` returns -1.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `closedir` function:
+
+```c
+#include <dirent.h>
+
+int main() 
+{ 
+    DIR* dir = opendir("/path/to/directory");
+    if (dir == NULL) {
+        perror("opendir() error");
+        return 1;
+    }
+
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        printf("%s\n", entry->d_name);
+    }
+
+    // Close the directory stream
+    if (closedir(dir) == -1) {
+        perror("closedir() error");
+        return 1;
+    }
+
+    return 0; 
+} 
+```
+
+In this example, the `closedir` function is used to close the directory stream for the directory at `/path/to/directory` after all the entries have been read. If the directory stream is successfully closed, `closedir` returns 0. If an error occurs, an error message is printed to the console.
+
+</details>
+
+### isatty
+
+The `isatty` function is a part of the `unistd.h` library in C and is used to check if a file descriptor refers to a terminal.
+
+Here's the function prototype:
+
+```c
+int isatty(int fd);
+```
+
+- `fd`: This is the file descriptor that you want to check.
+
+The function returns 1 if `fd` refers to a terminal, and 0 if it does not. If an error occurs, `isatty` returns 0 and sets `errno` to indicate the error.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `isatty` function:
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() 
+{ 
+    if (isatty(STDOUT_FILENO)) {
+        printf("STDOUT is a terminal.\n");
+    } else {
+        printf("STDOUT is not a terminal.\n");
+    }
+
+    return 0; 
+}
+```
+
+In this example, the `isatty` function is used to check if the standard output (STDOUT) is a terminal. If STDOUT is a terminal, a message is printed to the console indicating this. If STDOUT is not a terminal, a different message is printed.
+
+</details>
+
+#### TTY (Teletypewriter)
+
+A TTY (Teletypewriter) is a terminal device in computing which provides text-based communication between machines. It was originally designed to send and receive typed messages without the need for a human operator.
+
+In modern computing, the term "TTY" is often used to refer to any terminal, including virtual terminals provided by software, not just physical teletypewriter machines. For example, when you open a terminal window on a Unix-like operating system, you're using a TTY.
+
+The `isatty` function in C checks if a given file descriptor refers to a terminal (TTY), which can be useful to determine if your program is being run interactively or is being redirected to a file or piped to another program.
+
+### ttyname
+
+The `ttyname` function is a part of the `unistd.h` library in C and is used to get the name of the terminal associated with a given file descriptor.
+
+Here's the function prototype:
+
+```c
+char *ttyname(int fd);
+```
+
+- `fd`: This is the file descriptor that you want to get the terminal name for.
+
+The function returns a pointer to a string containing the name of the terminal. If `fd` is not associated with a terminal, or if an error occurs, `ttyname` returns `NULL`.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `ttyname` function:
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() 
+{ 
+    char *name = ttyname(STDOUT_FILENO);
+    if (name == NULL) {
+        perror("ttyname() error");
+        return 1;
+    }
+
+    printf("The terminal name for STDOUT is: %s\n", name);
+
+    return 0;
+} 
+```
+
+In this example, the `ttyname` function is used to get the name of the terminal associated with the standard output (STDOUT). If STDOUT is associated with a terminal, the name of the terminal is printed to the console. If STDOUT is not associated with a terminal, or if an error occurs, an error message is printed to the console.
+
+</details>
+
+### ttyslot
+
+The `ttyslot` function is a part of the `unistd.h` library in C and is used to get the index of the current process's controlling terminal in the system's list of terminals.
+
+Here's the function prototype:
+
+```c
+int ttyslot(void);
+```
+
+The function does not take any arguments.
+
+The function returns the index of the current process's controlling terminal in the system's list of terminals. If the current process does not have a controlling terminal, or if an error occurs, `ttyslot` returns 0.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `ttyslot` function:
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() 
+{ 
+    int slot = ttyslot();
+    if (slot == 0) {
+        perror("ttyslot() error");
+        return 1;
+    }
+
+    printf("The terminal slot for this process is: %d\n", slot);
+
+    return 0; 
+} 
+```
+
+In this example, the `ttyslot` function is used to get the index of the current process's controlling terminal in the system's list of terminals. If the current process has a controlling terminal, the index of the terminal is printed to the console. If the current process does not have a controlling terminal, or if an error occurs, an error message is printed to the console.
+
+</details>
+

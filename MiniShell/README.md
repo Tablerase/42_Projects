@@ -1443,3 +1443,570 @@ In this example, the `ttyslot` function is used to get the index of the current 
 
 </details>
 
+
+### ioctl
+
+`ioctl` stands for "input-output control". It's a kind of catch-all system call in Unix and Unix-like operating systems. It provides a way for a program to interact with a device driver, allowing it to configure hardware, control it, or otherwise communicate with it.
+
+The `ioctl` function has three arguments: a file descriptor, a request code, and a pointer to memory. The file descriptor is typically obtained from opening a device file, the request code is specific to the device driver and operation, and the pointer to memory is used to transfer data between the program and the device driver.
+
+The `ioctl` function is a part of the `sys/ioctl.h` library in C and is used to control device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with `ioctl` requests.
+
+Here's the function prototype:
+
+```c
+#include <sys/ioctl.h>
+
+int ioctl(int fd, unsigned long request, ...);
+```
+
+The function takes a file descriptor `fd` that is obtained from opening a device file, a device-dependent `request` code, and optionally additional arguments depending on the request.
+
+The function returns 0 on success. On error, -1 is returned, and `errno` is set appropriately.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `ioctl` function:
+
+```c
+#include <sys/ioctl.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() 
+{ 
+    int fd = open("/dev/mydevice", O_RDWR);
+    if (fd == -1) {
+        perror("open() error");
+        return 1;
+    }
+
+    int result = ioctl(fd, MYDEVICE_IOCTL_COMMAND, NULL);
+    if (result == -1) {
+        perror("ioctl() error");
+        close(fd);
+        return 1;
+    }
+
+    printf("The ioctl command was successful.\n");
+
+    close(fd);
+    return 0; 
+} 
+```
+
+In this example, the `ioctl` function is used to send a command to a device. The device is opened with `open`, and then the `ioctl` command is sent. If the `ioctl` command is successful, a success message is printed to the console. If an error occurs, an error message is printed to the console and the device is closed.
+
+Please note that `MYDEVICE_IOCTL_COMMAND` is a placeholder for a real ioctl command and `/dev/mydevice` is a placeholder for a real device file. Always refer to the specific device's documentation for correct usage.
+
+</details>
+
+### getenv
+
+`getenv` stands for "get environment". It's a function in Unix and Unix-like operating systems that retrieves the value of an environment variable from the process's environment.
+
+
+The `getenv` function is a part of the `stdlib.h` or `cstdlib` library in C and C++ and is used to access environment variables.
+
+Here's the function prototype:
+
+```c
+#include <stdlib.h>
+
+char* getenv(const char* name);
+```
+
+* The function takes a string `name` as an argument, which is the name of the environment variable you want to retrieve.
+* The function returns a pointer to a string which is the value of the environment variable. If the requested environment variable is not found, it returns a null pointer.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `getenv` function:
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+
+int main() 
+{ 
+    char* path = getenv("PATH");
+    if (path == NULL) {
+        printf("PATH environment variable not found.\n");
+    } else {
+        printf("PATH = %s\n", path);
+    }
+
+    return 0; 
+} 
+```
+
+In this example, the `getenv` function is used to retrieve the value of the `PATH` environment variable. If the `PATH` environment variable is found, its value is printed to the console. If it is not found, an error message is printed.
+
+</details>
+
+### tcsetattr
+
+`tcsetattr` is a function in Unix and Unix-like operating systems that is used to change the parameters of a terminal device. It's part of the termios library, which provides terminal I/O interfaces.
+
+Here's the function prototype in C:
+
+```c
+#include <termios.h>
+
+int tcsetattr(int fd, int optional_actions, const struct termios *termios_p);
+```
+
+* `fd`: This is the file descriptor of the terminal. Usually, standard input (`STDIN_FILENO`) is used.
+* `optional_actions`: This specifies when the changes should take effect. It can be one of the following:
+  * `TCSANOW`: changes occur immediately.
+  * `TCSADRAIN`: changes occur after all output written to `fd` has been transmitted.
+  * `TCSAFLUSH`: changes occur after all output written to `fd` has been transmitted, and all input that has been received but not read will be discarded before the change is made.
+* `termios_p`: This is a pointer to a `termios` structure that contains the new terminal parameters.
+
+The function returns 0 on success, and -1 on failure. In case of failure, `errno` is set appropriately.
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `tcsetattr` function:
+
+```c
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+
+
+// Define STDIN_FILENO if it's not defined
+#ifndef STDIN_FILENO
+#define STDIN_FILENO 0
+#endif /* STDIN_FILENO */
+
+int main() {
+    struct termios original, noecho;
+
+	// Code that need to be executed before the noecho flag
+	printf("Enter the password: ");
+	char password_show[64];
+	scanf("%s", password_show);
+	printf("\nYou entered: %s\n", password_show);
+    
+    // Obtain the current terminal configuration
+    tcgetattr(STDIN_FILENO, &original);
+    
+    // Duplicate the current configuration
+    noecho = original;
+    
+    // Turn off the ECHO flag
+    noecho.c_lflag &= ~ECHO;
+    
+    // Set the terminal to the modified configuration
+    tcsetattr(STDIN_FILENO, TCSANOW, &noecho);
+    
+	printf("\nAfter applying the noecho flag\n");
+	
+    // Your code here that requires no echo
+	printf("Enter the password: ");
+	char password[64];
+	scanf("%s", password);
+	printf("\nYou entered: %s\n", password);
+    
+    // Restore the original terminal configuration
+    tcsetattr(STDIN_FILENO, TCSANOW, &original);
+    
+    return 0;
+}
+```
+
+In this example, the `tcsetattr` function is used to turn off echoing of input characters.
+
+</details>
+
+#### termios structure
+
+The `termios` structure is used to hold terminal I/O settings in Unix and Unix-like operating systems. It's defined in the `<termios.h>` header file.
+
+Here's what the `termios` structure looks like in C:
+
+```c
+struct termios {
+    tcflag_t c_iflag;  /* input modes */
+    tcflag_t c_oflag;  /* output modes */
+    tcflag_t c_cflag;  /* control modes */
+    tcflag_t c_lflag;  /* local modes */
+    cc_t c_cc[NCCS];   /* control characters */
+};
+```
+
+Here's a brief description of each field:
+
+* `c_iflag`: This field contains the input modes. It's a bitmask that can include flags like `IGNBRK` (ignore break condition), `ICRNL` (map CR to NL on input), `IXON` (enable XON/XOFF flow control on output), and others.
+
+* `c_oflag`: This field contains the output modes. It's a bitmask that can include flags like `OPOST` (perform post-processing of output), `ONLCR` (map NL to CR-NL on output), and others.
+
+* `c_cflag`: This field contains the control modes. It's a bitmask that can include flags like `CSIZE` (character size), `PARENB` (parity enable), `CSTOPB` (two stop bits, otherwise one), and others.
+
+* `c_lflag`: This field contains the local modes. It's a bitmask that can include flags like `ECHO` (echo input characters), `ICANON` (canonical mode enable), `ISIG` (signal characters enable), and others.
+
+* `c_cc`: This field contains an array of control characters. It includes characters like `VEOF` (end-of-file character), `VINTR` (interrupt character), `VERASE` (erase character), and others. The size of the array is defined by `NCCS`.
+
+### tcgetattr
+
+`tcgetattr` is a function in Unix and Unix-like operating systems that is used to get the parameters of a terminal device. It's part of the termios library, which provides terminal I/O interfaces.
+
+Here's the function prototype in C:
+
+```c
+#include <termios.h>
+
+int tcgetattr(int fd, struct termios *termios_p);
+```
+
+* `fd`: This is the file descriptor of the terminal. Usually, standard input (`STDIN_FILENO`) is used.
+* `termios_p`: This is a pointer to a `termios` structure where the function will store the terminal parameters.
+
+The function returns 0 on success, and -1 on failure. In case of failure, `errno` is set appropriately.
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `tcgetattr` function:
+
+```c
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+
+// Define STDIN_FILENO if it's not defined
+#ifndef STDIN_FILENO
+#define STDIN_FILENO 0
+#endif /* STDIN_FILENO */
+
+int main() {
+    struct termios original;
+
+    // Obtain the current terminal configuration
+    if(tcgetattr(STDIN_FILENO, &original) == -1) {
+        perror("tcgetattr");
+        return -1;
+    }
+
+    // Your code here that requires the terminal configuration
+
+    return 0;
+}
+```
+
+In this example, the `tcgetattr` function is used to get the current terminal configuration.
+
+</details>
+
+### tgetent
+
+`tgetent` is a function in Unix and Unix-like operating systems that is used to fetch a termcap entry for a terminal. It's part of the termcap library, which provides a way to handle different terminals in a uniform way.
+
+Here's the function prototype in C:
+
+```c
+#include <termcap.h>
+
+int tgetent(char *bp, const char *name);
+```
+
+* `bp`: This is a pointer to a buffer where the termcap entry will be stored. The buffer should be large enough to hold the entry. A size of 1024 bytes is often used.
+* `name`: This is the name of the terminal for which the termcap entry should be fetched.
+
+The function returns 1 if the termcap entry was found, 0 if it was not found, and -1 if there was an error (for example, if the termcap database could not be opened).
+
+#### Using termcap
+
+To use the `tgetent` function in your C program, you need to link against the termcap library. This is done by adding `-ltermcap` to your gcc or cc command.
+
+Here's an example of how you can compile your program:
+
+```shell
+gcc -o myprogram main.c -ltermcap
+```
+
+In this command, myprogram is the name of the output file, main.c is your source file, and -ltermcap tells the compiler to link against the termcap library.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `tgetent` function:
+
+```c
+#include <stdio.h>
+#include <termcap.h>
+#include <stdlib.h>
+
+int main() {
+    const char *name;
+    char *bp;
+    char *term;
+    int height;
+    int width;
+
+    bp = malloc(sizeof(*bp));
+    name = "TERM";
+    if ((term = getenv(name)) == NULL)
+        return (1);
+    printf("My terminal is %s.\n", term);
+    tgetent(bp, term);
+    height = tgetnum("li");
+    width = tgetnum("co");
+    printf("Height: %d\nWidth: %d\n", height, width);
+    free(bp);
+    return (0);
+}
+```
+
+In this example, the `tgetent()` function is used to load the terminal capabilities for the terminal type specified by the `TERM `environment variable. The height and width of the terminal are then retrieved using `tgetnum()` and printed out
+
+</details>
+
+#### Termcap
+
+Termcap (Terminal Capability) is a software library and database used on Unix-like systems for enabling the system to correctly display interfaces on different types of terminals. Each entry in the termcap database, typically found in the file `/etc/termcap`, represents the capabilities of a certain terminal, or a class of terminals.
+
+Termcap provides a way for applications to use terminal capabilities abstractly, so they can work with many different types of terminals without having to know the specific details of each one. It provides information about the terminal's capabilities, such as the number of columns and rows, whether it can display colors, how to move the cursor, etc.
+
+The termcap library provides functions to query the termcap database, like `tgetent` to get an entry for a specific terminal, `tgetnum` to get a numeric terminal capability, `tgetflag` to get a boolean terminal capability, and `tgetstr` to get a string terminal capability.
+
+### tgetflag
+
+`tgetflag` is a function in Unix and Unix-like operating systems that is used to get a boolean capability from a termcap entry. It's part of the termcap library, which provides a way to handle different terminals in a uniform way.
+
+Here's the function prototype in C:
+
+```c
+#include <termcap.h>
+
+int tgetflag(char *id);
+```
+
+* `id`: This is a two-letter identifier for the capability.
+
+The function returns 1 if the terminal has the capability, and 0 if it does not. If the capability is not a boolean capability, or if the termcap entry has not been loaded with `tgetent`, the result is undefined.
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `tgetflag` function:
+
+```c
+#include <stdio.h>
+#include <termcap.h>
+
+int main() {
+    char term_buffer[1024];
+    char *term_type = "xterm";
+
+    if(tgetent(term_buffer, term_type) != 1) {
+        fprintf(stderr, "Could not get termcap entry for %s\n", term_type);
+        return -1;
+    }
+
+    if(tgetflag("am")) {
+        printf("The terminal has automatic margins.\n");
+    } else {
+        printf("The terminal does not have automatic margins.\n");
+    }
+
+    return 0;
+}
+```
+
+In this example, the `tgetflag` function is used to check if the terminal has the "am" (automatic margins) capability.
+
+</details>
+
+Here's a table of some common two-letter identifiers (ids) that can be used with `tgetflag` to get boolean capabilities:
+
+| ID  | Description |
+| --- | ----------- |
+| `am` | Terminal has automatic margins |
+| `bs` | Terminal can backspace |
+| `bw` | Terminal can backspace to previous line |
+| `da` | Terminal can insert/delete lines |
+| `db` | Terminal can insert/delete characters |
+| `eo` | Can erase overstrikes with a blank |
+| `gn` | Generic line type |
+| `hc` | Hardcopy terminal |
+| `hz` | Hazardous for motion |
+| `in` | Terminal can insert characters |
+| `mi` | Safe to move while in insert mode |
+| `ms` | Safe to move while in standout mode |
+| `nc` | No correctable delay |
+| `os` | Terminal can overstrike |
+| `ul` | Terminal can underline |
+| `xs` | Standout not erased by overwriting |
+| `xt` | Tabs destructive, magic so char (T1061) |
+
+Please note that not all terminals define all capabilities, and the actual capabilities available depend on the specific terminal and its termcap entry.
+
+### tgetnum
+
+`tgetnum` is a function in Unix and Unix-like operating systems that is used to get a numeric capability from a termcap entry. It's part of the termcap library, which provides a way to handle different terminals in a uniform way.
+
+Here's the function prototype in C:
+
+```c
+#include <termcap.h>
+
+int tgetnum(char *id);
+```
+
+* `id`: This is a two-letter identifier for the capability.
+
+The function returns the numeric value of the capability if it is defined. If the capability is not a numeric capability, or if the termcap entry has not been loaded with `tgetent`, the result is undefined.
+
+<details>
+  <summary>Example</summary>
+Here's an example of how to use the `tgetnum` function:
+
+```c
+#include <stdio.h>
+#include <termcap.h>
+
+int main() {
+    char term_buffer[1024];
+    char *term_type = "xterm";
+
+    if(tgetent(term_buffer, term_type) != 1) {
+        fprintf(stderr, "Could not get termcap entry for %s\n", term_type);
+        return -1;
+    }
+
+    int cols = tgetnum("co");
+    if(cols != -1) {
+        printf("The terminal has %d columns.\n", cols);
+    } else {
+        printf("The number of columns is not defined.\n");
+    }
+
+    return 0;
+}
+```
+
+In this example, the `tgetnum` function is used to get the number of columns ("co") capability of the terminal.
+
+</details>
+
+Here's a table of some common two-letter identifiers (ids) that can be used with `tgetnum` to get numeric capabilities:
+
+| ID  | Description |
+| --- | ----------- |
+| `co` | Number of columns |
+| `li` | Number of lines |
+| `sg` | Number of magic cookies left by standout mode |
+| `ug` | Number of magic cookies left by underline mode |
+| `ws` | Width in characters of the terminal's status line |
+| `lw` | Number of lines per screen or page |
+| `tw` | Width of the terminal in characters |
+| `kn` | Number of function keys the terminal has |
+| `Wc` | Wait time for carriage return |
+| `pb` | Lowest baud rate where padding needed |
+| `NC` | No correctable delay |
+| `dB` | Milliseconds of delay needed for backspace |
+| `dC` | Milliseconds of delay needed for carriage return |
+| `dN` | Milliseconds of delay needed for newline |
+| `dT` | Milliseconds of delay needed for horizontal tab |
+| `dV` | Milliseconds of delay needed for vertical tab |
+
+Please note that not all terminals define all capabilities, and the actual capabilities available depend on the specific terminal and its termcap entry.
+
+### tgetstr
+
+`tgetstr` stands for "get string". It's a function in Unix and Unix-like operating systems that retrieves a string capability from the terminal database.
+
+The `tgetstr` function is a part of the `termcap.h` library in C.
+Here's the function prototype:
+
+```c
+#include <term.h>
+
+char* tgetstr(char* id, char** area);
+```
+
+* The function takes two arguments: 
+  * a string `id` which is the name of the terminal capability you want to retrieve
+  * a pointer to a buffer `area` where the resulting string will be placed.
+* The function returns a pointer to a string which is the value of the terminal capability. If the requested terminal capability is not found, it returns a null pointer.
+
+<details>
+  <summary>Example</summary>
+
+Here's an example of how to use the `tgetstr` function:
+
+```c
+#include <termcap.h>
+#include <stdlib.h>
+
+char bp[1024];
+char *area;
+
+int main() {
+    char *tgetstr();
+    char *p, *q;
+    char tc[10];
+
+    p = getenv("TERM");
+    tgetent(bp,p);
+    q = area;
+    p = tgetstr("cl",&q);
+    tputs(p, 1, putchar);
+
+    return 0;
+}
+```
+
+In this example, the `tgetstr` function is used to retrieve the "cl" (clear screen) terminal capability. The resulting string is then output to the terminal using `tputs`.
+
+</details>
+
+The `tgetstr` function requires a buffer to store the string representation of the terminal capability. The size of this buffer is not strictly defined, but it should be large enough to hold the longest possible terminal capability string. 
+
+A common practice is to allocate a buffer of 1024 bytes, which should be more than enough for any terminal capability string. 
+
+Here's how you can modify your code:
+
+```c
+// Assume term_buffer contains the terminal description obtained from tgetent
+term_buffer = malloc(sizeof(char) * 1024); // Initialize term_buffer appropriately
+
+// Allocate space for the buffer
+buffer = malloc(1024);
+if (!buffer) {
+    // Handle allocation failure
+    exit(EXIT_FAILURE);
+}
+```
+
+Remember to check the return value of `malloc` to ensure that the memory allocation was successful. If `malloc` returns `NULL`, it means that the memory allocation failed and you should handle this error appropriately.
+
+Here's a table of some common terminal capability names (ids) that can be used with `tgetstr`:
+
+| ID  | Description |
+| --- | ----------- |
+| `cl` | Clear the screen and home the cursor |
+| `cm` | Move the cursor to a specified position |
+| `ce` | Clear to the end of the line |
+| `cd` | Clear to the end of the screen |
+| `so` | Start standout mode |
+| `se` | End standout mode |
+| `us` | Start underline mode |
+| `ue` | End underline mode |
+| `mb` | Start blinking mode |
+| `md` | Start bold mode |
+| `mr` | Start reverse mode |
+| `me` | End all attribute modes |
+| `ks` | Start keypad transmit mode |
+| `ke` | End keypad transmit mode |
+| `ti` | Start "cursor addressing" mode |
+| `te` | End "cursor addressing" mode |
+
+Please note that not all terminals define all capabilities, and the actual capabilities available depend on the specific terminal and its termcap entry.
+
+### tgoto
+
+### tputs

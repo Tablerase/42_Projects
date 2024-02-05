@@ -1,5 +1,11 @@
 # MiniShell
 
+## Resources
+
+- [📑 Article - How to write your own shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
+
+- [📑 Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/)
+
 ## Table of Contents
 
 * [Description](#description)

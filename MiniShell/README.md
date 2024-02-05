@@ -2103,8 +2103,8 @@ The function returns an integer. If it completes successfully, it returns OK. If
 Here's an example of how to use the `tputs` function:
 
 ```c
-#include <term.h>
-#include <curses.h>
+#include <termcap.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 char bp[1024];
@@ -2118,11 +2118,17 @@ int main() {
     tgetent(bp,p);
     q = area;
     p = tgetstr("cl",&q);
-    if (p == NULL) {
-        printf("Clear screen capability not found.\n");
-    } else {
-        tputs(p, 1, putchar);
-    }
+
+	printf("Input 1 to clear the screen using tputs(): ");
+	int input;
+	scanf("%d", &input);
+	if (input == 1) {
+		if (p == NULL) {
+			printf("Clear screen capability not found.\n");
+		} else {
+			tputs(p, 1, putchar);
+		}
+	}
 
     return 0;
 }

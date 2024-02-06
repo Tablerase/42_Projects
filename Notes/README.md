@@ -6,6 +6,7 @@
 ## 🖥️ Computer Science
 
 * [Computer science](/Notes/computer%20science.md)
+* [Sorting](/Notes/sorting.md)
 
 ## 🏗️ Workflow
 

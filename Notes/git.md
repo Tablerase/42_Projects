@@ -58,6 +58,32 @@ git mv file1 file2 directory
 git mv *.html directory
 ```
 
+## Position
+
+### HEAD
+
+The `HEAD` is a reference to the last commit in the currently checked-out branch. It's essentially a pointer to the most recent commit, and it's used by Git to determine the current state of the repository.
+
+### HEAD^
+
+The `HEAD^` is a reference to the commit before the current `HEAD`. It's essentially a pointer to the parent of the current commit.
+
+Example:
+
+```shell
+git show HEAD^
+```
+
+### HEAD~n
+
+The `HEAD~n` is a reference to the nth commit before the current `HEAD`. It's essentially a pointer to the nth parent of the current commit.
+
+Example:
+
+```shell
+git show HEAD~3
+```
+
 ## Commit
 
 Commit send the files from the staging area to the repository:
@@ -280,10 +306,38 @@ Restore a file to last commit :
 git checkout file
 ```
 
+### Tag
+
 Checkout to a flag:
 
 ```shell
 git checkout flag
+```
+
+Checkout to a flag when there is a conflict (same name of branch and flag):
+
+```shell
+git checkout refs/tags/<tag_name>
+```
+
+### Branch
+
+Create a new branch and switch to it:
+
+```shell
+git checkout -b branch
+```
+
+Create a new branch and switch to it from a specific commit:
+
+```shell
+git checkout -b branch commit
+```
+
+Create a new branch and switch to it from a specific position:
+
+```shell
+git checkout -b branch HEAD~1
 ```
 
 ## Ignore

@@ -1,0 +1,3 @@
+[submodule "MiniShell/minishell"]
+	path = MiniShell/minishell
+	url = git@github.com:Tablerase/MiniShell.git

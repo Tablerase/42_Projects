@@ -536,6 +536,22 @@ Show the content of a commit:
 git show commit
 ```
 
+## Submodule
+
+A Git submodule allows you to keep another Git repository in a subdirectory of your repository. This lets you clone another repository into your project and keep your commits separate.
+
+Submodules are used when you want to include or embed another project within your own project while keeping the other project's codebase separate. This is useful when you want to include libraries or other projects and want to pull in updates from those projects as they happen, or control the exact version of the project that your repository uses.
+
+Here's how you can add a submodule to your repository:
+
+```bash
+git submodule add <repository-url>
+```
+
+Replace `<repository-url>` with the URL of the repository you want to include as a submodule.
+
+This will clone the repository into a subdirectory of your current repository. You can then commit and push this change to your repository, and others who clone your repository and run `git submodule init` and `git submodule update` will also get the contents of the submodule.
+
 ## Config
 
 ### User

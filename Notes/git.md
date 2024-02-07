@@ -1,10 +1,12 @@
 # Git
 
-🎮 Interactive Tutorial : [Learn Git Branching](https://learngitbranching.js.org/?locale=en_EN)
+🎮 Interactive Web Tutorial : [Learn Git Branching](https://learngitbranching.js.org/?locale=en_EN)
 
 ⌨️ Command Line Game: [Githug](https://github.com/Gazler/githug)
 
 🕸️ Game: [Oh My Git!](https://ohmygit.org/)
+
+⏯️ [Git](https://www.youtube.com/watch?v=uA2WZCQP4EI)
 
 ## Git Project Workflow
 

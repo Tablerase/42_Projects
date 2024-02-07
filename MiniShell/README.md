@@ -287,25 +287,25 @@ In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`,
 
 - [`ttyslot`](#ttyslot): Returns the terminal slot number.
 
-- `ioctl`: Controls device.
+- [`ioctl`](#ioctl): Controls device.
 
-- `getenv`: Gets an environment variable.
+- [`getenv`](#getenv): Gets an environment variable.
 
-- `tcsetattr`: Sets the parameters associated with the terminal.
+- [`tcsetattr`](#tcsetattr): Sets the parameters associated with the terminal.
 
-- `tcgetattr`: Gets the parameters associated with the terminal.
+- [`tcgetattr`](#tcgetattr): Gets the parameters associated with the terminal.
 
-- `tgetent`: Loads the termcap entry for terminal.
+- [`tgetent`](#tgetent): Loads the termcap entry for terminal.
 
-- `tgetflag`: Returns the boolean value of capability.
+- [`tgetflag`](#tgetflag): Returns the boolean value of capability.
 
-- `tgetnum`: Returns the numeric value of capability.
+- [`tgetnum`](#tgetnum): Returns the numeric value of capability.
 
-- `tgetstr`: Returns the string value of capability.
+- [`tgetstr`](#tgetstr): Returns the string value of capability.
 
-- `tgoto`: Moves the cursor to specified position.
+- [`tgoto`](#tgoto): Moves the cursor to specified position.
 
-- `tputs`: Applies padding information to a string and outputs it.
+- [`tputs`](#tputs): Applies padding information to a string and outputs it.
 
 ### Readline
 

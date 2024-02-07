@@ -229,6 +229,60 @@ Here are some common uses of `git rebase`:
 - `git rebase --continue`: This continues the rebase process after resolving a merge conflict.
 - `git rebase --abort`: This stops the rebase process and returns the branch to the state it was in before `git rebase` was called.
 
+## Merge
+
+```mermaid
+gitGraph:
+options
+{
+    "nodeSpacing": 150,
+    "nodeRadius": 10
+}
+end
+commit
+branch newbranch
+checkout newbranch
+commit
+commit
+checkout main
+commit
+merge newbranch
+```
+
+The `git merge` command is used to combine changes from one branch into another. It's typically used to integrate a feature branch into the main branch.
+
+Here are some common uses of `git merge`:
+
+- `git merge <branch>`: Merges the specified branch into the current branch.
+- `git merge --no-ff <branch>`: Merges the specified branch into the current branch, creating a new commit even if the merge could be performed with a fast-forward.
+- `git merge --squash <branch>`: Merges the specified branch into the current branch, but does not create a new commit. Instead, it stages the changes, allowing you to commit them manually.
+
+### Usage
+
+1. First, switch to the branch that you want to merge into. This is usually the main or master branch:
+
+```bash
+git checkout main
+```
+
+2. Then, merge the other branch into the current branch:
+
+```bash
+git merge <branch-name>
+```
+
+Replace `<branch-name>` with the name of the branch that you want to merge.
+
+This will create a new "merge commit" in the main branch that includes all of the changes from the `<branch-name>`.
+
+If there are any conflicts between the branches, Git will give you a message and pause the merge. You can then go to the conflicting files, resolve the conflicts, and then continue the merge with `git add .` and `git commit`.
+
+3. Remember to push your changes to the remote repository after merging:
+
+```bash
+git push origin main
+```
+
 ## Reset
 
 Reset allow to remove files from the staging area:

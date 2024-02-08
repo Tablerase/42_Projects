@@ -21,6 +21,7 @@
   * [Operator Precedence](#operator-precedence)
     * [Precedence Level](#precedence-level)
   * [Wildcards](#wildcards)
+  * [Here string](#here-string)
   * [Restrict : `restrict` keyword](#restrict--restrict-keyword)
 * [Fonctions](#fonctions)
 
@@ -177,6 +178,14 @@ report.txt report1.txt report2.txt report4.txt
 ```
 
 Wildcards can also be used to represent a range of characters. For example, the wildcard `[a-z]` represents all lowercase letters, while the wildcard `[0-9]` represents all numbers. The wildcard `[!a-z]` represents all characters except lowercase letters.
+
+### Here string
+
+`<<<` is a shell feature that allows a string to be passed to a command's standard input. It is similar to a here document, but it is used to pass a string to a command instead of a block of text.
+
+```shell
+$ command <<< "string"
+```
 
 ### Restrict : `restrict` keyword
 

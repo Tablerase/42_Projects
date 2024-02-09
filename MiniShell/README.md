@@ -81,6 +81,14 @@ Needed to be able to do:
 
 ## Notions
 
+### Lexer
+
+A lexer, also known as a tokenizer, breaks a string down into smaller pieces, called tokens. These tokens can be words, numbers, symbols, or other meaningful elements. The lexer is the first step in the process of interpreting a string of characters, and it plays a crucial role in the process of parsing.
+
+The lexer takes a string of characters as input and produces a sequence of tokens as output. Each token represents a single element of the input string, and the sequence of tokens represents the structure of the input string.
+
+The output of the lexer is typically fed into a parser, which uses the tokens to build a more structured representation of the input string, such as an abstract syntax tree or a sequence of instructions.
+
 ### Interacting Mode
 
 In a shell environment, an interactive shell is one that allows a user to input commands and receive output. This shell reads startup files that occur during activation and displays a prompt. It also enables job control by default. An example of starting an interactive shell is by typing bash after logging into the system. The `prompt variable` for an interactive shell is set to `$PS1`. Interactive scripts require user input and cannot run in the background.

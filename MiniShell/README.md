@@ -12,6 +12,7 @@
 
 * [Description](#description)
 * [Notions](#notions)
+  * [Lexer](#lexer)
   * [Interacting Mode](#interacting-mode)
     * [Prompt Statement Variables](#prompt-statement-variables)
       * [PS1 : Prompt Statement 1](#ps1--prompt-statement-1)
@@ -83,11 +84,27 @@ Needed to be able to do:
 
 ### Lexer
 
-A lexer, also known as a tokenizer, breaks a string down into smaller pieces, called tokens. These tokens can be words, numbers, symbols, or other meaningful elements. The lexer is the first step in the process of interpreting a string of characters, and it plays a crucial role in the process of parsing.
-
 The lexer takes a string of characters as input and produces a sequence of tokens as output. Each token represents a single element of the input string, and the sequence of tokens represents the structure of the input string.
 
 The output of the lexer is typically fed into a parser, which uses the tokens to build a more structured representation of the input string, such as an abstract syntax tree or a sequence of instructions.
+
+**Lexing, or lexical analysis**, is the process of converting a sequence of characters into a sequence of tokens. In the context of a shell, the lexer is responsible for breaking up the command line input into recognizable tokens that can be processed by the shell's parser.
+
+Here's a simplified overview of how lexing might be done in a shell:
+
+1. **Reading Input**: The shell reads the command line input, which is a string of characters.
+
+2. **Tokenizing**: The lexer goes through the input string character by character. It recognizes tokens based on certain patterns or rules. For example, a word might be defined as a sequence of alphanumeric characters, a redirection operator might be defined as the character '>', and so on.
+
+3. **Handling Special Characters**: The lexer also needs to handle special characters like quotes. For example, everything inside double quotes is usually treated as a single token, even if it contains spaces.
+
+4. **Whitespace and Separators**: Whitespace characters (spaces and tabs) are often used to separate tokens. Some special characters like semicolons can also act as separators.
+
+5. **Producing Tokens**: The lexer produces a sequence of tokens that represent the original command line input. Each token includes information about its type (e.g., word, operator, etc.) and its value (the actual text of the token).
+
+6. **Passing Tokens to the Parser**: The tokens are then passed to the parser, which is responsible for interpreting them and executing the corresponding commands.
+
+This is a simplified overview and actual shell lexers can be quite complex. They need to handle a variety of special cases, such as variable substitution, command substitution, different types of quotes, escape sequences, and more.
 
 ### Interacting Mode
 

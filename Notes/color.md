@@ -1,5 +1,13 @@
 # Color
 
+## ANSI Escape Codes
+
+ANSI means American National Standards Institute. It is a standard for defining the colors in the terminal. The ANSI escape codes are used to control the text formatting, color, and other output options on the terminal.
+
+The format is `\033[<attribute>;<foreground>;<background>m`.
+ 
+🎨 More details in this markdown: [Here](/Notes/ascii-art.md#ansi-escape-codes)
+
 ## A RGB
 
 ![argb display](https://upload.wikimedia.org/wikipedia/commons/0/0b/RGBA_comp.png)

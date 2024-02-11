@@ -6,7 +6,7 @@
 
 🕸️ Game: [Oh My Git!](https://ohmygit.org/)
 
-⏯️ [Git](https://www.youtube.com/watch?v=uA2WZCQP4EI)
+⏯️ [Git Fondamentaux - FR](https://www.youtube.com/watch?v=uA2WZCQP4EI)
 
 ## Git Project Workflow
 
@@ -449,13 +449,33 @@ Here are some common uses of `git branch`:
 - `git branch -D <branch>`: Force deletes the specified branch, even if it has unmerged changes.
 - `git branch -m <oldname> <newname>`: Renames a branch from `<oldname>` to `<newname>`.
 
-### Quick Branch
+### Quick Create Branch
 
 Create a new branch and switch to it:
 
 ```shell
 git checkout -b branch
 ```
+
+### Move a branch
+
+The `git branch -f` command is used to forcefully move a branch pointer to another commit. This can be useful when you want to change where a branch is pointing without checking out the branch.
+
+Here's an example of how to use it:
+
+```shell
+git branch -f <branch-name> <commit-hash>
+```
+
+Replace `<branch-name>` with the name of the branch that you want to move, and replace `<commit-hash>` with the hash of the commit that you want to move the branch to.
+
+Please note that this command does not change the current HEAD or the contents of the working directory. It only changes the branch pointer. If you want to also update the working directory to match the new branch location, you will need to checkout the branch after moving it:
+
+```shell
+git checkout <branch-name>
+```
+
+Also, be careful when using `git branch -f`, as it can potentially lose commits if the branch is moved to an earlier commit in the history. Always make sure you have a backup or that the commits are reachable from another branch before using this command.
 
 ## Remote
 

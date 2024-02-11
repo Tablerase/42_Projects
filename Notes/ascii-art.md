@@ -32,6 +32,20 @@
 
 ## ANSI Escape Codes
 
+<details>
+  <summary>ANSI Escape Codes - Includes/Imports</summary>
+
+In C language: 
+- [Download this header](https://raw.githubusercontent.com/Tablerase/42_Projects/main/Pipex/pipex/Includes/color.h)
+- Include it in your project with `#include "color.h"`
+
+```c
+#include "path/to/color.h"
+```
+
+
+</details>
+
 The format is `\033[<attribute>;<foreground>;<background>m`.
 
 The `<attribute>` can be `0` for reset, `1` for bold, `4` for underline, `7` for inverse, `8` for concealed, and `9` for strikethrough.

@@ -549,6 +549,38 @@ To see the history of commits with the different branches:
 ```shell
 git log --all --decorate --oneline --graph
 ```
+<details>
+<summary>Example of output:</summary>
+
+```shell
+* 4d16b24 (HEAD -> rcutte, origin/rcutte) lexer order check to ensure no empty pipe or redir
+*   f7ac5ca lexical primary analysis done
+|\  
+| * 1179283 (origin/main, origin/alex, origin/HEAD) Updating Makefile
+| *   1117c9a Merge branch 'alex'
+| |\  
+| | * e455158 README.md
+| | * 9a02e96 README.md
+| | * 0c154c3 Creation of heredoc.c file which should create each heredoc and perform variable expansion only if there a certain type of quote
+* | | b9a652b init lexer elements
+|/ /  
+* / 0b5a16b (main) change lexer position in master graph
+|/  
+* 5213f40 updating README.md
+* 71087ec init of projects structure objects
+* e5fadf7 update to readme
+* 6d1ed79 add bonus folder
+*   c06b3e2 Merge branch 'main' of github.com:Tablerase/MiniShell
+|\  
+| * a0159cd Creating new branch alex. New folders Sources and Sources/mandatory. New file main.c in Sources/mandatory folder. Testfor working with branches
+* | 5a4558d update to minishell.h
+* | 31ad720 init libft and header to be merge
+|/  
+* eaae7e8 add Makefile
+* 2922490 Initial commit
+```
+
+</details>
 
 ### Show
 

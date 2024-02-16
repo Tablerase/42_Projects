@@ -6,9 +6,15 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ## Projects
 
-### Piscine
+### Rank 3
 
-* [PiscineReloaded](./Projects/PiscineReloaded/)
+* [MiniShell](./Projects/MiniShell/)
+
+### Rank 2
+
+* [Fract-ol](./Projects/Fract-ol/)
+* [Push_Swap](./Projects/Push_swap/)
+* [Pipex](./Projects/Pipex/)
 
 ### Rank 1
 
@@ -17,15 +23,9 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 * [GetNextLine](./Projects/GetNextLine/)
 * [Ft_Printf](./Projects/Ft_printf/)
 
-### Rank 2
+### Piscine
 
-* [Fract-ol](./Projects/Fract-ol/)
-* [Push_Swap](./Projects/Push_swap/)
-* [Pipex](./Projects/Pipex/)
-
-### Rank 3
-
-* [MiniShell](./Projects/MiniShell/)
+* [PiscineReloaded](./Projects/PiscineReloaded/)
 
 ## [Notes](/Notes/)
 

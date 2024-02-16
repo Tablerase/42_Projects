@@ -255,7 +255,7 @@ In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`,
 
 - `write`: Writes data to a file or a file descriptor.
 
-- [`access`](/Pipex/README.md#access): Checks the accessibility of a file.
+- [`access`](../Pipex/README.md#access): Checks the accessibility of a file.
 
 - `open`: Opens a file or device.
 
@@ -263,11 +263,11 @@ In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`,
 
 - `close`: Closes a file or a file descriptor.
 
-- [`fork`](/Pipex/README.md#fork): Creates a new process.
+- [`fork`](../Pipex/README.md#fork): Creates a new process.
 
-- [`wait`](/Pipex/README.md#wait): Waits for a process to change state.
+- [`wait`](../Pipex/README.md#wait): Waits for a process to change state.
 
-- [`waitpid`](/Pipex/README.md#waitpid): Waits for a specific process to change state.
+- [`waitpid`](../Pipex/README.md#waitpid): Waits for a specific process to change state.
 
 - `wait3`: Waits for a child process to stop or terminate.
 
@@ -295,25 +295,24 @@ In this function, the `restrict` keyword tells the compiler that `ptr1`, `ptr2`,
 
 - [`fstat`](#fstat): Like `stat`, but takes a file descriptor instead of a file name.
 
-- [`unlink`](/Pipex/README.md#unlink): Deletes a name from the filesystem.
+- [`unlink`](../Pipex/README.md#unlink): Deletes a name from the filesystem.
 
-- [`execve`](/Pipex/README.md#execve): Executes a program.
+- [`execve`](../Pipex/README.md#execve): Executes a program.
 
-- [`dup`](/Pipex/README.md#dup): Duplicates a file descriptor.
+- [`dup`](../Pipex/README.md#dup): Duplicates a file descriptor.
 
-- [`dup2`](/Pipex/README.md#dup): Duplicates a file descriptor to a specified file descriptor.
+- [`dup2`](../Pipex/README.md#dup): Duplicates a file descriptor to a specified file descriptor.
 
-- [`pipe`](/Pipex/README.md#pipe): Creates a pipe.
-
+- [`pipe`](.
 - [`opendir`](#opendir): Opens a directory.
 
 - [`readdir`](#readdir): Reads a directory.
 
 - [`closedir`](#closedir): Closes a directory.
 
-- [`strerror`](/Pipex/README.md#strerror): Returns a string describing an error number.
+- [`strerror`](../Pipex/README.md#strerror): Returns a string describing an error number.
 
-- [`perror`](/Pipex/README.md#perror): Prints a descriptive error message to stderr.
+- [`perror`](../Pipex/README.md#perror): Prints a descriptive error message to stderr.
 
 - [`isatty`](#isatty): Tests whether a file descriptor refers to a terminal.
 

@@ -8,24 +8,24 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ### Piscine
 
-* [PiscineReloaded](/PiscineReloaded/)
+* [PiscineReloaded](./Projects/PiscineReloaded/)
 
 ### Rank 1
 
-* [Libft](/Libft/)
-* [Born2BeRoot](/Born2BeRoot/)
-* [GetNextLine](/GetNextLine/)
-* [Ft_Printf](/Ft_printf/)
+* [Libft](./Projects/Libft/)
+* [Born2BeRoot](./Projects/Born2BeRoot/)
+* [GetNextLine](./Projects/GetNextLine/)
+* [Ft_Printf](./Projects/Ft_printf/)
 
 ### Rank 2
 
-* [Fract-ol](/Fract-ol/)
-* [Push_Swap](/Push_swap/)
-* [Pipex](/Pipex/)
+* [Fract-ol](./Projects/Fract-ol/)
+* [Push_Swap](./Projects/Push_swap/)
+* [Pipex](./Projects/Pipex/)
 
 ### Rank 3
 
-* [MiniShell](/MiniShell/)
+* [MiniShell](./Projects/MiniShell/)
 
 ## [Notes](/Notes/)
 

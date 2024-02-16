@@ -6,11 +6,10 @@
 #    By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/15 21:02:41 by rcutte            #+#    #+#              #
-#    Updated: 2024/02/15 23:31:34 by rcutte           ###   ########.fr        #
+#    Updated: 2024/02/16 23:22:02 by rcutte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-from ast import Tuple
 import sys
 import math
 
@@ -84,27 +83,22 @@ class ship:
         self.power = power
     
     def nav(self) -> tuple[int, int]:
-        if self.x < Mars.landing_area["start"] or self.x > Mars.landing_area["end"]:
-            if self.x < Mars.landing_area["start"]:
-                if self.x > Mars.landing_area["start"] - 100:
-                    return 20, 4
-                if self.h_speed > 30:
-                    return 20, 3
-                return -20, 3
+        if self.x < Mars.landing_area["start"]:
+            if self.h_speed <= 40 and self.x < Mars.landing_area["start"] - 1000:
+                return (-45, 3)
+            elif self.v_speed > -30:
+                return (0, 3)
             else:
-                return 20, 3
+                return (0, 4)
+        elif self.x > Mars.landing_area["start"] - 500:
+            if self.h_speed >= self.landing_h_speed:
+                return (45, 4)
+            elif self.v_speed <= -self.landing_v_speed:
+                return (0, 4)
+            else:
+                return (0, 3)
         else:
-            if self.v_speed > 0:
-                return 0, 0
-            else:
-                if self.v_speed < -self.landing_v_speed + 1 and self.y < Mars.landing_area["height"] + 400:
-                    return 0, 4
-                else:
-                    if self.y < Mars.landing_area["height"] + 2500:
-                        return 0, 3
-                    else:
-                        return 0, 1
-        
+            return (0, 3)
 
     def __str__(self):
         return f"X: {self.x}, Y: {self.y}, H_Speed: {self.h_speed}, V_Speed: {self.v_speed}, Fuel: {self.fuel}, Rotate: {self.rotate}, Power: {self.power}"

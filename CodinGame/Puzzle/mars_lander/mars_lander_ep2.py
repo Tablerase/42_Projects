@@ -6,7 +6,7 @@
 #    By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/15 21:02:41 by rcutte            #+#    #+#              #
-#    Updated: 2024/02/16 23:22:02 by rcutte           ###   ########.fr        #
+#    Updated: 2024/02/18 21:19:21 by rcutte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,23 +82,12 @@ class ship:
         self.rotate = rotate
         self.power = power
     
+    # TODO: Algo ship to landing zone with angle and power
     def nav(self) -> tuple[int, int]:
-        if self.x < Mars.landing_area["start"]:
-            if self.h_speed <= 40 and self.x < Mars.landing_area["start"] - 1000:
-                return (-45, 3)
-            elif self.v_speed > -30:
-                return (0, 3)
-            else:
-                return (0, 4)
-        elif self.x > Mars.landing_area["start"] - 500:
-            if self.h_speed >= self.landing_h_speed:
-                return (45, 4)
-            elif self.v_speed <= -self.landing_v_speed:
-                return (0, 4)
-            else:
-                return (0, 3)
-        else:
-            return (0, 3)
+        return (0, 3)
+        # Define vector to target coordinates
+        # Check if vector will collision with Ground
+        # Adapt angle and power to avoid collision
 
     def __str__(self):
         return f"X: {self.x}, Y: {self.y}, H_Speed: {self.h_speed}, V_Speed: {self.v_speed}, Fuel: {self.fuel}, Rotate: {self.rotate}, Power: {self.power}"

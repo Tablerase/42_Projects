@@ -596,15 +596,41 @@ A Git submodule allows you to keep another Git repository in a subdirectory of y
 
 Submodules are used when you want to include or embed another project within your own project while keeping the other project's codebase separate. This is useful when you want to include libraries or other projects and want to pull in updates from those projects as they happen, or control the exact version of the project that your repository uses.
 
+
+### Add
+
 Here's how you can add a submodule to your repository:
 
 ```bash
-git submodule add <repository-url>
+git submodule add <repository-url> <path/to/submodule>
 ```
 
 Replace `<repository-url>` with the URL of the repository you want to include as a submodule.
 
-This will clone the repository into a subdirectory of your current repository. You can then commit and push this change to your repository, and others who clone your repository and run `git submodule init` and `git submodule update` will also get the contents of the submodule.
+This will clone the repository into a subdirectory of your current repository. You can then commit and push this change to your repository, and others who clone your repository should run `git submodule init` and `git submodule update` to also get the contents of the submodule.
+
+### Clone
+
+When you clone a repository that has submodules, you need to initialize and update the submodules to get their contents. You can do this with the following commands:
+
+```bash
+git submodule init
+git submodule update
+```
+
+This will initialize the submodules and update them to the correct commit.
+
+Using the `--recursive` flag when cloning a repository will automatically initialize and update the submodules:
+
+```bash
+git clone --recursive <repository-url>
+```
+
+or
+
+```bash
+git clone --recurse-submodules <repository-url>
+```
 
 ## Config
 

@@ -152,7 +152,7 @@ all: $(NAME)
 ####################### FLAGS #######################
 
 CC = cc
-CFLAGS = -Wextra -Wall -Werror -g
+CFLAGS = -Wextra -Wall -Werror -g3
 READLINE = -lreadline
 TERMCAP = -ltermcap
 
@@ -276,12 +276,12 @@ exec_bonus: clean bonus exec_msg
 
 valgrind: clean all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s \
-	--track-origins=yes --trace-children=yes --track-fds=yes --track-origins=yes \
+ --trace-children=yes --track-fds=yes \
 	./$(NAME) $(ARGS)
 
 valgrind_bonus: clean bonus
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s \
-	--track-origins=yes --trace-children=yes --track-fds=yes --track-origins=yes \
+	@valgrind --leak-check=full --show-leak-kinds=all -s \
+ --trace-children=yes --track-fds=yes --track-origins=yes \
 	./$(NAME_BONUS) $(ARGS_BONUS)
 
 lldb: clean all

@@ -136,7 +136,7 @@ A race condition occurs when the behavior of a system depends on the relative ti
 
 Like for example, if two threads are trying to access the same shared resource, and one of them modifies the resource while the other is reading it, the result can be unpredictable.
 
-#### Other issues
+#### Other infos
 
 **Data Race**: This is a condition where two or more threads access shared data simultaneously and at least one of them modifies the data. This can lead to unpredictable results if not handled properly.
 
@@ -146,6 +146,36 @@ Like for example, if two threads are trying to access the same shared resource, 
 
 
 ### Mutexes
+
+```mermaid
+graph TD
+  classDef ressource fill:#2fa;
+  classDef process fill:#fa1;
+  classDef thread fill:#fa0;
+  classDef mutex fill:#f2a;
+  classDef protected fill:#2fa, stroke:#f2a, stroke-width:3px;
+    subgraph Process
+        Ressource1[Memory]:::protected
+        Ressource2[Files]:::ressource
+        Mutex1[Mutex]:::mutex o--o Ressource1
+        point(( )) --> thread1[Thread 1]:::thread
+        subgraph thread1
+            Mutex1
+        end
+        thread2 -.-x Ressource1
+        point(( )) --> thread2[Thread 2]:::thread
+        subgraph thread2
+        end
+        thread3 -.-x Ressource1
+        point(( )) --> thread3[Thread 3]:::thread
+        subgraph thread3
+        end
+    end
+```
+
+A mutex, short for **"mutually exclusive,"** is a synchronization primitive used to protect shared resources from being accessed simultaneously by multiple threads. It ensures that **only one thread can access the protected resource** at a time. When a thread acquires a mutex, other threads attempting to acquire the same mutex are **blocked until the owning thread releases it**. This mechanism is crucial in multi-threaded programming to prevent data races and ensure data integrity.
+
+Mutexes differ from semaphores in their use and constraints. While both are used for synchronization, a mutex is owned by the thread that locks it and must be unlocked by the same thread. This ownership constraint helps avoid problems such as priority inversion, premature task termination, and accidental release of the mutex. Semaphores, on the other hand, are more general-purpose synchronization primitives that can be signaled by any thread and do not have an ownership requirement.
 
 ### Semaphores (bonus)
 
@@ -277,7 +307,128 @@ In this example, the program will print the current time in seconds and microsec
 
 </details>
 
-### pthread_create
+### Pthreads functions
+
+<details>
+
+<summary>Examples/Demos</summary>
+
+#### Demo of create threads in loops:
+
+In this example, the program creates 4 threads that increment the `mails` variable 1,000,000 times each. The `mails` variable is protected by a mutex.
+
+```c
+#include <stdio.h>
+// THREAD
+#include <pthread.h>
+
+int mails = 0;
+pthread_mutex_t mutex;
+
+void* routine()
+{
+	int i = 0;
+	while (i < 1000000)
+	{
+		i++;
+		pthread_mutex_lock(&mutex); // Lock the mutex for current thread
+		mails++;
+		pthread_mutex_unlock(&mutex); // Unlock the mutex for current thread
+	}
+	return (NULL);
+}
+
+int main() {
+    pthread_t th[4];
+
+	pthread_mutex_init(&mutex, NULL); // Initialize the mutex protection
+
+	printf("Mails: %d\n", mails);
+	for (int i = 0; i < 4; i++)
+	{
+		if (pthread_create(&th[i], NULL, routine, NULL) != 0)
+		{
+			printf("Failed to create thread %i\n", i);
+			return 1;
+		}
+		printf("Thread %i has started\n", i);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		if (pthread_join(th[i], NULL) != 0)
+		{
+			printf("Failed to join thread %i\n", i);
+			return 1;
+		}
+		printf("Thread %i has finished\n", i);
+	}
+	pthread_mutex_destroy(&mutex); // Destroy the mutex protection
+
+	printf("Mails: %d\n", mails); // 2000000 but if we don't use mutex, it will be less than 2000000
+	return 0;
+}
+```
+
+#### Demo recover return value from threads:
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <time.h>
+
+void	*roll_dice()
+{
+	
+	int value = (rand() % 6) + 1;
+	int *ptr_res = malloc(sizeof(int));
+	printf("You rolled a %d\n", value);
+	*ptr_res = value;
+	printf("ptr_res: %p\n", ptr_res);
+	return (void *)ptr_res;
+}
+
+int main()
+{
+	srand(time(NULL));
+	pthread_t 	th;
+	int *res;
+
+	// one thread
+	printf("================= One Thread ===================\n");
+	pthread_create(&th, NULL, roll_dice, NULL);
+	pthread_join(th, (void **)&res);
+	printf("res roll: %d\n", *res);
+	printf("res addr: %p\n", res);
+	free(res);
+
+	// Multiple threads
+	printf("================= Multiple Threads ===================\n");
+	pthread_t 	th_list[4];
+	int 		*res_list[4];
+	for (int i = 0; i < 4; i++)
+	{
+		pthread_create(&th_list[i], NULL, roll_dice, NULL);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		pthread_join(th_list[i], (void **)&res_list[i]);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		printf("res_list[%d] roll: %d\n", i, *res_list[i]);
+		printf("res_list[%d] addr: %p\n", i, res_list[i]);
+		free(res_list[i]);
+	}
+	return 0;
+}
+```
+
+
+
+</details>
+
+#### pthread_create
 
 Compile and link with `-pthread`.
 
@@ -351,12 +502,9 @@ void* routine()
 }
 
 int main() {
-    struct timeval tv;
-
-    gettimeofday(&tv, NULL);
-
-    pthread_t thread;
+  pthread_t thread;
 	pthread_t thread2;
+
 	pthread_create(&thread, NULL, &routine, NULL);
 	pthread_create(&thread2, NULL, &routine, NULL);
 
@@ -373,7 +521,7 @@ In this example, the program creates two new threads that print "Hello from thre
 
 </details>
 
-### pthread_join
+#### pthread_join
 
 ```c
 #include <pthread.h>
@@ -394,3 +542,161 @@ Return value:
 - On success, `pthread_join` returns 0.
 - On error, it returns a positive error number.
 
+### Mutexes functions
+
+<details>
+<summary>Example/Demo</summary>
+
+```c
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+pthread_mutex_t mutex;
+
+void *print_message(void *ptr) {
+    pthread_mutex_lock(&mutex);
+    char *message = (char *)ptr;
+    printf("%s\n", message);
+    sleep(1);
+    pthread_mutex_unlock(&mutex);
+    return NULL;
+}
+
+int main() {
+    pthread_t thread;
+    char *message = "Hello";
+
+    pthread_mutex_init(&mutex, NULL);
+
+    pthread_create(&thread, NULL, print_message, (void *)message);
+
+    pthread_join(thread, NULL);
+
+    printf(", world!\n");
+
+    pthread_mutex_destroy(&mutex);
+
+    return 0;
+}
+```
+
+In this example, the program creates a new thread that prints "Hello, world!".
+
+</details>
+
+#### pthread_mutex_init
+
+```c
+#include <pthread.h>
+
+int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
+```
+
+- Initializes a mutex.
+
+Parameters:
+
+- `mutex`: A pointer to a `pthread_mutex_t` structure that will be initialized.
+- `attr`: A pointer to a `pthread_mutexattr_t` structure that specifies the mutex's attributes.
+  - This parameter is generally not used and can be set to `NULL`.
+
+Structure:
+
+The actual content of the mutex structure is not defined in the POSIX threads (pthreads) standard, and it is generally considered to be opaque -- that is, you should not access its members directly. Instead, you should use the pthreads API functions to work with mutexes.
+
+Remember, you should always use the pthreads API functions to work with `pthread_mutex_t` objects, and not try to manipulate them directly.
+
+Return value:
+
+- On success, `pthread_mutex_init` returns 0.
+- On error, it returns a positive error number.
+
+Info:
+
+- You have to check the return value of `pthread_mutex_init` to ensure that the mutex was initialized successfully.
+- If the system does not have enough resources (like memory) to initialize a new mutex, pthread_mutex_init will fail.
+
+#### pthread_mutex_destroy
+
+```c
+#include <pthread.h>
+
+int pthread_mutex_destroy(pthread_mutex_t *mutex);
+```
+
+- Destroys a mutex.
+
+Parameters:
+
+- `mutex`: A pointer to a `pthread_mutex_t` structure that will be destroyed.
+
+Return value:
+
+- On success, `pthread_mutex_destroy` returns 0.
+- On error, it returns a positive error number.
+
+| Error Code | Description |
+|------------|-------------|
+| `EAGAIN` | The system lacked the necessary resources (other than memory) to initialize another mutex. |
+| `ENOMEM` | Insufficient memory exists to initialize the mutex. |
+| `EPERM` | The caller does not have the privilege to perform the operation. |
+| `EINVAL` | The attributes object referenced by attr has the robust mutex attribute set without the process-shared attribute being set. |
+
+Info:
+
+- You have to check the return value of `pthread_mutex_destroy` to ensure that the mutex was destroyed successfully.
+- If a thread attempts to destroy a mutex that is currently locked, it will cause an error.
+
+#### pthread_mutex_lock
+
+```c
+#include <pthread.h>
+
+int pthread_mutex_lock(pthread_mutex_t *mutex);
+```
+
+- Locks a mutex.
+
+Parameters:
+
+- `mutex`: A pointer to a `pthread_mutex_t` structure that will be locked.
+
+Return value:
+
+- On success, `pthread_mutex_lock` returns 0.
+- On error, it returns a positive error number.
+
+| Error Code | Description |
+|------------|-------------|
+| `EAGAIN` | The maximum number of recursive locks for the mutex has been exceeded. |
+| `EINVAL` | The mutex was created with the protocol attribute having the value PTHREAD_PRIO_PROTECT and the calling thread's priority is higher than the mutex's current priority ceiling. |
+| `ENOTRECOVERABLE` | The state protected by the mutex is not recoverable. |
+| `EOWNERDEAD` | The mutex is a robust mutex and the process containing the previous owning thread terminated while holding the mutex lock. The mutex lock shall be acquired by the calling thread and it is up to the new owner to make the state consistent. |
+| `EDEADLK` | The mutex type is PTHREAD_MUTEX_ERRORCHECK and the current thread already owns the mutex, or a deadlock condition was detected. |
+| `EBUSY` | The mutex could not be acquired because it was already locked. |
+| `EPERM` | The mutex type is PTHREAD_MUTEX_ERRORCHECK or PTHREAD_MUTEX_RECURSIVE, or the mutex is a robust mutex, and the current thread does not own the mutex. |
+
+Info:
+
+- If the mutex is already locked by another thread, the calling thread will be blocked until the mutex is unlocked by the other thread.
+- You have to check the return value of `pthread_mutex_lock` to ensure that the mutex was locked successfully.
+
+#### pthread_mutex_unlock
+
+```c
+#include <pthread.h>
+
+int pthread_mutex_unlock(pthread_mutex_t *mutex);
+```
+
+- Unlocks a mutex.
+
+Parameters:
+
+- `mutex`: A pointer to a `pthread_mutex_t` structure that will be unlocked.
+
+Return value:
+
+- On success, `pthread_mutex_unlock` returns 0.
+- On error, it returns a positive error number.

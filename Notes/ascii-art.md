@@ -43,7 +43,6 @@ In C language:
 #include "path/to/color.h"
 ```
 
-
 </details>
 
 The format is `\033[<attribute>;<foreground>;<background>m`.

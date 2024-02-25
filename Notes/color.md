@@ -8,6 +8,19 @@ The format is `\033[<attribute>;<foreground>;<background>m`.
  
 🎨 More details in this markdown: [Here](/Notes/ascii-art.md#ansi-escape-codes)
 
+<details>
+  <summary>ANSI Escape Codes - Includes/Imports</summary>
+
+In C language: 
+- [Download this header](https://raw.githubusercontent.com/Tablerase/42_Projects/main/Projects/Pipex/pipex/Includes/color.h)
+- Include it in your project with `#include "color.h"`
+
+```c
+#include "path/to/color.h"
+```
+
+</details>
+
 ## A RGB
 
 ![argb display](https://upload.wikimedia.org/wikipedia/commons/0/0b/RGBA_comp.png)

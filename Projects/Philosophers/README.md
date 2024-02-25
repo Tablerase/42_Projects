@@ -97,8 +97,8 @@ with a mutex for each of them.
 
 ```mermaid
 graph TD
-  classDef ressource fill:#2fa;
-  classDef process fill:#fa1;
+  classDef ressource fill:#2fa, color:#000;
+  classDef process fill:#fa1, color:#000;
     subgraph Process
         Ressource1[Memory]:::ressource
         Ressource2[Files]:::ressource
@@ -149,11 +149,11 @@ Like for example, if two threads are trying to access the same shared resource, 
 
 ```mermaid
 graph TD
-  classDef ressource fill:#2fa;
-  classDef process fill:#fa1;
-  classDef thread fill:#fa0;
-  classDef mutex fill:#f2a;
-  classDef protected fill:#2fa, stroke:#f2a, stroke-width:3px;
+  classDef ressource fill:#2fa, color:#000;
+  classDef process fill:#fa1, color:#000;
+  classDef thread fill:#fa0, color:#000;
+  classDef mutex fill:#f2a, color:#000;
+  classDef protected fill:#2fa, stroke:#f2a, stroke-width:3px, color:#000;
     subgraph Process
         Ressource1[Memory]:::protected
         Ressource2[Files]:::ressource
@@ -308,125 +308,6 @@ In this example, the program will print the current time in seconds and microsec
 </details>
 
 ### Pthreads functions
-
-<details>
-
-<summary>Examples/Demos</summary>
-
-#### Demo of create threads in loops:
-
-In this example, the program creates 4 threads that increment the `mails` variable 1,000,000 times each. The `mails` variable is protected by a mutex.
-
-```c
-#include <stdio.h>
-// THREAD
-#include <pthread.h>
-
-int mails = 0;
-pthread_mutex_t mutex;
-
-void* routine()
-{
-	int i = 0;
-	while (i < 1000000)
-	{
-		i++;
-		pthread_mutex_lock(&mutex); // Lock the mutex for current thread
-		mails++;
-		pthread_mutex_unlock(&mutex); // Unlock the mutex for current thread
-	}
-	return (NULL);
-}
-
-int main() {
-    pthread_t th[4];
-
-	pthread_mutex_init(&mutex, NULL); // Initialize the mutex protection
-
-	printf("Mails: %d\n", mails);
-	for (int i = 0; i < 4; i++)
-	{
-		if (pthread_create(&th[i], NULL, routine, NULL) != 0)
-		{
-			printf("Failed to create thread %i\n", i);
-			return 1;
-		}
-		printf("Thread %i has started\n", i);
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		if (pthread_join(th[i], NULL) != 0)
-		{
-			printf("Failed to join thread %i\n", i);
-			return 1;
-		}
-		printf("Thread %i has finished\n", i);
-	}
-	pthread_mutex_destroy(&mutex); // Destroy the mutex protection
-
-	printf("Mails: %d\n", mails); // 2000000 but if we don't use mutex, it will be less than 2000000
-	return 0;
-}
-```
-
-#### Demo recover return value from threads:
-
-```c
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <time.h>
-
-void	*roll_dice()
-{
-	
-	int value = (rand() % 6) + 1;
-	int *ptr_res = malloc(sizeof(int));
-	printf("You rolled a %d\n", value);
-	*ptr_res = value;
-	printf("ptr_res: %p\n", ptr_res);
-	return (void *)ptr_res;
-}
-
-int main()
-{
-	srand(time(NULL));
-	pthread_t 	th;
-	int *res;
-
-	// one thread
-	printf("================= One Thread ===================\n");
-	pthread_create(&th, NULL, roll_dice, NULL);
-	pthread_join(th, (void **)&res);
-	printf("res roll: %d\n", *res);
-	printf("res addr: %p\n", res);
-	free(res);
-
-	// Multiple threads
-	printf("================= Multiple Threads ===================\n");
-	pthread_t 	th_list[4];
-	int 		*res_list[4];
-	for (int i = 0; i < 4; i++)
-	{
-		pthread_create(&th_list[i], NULL, roll_dice, NULL);
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		pthread_join(th_list[i], (void **)&res_list[i]);
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		printf("res_list[%d] roll: %d\n", i, *res_list[i]);
-		printf("res_list[%d] addr: %p\n", i, res_list[i]);
-		free(res_list[i]);
-	}
-	return 0;
-}
-```
-
-
-
-</details>
 
 #### pthread_create
 
@@ -680,6 +561,9 @@ Return value:
 Info:
 
 - If the mutex is already locked by another thread, the calling thread will be blocked until the mutex is unlocked by the other thread.
+
+- The difference between `pthread_mutex_lock` and `pthread_mutex_trylock` is that `pthread_mutex_lock` will block the calling thread until the mutex is unlocked, while `pthread_mutex_trylock` will return an error if the mutex is already locked.
+
 - You have to check the return value of `pthread_mutex_lock` to ensure that the mutex was locked successfully.
 
 #### pthread_mutex_unlock
@@ -700,3 +584,264 @@ Return value:
 
 - On success, `pthread_mutex_unlock` returns 0.
 - On error, it returns a positive error number.
+
+## Demo threads and mutexes functions
+
+<details>
+
+<summary><strong>🧪 Examples/Demos - CodeVault</strong></summary>
+
+#### Demo of create threads in loops:
+
+In this example, the program creates 4 threads that increment the `mails` variable 1,000,000 times each. The `mails` variable is protected by a mutex.
+
+```c
+#include <stdio.h>
+// THREAD
+#include <pthread.h>
+
+int mails = 0;
+pthread_mutex_t mutex;
+
+void* routine()
+{
+	int i = 0;
+	while (i < 1000000)
+	{
+		i++;
+		pthread_mutex_lock(&mutex); // Lock the mutex for current thread
+		mails++;
+		pthread_mutex_unlock(&mutex); // Unlock the mutex for current thread
+	}
+	return (NULL);
+}
+
+int main() {
+    pthread_t th[4];
+
+	pthread_mutex_init(&mutex, NULL); // Initialize the mutex protection
+
+	printf("Mails: %d\n", mails);
+	for (int i = 0; i < 4; i++)
+	{
+		if (pthread_create(&th[i], NULL, routine, NULL) != 0)
+		{
+			printf("Failed to create thread %i\n", i);
+			return 1;
+		}
+		printf("Thread %i has started\n", i);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		if (pthread_join(th[i], NULL) != 0)
+		{
+			printf("Failed to join thread %i\n", i);
+			return 1;
+		}
+		printf("Thread %i has finished\n", i);
+	}
+	pthread_mutex_destroy(&mutex); // Destroy the mutex protection
+
+	printf("Mails: %d\n", mails); // 2000000 but if we don't use mutex, it will be less than 2000000
+	return 0;
+}
+```
+
+#### Demo recover return value from threads:
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <time.h>
+
+void	*roll_dice()
+{
+	
+	int value = (rand() % 6) + 1;
+	int *ptr_res = malloc(sizeof(int));
+	printf("You rolled a %d\n", value);
+	*ptr_res = value;
+	printf("ptr_res: %p\n", ptr_res);
+	return (void *)ptr_res;
+}
+
+int main()
+{
+	srand(time(NULL));
+	pthread_t 	th;
+	int *res;
+
+	// one thread
+	printf("================= One Thread ===================\n");
+	pthread_create(&th, NULL, roll_dice, NULL);
+	pthread_join(th, (void **)&res);
+	printf("res roll: %d\n", *res);
+	printf("res addr: %p\n", res);
+	free(res);
+
+	// Multiple threads
+	printf("================= Multiple Threads ===================\n");
+	pthread_t 	th_list[4];
+	int 		*res_list[4];
+	for (int i = 0; i < 4; i++)
+	{
+		pthread_create(&th_list[i], NULL, roll_dice, NULL);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		pthread_join(th_list[i], (void **)&res_list[i]);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		printf("res_list[%d] roll: %d\n", i, *res_list[i]);
+		printf("res_list[%d] addr: %p\n", i, res_list[i]);
+		free(res_list[i]);
+	}
+	return 0;
+}
+```
+
+#### Demo of create threads with arguments:
+
+In this example, the program creates 10 threads that print the prime numbers from an array. The threads receive the index of the prime number as an argument.
+
+- The first example uses the stack to pass the argument to the thread.
+
+- The second example uses the heap to pass the argument to the thread.
+
+The second example is better because the stack is not safe for threads. The stack is shared between threads, and the value of the argument can change before the thread uses it.
+
+In this example, the value of `i` is send as an address, so the value of `i` can change before the thread uses it.
+```c
+// Standard Libs
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+// Time
+#include <sys/time.h>
+// Threads
+#include <pthread.h>
+
+int primes[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+
+void* routine(void *arg)
+{
+	int index = *(int*)arg;
+	printf("Prime: %d\n", primes[index]);
+	return (NULL);
+}
+
+void* routine2(void *arg)
+{
+	int index = *(int*)arg;
+	printf("Prime: %d\n", primes[index]);
+	free(arg);
+	return (NULL);
+}
+
+int main()
+{
+	pthread_t thread[10];
+
+	// Example of arg from the stack
+	printf("=================== Example Stack Arg ===================\n");
+	for (int i = 0; i < 10; i++)
+	{
+		if (pthread_create(&thread[i], NULL, &routine, &i) != 0)
+		{
+			perror("Failed to pthread_create");
+		}
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		if (pthread_join(thread[i], NULL) != 0)
+		{
+			perror("Failed to pthread_join");
+		}
+	}
+	
+	// Example of arg from the heap
+	printf("=================== Example Heap Arg ===================\n");
+	for (int i = 0; i < 10; i++)
+	{
+		int *index = malloc(sizeof(int));
+		*index = i;
+		if (pthread_create(&thread[i], NULL, &routine2, index) != 0)
+		{
+			perror("Failed to pthread_create");
+		}
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		if (pthread_join(thread[i], NULL) != 0)
+		{
+			perror("Failed to pthread_join");
+		}
+	}
+	return (0);
+}
+```
+
+#### Demo summing from array with threads:
+
+In this example, the program creates 2 threads that sum the prime numbers from an array. The threads receive the index of the prime number as an argument and return the sum of the prime numbers.
+
+```c
+// Standard Libs
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+// Time
+#include <sys/time.h>
+// Threads
+#include <pthread.h>
+
+int primes[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+
+void* routine(void *arg)
+{
+	int index = *(int*)arg;
+	int sum = 0;
+	for (int j = 0; j < 5; j++)
+	{
+		sum += primes[index + j];
+	}
+	*(int*)arg = sum;
+	return (arg);
+}
+
+int main()
+{
+	pthread_t thread[2];
+
+	int i;
+	for (i = 0; i < 2; i++)
+	{
+		int *index = malloc(sizeof(int));
+		*index = i * 5;
+		if (pthread_create(&thread[i], NULL, &routine, index) != 0)
+		{
+			perror("pthread_create");
+		}
+	}
+	int main_sum = 0;
+	for (i = 0; i < 2; i++)
+	{
+		int *result;
+		if (pthread_join(thread[i], (void **)&result) != 0)
+		{
+			perror("pthread_join");
+		}
+		main_sum += *result;
+		printf("Thread %d returned %d\n", i, *result);
+		free(result);
+	}
+	printf("Sum of all primes is %d\n", main_sum);
+	return (0);
+}
+```
+
+
+
+</details>

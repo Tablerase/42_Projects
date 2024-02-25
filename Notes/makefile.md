@@ -264,30 +264,30 @@ re: re_msg fclean all
 
 ARGS = 
 
-exec: clean all exec_msg
+exec: all exec_msg
 	@./$(NAME) $(ARGS)
 
 ARGS_BONUS = 
 
-exec_bonus: clean bonus exec_msg
+exec_bonus: bonus exec_msg
 	@./$(NAME_BONUS) $(ARGS_BONUS)
 
 ###################### Valgrind/Debug ######################
 
-valgrind: clean all
+valgrind: all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s \
  --trace-children=yes --track-fds=yes \
 	./$(NAME) $(ARGS)
 
-valgrind_bonus: clean bonus
+valgrind_bonus: bonus
 	@valgrind --leak-check=full --show-leak-kinds=all -s \
  --trace-children=yes --track-fds=yes --track-origins=yes \
 	./$(NAME_BONUS) $(ARGS_BONUS)
 
-lldb: clean all
+lldb: all
 	@lldb ./$(NAME) $(ARGS)
 
-lldb_bonus: clean bonus
+lldb_bonus: bonus
 	@lldb ./$(NAME_BONUS) $(ARGS_BONUS)
 
 ################### Special Target ###################

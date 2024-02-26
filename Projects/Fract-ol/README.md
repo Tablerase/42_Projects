@@ -2,7 +2,7 @@
 
 # Fract-ol
 
-[<kbd> <br> Code for Fractol <br> </kbd>](/Fract-ol/fractol/)
+[<kbd> <br> Code for Fractol <br> </kbd>](./fractol/)
 
 <div align="center" style=" display: flex;">
 

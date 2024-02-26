@@ -87,9 +87,50 @@ with a mutex for each of them.
   - Logs messages should not mixe with each other.
   - Log message annoncing the death of a philosopher should wait more than 10ms before printing it.
 
+## Code
+
+### Mandatory part
+
+```mermaid
+flowchart TD
+  classDef data stroke:#ff0;
+  classDef data_option stroke:#ff0,stroke-dasharray: 5, 5;
+  classDef ressource fill:#2fa, color:#000;
+  classDef process fill:#fa1, color:#000;
+  classDef thread fill:#fa0, color:#000;
+  classDef mutex fill:#f2a, color:#000;
+  classDef protected fill:#2fa, stroke:#f2a, stroke-width:3px, color:#000;
+  classDef important fill:#0af,color:#000;
+
+  Main:::important
+  Main -.- |">= 5\n&&\n<= 6"| argc:::data
+  Main -.- argv:::data
+  argv --> Parse
+  argc --> Parse
+  subgraph Parse
+    direction LR
+    parse_is_num --> |"check char"| args_5
+    parse_is_supported -->|"<= 200 "| args_5
+    subgraph args_5["Argc <= 6"]
+      subgraph args_4["Argc == 5"]
+        time_to_die:::data
+        time_to_eat:::data
+        time_to_sleep:::data
+        number_of_philosophers:::data
+      end
+      number_of_times_each_philosopher_must_eat:::data_option
+    end
+  end
+  Parse --> Init
+```
+
 ## Resources
 
 ⏯️ [Unix Threads - CodeVault](https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&feature=shared)
+
+:bookmark_tabs: [Wiki - Philosopher's problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem)
+
+:bookmark_tabs: [Medium - 42 Philosophers](https://medium.com/@ruinadd/philosophers-42-guide-the-dining-philosophers-problem-893a24bc0fe2)
 
 ## Notions
 
@@ -135,6 +176,10 @@ Issues with threads include
 A race condition occurs when the behavior of a system depends on the relative timing of events, such as the order in which threads are scheduled. This can lead to unpredictable results and bugs that are difficult to reproduce.
 
 Like for example, if two threads are trying to access the same shared resource, and one of them modifies the resource while the other is reading it, the result can be unpredictable.
+
+#### Deadlocks
+
+A deadlock is a situation in which two or more competing actions are each waiting for the other to finish, and thus neither ever does. Deadlocks can occur in multithreaded programs when threads acquire multiple locks in different orders, leading to a situation where each thread is waiting for a lock that is held by another thread. [Example](#demo-deadlock-with-threads)
 
 #### Other infos
 
@@ -191,23 +236,21 @@ Mutexes differ from semaphores in their use and constraints. While both are used
 
 - `write`: Writes data from a buffer into a file or a file descriptor. Used in C and C++.
 
-- `usleep`: Suspends execution of the calling thread for (at least) the number of microseconds specified. Used in Unix-like operating systems.
+- [`usleep`](#usleep): Suspends execution of the calling thread for (at least) the number of microseconds specified. Used in Unix-like operating systems.
 
-- `gettimeofday`: Gets the current time. Used in Unix-like operating systems.
+- [`gettimeofday`](#gettimeofday): Gets the current time. Used in Unix-like operating systems.
 
-- `pthread_create`: Creates a new thread. Used in POSIX threads (pthreads).
+- [`pthread_create`](#pthread_create): Creates a new thread. Used in POSIX threads (pthreads).
 
-- `pthread_detach`: Marks a thread for deletion when it finishes execution. Used in pthreads.
+- [`pthread_join`](#pthread_join): Suspends execution of the calling thread until the target thread finishes execution. Used in pthreads.
 
-- `pthread_join`: Suspends execution of the calling thread until the target thread finishes execution. Used in pthreads.
+- [`pthread_mutex_init`](#pthread_mutex_init): Initializes a mutex. Used in pthreads.
 
-- `pthread_mutex_init`: Initializes a mutex. Used in pthreads.
+- [`pthread_mutex_destroy`](#pthread_mutex_destroy): Destroys a mutex. Used in pthreads.
 
-- `pthread_mutex_destroy`: Destroys a mutex. Used in pthreads.
+- [`pthread_mutex_lock`](#pthread_mutex_lock): Locks a mutex. Used in pthreads.
 
-- `pthread_mutex_lock`: Locks a mutex. Used in pthreads.
-
-- `pthread_mutex_unlock`: Unlocks a mutex. Used in pthreads.
+- [`pthread_mutex_unlock`](#pthread_mutex_unlock): Unlocks a mutex. Used in pthreads.
 
 ### usleep
 
@@ -842,6 +885,140 @@ int main()
 }
 ```
 
+#### Demo deadlock with threads:
 
+In this example, the program creates 8 threads that try to lock two mutexes. The threads lock the mutexes in different orders, which causes a deadlock.
+
+```c
+// Standard Libs
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+// Time
+#include <sys/time.h>
+// Threads
+#include <pthread.h>
+
+#define THREAD_COUNT 8
+
+pthread_mutex_t mutexFuel;
+pthread_mutex_t mutexCargo;
+
+int fuel = 50;
+
+// The Mutexes lock order is important
+// If the order is not the same, the program can/will deadlock
+void* routine(void *arg)
+{
+	(void)arg;
+	if (rand() % 2)
+	{
+		pthread_mutex_lock(&mutexFuel);
+		sleep(1);
+		pthread_mutex_lock(&mutexCargo);
+	}
+	else
+	{
+		pthread_mutex_lock(&mutexCargo);
+		sleep(1);
+		pthread_mutex_lock(&mutexFuel);
+	}
+	fuel += 50;
+	printf("Increased Fuel to: %d\n", fuel);
+	pthread_mutex_unlock(&mutexFuel);
+	pthread_mutex_unlock(&mutexCargo);
+	return (NULL);
+}
+
+int main()
+{
+	pthread_t thread[THREAD_COUNT];
+
+  pthread_mutex_init(&mutexFuel, NULL);
+  pthread_mutex_init(&mutexCargo, NULL);
+	int i;
+	for (i = 0; i < THREAD_COUNT; i++)
+	{
+		if (pthread_create(&thread[i], NULL, routine, NULL) != 0)
+		{
+			printf("Error creating thread\n");
+			return (1);
+		}
+	}
+	for (i = 0; i < THREAD_COUNT; i++)
+	{
+		if (pthread_join(thread[i], NULL) != 0)
+		{
+			printf("Error joining thread\n");
+			return (1);
+		}
+	}
+	printf("Fuel: %d\n", fuel);
+	pthread_mutex_destroy(&mutexFuel);
+  pthread_mutex_destroy(&mutexCargo);
+	return (0);
+}
+```
+
+#### Demo barrier with threads (not in the subject):
+
+<details>
+
+<summary>Barrier infos</summary>
+
+A barrier is a thread synchronization mechanism in POSIX threads (pthreads) where all threads are blocked until all participating threads reach the barrier. Once all threads have reached the barrier, they are all released and can continue executing.
+
+Here's an example of how to use a barrier in pthreads:
+
+```c
+#include <pthread.h>
+#include <stdio.h>
+
+#define NUM_THREADS 5
+
+pthread_barrier_t barrier;
+
+void* threadFunc(void* id) {
+    int thread_id = *(int*)id;
+
+    printf("Before barrier: %d\n", thread_id);
+    pthread_barrier_wait(&barrier);
+    printf("After barrier: %d\n", thread_id);
+
+    return NULL;
+}
+
+int main() {
+    pthread_t threads[NUM_THREADS];
+    int thread_ids[NUM_THREADS];
+
+    // Initialize the barrier and set it to NUM_THREADS
+    pthread_barrier_init(&barrier, NULL, NUM_THREADS);
+
+    // Start up the threads
+    for (int i = 0; i < NUM_THREADS; i++) {
+        thread_ids[i] = i;
+        pthread_create(&threads[i], NULL, threadFunc, &thread_ids[i]);
+    }
+
+    // Wait for all threads to finish
+    for (int i = 0; i < NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Destroy the barrier
+    pthread_barrier_destroy(&barrier);
+
+    return 0;
+}
+```
+
+In this example, `pthread_barrier_init` initializes the barrier. The second argument can be used to specify attributes for the barrier (NULL means default attributes), and the third argument is the count of the number of threads that must call `pthread_barrier_wait` before any of them successfully return from the call.
+
+The `pthread_barrier_wait` function is used to indicate that the thread is at the barrier. Each thread will block until all threads have reached the barrier.
+
+Finally, `pthread_barrier_destroy` is used to free a barrier when you're done with it.
+
+</details>
 
 </details>

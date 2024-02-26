@@ -121,7 +121,25 @@ flowchart TD
       number_of_times_each_philosopher_must_eat:::data_option
     end
   end
-  Parse --> Init
+  Parse --> Philosophers
+  subgraph Philosophers
+    subgraph Philo
+      thread_philo:::thread
+      mutexe_forks:::mutex
+    end
+    number_of_philosophers -.-> loop_philo
+    mutexe_output:::mutex
+    loop_philo(("Loop\nphilosophers")) --> |"create threads"| thread_philo:::thread
+    loop_philo --> |"create forks"| mutexe_forks:::mutex
+  end
+  Philosophers --> Menu
+  subgraph Menu
+    think
+    take_forks
+    eat
+    drop_forks
+    sleep
+  end
 ```
 
 ## Resources

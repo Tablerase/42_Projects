@@ -125,12 +125,12 @@ flowchart TD
   subgraph Philosophers
     subgraph Philo
       thread_philo:::thread
-      mutexe_forks:::mutex
+      mutexe_fork:::mutex
     end
     number_of_philosophers -.-> loop_philo
     mutexe_output:::mutex
     loop_philo(("Loop\nphilosophers")) --> |"create threads"| thread_philo:::thread
-    loop_philo --> |"create forks"| mutexe_forks:::mutex
+    loop_philo --> |"create forks"| mutexe_fork:::mutex
   end
   Philosophers --> Menu
   subgraph Menu

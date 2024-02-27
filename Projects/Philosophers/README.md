@@ -128,9 +128,10 @@ flowchart TD
       mutexe_fork:::mutex
     end
     number_of_philosophers -.-> loop_philo
-    mutexe_output:::mutex
     loop_philo(("Loop\nphilosophers")) --> |"create threads"| thread_philo:::thread
     loop_philo --> |"create forks"| mutexe_fork:::mutex
+    mutexe_print:::mutex
+    mutexe_death:::mutex
   end
   Philosophers --> Menu
   subgraph Menu

@@ -85,7 +85,7 @@ with a mutex for each of them.
   - The simulation should stop when a philosopher dies.
 
   - Logs messages should not mixe with each other.
-  - Log message annoncing the death of a philosopher should wait more than 10ms before printing it.
+  - Log message **annoncing the death of a philosopher should wait no more than 10ms** (after the death).
 
 ## Code
 

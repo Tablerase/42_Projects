@@ -143,6 +143,26 @@ flowchart TD
   end
 ```
 
+## Debug
+
+### Valgrind
+
+```shell
+valgrind --tool=helgrind ./program arg1 arg2 ...
+```
+
+The `--tool=helgrind` option in Valgrind is used to enable the Helgrind tool. Helgrind is a Valgrind tool for detecting synchronization errors in C, C++ and other multithreaded programs.
+
+Here's what it can do:
+
+1. **Detect potential data races**: A data race occurs when two threads access the same memory location concurrently, and at least one of the accesses is a write.
+
+2. **Detect misuses of the POSIX pthreads API**: This includes scenarios such as unlocking a mutex that is not locked, locking a mutex that is already locked by the same thread (unless the mutex is of type `PTHREAD_MUTEX_RECURSIVE`), and many others.
+
+3. **Detect deadlocks**: A deadlock occurs when two or more threads cannot proceed because each is waiting for the other to release a resource.
+
+By using `valgrind --tool=helgrind your_program`, you can check your multithreaded program for these types of synchronization errors.
+
 ## Resources
 
 ⏯️ [Unix Threads - CodeVault](https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&feature=shared)

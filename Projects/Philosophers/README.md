@@ -176,23 +176,27 @@ By using `valgrind --tool=helgrind your_program`, you can check your multithread
 ### Threads
 
 ```mermaid
-graph TD
+graph LR
   classDef ressource fill:#2fa, color:#000;
   classDef process fill:#fa1, color:#000;
     subgraph Process
         Ressource1[Memory]:::ressource
-        Ressource2[Files]:::ressource
         point(( )) --> A[Thread 1]
         point(( )) --> B[Thread 2]
         point(( )) --> C[Thread 3]
+        A -.- Ressource1
+        B -.- Ressource1
+        C -.- Ressource1
     end
     Process2:::process
     subgraph Process2
         Ressource3[Memory2]:::ressource
-        Ressource4[Files2]:::ressource
         point2(( )) --> D[Thread 1]
         point2(( )) --> E[Thread 2]
+        D -.- Ressource3
+        E -.- Ressource3
     end
+    Process x--x |Isolated\nMemory| Process2
 ```
 
 In computer science, a thread of execution is the smallest sequence of programmed instructions that can be managed independently by a scheduler, which is typically a part of the operating system. In many cases, a thread is a component of a process.

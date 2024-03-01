@@ -283,6 +283,21 @@ pid_t wait(int *status);
 
 pid_t waitpid(pid_t pid, int *status, int options);
 ```
+
+## Notions
+
+### Process
+
+A process is an instance of a running program. When a program is executed, the operating system creates a new process in which to run the program. This process contains everything needed to run the program, including the program's code, data, and system resources.
+
+#### Memory
+
+When a process is created, the operating system allocates a portion of system memory for that process. This memory space typically includes areas for the process's executable code, stack, heap, and data. 
+
+The stack is used for static data, function parameters, and local variables. The heap is used for dynamic memory allocation. The data section is used for global and static variables, and the code section is where the actual compiled program instructions reside.
+
+This isolation is crucial for system stability and security. If processes could freely access each other's memory, a bug in one process could corrupt the data in another, or a malicious process could read or modify the data in another process.
+
 ### PID
 
 PID stands for **Process IDentifier**. 

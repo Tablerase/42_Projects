@@ -92,6 +92,65 @@ with a mutex for each of them.
 ### Mandatory part
 
 ```mermaid
+flowchart TB
+  classDef forks fill:#2fa, color:#000;
+  classDef forks_ptr fill: #2fa, color: #000, stroke: #fff, stroke-dasharray: 5, 5, stroke-width: 5px;
+  classDef philo fill:#fa1, color:#000;
+
+  subgraph Philosophers
+    direction TB
+    Philo1:::philo
+    subgraph Philo1
+      direction TB
+      left_fork1:::forks_ptr
+      right_fork1:::forks_ptr
+    end
+    Philo2:::philo
+    subgraph Philo2
+      direction TB
+      left_fork2:::forks_ptr
+      right_fork2:::forks_ptr
+    end
+    Philo3:::philo
+    subgraph Philo3
+      direction TB
+      left_fork3:::forks_ptr
+      right_fork3:::forks_ptr
+    end
+    Philo4:::philo
+    subgraph Philo4
+      direction TB
+      left_fork4:::forks_ptr
+      right_fork4:::forks_ptr
+    end
+  end
+  subgraph Forks
+    direction TB
+    forks1:::forks
+    forks2:::forks
+    forks3:::forks
+    forks4:::forks
+    forks5:::forks
+  end
+  left_fork1 -.-> forks1
+  right_fork1 -.-> forks2
+  left_fork2 -.-> forks2
+  right_fork2 -.-> forks3
+  left_fork3 -.-> forks3
+  right_fork3 -.-> forks4
+  left_fork4 -.-> forks4
+  right_fork4 -.-> forks5
+  forks5 -.- left_fork5
+  forks1 -.- right_fork5
+  Philo5:::philo
+  subgraph Philo5
+    direction TB
+    left_fork5:::forks_ptr
+    right_fork5:::forks_ptr
+  end
+```
+
+```mermaid
 flowchart TD
   classDef data stroke:#ff0;
   classDef data_option stroke:#ff0,stroke-dasharray: 5, 5;

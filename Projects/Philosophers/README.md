@@ -91,6 +91,8 @@ with a mutex for each of them.
 
 ### Mandatory part
 
+Forks and Philo disposition:
+
 ```mermaid
 flowchart TB
   classDef forks fill:#2fa, color:#000;
@@ -150,6 +152,7 @@ flowchart TB
   end
 ```
 
+Code:
 ```mermaid
 flowchart TD
   classDef data stroke:#ff0;
@@ -222,11 +225,15 @@ Here's what it can do:
 
 By using `valgrind --tool=helgrind your_program`, you can check your multithreaded program for these types of synchronization errors.
 
+### Testeur
+
+- [⚙️ Philosophers - Testeur](https://github.com/Rz-Rz/thales_tester/)
+
 ## Resources
 
 ⏯️ [Unix Threads - CodeVault](https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&feature=shared)
 
-:bookmark_tabs: [Wiki - Philosopher's problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem)
+:bookmark_tabs: [Wiki - Philosopher's problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem) 🍝
 
 :bookmark_tabs: [Medium - 42 Philosophers](https://medium.com/@ruinadd/philosophers-42-guide-the-dining-philosophers-problem-893a24bc0fe2)
 

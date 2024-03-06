@@ -265,7 +265,6 @@ Problem encountered with valgrind:
     <td><code>./philo 5 300 60 600 3</code></td>
     <td><code>./philo 5 800 200 200 5</code></td>
     <td><code>./philo 10 800 200 200</code></td>
-    <!-- <td><code>./philo 200 410 200 200</code></td> -->
   </tr>
 </tbody>
 </table>

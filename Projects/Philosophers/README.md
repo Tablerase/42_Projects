@@ -233,6 +233,10 @@ By using `valgrind --tool=helgrind your_program`, you can check your multithread
 
 - [⚙️ Philosophers - Testeur](https://github.com/Rz-Rz/thales_tester/)
 
+### Visualisation
+
+- [📊 Visual Philo - by Nafuka](https://nafuka11.github.io/philosophers-visualizer/)
+
 ## Resources
 
 ⏯️ [Unix Threads - CodeVault](https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&feature=shared)

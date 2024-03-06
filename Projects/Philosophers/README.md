@@ -337,31 +337,6 @@ A mutex, short for **"mutually exclusive,"** is a synchronization primitive used
 
 Mutexes differ from semaphores in their use and constraints. While both are used for synchronization, a mutex is owned by the thread that locks it and must be unlocked by the same thread. This ownership constraint helps avoid problems such as priority inversion, premature task termination, and accidental release of the mutex. Semaphores, on the other hand, are more general-purpose synchronization primitives that can be signaled by any thread and do not have an ownership requirement.
 
-#### Mutex order
-
-When using multiple mutexes, it is important to acquire them in a consistent order to avoid deadlocks. A deadlock occurs when two or more threads are blocked indefinitely, waiting for each other to release resources. To prevent deadlocks, it is a good practice to acquire mutexes in a consistent order across all threads in the program.
-
-Example with a predefined order :
-
-```mermaid
-graph TD
-  classDef mutex fill:#f2a, color:#000;
-  classDef mutex2 fill:#ffa, color:#000;
-  classDef mutex3 fill:#aaf, color:#000;
-  subgraph Unlocks
-    Mutex_3[Mutex 3]:::mutex3
-    Mutex_2[Mutex 2]:::mutex2
-    Mutex_1[Mutex 1]:::mutex
-    Mutex_3 -.-> Mutex_2 -.-> Mutex_1
-  end
-  subgraph Locks
-    Mutex1[Mutex 1]:::mutex
-    Mutex2[Mutex 2]:::mutex2
-    Mutex3[Mutex 3]:::mutex3
-    Mutex1 -.-> Mutex2 -.-> Mutex3
-  end
-```
-
 ### Semaphores (bonus)
 
 Semaphores are a synchronization primitive used to control access to a shared resource by multiple threads. They are often used to solve the producer-consumer problem, where one or more threads produce data and one or more threads consume it.

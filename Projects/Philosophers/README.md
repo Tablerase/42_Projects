@@ -240,7 +240,7 @@ Problem encountered with valgrind:
 
 - [⚙️ Philosophers - Testeur](https://github.com/Rz-Rz/thales_tester/)
 
-#### Test
+#### Example of Test :
 
 <table>
 <thead>
@@ -253,9 +253,19 @@ Problem encountered with valgrind:
 <tbody>
   <tr>
     <td><code>./philo 1 800 200 200 1</code></td>
+    <td><code>./philo 2 800 200 200 2</code></td>
+    <td><code>./philo 3 610 200 200</code></td>
   </tr>
   <tr>
     <td><code>./philo 4 310 200 100 2</code></td>
+    <td><code>./philo 4 410 200 200 4</code></td>
+    <td><code>./philo 5 800 200 200</code></td>
+  </tr>
+  <tr>
+    <td><code>./philo 5 300 60 600 3</code></td>
+    <td><code>./philo 5 800 200 200 5</code></td>
+    <td><code>./philo 200 410 200 200</code></td>
+  </tr>
 </tbody>
 </table>
 

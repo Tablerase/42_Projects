@@ -229,9 +229,35 @@ Here's what it can do:
 
 By using `valgrind --tool=helgrind your_program`, you can check your multithreaded program for these types of synchronization errors.
 
+#### Tips
+
+Problem encountered with valgrind:
+
+- Using valgrind may cause problem with time check
+  - so to debug you can increase usleep time in order for valgrind to work properly if you have a problem with time check.
+
 ### Testeur
 
 - [⚙️ Philosophers - Testeur](https://github.com/Rz-Rz/thales_tester/)
+
+#### Test
+
+<table>
+<thead>
+  <tr>
+    <th>Death Checks</th>
+    <th>Meal Checks</th>
+    <th>No Death Checks</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><code>./philo 1 800 200 200 1</code></td>
+  </tr>
+  <tr>
+    <td><code>./philo 4 310 200 100 2</code></td>
+</tbody>
+</table>
 
 ### Visualisation
 

@@ -239,8 +239,6 @@ By using `valgrind --tool=helgrind your_program`, you can check your multithread
 
 :bookmark_tabs: [Wiki - Philosopher's problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem) 🍝
 
-:bookmark_tabs: [Medium - 42 Philosophers](https://medium.com/@ruinadd/philosophers-42-guide-the-dining-philosophers-problem-893a24bc0fe2)
-
 ## Notions
 
 ### Threads

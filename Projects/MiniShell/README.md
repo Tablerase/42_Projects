@@ -1,5 +1,7 @@
 # MiniShell
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Bash_Logo_black_and_white_icon_only.svg/1792px-Bash_Logo_black_and_white_icon_only.svg.png" width="30%" title="Bash Logo - used to illustrate a shell" draggable="false" style="border-radius: 20%;" align="right"/>
+
 ## Resources
 
 - [📑 Article - How to write your own shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)

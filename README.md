@@ -6,6 +6,10 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ## Projects
 
+### Rank 4
+
+* [CPP Modules [0-4]](./Projects/CPP_Modules)
+
 ### Rank 3
 
 * [Philosophers](./Projects/Philosophers/)

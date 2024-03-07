@@ -158,7 +158,7 @@ flowchart TB
 
 Code:
 ```mermaid
-flowchart TD
+flowchart LR
   classDef data stroke:#ff0;
   classDef data_option stroke:#ff0,stroke-dasharray: 5, 5;
   classDef ressource fill:#2fa, color:#000;
@@ -167,6 +167,10 @@ flowchart TD
   classDef mutex fill:#f2a, color:#000;
   classDef protected fill:#2fa, stroke:#f2a, stroke-width:3px, color:#000;
   classDef important fill:#0af,color:#000;
+  classDef eat fill:#0f0, color:#000;
+  classDef think fill:#fcf, color:#000;
+  classDef sleep fill:#00f, color:#fff;
+  classDef death fill:#f00, color:#fff;
 
   Main:::important
   Main -.- |">= 5\n&&\n<= 6"| argc:::data
@@ -187,26 +191,59 @@ flowchart TD
       number_of_times_each_philosopher_must_eat:::data_option
     end
   end
-  Parse --> Philosophers
+  mutexe_print:::mutex
+  mutexe_death:::mutex
+  mutexe_forks:::mutex
+  death:::death
+  Parse --> Init --> Philosophers
+  subgraph Init
+    forks_array
+    philos_array
+    start_time
+  end
   subgraph Philosophers
     subgraph Philo
+      id
+      mutexe_eat:::mutex
+      eat_count -.- mutexe_eat
+      last_meal -.- mutexe_eat
+      state
       thread_philo:::thread
-      mutexe_fork:::mutex
     end
+      mutexe_fork:::mutex
     number_of_philosophers -.-> loop_philo
-    loop_philo(("Loop\nphilosophers")) --> |"create threads"| thread_philo:::thread
-    loop_philo --> |"create forks"| mutexe_fork:::mutex
-    mutexe_print:::mutex
-    mutexe_death:::mutex
+    loop_philo(("Loop\nphilosophers")) --> |"1 thread"| thread_philo:::thread
+    loop_philo --> |"1 fork"| mutexe_fork:::mutex
   end
-  Philosophers --> Menu
-  subgraph Menu
-    think
+  Philo --> |"id % 2\nwait to separate\neven and odd id"| Philo_Life
+  subgraph Philo_Life
+    think:::think
     take_forks
-    eat
+    eat:::eat
     drop_forks
-    sleep
+    sleep:::sleep
   end
+  take_forks -.- mutexe_forks
+  take_forks -.- mutexe_fork
+  drop_forks -.- mutexe_forks
+  eat -.- mutexe_eat
+  subgraph Watcher
+    direction LR
+    check_death
+    check_food
+    check_time_to_die
+  end
+  check_death -.- mutexe_death:::mutex
+  check_time_to_die -.- mutexe_death:::mutex
+  check_time_to_die --> |"if gettime() - last_meal\n>=\ntime_to_die"|death
+  check_food --> |"if count reached\nstop threads with\ndeath flag"|death
+  check_food -.- mutexe_eat
+  subgraph Print
+    direction LR
+    print_message
+  end
+  print_message -.- mutexe_print:::mutex
+  print_message -.- check_death
 ```
 
 ## Debug

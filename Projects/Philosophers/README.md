@@ -1,7 +1,11 @@
 # Philosophers
 
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/An_illustration_of_the_dining_philosophers_problem.png" width="50%">
+
+[<kbd> <br> Code for Philo (not optimized)<br> </kbd>](./philo/)
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/An_illustration_of_the_dining_philosophers_problem.png" width="50%">
+
 </div>
 
 ## Description

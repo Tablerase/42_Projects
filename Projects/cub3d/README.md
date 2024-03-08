@@ -57,9 +57,7 @@ Play this game to see the concept of raycasting in action.
 
 Fisheye distortion is a type of optical distortion that occurs when a camera lens has a wide field of view. It causes straight lines to appear curved, and it can create a distorted, panoramic effect. Fisheye distortion is often used in photography and videography to create dramatic, wide-angle images, and it can also be used in computer graphics to create immersive, 3D environments.
 
-#### Articles
-
-- [🔍 Fisheye Lens - Wikipedia](https://en.wikipedia.org/wiki/Fisheye_lens)
+[🔍 Fisheye Lens - Wikipedia](https://en.wikipedia.org/wiki/Fisheye_lens)
 
 ## Code
 

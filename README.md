@@ -33,12 +33,12 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 * [PiscineReloaded](./Projects/PiscineReloaded/)
 
-## [Notes](/Notes/)
+## [Notes](./Notes/)
 
-* [MinilibX](/Notes/minilibx.md)
-* [Makefile](/Notes/makefile.md)
-* [Git](/Notes/git.md)
+* [MinilibX](./Notes/minilibx.md)
+* [Makefile](./Notes/makefile.md)
+* [Git](./Notes/git.md)
 
-## [Configs](/Config/)
+## [Configs](./Config/)
 
-* [VIM/Neovim](/Config/VIM/)
+* [VIM/Neovim](./Config/VIM/)

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<title>Three JS - 2D/3D Lib</title>
+	<script type="importmap">
+		{
+		  "imports": {
+			"three": "https://unpkg.com/three@v0.162.0/build/three.module.js",
+			"three/addons/": "https://unpkg.com/three@v0.162.0/examples/jsm/"
+		  }
+		}
+	</script>
+	<!-- Style -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+		body { margin: 0; }
+		canvas { display: block; }
+		h1 { text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+		h2 { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+		h3 { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+		p { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+		a { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+		</style>
+  </head>
+  <body>
+	<h1>Three JS - 2D/3D Lib</h1>
+	<h2>Lines</h2>
+	<script type="module" src="./mesh/lines.js"></script>
+	<canvas id="lines"></canvas>
+	<h2>Cube</h2>
+	<script type="module" src="./mesh/cube.js"></script>
+    <canvas id="cube"></canvas>
+  </body>
+</html>

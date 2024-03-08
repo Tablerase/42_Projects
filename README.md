@@ -8,6 +8,7 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ### Rank 4
 
+* [Cube3D](./Projects/Cube3D/)
 * [CPP Modules [0-4]](./Projects/CPP_Modules)
 
 ### Rank 3

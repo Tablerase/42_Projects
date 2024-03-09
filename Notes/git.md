@@ -28,6 +28,107 @@ Initialize a git repository with a `.git` folder:
 git init
 ```
 
+### Setup on a virtual private server
+
+<details>
+<summary>Step by step - guide</summary>
+
+#### Create a new user
+
+On your vps, create a new user to manage the git repository (avoid using the root user):
+
+```shell
+useradd git -m
+```
+
+#### Setup VPS ssh communication
+
+
+##### Create a RSA key pair
+
+On your local machine, create a RSA key pair to authenticate with the git server:
+
+```shell
+cd ~/.ssh
+ssh-keygen -t rsa -C “mail@domain.com”
+```
+
+##### Add the public key to the server
+
+On your local machine, add the public key to the server:
+
+Secure Copy the RSA Public Key to the Server (VPS):
+```shell
+scp ~/.ssh/id_rsa.pub gituser@server_ip:./
+```
+
+Log into the VPS via SSH using your user and password, then add the public key to the authorized_keys file:
+
+```shell
+ssh gituser@server_ip
+```
+
+Create the `.ssh` folder and set the permissions:
+  
+```shell
+mkdir ~/.ssh && touch ~/.ssh/authorized_keys
+chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+```
+
+(Append using command "cat" the contents of your rsa.pub file to the authorized_keys):
+
+```shell
+cat id_rsa.pub >> /home/gituser/.ssh/authorized_keys
+```
+
+#### Create a git repository
+
+Create a new directory for the git repository:
+
+```shell
+mkdir /home/gituser/project.git
+```
+
+Initialize the git repository:
+
+```shell
+cd /home/gituser/project.git
+git init --bare
+```
+
+- `--bare` : initialize a bare repository. A bare repository is a repository that does not have a working directory. 
+  - It only contains the `.git` directory and its contents, which are used to store the history of the project.
+  - Bare repositories are typically used to create a central repository that can be shared among multiple users.
+
+#### Push to the repository
+
+On your local machine, add the remote repository:
+
+```shell
+git remote add origin gituser@server_ip:/home/gituser/project.git
+```
+
+Push the local repository to the remote repository:
+
+```shell
+git push origin master
+```
+
+#### Clone the repository
+
+On your local machine, clone the remote repository:
+
+```shell
+git clone gituser@server_ip:/home/gituser/project.git
+```
+
+#### Resources
+
+- 🔗 [Setup a Git Repository in your VPS](https://intermarketing.merkados.com/setup-a-git-repository-in-your-vps)
+- 🔗 [VPS guide - setup a git server on a vps](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-git-server-on-a-vps)
+
+</details>
+
 ## Status
 
 ![Git file status lifecycle](https://pbs.twimg.com/media/Fa1bAMzWQAAwXsw?format=jpg&name=4096x4096)

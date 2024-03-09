@@ -129,6 +129,140 @@ MiniLibX used event from X11 library. 🔗[X11 Doc](https://tronche.com/gui/x/xl
 
 ## Images
 
+Image are used by the MiniLibX to render graphics to the screen. Images can be created from scratch, or loaded from XPM or PNG files.
+
+### Image data
+
+Image allows to draw on the window. It more efficient to draw on an image and then put the image on the window because it will reduce the number of calls to the X server. (also the mlx_pixel_put function is slow, so it's better to use images to draw on the window.)
+
+Images are stored in a 2D array of pixels. Each pixel is a 32-bit integer, with the following format:
+- Bits 0-7: Blue channel
+- Bits 8-15: Green channel
+- Bits 16-23: Red channel
+- Bits 24-31: Alpha channel
+
+#### Init image
+
+```c
+void *mlx_new_image(void *mlx_ptr, int width, int height);
+```
+
+Example:
+
+```c
+void *mlx;
+void *img;
+
+mlx = mlx_init();
+img = mlx_new_image(mlx, 500, 500);
+```
+
+#### Get image data
+
+Before you can read or write pixels in an image, you need to get the address of the image data.
+When you have the address of the image data, you can read and write pixels in the image.
+
+```c
+int *mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
+```
+
+- `img_ptr` is the image instance.
+- `bits_per_pixel` is a pointer to where the bits per pixel ought to be written.
+  - The bits per pixel is the number of bits used to represent a single pixel.
+- `size_line` is a pointer to where the size line ought to be written.
+  - The size line is the number of bytes in a row of the image data.
+- `endian` is a pointer to where the endian ought to be written.
+  - The endian is the byte order of the image data. It can be either 0 or 1.
+
+Example:
+
+```c
+int *img_data;
+int bits_per_pixel;
+int size_line;
+int endian;
+
+img_data = mlx_get_data_addr(img, &bits_per_pixel, &size_line, &endian);
+```
+
+#### Put pixel
+
+Now that we have the address. The bytes are not aligned, this means that the `line_length` or `size-line` differs from the actual window width. We therefore should ALWAYS calculate the memory offset using the line length set by `mlx_get_data_addr`.
+
+```c
+int offset = (y * size_line) + (x * (bits_per_pixel / 8));
+```
+
+Now we can put a pixel at the position (x, y) in the image.
+
+```c
+int *img_data;
+int bits_per_pixel;
+int size_line;
+int endian;
+int offset;
+
+img_data = mlx_get_data_addr(img_ptr, &bits_per_pixel, &size_line, &endian);
+offset = (y * size_line) + (x * (bits_per_pixel / 8));
+*(int *)(img_data + offset) = color; // This is the same as img_data[offset] = color
+```
+
+The bits needed to edit each pixel are stored in the `img_data` array. The `offset` is calculated using the `size_line` and `x` and `y` coordinates. The `color` is then written to the `img_data` array at the `offset` position.
+
+Example:
+
+```c
+typedef struct	s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_img;
+
+void	pixel_put(t_img *img, int x, int y, int color)
+{
+	int		offset;
+
+	offset = (y * img->line_len + x * (img->bpp / 8));
+	*(unsigned int *)(img->addr + offset) = color;
+}
+
+int	main(void)
+{
+	void	*mlx;
+	void	*mlx_win;
+	t_img	img;
+
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	img.img = mlx_new_image(mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+								&img.endian);
+	pixel_put(&img, 5, 5, 0x00FF0000);
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	mlx_loop(mlx);
+}
+```
+
+0x00FF0000 is the hex representation of ARGB(0,255,0,0). This will draw a red pixel at the position (5, 5) in the window.
+
+#### Put image to window
+
+```c
+void mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr, int x, int y);
+```
+
+- `mlx_ptr` is the mlx instance.
+- `win_ptr` is the window instance.
+- `img_ptr` is the image instance.
+- `x` is the x-coordinate of the top-left corner of the image.
+- `y` is the y-coordinate of the top-left corner of the image.
+
+
+### From XPM and PNG
+
 XMP and PNG(png: leaks) can be used to render images into windows.
 
 Reading images from xmp char** :

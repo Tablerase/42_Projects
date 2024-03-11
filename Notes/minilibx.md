@@ -248,6 +248,8 @@ int	main(void)
 
 0x00FF0000 is the hex representation of ARGB(0,255,0,0). This will draw a red pixel at the position (5, 5) in the window.
 
+Note that this will cause an issue. Because an image is represented in real time in a window, changing the same image will cause a bunch of screen-tearing when writing to it. You should therefore **create two or more images to hold your frames temporarily**. You can then write to a temporary image, so that you don’t have to write to the currently presented image.
+
 #### Put image to window
 
 ```c

@@ -287,3 +287,39 @@ $$
 [🧮 Explanations](https://youtu.be/TOEi6T2mtHo?t=666)
 
 </details>
+
+### Shapes
+📐 [Shapes in C](http://www.brackeen.com/vga/shapes.html#6)
+
+#### Line
+
+##### Bresenham's Line Algorithm
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Bresenham.svg/300px-Bresenham.svg.png" align="right">
+
+Algorithm to draw a line between two points. It is faster than the naive approach of calculating the slope and then drawing the line. The algorithm is based on the idea of determining the nearest pixel to the ideal line at each step.
+
+The reason Bresenham's line drawing algorithm is faster is that it uses no float multiplication or division. Multiplication and division are slow on a computer, even on a computer with a math coprocessor.
+
+###### Algorithm (slope between 0 and 1)
+
+Use the slope to determine the next pixel to draw with a decision parameter.
+  - The slope is the ratio of the change in the y-coordinates to the change in the x-coordinates.
+  - The decision parameter is used to determine which pixel to draw next. It act as a threshold to determine if the next pixel is above or below the ideal line.
+
+$$ slope = \frac{rise}{run} = \frac{Δy}{Δx} $$
+
+$$ slope = \frac{y_2 - y_1}{x_2 - x_1} $$
+
+The decision parameter is used to determine which pixel to draw next. The decision parameter is calculated as follows:
+
+$$ P_k = 2Δy - Δx $$
+
+If $P_k < 0$, the next pixel is $(x_k + 1, y_k)$ and $P_{k+1} = P_k + 2Δy$.
+
+If $P_k \geq 0$, the next pixel is $(x_k + 1, y_k + 1)$ and $P_{k+1} = P_k + 2Δy - 2Δx$.
+
+The algorithm starts at the first point and draws the line to the second point. At each step, it calculates the decision parameter and uses it to determine which pixel to draw next. The algorithm continues until it reaches the second point.
+
+- [📏 Bresenham - Explained](https://digitalbunker.dev/bresenhams-line-algorithm/)
+- [📏 Bresenham - Algo integer arithmetic - Wikipedia](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Algorithm_for_integer_arithmetic)

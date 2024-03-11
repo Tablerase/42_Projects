@@ -65,6 +65,121 @@ Fisheye distortion is a type of optical distortion that occurs when a camera len
 
 ## Math
 
+### Vector
+
+[🔗 Vectors - MathIsFun](https://www.mathsisfun.com/algebra/vectors.html)
+
+<table>
+  <tr>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-mag-dir.svg" width="50%">
+    </td>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-notation.svg" width="50%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>
+          <b>Magnitude</b> : The length of the line.
+
+$\ |A| = \sqrt{{a_x}^2 + {a_y}^2} $
+        </li>
+        <li>
+          <b>Direction</b> : The direction the line is pointing.
+        </li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>
+          <b>Notation</b> : The vector is often written in <b>bold</b> or with an arrow on top.
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-cartesian.svg" width="50%">
+    </td>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-polar.svg" width="35%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>
+          <b>Cartesian Coordinates</b> :
+
+$\ a = \begin{bmatrix} a_x \\ a_y \end{bmatrix} $
+        </li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>
+          <b>Polar Coordinates</b> :
+
+$\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-add.svg" width="50%">
+    </td>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-subtract.svg" width="50%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>
+          <b>Addition</b> : Adding two vectors.
+        </li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>
+          <b>Subtraction</b> : Subtracting two vectors.
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div style="display: flex; justify-content: space-between;">
+        <img src="https://www.mathsisfun.com/algebra/images/dot-product-1.svg">
+        <img src="https://www.mathsisfun.com/algebra/images/dot-product-2.svg">
+      </div>
+    </td>
+    <td>
+      <img src="https://www.mathsisfun.com/algebra/images/vector-cross-product.svg" width="50%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>
+          <b>Dot Product</b> : The dot product of two vectors is a scalar.
+        </li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>
+          <b>Cross Product</b> : The cross product of two vectors is a vector.
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 ### Matrix
 
 <details>

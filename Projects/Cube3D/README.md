@@ -113,7 +113,7 @@ $\ |A| = \sqrt{{a_x}^2 + {a_y}^2} $
         <li>
           <b>Cartesian Coordinates</b> :
 
-$\ a = \begin{bmatrix} a_x \\ a_y \end{bmatrix} $
+$\ a = \begin{bmatrix} a_x \\\ a_y \end{bmatrix} $
         </li>
       </ul>
     </td>
@@ -122,7 +122,7 @@ $\ a = \begin{bmatrix} a_x \\ a_y \end{bmatrix} $
         <li>
           <b>Polar Coordinates</b> :
 
-$\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
+$\ a = \begin{bmatrix} r \\\ θ \end{bmatrix} $
         </li>
       </ul>
     </td>

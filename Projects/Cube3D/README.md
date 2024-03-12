@@ -72,10 +72,10 @@ Fisheye distortion is a type of optical distortion that occurs when a camera len
 <table>
   <tr>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-mag-dir.svg" width="50%">
+      <img src="https://www.mathsisfun.com/algebra/images/vector-mag-dir.svg?sanitize=true" width="50%">
     </td>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-notation.svg" width="50%">
+      <img src="https://www.mathsisfun.com/algebra/images/vector-notation.svg?sanitize=true" width="50%">
     </td>
   </tr>
   <tr>
@@ -101,10 +101,10 @@ $\ |A| = \sqrt{{a_x}^2 + {a_y}^2} $
   </tr>
   <tr>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-cartesian.svg" width="50%">
+      <img src="https://www.mathsisfun.com/algebra/images/vector-cartesian.svg?sanitize=true" width="50%">
     </td>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-polar.svg" width="35%">
+      <img src="https://www.mathsisfun.com/algebra/images/vector-polar.svg?sanitize=true" width="35%">
     </td>
   </tr>
   <tr>
@@ -129,10 +129,10 @@ $\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
   </tr>
   <tr>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-add.svg" width="50%">
+      <img src="https://www.mathsisfun.com/algebra/images/vector-add.svg?sanitize=true" width="50%">
     </td>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-subtract.svg" width="50%">
+      <img src="https://www.mathsisfun.com/algebra/images/vector-subtract.svg?sanitize=true" width="50%">
     </td>
   </tr>
   <tr>
@@ -154,12 +154,13 @@ $\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
   <tr>
     <td>
       <div style="display: flex; justify-content: space-between;">
-        <img src="https://www.mathsisfun.com/algebra/images/dot-product-1.svg">
-        <img src="https://www.mathsisfun.com/algebra/images/dot-product-2.svg">
+        <img src="https://www.mathsisfun.com/algebra/images/dot-product-1.svg?sanitize=true">
+        <img src="https://www.mathsisfun.com/algebra/images/dot-product-2.svg?sanitize=true">
       </div>
     </td>
     <td>
-      <img src="https://www.mathsisfun.com/algebra/images/vector-cross-product.svg" width="50%">
+      <img src="https://www.mathsisfun.com/algebra/images/cross-product.svg?sanitize=true" width="40%">
+      <img src="https://www.mathsisfun.com/algebra/images/cross-product-components.svg?sanitize=true" width="50%">
     </td>
   </tr>
   <tr>
@@ -204,7 +205,7 @@ In summary, matrices are a powerful and versatile tool in mathematics that can b
 - [🔗 Matrix - MathIsFun](https://www.mathsisfun.com/algebra/matrix-multiplying.html)
   - Matrix Scalar Multiplication :
 
-  ![Matrix Scalar](https://www.mathsisfun.com/algebra/images/matrix-multiply-constant.svg)
+  ![Matrix Scalar](https://www.mathsisfun.com/algebra/images/matrix-multiply-constant.svg?sanitize=true)
 
   `2` in the above example is the **scalar**.
   - Matrix multiplication :

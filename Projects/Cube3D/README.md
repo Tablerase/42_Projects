@@ -75,30 +75,36 @@ The above representation illustrate how a ray travels in the 2D map / Grid. (Usi
 - `sideDistX` and `sideDistY` are initially the distance the ray has to travel from its start position to the first x-side and the first y-side. Later they will be incremented while steps are taken.
 - `deltaDistX` and `deltaDistY` are the distance the ray has to travel to go from 1 x-side to the next x-side, or from 1 y-side to the next y-side.
 
-$$ `deltaDistX` = \sqrt{1 + \frac{rayDirY * rayDirY}{rayDirX * rayDirX}} $$
-$$ `deltaDistY` = \sqrt{1 + \frac{rayDirX * rayDirX}{rayDirY * rayDirY}} $$
+$$ deltaDistX = \sqrt{1 + \frac{rayDirY * rayDirY}{rayDirX * rayDirX}} $$
+
+$$ deltaDistY = \sqrt{1 + \frac{rayDirX * rayDirX}{rayDirY * rayDirY}} $$
 
 Simplified to (in the context of the game where the map is a grid):
 
-$$ `deltaDistX` = \left|{\frac{1}{rayDirX}}\right| $$
-$$ `deltaDistY` = \left|{\frac{1}{rayDirY}}\right| $$
+$$ deltaDistX = \left|{\frac{1}{rayDirX}}\right| $$
+
+$$ deltaDistY = \left|{\frac{1}{rayDirY}}\right| $$
 
 Initially, the `sideDistX` and `sideDistY` are the distance the ray has to travel from its start position to the first x-side and the first y-side. Later they will be incremented while steps are taken.
 
-$$ `sideDistX` = \left|{\frac{mapX + 1 - posX}{rayDirX}}\right| $$
-$$ `sideDistY` = \left|{\frac{mapY + 1 - posY}{rayDirY}}\right| $$
+$$ sideDistX = \left|{\frac{mapX + 1 - posX}{rayDirX}}\right| $$
+
+$$ sideDistY = \left|{\frac{mapY + 1 - posY}{rayDirY}}\right| $$
 
 The distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by `deltaDistY`.
 
 $$ sideDistX += deltaDistX $$
+
 $$ sideDistY += deltaDistY $$
 
 Steps are taken in the map grid, and the distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by deltaDistY.
 
 $$ mapX += stepX $$
+
 $$ mapY += stepY $$
 
 Until:
+
 $$ map[mapX][mapY]  == wall $$
 
 The DDA algorithm is used to `step` through the map grid and find the first x-side and y-side that the ray hits. The distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by `deltaDistY`.

@@ -63,6 +63,115 @@ Fisheye distortion is a type of optical distortion that occurs when a camera len
 
 ### KeyHooks
 
+### Raycasting
+
+#### With a camera plane
+
+[📐 Raycasting with detailled explanations - Lodev](https://lodev.org/cgtutor/raycasting.html)
+
+<img src="https://lodev.org/cgtutor/images/raycastdelta.gif">
+
+The above representation illustrate how a ray travels in the 2D map / Grid. (Using [DDA](#dda-line-algorithm) like algorithm)
+- `sideDistX` and `sideDistY` are initially the distance the ray has to travel from its start position to the first x-side and the first y-side. Later they will be incremented while steps are taken.
+- `deltaDistX` and `deltaDistY` are the distance the ray has to travel to go from 1 x-side to the next x-side, or from 1 y-side to the next y-side.
+
+$$ `deltaDistX` = \sqrt{1 + \frac{rayDirY * rayDirY}{rayDirX * rayDirX}} $$
+$$ `deltaDistY` = \sqrt{1 + \frac{rayDirX * rayDirX}{rayDirY * rayDirY}} $$
+
+Simplified to (in the context of the game where the map is a grid):
+
+$$ `deltaDistX` = \left|{\frac{1}{rayDirX}}\right| $$
+$$ `deltaDistY` = \left|{\frac{1}{rayDirY}}\right| $$
+
+Initially, the `sideDistX` and `sideDistY` are the distance the ray has to travel from its start position to the first x-side and the first y-side. Later they will be incremented while steps are taken.
+
+$$ `sideDistX` = \left|{\frac{mapX + 1 - posX}{rayDirX}}\right| $$
+$$ `sideDistY` = \left|{\frac{mapY + 1 - posY}{rayDirY}}\right| $$
+
+The distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by `deltaDistY`.
+
+$$ sideDistX += deltaDistX $$
+$$ sideDistY += deltaDistY $$
+
+Steps are taken in the map grid, and the distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by deltaDistY.
+
+$$ mapX += stepX $$
+$$ mapY += stepY $$
+
+Until:
+$$ map[mapX][mapY]  == wall $$
+
+The DDA algorithm is used to `step` through the map grid and find the first x-side and y-side that the ray hits. The distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by `deltaDistY`.
+
+##### Why use a camera plane?
+
+<figure >
+  <img src="https://lodev.org/cgtutor/images/raycastdist.png" alt="Representation of plane view vs player view">
+  <figcaption style="color: red">
+    Red: Player view (fish eye)
+  </figcaption>
+  <figcaption style="color: green">
+    Green: Plane/Camera view (no fish eye)
+  </figcaption>
+</figure>
+
+Using the player distance will create a fish eye view, with a camera plane we can get a "normal view". It's even easier to calculate this perpendicular distance than the real distance, we don't even need to know the exact location where the wall was hit. 
+
+This is because the camera plane is the plane that is perpendicular to the direction of the camera. It is the plane that the player sees when they look straight ahead. The distance to the camera plane is used to calculate the height of the walls in the 2D map.
+
+<img src="https://lodev.org/cgtutor/images/raycastperpwalldist2.png" align="right">
+
+##### Calculating the distance to the camera plane
+
+The length of `sideDist` already almost equals `perpWallDist`. We just need to subtract `deltaDist` once from it, going one step back, because in the `DDA` steps above we went one step further to end up inside the wall.
+
+Depending on whether the ray hit an X side or Y side, the formula is computed using sideDistX, or sideDistY.
+
+If the ray hit a horizontal wall, the distance to the camera plane is calculated as follows:
+
+$$ perpWallDist = sideDistX - deltaDistX $$
+
+If the ray hit a vertical wall, the distance to the camera plane is calculated as follows:
+
+$$ perpWallDist = sideDistY - deltaDistY $$
+
+<details>
+<summary>Detailed formula for Nord-South side hit</summary>
+
+<img src="https://lodev.org/cgtutor/images/raycastperpwalldist.png" alt="detailed plane info of dda raycasting" align="right">
+
+The points are defined as follows:
+
+- **P**: Position of the player, (`posX`, `posY`) in the code.
+- **H**: Hitpoint of the ray on the wall. Its y-position is known to be `mapY + (1 - stepY) / 2`.
+- **yDist**: Matches `(mapY + (1 - stepY) / 2 - posY)`. This is the y-coordinate of the Euclidean distance vector, in world coordinates.
+- **dir**: The main player looking direction, given by `dirX`,`dirY` in the code. The length of this vector is always exactly 1.
+- **A**: Point of the camera plane closest to H, the point where `perpWallDist` intersects with camera plane.
+- **B**: Point of X-axis through player closest to H, point where `yDist` crosses the world X-axis through the player.
+- **C**: Point at player position + `rayDirX`.
+- **D**: Point at player position + `rayDir`.
+- **E**: This is point D with the `dir` vector subtracted, in other words, `E + dir = D`.
+
+The actual derivation:
+
+1. Triangles PBH and PCD have the same shape but different size, so same ratios of edges.
+2. Given step 1, the triangles show that the ratio `yDist / rayDirY` is equal to the ratio `Euclidean / |rayDir|`, so now we can derive `perpWallDist = Euclidean / |rayDir|` instead.
+3. Triangles AHP and EDP have the same shape but different size, so same ratios of edges. Length of edge ED, that is `|ED|`, equals length of `dir`, `|dir|`, which is 1. Similarly, `|DP|` equals `|rayDir|`.
+4. Given step 3, the triangles show that the ratio `Euclidean / |rayDir| = perpWallDist / |dir| = perpWallDist / 1`.
+5. Combining steps 4 and 2 shows that `perpWallDist = yDist / rayDirY`, where `yDist` is `mapY + (1 - stepY) / 2) - posY`.
+6. In the code, `sideDistY - deltaDistY`, after the DDA steps, equals `(posY + (1 - stepY) / 2 - mapY) * deltaDistY` (given that `sideDistY` is computed from `posY` and `mapY`), so `yDist = (sideDistY - deltaDistY) / deltaDistY`.
+7. Given that `deltaDistY = 1 / |rayDirY|`, step 6 gives that `yDist = (sideDistY - deltaDistY) * |rayDirY|`.
+8. Combining steps 5 and 7 gives `perpWallDist = yDist / rayDirY = (sideDistY - deltaDistY) / |rayDirY| / rayDirY`.
+9. Given how cases for signs of `sideDistY` and `deltaDistY` in the code are handled the absolute value doesn't matter, and equals `(sideDistY - deltaDistY)`, which is the formula used.
+
+</details>
+
+##### Calculating the height of the walls
+
+The height of the walls is calculated using the distance to the camera plane and the height of the screen. The height of the walls is inversely proportional to the distance to the camera plane, so the closer the wall is to the camera, the taller it appears.
+
+$$ lineHeight = \frac{screenHeight}{perpWallDist} $$
+
 ## Math
 
 ### Vector
@@ -113,7 +222,7 @@ $\ |A| = \sqrt{{a_x}^2 + {a_y}^2} $
         <li>
           <b>Cartesian Coordinates</b> :
 
-$\ a = \begin{bmatrix} a_x \\\ a_y \end{bmatrix} $
+$\ a = \begin{bmatrix} a_x \\ a_y \end{bmatrix} $
         </li>
       </ul>
     </td>
@@ -122,7 +231,7 @@ $\ a = \begin{bmatrix} a_x \\\ a_y \end{bmatrix} $
         <li>
           <b>Polar Coordinates</b> :
 
-$\ a = \begin{bmatrix} r \\\ θ \end{bmatrix} $
+$\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
         </li>
       </ul>
     </td>
@@ -439,3 +548,29 @@ The algorithm starts at the first point and draws the line to the second point. 
 
 - [📏 Bresenham - Explained](https://digitalbunker.dev/bresenhams-line-algorithm/)
 - [📏 Bresenham - Algo integer arithmetic - Wikipedia](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Algorithm_for_integer_arithmetic)
+
+##### DDA Line Algorithm
+
+The Digital Differential Analyzer (DDA) algorithm is a method for drawing a line between two points. It is based on the idea of using the slope of the line to determine the next pixel to draw.
+
+The algorithm is based on the idea of using the slope of the line to determine the next pixel to draw. The slope is the ratio of the change in the y-coordinates to the change in the x-coordinates. The algorithm uses the slope to determine the next pixel to draw at each step.
+
+The algorithm starts at the first point and draws the line to the second point. At each step, it calculates the next pixel to draw based on the slope of the line. The algorithm continues until it reaches the second point.
+
+$$ slope = \frac{y_{end} - y_{start}}{x_{end} - x_{start}} $$
+
+If $\ 0 \leq slope \leq 1 $, the algorithm increments the y-coordinate by 1 and the x-coordinate by the inverse of the slope at each step.
+
+$$ x_{k+1} = x_k + 1 $$
+$$ y_{k+1} = y_k + slope $$
+
+If $\  slope \geq 1 $, the algorithm increments the y-coordinate by 1 and the x-coordinate by the inverse of the slope at each step.
+
+$$ x_{k+1} = x_k + \frac{1}{slope} $$
+$$ y_{k+1} = y_k + 1 $$
+
+Similar calculations are carried out to determine pixel positions along a line with negative slope.
+
+The DDA algorithm is simple and easy to implement, but it is not as fast as Bresenham's line drawing algorithm. The reason is that the DDA algorithm uses floating-point arithmetic to calculate the next pixel to draw, which is slower than integer arithmetic.
+
+- [📏 DDA - Algorithm - Wiki](https://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))

@@ -178,6 +178,73 @@ The height of the walls is calculated using the distance to the camera plane and
 
 $$ lineHeight = \frac{screenHeight}{perpWallDist} $$
 
+##### Moving the player
+
+We check if the player is not colliding with a wall before moving the player.
+
+$$ mapX = posX + dirX * moveSpeed $$
+
+$$ mapY = posY + dirY * moveSpeed $$
+
+If the player is not colliding with a wall, the player's position is updated.
+
+$$ map[mapX][mapY] \neq WALL $$
+
+The player is moved forward and backward by adding or subtracting the direction vector to the player's position.
+
+$$ posX += dirX * moveSpeed $$
+
+$$ posY += dirY * moveSpeed $$
+
+The vectors (`dirX` et `dirY`) are normalized (length of the vector is 1) to ensure that the player moves at a constant speed, regardless of the direction they are facing.
+
+##### Rotating the player and camera plane
+
+The player is rotated by adding or subtracting the camera plane vector to the direction vector.
+
+$$ dirX = oldDirX * cos(rotSpeed) - oldDirY * sin(rotSpeed) $$
+
+$$ dirY = oldDirX * sin(rotSpeed) + oldDirY * cos(rotSpeed) $$
+
+$$ planeX = oldPlaneX * cos(rotSpeed) - oldPlaneY * sin(rotSpeed) $$
+
+$$ planeY = oldPlaneX * sin(rotSpeed) + oldPlaneY * cos(rotSpeed) $$
+
+###### Rotation Matrix
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Counterclockwise_rotation.png/220px-Counterclockwise_rotation.png" align="right">
+
+We use the rotation matrix to rotate the direction vector and the camera plane vector. The rotation matrix is a 2x2 matrix that rotates a vector by a given angle. The rotation matrix is used to rotate the direction vector and the camera plane vector by the rotation speed.
+
+###### Rotation Matrix Clockwise
+
+$\theta$ is the angle of rotation - here the rotation speed
+
+rotate left:
+
+$$ \begin{bmatrix}
+  x' \\
+  y' \\
+\end{bmatrix} = \begin{bmatrix}
+  \cos\theta & -\sin\theta \\
+  \sin\theta &  \cos\theta \\
+\end{bmatrix}\begin{bmatrix}
+  x \\
+  y \\
+\end{bmatrix}. $$
+
+$$ x' = x \cos\theta - y \sin\theta $$
+
+$$ y' = x \sin\theta + y \cos\theta $$
+
+rotate right ($\theta = -\theta$ because the angle is negative in the clockwise direction formula):
+
+$$ x' = x \cos(-\theta) - y \sin(-\theta) $$
+
+$$ y' = x \sin(-\theta) + y \cos(-\theta) $$
+
+[🔗 Rotation Matrix - Wikipedia](https://en.wikipedia.org/wiki/Rotation_matrix)
+
 ## Math
 
 ### Vector

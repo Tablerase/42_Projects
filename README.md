@@ -42,3 +42,16 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 ## [Configs](./Config/)
 
 * [VIM/Neovim](./Config/VIM/)
+
+## About this repository
+
+### Documentation Preview
+
+Some display in `.md` files of this repository may not be supported by github (svg, css display, some math in latex, ...), you can clone the repository and view it locally.
+
+Recommened extensions for better experience in `vscode` are as follows:
+* [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
+  - ID: `bierner.markdown-preview-github-styles`
+
+* [Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+  - ID: `bierner.markdown-mermaid`

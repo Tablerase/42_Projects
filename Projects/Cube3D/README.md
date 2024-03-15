@@ -59,11 +59,33 @@ Fisheye distortion is a type of optical distortion that occurs when a camera len
 
 [🔍 Fisheye Lens - Wikipedia](https://en.wikipedia.org/wiki/Fisheye_lens)
 
+### Texture Mapping
+
+##### Description
+
+Texture mapping is a technique used to apply a texture to a 3D model. It is often used in computer graphics to create realistic-looking surfaces, such as wood, metal, or stone. Texture mapping works by mapping the texture coordinates of the 3D model to the texture image, so that the texture is applied to the model in the correct way.
+
+[🧩 Texture Mapping - Wikipedia](https://en.wikipedia.org/wiki/Texture_mapping)
+
+##### Affine Texture Mapping
+
+<img src="./Media/affine-perspective-mapping-alamothe.png" alt="Affine and Perspective Texture Mapped by A.LaMothe" width="50%" align="right">
+
+An affine transformation means that it preserves quantities, thus as one image is mapped onto another and there is a one to one relationship, that is, no warping. In the realm of texture mapping, affine mapping usually means throwing away the 3D information all together and performing a simple 2D mapping.
+
+[🔗 Affine Texture Mapping - Wikipedia](https://en.wikipedia.org/wiki/Affine_texture_mapping)
+
+[🔗 Affine Texture Mapping - Detailled with schema - A.LaMothe](http://archive.gamedev.net/archive/reference/articles/article852.html)
+
 ## Code
 
 ### KeyHooks
 
 ### Raycasting
+
+#### Description
+
+Raycasting is a rendering technique used to create a 3D perspective in a 2D map. It is often used in video games to create the illusion of 3D environments, such as in the classic game Wolfenstein 3D. Raycasting works by casting rays from the player's point of view and calculating the distance to the nearest wall in each direction. These distances are then used to determine the height of the walls in the 2D map, creating the illusion of depth and perspective.
 
 #### With a camera plane
 
@@ -244,6 +266,41 @@ $$ x' = x \cos(-\theta) - y \sin(-\theta) $$
 $$ y' = x \sin(-\theta) + y \cos(-\theta) $$
 
 [🔗 Rotation Matrix - Wikipedia](https://en.wikipedia.org/wiki/Rotation_matrix)
+
+### Texture
+
+#### Find the texture to use
+
+The texture to use is determined by the side of the wall that was hit. The texture is selected based on the direction of the ray and the side of the wall that was hit.
+
+If the ray hit a horizontal wall, the texture to use is determined by the y-coordinate of the hitpoint.
+
+$$ wallX = posY + perpWallDist * rayDirY $$
+
+If the ray hit a vertical wall, the texture to use is determined by the x-coordinate of the hitpoint.
+
+$$ wallX = posX + perpWallDist * rayDirX $$
+
+Now `wallX` is the exact coordinate in the map of where the wall was hit.
+
+(Example: if `wallX` is 3.5 - integer part of `wallX` is the tile number, and the decimal part is the texture coordinate in the tile.)
+
+Subtracting the integer part of `wallX` from `wallX` gives the x coord in the tile.
+
+$$ wallX -= floor(wallX) $$
+
+Scaling the x-coordinate of the wall hit to the width of the texture gives the x-coordinate of the texture.
+
+$$ texX = wallX * texWidth $$
+
+
+If the ray hit a vertical wall and the x-coordinate of the ray direction is positive, or if the ray hit a horizontal wall and the y-coordinate of the ray direction is negative, the x-coordinate of the texture is calculated as follows:
+
+$$ texX = texWidth - texX - 1 $$
+
+We do this to ensure that the texture is flipped correctly when the ray hits a wall.
+
+Now that we know the x-coordinate of the texture, we know that this coordinate will remain the same, because we stay in the same vertical stripe of the screen. Now we need a loop in the y-direction to give each pixel of the vertical stripe the correct y-coordinate of the texture, called texY.
 
 ## Math
 

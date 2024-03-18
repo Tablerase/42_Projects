@@ -293,18 +293,31 @@ Scaling the x-coordinate of the wall hit to the width of the texture gives the x
 
 $$ texX = wallX * texWidth $$
 
+-------------------------------
 
 If the ray hit a vertical wall and the x-coordinate of the ray direction is positive, or if the ray hit a horizontal wall and the y-coordinate of the ray direction is negative, the x-coordinate of the texture is calculated as follows:
 
 $$ texX = texWidth - texX - 1 $$
 
-We do this to ensure that the texture is flipped correctly when the ray hits a wall.
+We do this to ensure that the texture is flipped correctly when the ray hits a wall. If texture width is 32, and hitpoint is 3.5, then `texX` is 0.5, and `texWidth - texX - 1` is 31.5, which is the correct texture coordinate.
+
+------------------------------
 
 Now that we know the x-coordinate of the texture, we know that this coordinate will remain the same, because we stay in the same vertical stripe of the screen. Now we need a loop in the y-direction to give each pixel of the vertical stripe the correct y-coordinate of the texture, called texY.
 
 ## Math
 
+### Graph / Plot
+
+Tools to plot and visualize functions and equations :
+
+- [📐 GeoGebra - Graphing Calculator](https://www.geogebra.org/graphing)
+- [🧊 Math3d - 3D Graphing](https://www.math3d.org/)
+
 ### Vector
+
+<details>
+<summary>Refresher</summary>
 
 [🔗 Vectors - MathIsFun](https://www.mathsisfun.com/algebra/vectors.html)
 
@@ -419,6 +432,8 @@ $\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
     </td>
   </tr>
 </table>
+
+</details>
 
 ### Matrix
 

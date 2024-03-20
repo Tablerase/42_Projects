@@ -15,7 +15,7 @@ Raycasting is a rendering technique used to create a 3D perspective in a 2D map.
 #### Articles
 
 - [🔦 2D Visibility - Webpage with demos and maths](https://www.redblobgames.com/articles/visibility/)
-- [🧊 Raycasting - How to do in C - Using Wolfenstein as Example](https://lodev.org/cgtutor/raycasting.html)
+- [🧊 Raycasting - How to do in C++ - Using Wolfenstein as Example](https://lodev.org/cgtutor/raycasting.html)
 
 #### Videos
 
@@ -87,9 +87,11 @@ An affine transformation means that it preserves quantities, thus as one image i
 
 Raycasting is a rendering technique used to create a 3D perspective in a 2D map. It is often used in video games to create the illusion of 3D environments, such as in the classic game Wolfenstein 3D. Raycasting works by casting rays from the player's point of view and calculating the distance to the nearest wall in each direction. These distances are then used to determine the height of the walls in the 2D map, creating the illusion of depth and perspective.
 
-#### With a camera plane
-
 [📐 Raycasting with detailled explanations - Lodev](https://lodev.org/cgtutor/raycasting.html)
+
+<img src="./Media/Cub3d_raycasting_schema.jpg" alt="Raycasting handmade schema">
+
+#### With a camera plane
 
 <img src="https://lodev.org/cgtutor/images/raycastdelta.gif">
 
@@ -130,6 +132,8 @@ Until:
 $$ map[mapX][mapY]  == wall $$
 
 The DDA algorithm is used to `step` through the map grid and find the first x-side and y-side that the ray hits. The distance to the next x-side or y-side is added to the `sideDistX` or `sideDistY`. When a `step` is taken in the x-direction, `sideDistX` is incremented by `deltaDistX`, and when a `step` is taken in the y-direction, `sideDistY` is incremented by `deltaDistY`.
+
+<img src="./Media/Cub3d_side_finder_vectors.jpg" alt="Side finding handmade schema">
 
 ##### Why use a camera plane?
 
@@ -321,6 +325,8 @@ Tools to plot and visualize functions and equations :
 
 [🔗 Vectors - MathIsFun](https://www.mathsisfun.com/algebra/vectors.html)
 
+[🔗 Vectors with Visualisation - Math Insight](https://mathinsight.org/vector_introduction)
+
 <table>
   <tr>
     <td>
@@ -340,6 +346,12 @@ $\ |A| = \sqrt{{a_x}^2 + {a_y}^2} $
         </li>
         <li>
           <b>Direction</b> : The direction the line is pointing.
+        </li>
+        <li>
+          <b>Components</b> : The vector can be split into x and y components.
+        </li>
+        <li>
+          <b>Unit Vector</b> : A vector with a magnitude of 1.
         </li>
       </ul>
     </td>
@@ -393,6 +405,10 @@ $\ a = \begin{bmatrix} r \\ θ \end{bmatrix} $
         <li>
           <b>Addition</b> : Adding two vectors.
         </li>
+        <details>
+          <summary>Example</summary>
+          <img src="https://mathinsight.org/media/image/image/vector_2d_add.png" alt="Example of vector addition">
+        </details>
       </ul>
     </td>
     <td>

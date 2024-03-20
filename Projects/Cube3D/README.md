@@ -89,7 +89,43 @@ Raycasting is a rendering technique used to create a 3D perspective in a 2D map.
 
 [📐 Raycasting with detailled explanations - Lodev](https://lodev.org/cgtutor/raycasting.html)
 
-<img src="./Media/Cub3d_raycasting_schema.jpg" alt="Raycasting handmade schema">
+#### ViewPoint
+
+
+##### Why use a camera plane?
+
+Using the player distance will create a fish eye view, with a camera plane we can get a "normal view". It's even easier to calculate this perpendicular distance than the real distance, we don't even need to know the exact location where the wall was hit. 
+
+This is because the camera plane is the plane that is perpendicular to the direction of the camera. It is the plane that the player sees when they look straight ahead. The distance to the camera plane is used to calculate the height of the walls in the 2D map.
+
+<div align="center" style="display: flex; ">
+  <figure >
+    <img src="https://lodev.org/cgtutor/images/raycastdist.png" alt="Representation of plane view vs player view">
+    <figcaption style="color: red">
+      Red: Player view (fish eye)
+    </figcaption>
+    <figcaption style="color: green">
+      Green: Plane/Camera view (no fish eye)
+    </figcaption>
+  </figure>
+<figure>
+  <img src="https://lodev.org/cgtutor/images/raycastingcamera.gif" alt="player position camera_plane and direction vector">
+  <figcaption style="color: green">
+    Green: Player position / Pos vector
+  </figcaption>
+  <figcaption style="color: black">
+    Black: Direction vector
+  </figcaption>
+  <figcaption style="color: blue">
+    Blue: Camera plane / Plane vector
+  </figcaption>
+  <figcaption style="color: red">
+    Red: Ray
+  </figcaption>
+</figure>
+</div>
+
+<img src="./Media/Cub3d_Rays_Casting.jpg" alt="Raycasting handmade schema">
 
 #### With a camera plane
 
@@ -135,21 +171,6 @@ The DDA algorithm is used to `step` through the map grid and find the first x-si
 
 <img src="./Media/Cub3d_side_finder_vectors.jpg" alt="Side finding handmade schema">
 
-##### Why use a camera plane?
-
-<figure >
-  <img src="https://lodev.org/cgtutor/images/raycastdist.png" alt="Representation of plane view vs player view">
-  <figcaption style="color: red">
-    Red: Player view (fish eye)
-  </figcaption>
-  <figcaption style="color: green">
-    Green: Plane/Camera view (no fish eye)
-  </figcaption>
-</figure>
-
-Using the player distance will create a fish eye view, with a camera plane we can get a "normal view". It's even easier to calculate this perpendicular distance than the real distance, we don't even need to know the exact location where the wall was hit. 
-
-This is because the camera plane is the plane that is perpendicular to the direction of the camera. It is the plane that the player sees when they look straight ahead. The distance to the camera plane is used to calculate the height of the walls in the 2D map.
 
 <img src="https://lodev.org/cgtutor/images/raycastperpwalldist2.png" align="right">
 

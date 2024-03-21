@@ -131,7 +131,7 @@ This is because the camera plane is the plane that is perpendicular to the direc
 
 <img src="https://lodev.org/cgtutor/images/raycastdelta.gif">
 
-The above representation illustrate how a ray travels in the 2D map / Grid. (Using [DDA](#dda-line-algorithm) like algorithm)
+The above representation illustrate how a ray travels in the 2D map / Grid. (Using **[DDA](#dda-line-algorithm) like algorithm**)
 - `sideDistX` and `sideDistY` are initially the distance the ray has to travel from its start position to the first x-side and the first y-side. Later they will be incremented while steps are taken.
 - `deltaDistX` and `deltaDistY` are the distance the ray has to travel to go from 1 x-side to the next x-side, or from 1 y-side to the next y-side.
 

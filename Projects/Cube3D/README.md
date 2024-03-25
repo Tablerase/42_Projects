@@ -79,6 +79,12 @@ An affine transformation means that it preserves quantities, thus as one image i
 
 ## Code
 
+### Assets
+
+#### Textures
+
+- [🖼️ Textures - Japan Walls - Rekkimaru](https://rekkimaru.itch.io/32-pixel-art-japanese-themed-textures)
+
 ### KeyHooks
 
 ### Raycasting
@@ -108,24 +114,31 @@ This is because the camera plane is the plane that is perpendicular to the direc
       Green: Plane/Camera view (no fish eye)
     </figcaption>
   </figure>
-<figure>
-  <img src="https://lodev.org/cgtutor/images/raycastingcamera.gif" alt="player position camera_plane and direction vector">
-  <figcaption style="color: green">
-    Green: Player position / Pos vector
-  </figcaption>
-  <figcaption style="color: black">
-    Black: Direction vector
-  </figcaption>
-  <figcaption style="color: blue">
-    Blue: Camera plane / Plane vector
-  </figcaption>
-  <figcaption style="color: red">
-    Red: Ray
-  </figcaption>
-</figure>
+  <figure>
+    <img src="https://lodev.org/cgtutor/images/raycastingcamera.gif" alt="player position camera_plane and direction vector">
+    <figcaption style="color: green">
+      Green: Player position / Pos vector
+    </figcaption>
+    <figcaption style="color: black">
+      Black: Direction vector
+    </figcaption>
+    <figcaption style="color: blue">
+      Blue: Camera plane / Plane vector
+    </figcaption>
+    <figcaption style="color: red">
+      Red: Ray
+    </figcaption>
+  </figure>
 </div>
 
 <img src="./Media/Cub3d_Rays_Casting.jpg" alt="Raycasting handmade schema">
+
+<figure>
+  <img src="./Media/Geometry_Files/raycasting_wall_hit.svg" alt="Geogebra schema of raycasting">
+  <figcaption align="center">
+    Geogebra schema of raycasting : 🧮 <a href="./Media/Geometry_Files/raycasting_wall_hit_slider_final.ggb">Geogebra File with player rotate interaction</a>
+  </figcaption>
+</figure>
 
 #### With a camera plane
 

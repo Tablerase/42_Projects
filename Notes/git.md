@@ -238,7 +238,17 @@ The most common use for `tags` is to signify a specific release, or a point in h
 Create a tag for a commit:
 
 ```shell
-git tag -a tag -m "Message"
+git tag tagname
+```
+
+### Annotated
+
+An annotated tag is a tag that is associated with a message. This message can contain information about the tag, such as the reason for creating it, the release notes, or any other relevant information. Annotated tags are recommended for creating tags in Git because they provide more context and information about the tag.
+
+To create an annotated tag, you can use the `-a` option with the `git tag` command, followed by the tag name and the `-m` option to provide a message for the tag. Here's an example:
+
+```shell
+git tag -a v1.0 -m "First version release"
 ```
 
 <details>

@@ -331,17 +331,70 @@ Scaling the x-coordinate of the wall hit to the width of the texture gives the x
 
 $$ texX = wallX * texWidth $$
 
--------------------------------
-
 If the ray hit a vertical wall and the x-coordinate of the ray direction is positive, or if the ray hit a horizontal wall and the y-coordinate of the ray direction is negative, the x-coordinate of the texture is calculated as follows:
 
 $$ texX = texWidth - texX - 1 $$
 
 We do this to ensure that the texture is flipped correctly when the ray hits a wall. If texture width is 32, and hitpoint is 3.5, then `texX` is 0.5, and `texWidth - texX - 1` is 31.5, which is the correct texture coordinate.
 
-------------------------------
-
 Now that we know the x-coordinate of the texture, we know that this coordinate will remain the same, because we stay in the same vertical stripe of the screen. Now we need a loop in the y-direction to give each pixel of the vertical stripe the correct y-coordinate of the texture, called texY.
+
+Initially, the texture coordinate is set to the top of the texture.
+
+$$ texStep = 1.0 * texHeight / lineHeight $$
+$$ texCoord = (drawStart - screenHeight / 2 + lineHeight / 2) * texStep $$
+
+- texStep is the step that we change the texture coordinate by for each step in the y-direction. Here we scale the texStep by the lineHeight to make the texture coordinate step the same as the screen height. In `C`, multiplying by 1.0 is used to ensure that the result of the division is a floating-point number instead of an integer.
+
+- texCoord is the texture coordinate that we will use in the texture for the current stripe. The texture coordinate is calculated based on the line to draw and the height of the screen. The texture coordinate is set to the top of the texture for the first pixel in the stripe.
+
+For each pixel in the vertical stripe, we calculate the y-coordinate of the texture.
+
+$$ texY = floor(texCoord) $$
+
+The y-coordinate of the texture is calculated by taking the integer part of the texture coordinate. This gives us the y-coordinate of the texture for the current pixel. We apply a bitwise AND operation to ensure that the texture coordinate is within the bounds of the texture.
+
+The texture coordinate is then incremented by the texStep for the next pixel in the stripe.
+
+$$ texCoord += texStep $$
+
+#### Drawing the texture
+
+The texture is drawn on the screen by calculating the color of each pixel in the vertical stripe. The color of each pixel is determined by the x and y coordinates of the texture.
+
+We write the color of the pixel to the buffer. The buffer is a 1D array that represents the screen. The color of each pixel is written to the buffer using the formula:
+
+$$ buffer[y * screenWidth + x] = texture[texY * texWidth + texX] $$
+
+The color of the pixel is determined by the x and y coordinates of the texture. The color is read from the texture array using the texture coordinates. The color is then written to the buffer at the corresponding x and y coordinates.
+
+<details>
+<summary>In C (with mlx image buffer):</summary>
+
+```c
+static void	draw_wall(t_game *game, t_ray *ray, int *y, int x)
+{
+	int		offset;
+	int		offset_texture;
+
+	ray->tex_step = 1.0 * ray->texture->height / ray->line_height;
+	ray->tex_coord = (ray->draw_start - HEIGHT / 2
+			+ ray->line_height / 2) * ray->tex_step;
+	while (*y < HEIGHT - ray->draw_start)
+	{
+		ray->tex_y = (int)ray->tex_coord & (ray->texture->height - 1);
+		ray->tex_coord += ray->tex_step;
+		offset = (*y * game->img.line_len + x * (game->img.bpp / 8));
+		offset_texture = (int)ray->tex_y * ray->texture->img.line_len
+			+ ray->tex_x * (ray->texture->img.bpp / 8);
+		*(unsigned int *)(game->img.addr + offset) = *(unsigned int *)
+			(ray->texture->img.addr + offset_texture);
+		*y = *y + 1;
+	}
+}
+```
+
+</details>
 
 ## Math
 

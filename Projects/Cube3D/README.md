@@ -20,7 +20,13 @@ Raycasting is a rendering technique used to create a 3D perspective in a 2D map.
 #### Videos
 
 - [🎥 Raycasting - The Coding Train - JS](https://thecodingtrain.com/challenges/145-ray-casting-2d)
+  - [🔗 Code](./Research/web/p5_js_coding_train/2d_raycasting/)
 - [🎥 Rendering Raycasting - The Coding Train - JS](https://www.youtube.com/watch?v=vYgIKn7iDH8)
+  - [🔗 Code](./Research/web/p5_js_coding_train/2d_render_raycasting/render_raycasting/)
+
+##### Doom
+
+- [🎥 Raycasting and Binary Space Partitioning explainded - Doom - ShreddedNerd ](https://youtu.be/hYMZsMMlubg?si=-6M8MEEKn2PwWkSl)
 
 #### Video Game
 
@@ -87,7 +93,8 @@ flowchart TD
   classDef mlx fill:#bb56f6, stroke:#bb56f6;
   classDef mlx_border stroke:#bb56f6, stroke-dasharray: 5, 5, stroke-width: 2px;
   classDef parsing stroke:#f6de56;
-  classDef event fill:#f9f;
+  classDef event stroke:#ee7220, color:#ee7220;
+  classDef event_border stroke:#ee7220, stroke-dasharray: 5, 5, stroke-width: 2px;
   classDef raycasting color:#4fc4ff, stroke:#4fc4ff;
   classDef texture fill:#f9f, color:#000;
   classDef error fill:#f00, color:#fff;
@@ -107,14 +114,12 @@ flowchart TD
     Parsing_map -.- |"according to\ncardinal dir\n(N, S, E, W)"| Player_dir[Player direction]:::parsing
   end
   Parsing --> |Error| Parsing_error[Parsing Error Manager]:::error
-  Parsing --> |Valid| Gameplay
   Mlx[MLX]:::mlx
   subgraph Mlx
     Init_mlx[Init Mlx]:::mlx_border
     Init_mlx --> Mlx_window[Create Window]:::mlx_border
     Mlx_window --> Mlx_img[Create Image]:::mlx_border
   end
-  Raycasting_main[Raycasting]:::important
   Raycasting_Loop:::raycasting
   subgraph Raycasting_Loop
     Raycasting_init[Init Raycasting]
@@ -126,6 +131,40 @@ flowchart TD
     Raycasting_draw -->|"y < Height - Line Start"| Texture_Y:::texture -->  Draw_wall[Draw Wall]:::mlx_border
     Raycasting_draw --> |"y < Height - 1"| Draw_floor[Draw Floor]:::mlx_border
   end
+  Parsing --> |Valid| Gameplay
+  subgraph Gameplay
+    Raycasting_main[Raycasting]:::important
+    Update_Movement[Update Movement]:::important
+    MiniMap[MiniMap]:::important
+  end
+  Raycasting_main --> |"x < WIDTH - 1"| Raycasting_Loop
+  Update_Movement --> Movement:::event
+  subgraph Movement
+    direction LR
+    Rotate_Right
+    Rotate_Left
+    Move_Forward
+    Move_Backward
+    Move_Right
+    Move_Left
+    subgraph Events
+      mouse_move[Mouse Move]:::event_border
+      key_a[Key A]:::event_border
+      key_d[Key D]:::event_border
+      key_w[Key W]:::event_border
+      key_s[Key S]:::event_border
+      key_left[Key Left]:::event_border
+      key_right[Key Right]:::event_border
+    end
+  end
+  Move_Forward -.- key_w
+  Move_Backward -.- key_s
+  Move_Right -.- key_d
+  Move_Left -.- key_a
+  Rotate_Right -.- key_right
+  Rotate_Left -.- key_left
+  mouse_move --> Rotate_Right
+  mouse_move --> Rotate_Left
 ```
 
 ### Assets

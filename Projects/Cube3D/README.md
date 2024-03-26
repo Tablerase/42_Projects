@@ -79,6 +79,55 @@ An affine transformation means that it preserves quantities, thus as one image i
 
 ## Code
 
+### Flowchart
+
+```mermaid
+flowchart TD
+  classDef important fill:#2366e2, font-weight: bold, color:#fff;
+  classDef mlx fill:#bb56f6, stroke:#bb56f6;
+  classDef mlx_border stroke:#bb56f6, stroke-dasharray: 5, 5, stroke-width: 2px;
+  classDef parsing stroke:#f6de56;
+  classDef event fill:#f9f;
+  classDef raycasting color:#4fc4ff, stroke:#4fc4ff;
+  classDef texture fill:#f9f, color:#000;
+  classDef error fill:#f00, color:#fff;
+
+  Cube3D[Cube3D]:::important
+  Cube3D -->|path to map.cub| Parsing:::parsing
+  subgraph Parsing
+    Parsing_main[Parsing]:::important -->
+    Parsing_init[Init Parsing] -->
+    Parsing_file[Check file] --> |.cub| Parsing_texture[Check texture]
+    Parsing_texture -.- Data_texture[Data Texture]:::texture
+    Data_texture -.-> Texture_img[Texture Image]:::mlx_border
+    Data_texture -.-> Texture_resolution[Texture Resolution]:::parsing
+    Parsing_texture -.- Data_color[Data Color]:::texture
+    Parsing_texture --> Parsing_map[Check map]
+    Parsing_map -.- |fill the map| Data_map[Data Map]:::parsing
+    Parsing_map -.- |"according to\ncardinal dir\n(N, S, E, W)"| Player_dir[Player direction]:::parsing
+  end
+  Parsing --> |Error| Parsing_error[Parsing Error Manager]:::error
+  Parsing --> |Valid| Gameplay
+  Mlx[MLX]:::mlx
+  subgraph Mlx
+    Init_mlx[Init Mlx]:::mlx_border
+    Init_mlx --> Mlx_window[Create Window]:::mlx_border
+    Mlx_window --> Mlx_img[Create Image]:::mlx_border
+  end
+  Raycasting_main[Raycasting]:::important
+  Raycasting_Loop:::raycasting
+  subgraph Raycasting_Loop
+    Raycasting_init[Init Raycasting]
+    Raycasting_init --> |"Init Vector\nInit Step"| Raycasting_dda[DDA Algorithm]
+    Raycasting_dda --> |"Side (Horizontal/Vertical)\nDistance"| Raycasting_params[Line Parameters]
+    Raycasting_params --> |"Line Start\nLine End"| Raycasting_texture[Find Texture]:::texture
+    Raycasting_texture --> |"Texture Image\nTexture X"| Raycasting_draw[Draw Texture]:::texture
+    Raycasting_draw --> |"y < Height - Line End"| Draw_ceiling[Draw Ceiling]:::mlx_border
+    Raycasting_draw -->|"y < Height - Line Start"| Texture_Y:::texture -->  Draw_wall[Draw Wall]:::mlx_border
+    Raycasting_draw --> |"y < Height - 1"| Draw_floor[Draw Floor]:::mlx_border
+  end
+```
+
 ### Assets
 
 #### Textures
@@ -86,6 +135,14 @@ An affine transformation means that it preserves quantities, thus as one image i
 - [🖼️ Textures - Japan Walls - Rekkimaru](https://rekkimaru.itch.io/32-pixel-art-japanese-themed-textures)
 
 ### KeyHooks
+
+- A : Move Left
+- D : Move Right
+- W : Move Forward
+- S : Move Backward
+- Left Arrow : Rotate Left
+- Right Arrow : Rotate Right
+- Mouse : Rotate Camera (Left/Right)
 
 ### Raycasting
 

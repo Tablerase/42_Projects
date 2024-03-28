@@ -1,10 +1,20 @@
 # 42_Cub3D
 
+<div align="center">
+
+[<kbd style="background-color: #00a651; color: #ffffff; font-weight: bold;"> <br> Code for Cub3D <br> (inverted x direction) <br> (texture handler to upgrade) <br> </kbd>](./philo/)
+
+<div style="display: flex; justify-content: space-between; padding: 10px; align-items: center;">
+  <img src="./Media/cub3d-japan.gif" width="50%" style="margin-right: 10px;">
+  <img src="./Media/cub3d-stone.gif" width="50%" style="margin-left: 10px;">
+</div>
+
+<img src="https://img.shields.io/badge/42-2024-000000?style=for-the-badge&logo=42" alt="42 2024">
+<img src="https://img.shields.io/badge/Grade-123-brightgreen?style=for-the-badge" alt="Grade 123">
+
+</div>
+
 ## Notions
-
-### Not Watched yet
-
-- https://youtu.be/uSzGdfdOoG8?t=133 - Matrix Math for code
 
 ### Raycasting
 
@@ -27,6 +37,10 @@ Raycasting is a rendering technique used to create a 3D perspective in a 2D map.
 ##### Doom
 
 - [🎥 Raycasting and Binary Space Partitioning explainded - Doom - ShreddedNerd ](https://youtu.be/hYMZsMMlubg?si=-6M8MEEKn2PwWkSl)
+
+#### Matrix
+
+- [🎥 Matrix Math for code](https://youtu.be/uSzGdfdOoG8?t=133)
 
 #### Video Game
 
@@ -136,6 +150,9 @@ flowchart TD
     Raycasting_main[Raycasting]:::important
     Update_Movement[Update Movement]:::important
     MiniMap[MiniMap]:::important
+    Update_Door[Update Door]:::important
+    User_Help[User Help]:::important
+    Update_Sprite[Update Sprite]:::important
   end
   Raycasting_main --> |"x < WIDTH - 1"| Raycasting_Loop
   Update_Movement --> Movement:::event

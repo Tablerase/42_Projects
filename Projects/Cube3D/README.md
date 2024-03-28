@@ -1,12 +1,11 @@
-# 42_Cub3D
+# 📚 Documentation - 42 Cub3D
 
 <div align="center">
 
-[<kbd style="background-color: #00a651; color: #ffffff; font-weight: bold;"> <br> Code for Cub3D <br> (inverted x direction) <br> (texture handler to upgrade) <br> </kbd>](./philo/)
+[<kbd style="background-color: #00a651; color: #ffffff; font-weight: bold;"> <br> Repo of Cub3D <br> (inverted x direction) <br> (texture handler to upgrade) <br> </kbd>](https://github.com/Tablerase/42_Cub3D)
 
-<div style="display: flex; justify-content: space-between; padding: 10px; align-items: center;">
+<div style="padding: 10px; align-items: center;">
   <img src="./Media/cub3d-japan.gif" width="50%" style="margin-right: 10px;">
-  <img src="./Media/cub3d-stone.gif" width="50%" style="margin-left: 10px;">
 </div>
 
 <img src="https://img.shields.io/badge/42-2024-000000?style=for-the-badge&logo=42" alt="42 2024">

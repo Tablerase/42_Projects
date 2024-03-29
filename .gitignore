@@ -2,6 +2,12 @@
 *.o
 *.out
 
+# C++
+*.gch
+*.pch
+*.o
+*.out
+
 # Vscode directory
 .vscode/
 

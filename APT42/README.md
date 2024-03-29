@@ -2,6 +2,10 @@
 
 <img src="https://apt42.fr/images/logo-lp.png" align=right widht="20%">
 
+## Description
+
+APT 42 is a french cybersecurity association that aims to promote cybersecurity in France. They organize events such as CTFs, conferences, and training sessions.
+
 ## Events
 
 | Event | Description |

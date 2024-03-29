@@ -621,7 +621,7 @@ std::cout << "You entered: " << x;
     <td>Specifies that a variable is a register variable</td>
   </tr>
   <tr>
-    <td rowspan="7">Other</td>
+    <td rowspan="7" style="background-color: #D7C4B7">Other</td>
     <td>asm</td>
     <td>Specifies that a block of code is assembly code</td>
   </tr>

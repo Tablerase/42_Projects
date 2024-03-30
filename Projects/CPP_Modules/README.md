@@ -651,6 +651,49 @@ std::cout << "You entered: " << x;
   </tr>
 </table>
 
+#### Special Keywords / Identifiers
+
+<table>
+  <th>Indentifier</th>
+  <th>Description</th>
+  <tr>
+    <td>override</td>
+    <td>Specifies that a function is intended to override a virtual function in a base class</td>
+  </tr>
+  <tr>
+    <td>final</td>
+    <td>Specifies that a class cannot be inherited from or that a virtual function cannot be overridden</td>
+  </tr>
+  <tr>
+    <td>import</td>
+    <td>Specifies that a module is imported (since C++20)</td>
+  </tr>
+  <tr>
+    <td>module</td>
+    <td>Specifies that a module is defined (since C++20)</td>
+  </tr>
+</table>
+
+### Literals
+
+Literal is a fixed value that is written directly in the source code. For example, `5` is a literal integer value.
+
+They are also called literal constants.
+
+```cpp
+#include <iostream>
+
+int main()
+{
+	std::cout << 5 << "\n"; // 5 is a Literal Integer
+	return (0);
+}
+```
+
+### [Operators](https://www.learncpp.com/cpp-tutorial/introduction-to-literals-and-operators/)
+
+Operators are symbols that perform operations on one or more operands. For example, `+` is an operator that performs addition on two operands.
+
 ## C++ Modules [0-4]
 
 ### Module 00

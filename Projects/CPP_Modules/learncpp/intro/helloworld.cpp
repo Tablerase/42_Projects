@@ -2,9 +2,7 @@
 
 int main()
 {
-	std::cout << "Test Input: ";
-	int	x;
-	std::cin >> x;
-	std::cout << x << '\n';
+	std::cout << 5 << "\n"; // Literal Integer
+
 	return (0);
 }

@@ -989,7 +989,7 @@ graph TD
     A[Preprocessor Directives]:::preprocessor 
     A --> B[Preprocessor]:::preprocessor
     B --> C[Modified Source Code]
-    click A "./README.md#preprocessor-directives"
+    click A "https://github.com/Tablerase/42_Projects/blob/main/Projects/CPP_Modules/README.md#preprocessor-directives"
   end
   C --> |"Translation Unit"|D[Compiler]
   D --> E[Object Code]
@@ -1056,7 +1056,53 @@ The `#if`, `#ifdef`, and `#ifndef` directives are used to conditionally compile 
 #endif
 ```
 
-## Header Files
+### Header Files
+
+Header files allow us to put declarations in one location and then import them wherever we need them. This can save a lot of typing in multi-file programs.
+
+Extension: `.hpp` or `.h`
+
+Header files consist of two parts:
+- **Header guards**: Header guards are used to prevent the contents of a header file from being included more than once in a translation unit.
+- **Content**: The content of the header file, which typically includes declarations for functions, classes, and other identifiers.
+
+```cpp
+#ifndef HEADER_NAME_HPP
+  #define HEADER_NAME_HPP
+
+// header file content
+
+#endif
+```
+
+Good Practice: Source files should include their paired header file, help to ensure that the declarations in the header file match the definitions in the source file.
+
+#### Header Guards (`#ifndef`, `#define`, `#endif`)
+
+Header guards are used to prevent the contents of a header file from being included more than once in a translation unit. Header guards are typically implemented using `#ifndef`, `#define`, and `#endif` directives.
+
+```cpp
+#ifndef HEADER_NAME_HPP
+  #define HEADER_NAME_HPP
+
+// header file content
+
+#endif
+```
+
+- `#ifndef`: The `#ifndef` directive checks if the identifier has not been defined.
+- `#define`: The `#define` directive defines the identifier.
+- `#endif`: The `#endif` directive ends the conditional compilation block.
+
+##### Pragma Once
+
+`#pragma once` is a non-standard preprocessor directive that is used to prevent the contents of a header file from being included more than once in a translation unit. `#pragma once` is supported by most modern compilers and is considered a better alternative to header guards.
+
+```cpp
+#pragma once
+
+// header file content
+```
 
 ## C++ Modules [0-4]
 

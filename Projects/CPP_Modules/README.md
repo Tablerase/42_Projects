@@ -6,240 +6,6 @@
 * [🧑‍🎓 C++ Tutorial - Website Course](https://www.learncpp.com/)
 
 ## Description
-
-### History
-
-- C was developed in 1972 by Dennis Ritchie at Bell Telephone laboratories.
-- C++ (pronounced “see plus plus”) was developed by Bjarne Stroustrup at Bell Labs as an extension to C, starting in 1979. C++’s claim to fame results primarily from the fact that it is an object-oriented language.
-
-### Usage
-
-C++ excels in situations where high performance and precise control over memory and other resources is needed. Here are a few common types of applications that most likely would be written in C++:
--  Video games
--  Real-time systems (e.g. for transportation, manufacturing, etc…)
--  High-performance financial applications (e.g. high frequency trading)
--  Graphical applications and simulations
--  Productivity / office applications
--  Embedded software
--  Audio and video processing
--  Artificial intelligence and neural networks
-
-### Compilation / Linking
-Compiling:
-
-![C++ Compilation cpp to object](https://www.learncpp.com/images/CppTutorial/Chapter0/CompileSource-min.png?ezimgfmt=rs:421x161/rscb2/ng:webp/ngcb2)
-
-Linking:
-
-![C++ Linking object to executable](https://www.learncpp.com/images/CppTutorial/Chapter0/LinkingObjects-min.png?ezimgfmt=rs:441x271/rscb2/ng:webp/ngcb2)
-
-#### Compiler extensions
-
-The C++ language is standardized by the International Organization for Standardization (ISO), and the standard is called the C++ Standard. However, many compilers provide extensions that go beyond the standard. These extensions can be useful, but they can also make your code less portable.
-
-- To prevent the use of compiler-specific extensions, you can use the `-pedantic` flag when compiling your code. This flag tells the compiler to strictly adhere to the C++ Standard and to issue warnings when non-standard extensions are used.
-
-```shell
-g++ -pedantic -o myProgram myProgram.cpp
-```
-
-or
-  
-```shell
-g++ -pedantic-errors -o myProgram myProgram.cpp
-```
-
-#### Warning flags
-
-- `-Wall` flag: This flag tells the compiler to enable most warning messages.
-- `-Wextra` flag: This flag tells the compiler to enable some extra warning messages.
-- `-Werror` flag: This flag tells the compiler to treat all warnings as errors.
-  - It's a good pratice to convert all warnings to errors, so that the code will not compile if there are any warnings.
-
-```shell
-g++ -Wall -Wextra -Werror -o myProgram myProgram.cpp
-```
-
-#### Standard flags
-
-- `-std=value` flag: This flag tells the compiler to use the specified version of the C++ Standard.
-  - Example:
-  ```shell
-  g++ -std=c++17 -o myProgram myProgram.cpp
-  ```
-
-| Version | Year | Major Features |
-|---------|------|----------------|
-| C++98   | 1998 | - Initial Standard<br>- Templates<br>- Exceptions<br>- Namespaces |
-| C++03   | 2003 | - Minor bug fixes to C++98 |
-| C++11   | 2011 | - Auto keyword<br>- Range-based for loops<br>- Lambda expressions<br>- Smart pointers |
-| C++14   | 2014 | - Generic lambda expressions<br>- Binary literals<br>- Digit separators |
-| C++17   | 2017 | - Inline variables<br>- Structured bindings<br>- If and switch with initializers |
-| C++20   | 2020 | - Modules<br>- Coroutines<br>- Concepts<br>- Ranges |
-| C++23   | 2023 | - Expected<br>- Contracts<br>- Networking TS<br>- Executors TS |
-
-### Building
-
-Building:
-
-Because there are multiple steps involved, the term **building** is often used to refer to the full process of **converting source code files into an executable** that can be run. A specific executable produced as the result of building is sometimes called a **build**.
-
-Command line:
-
-```bash
-g++ -o myProgram myProgram.cpp
-```
-
-#### Building configurations
-
-- **Debug build**: This build is used during development. It includes debugging symbols and is not optimized. This build is typically slower and larger than a release build.
-  - `-g` flag: This flag tells the compiler to include debugging information in the executable.
-  - `-gdb` flag: This flag tells the compiler to include debugging information that is compatible with the GNU debugger (gdb).
-  - `-O0` flag: This flag tells the compiler not to optimize the code.
-  - Example:
-  ```shell
-  g++ -g -gdb -O0 -o myProgram myProgram.cpp
-  ```
-  or
-  ```shell
-  g++ -ggdb -o myProgram myProgram.cpp
-  ```
-
-- **Release build**: This build is used for distribution. It is optimized for speed and size, and does not include debugging symbols. This build is typically faster and smaller than a debug build.
-  - `-O2` flag: This flag tells the compiler to optimize the code for speed.
-  - `-DNDEBUG` flag: This flag tells the compiler to define the `NDEBUG` preprocessor macro, which can be used to conditionally compile code.
-  - Example:
-  ```shell
-  g++ -O2 -DNDEBUG -o myProgram myProgram.cpp
-  ```
-
-## Introduction
-
-- `statements`: A statement is a single line of code that performs a specific action. For example, `std::cout << "Hello, world!" << std::endl;` is a statement that outputs the text "Hello, world!" to the console.
-
-- `expressions`: An expression is a combination of literals, variables, operators, and function calls that evaluates to a single value. For example, `2 + 3` is an expression that evaluates to `5`.
-
-- `functions`: A function is a block of code that performs a specific task. Functions are used to organize code into manageable pieces, and to facilitate code reuse. For example, `std::cout << "Hello, world!" << std::endl;` is a function call that outputs the text "Hello, world!" to the console.
-
-- `libraries`: A library is a collection of precompiled functions that can be used in your program. Libraries are used to provide functionality that is not built into the language itself. For example, the `iostream` library provides functionality for input and output.
-
-### Comments
-
-- Single-line comments: `//`
-- Multi-line comments: `/* */`
-
-### Objects and Variables
-
-```mermaid
-graph TD
-classDef RAM fill:#bb56f6;
-classDef object fill:#4fc4ff;
-classDef variable fill:#f6de56;
-  RAM["RAM"]:::RAM
-  subgraph RAM
-    object:::object
-    subgraph object["Object / Memory Region"]
-      variable:::variable
-      subgraph variable["Variable"]
-        name["Name"]
-        type["Type"]
-        value["Value"]
-      end
-    end
-    object2:::object
-    object3:::object
-    object4:::object
-  end
-```
-
-- `object`: An object is a region of memory with a type that stores a value. For example, `int x = 5;` creates an object named `x` that stores the value `5`.
-
-- `variable`: A variable is a named object. For example, `int x = 5;` creates a variable named `x` that stores the value `5`.
-  - `variable instantiation`: The process of creating a variable is called variable instantiation.
-    - `declaration`: The process of introducing a new name in the program.
-      ```cpp
-      int x; // declares a variable named x of type int
-      ```
-      - multiple declarations can be done in a single line.
-      ```cpp
-      int x, y, z; // declares three variables named x, y, and z of type int
-      ```
-    - `definition`: The process of allocating storage for a variable and possibly initializing it.
-      - assignement operator `=` is used to initialize a variable.
-      ```cpp
-      int x = 5; // defines a variable named x of type int and initializes it with the value 5
-      ```
-    - `initialization`: The process of giving a variable an initial value.
-
-      | Initialization | Description |
-      |----------------|-------------|
-      | `int a;` | Default initialization (for built-in types, this means uninitialized) |
-      | `int a = 5;` | Copy initialization |
-      | `int a( 5 );` | Direct initialization |
-      | `int a{ 5 };` | Direct list initialization (since C++11) |
-      | `int a = { 5 };` | Copy list initialization (since C++11) |
-      | `int a{};` | Value initialization (since C++11, `a` is initialized to `0`) |
-
-  - `instance`: A variable that has been defined and initialized is called an instance of a variable.
-  - `data type`: The type of data that a variable can store is called its data type.
-
-### [IoStream](https://www.learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/)
-
-Includes:
-
-```cpp
-#include <iostream>
-```
-
-The `iostream` library provides functionality for input and output. It contains two main classes: `std::istream` and `std::ostream`.
-
-#### STD::COUT
-
-`cout` means "character output". It is an object of the `ostream` class that represents the standard output stream. It is used to output data to the console.
-  - It buffers the output, which means that the output is not immediately written to the console. Instead, it is stored in a **buffer** until the buffer is full or until the buffer is flushed.
-
-```cpp
-std::cout << "Hello, ";
-std::cout << "world!";
-// Output: Hello, world!
-```
-
-- `<<`: The `<<` operator is used to insert data into the output stream.
-  - It is called the **insertion operator**.
-  - It can be used multiple times in a single statement to insert multiple pieces of data into the output stream.
-
-- `std::cerr`: The `std::cerr` object is an instance of the `std::ostream` class that is used for writing error messages to the console.
-- `std::clog`: The `std::clog` object is an instance of the `std::ostream` class that is used for writing log messages to the console.
-
-#### STD::ENDL
-
-`endl` means "end line". It is a special value that represents a newline character. It is used to insert a newline character into the output stream and flush the stream.
-  - It is equivalent to `'\n'` followed by `std::flush`.
-    - `std::flush`: The `std::flush` manipulator is used to flush the output stream, which means that any buffered output is written to the console.
-    - **best practice is to use `\n` instead of `std::endl`** to insert a newline character into the output stream, because `std::endl` flushes the stream, which can be inefficient (It’s more efficient to let the system flush itself periodically (which it has been designed to do efficiently)). As a result, **`std::endl` should only be used when you need to flush the stream**.
-  - It is called a manipulator because it modifies the behavior of the output stream.
-
-```cpp
-std::cout << "Hello, " << std::endl;
-std::cout << "world!";
-// Output: Hello,
-//         world!
-```
-
-#### STD::CIN
-
-`cin` means "character input". It is an object of the `istream` class that represents the standard input stream. It is used to read data from the console.
-  - `>>`: The `>>` operator is used to extract data from the input stream.
-    - It is called the **extraction operator**.
-    - It can be used multiple times in a single statement to extract multiple pieces of data from the input stream.
-
-```cpp
-int x{};
-std::cin >> x;
-std::cout << "You entered: " << x;
-// Output: You entered: [value of x]
-```
-
 ### Keywords
 
 <table>
@@ -558,7 +324,7 @@ std::cout << "You entered: " << x;
     <td>Specifies a block of code to be executed if an error occurs in the try block</td>
   </tr>
   <tr>
-    <td rowspan="2">Namespaces</td>
+    <td rowspan="2"><a href="./README.md#namespaces">Namespaces</a></td>
     <td>namespace</td>
     <td>Defines a namespace</td>
   </tr>
@@ -672,7 +438,245 @@ std::cout << "You entered: " << x;
     <td>module</td>
     <td>Specifies that a module is defined (since C++20)</td>
   </tr>
+  <tr>
+    <td><a href="./README.md#include-directive">include</a></td>
+    <td>Preprocessor directive that includes a file</td>
+  </tr>
 </table>
+
+### History
+
+- C was developed in 1972 by Dennis Ritchie at Bell Telephone laboratories.
+- C++ (pronounced “see plus plus”) was developed by Bjarne Stroustrup at Bell Labs as an extension to C, starting in 1979. C++’s claim to fame results primarily from the fact that it is an object-oriented language.
+
+### Usage
+
+C++ excels in situations where high performance and precise control over memory and other resources is needed. Here are a few common types of applications that most likely would be written in C++:
+-  Video games
+-  Real-time systems (e.g. for transportation, manufacturing, etc…)
+-  High-performance financial applications (e.g. high frequency trading)
+-  Graphical applications and simulations
+-  Productivity / office applications
+-  Embedded software
+-  Audio and video processing
+-  Artificial intelligence and neural networks
+
+### Compilation / Linking
+Compiling:
+
+![C++ Compilation cpp to object](https://www.learncpp.com/images/CppTutorial/Chapter0/CompileSource-min.png?ezimgfmt=rs:421x161/rscb2/ng:webp/ngcb2)
+
+Linking:
+
+![C++ Linking object to executable](https://www.learncpp.com/images/CppTutorial/Chapter0/LinkingObjects-min.png?ezimgfmt=rs:441x271/rscb2/ng:webp/ngcb2)
+
+#### Compiler extensions
+
+The C++ language is standardized by the International Organization for Standardization (ISO), and the standard is called the C++ Standard. However, many compilers provide extensions that go beyond the standard. These extensions can be useful, but they can also make your code less portable.
+
+- To prevent the use of compiler-specific extensions, you can use the `-pedantic` flag when compiling your code. This flag tells the compiler to strictly adhere to the C++ Standard and to issue warnings when non-standard extensions are used.
+
+```shell
+g++ -pedantic -o myProgram myProgram.cpp
+```
+
+or
+  
+```shell
+g++ -pedantic-errors -o myProgram myProgram.cpp
+```
+
+#### Warning flags
+
+- `-Wall` flag: This flag tells the compiler to enable most warning messages.
+- `-Wextra` flag: This flag tells the compiler to enable some extra warning messages.
+- `-Werror` flag: This flag tells the compiler to treat all warnings as errors.
+  - It's a good pratice to convert all warnings to errors, so that the code will not compile if there are any warnings.
+
+```shell
+g++ -Wall -Wextra -Werror -o myProgram myProgram.cpp
+```
+
+#### Standard flags
+
+- `-std=value` flag: This flag tells the compiler to use the specified version of the C++ Standard.
+  - Example:
+  ```shell
+  g++ -std=c++17 -o myProgram myProgram.cpp
+  ```
+
+| Version | Year | Major Features |
+|---------|------|----------------|
+| C++98   | 1998 | - Initial Standard<br>- Templates<br>- Exceptions<br>- Namespaces |
+| C++03   | 2003 | - Minor bug fixes to C++98 |
+| C++11   | 2011 | - Auto keyword<br>- Range-based for loops<br>- Lambda expressions<br>- Smart pointers |
+| C++14   | 2014 | - Generic lambda expressions<br>- Binary literals<br>- Digit separators |
+| C++17   | 2017 | - Inline variables<br>- Structured bindings<br>- If and switch with initializers |
+| C++20   | 2020 | - Modules<br>- Coroutines<br>- Concepts<br>- Ranges |
+| C++23   | 2023 | - Expected<br>- Contracts<br>- Networking TS<br>- Executors TS |
+
+### Building
+
+Building:
+
+Because there are multiple steps involved, the term **building** is often used to refer to the full process of **converting source code files into an executable** that can be run. A specific executable produced as the result of building is sometimes called a **build**.
+
+Command line:
+
+```bash
+g++ -o myProgram myProgram.cpp
+```
+
+#### Building configurations
+
+- **Debug build**: This build is used during development. It includes debugging symbols and is not optimized. This build is typically slower and larger than a release build.
+  - `-g` flag: This flag tells the compiler to include debugging information in the executable.
+  - `-gdb` flag: This flag tells the compiler to include debugging information that is compatible with the GNU debugger (gdb).
+  - `-O0` flag: This flag tells the compiler not to optimize the code.
+  - Example:
+  ```shell
+  g++ -g -gdb -O0 -o myProgram myProgram.cpp
+  ```
+  or
+  ```shell
+  g++ -ggdb -o myProgram myProgram.cpp
+  ```
+
+- **Release build**: This build is used for distribution. It is optimized for speed and size, and does not include debugging symbols. This build is typically faster and smaller than a debug build.
+  - `-O2` flag: This flag tells the compiler to optimize the code for speed.
+  - `-DNDEBUG` flag: This flag tells the compiler to define the `NDEBUG` preprocessor macro, which can be used to conditionally compile code.
+  - Example:
+  ```shell
+  g++ -O2 -DNDEBUG -o myProgram myProgram.cpp
+  ```
+
+## Introduction
+
+- `statements`: A statement is a single line of code that performs a specific action. For example, `std::cout << "Hello, world!" << std::endl;` is a statement that outputs the text "Hello, world!" to the console.
+
+- `expressions`: An expression is a combination of literals, variables, operators, and function calls that evaluates to a single value. For example, `2 + 3` is an expression that evaluates to `5`.
+
+- `functions`: A function is a block of code that performs a specific task. Functions are used to organize code into manageable pieces, and to facilitate code reuse. For example, `std::cout << "Hello, world!" << std::endl;` is a function call that outputs the text "Hello, world!" to the console.
+
+- `libraries`: A library is a collection of precompiled functions that can be used in your program. Libraries are used to provide functionality that is not built into the language itself. For example, the `iostream` library provides functionality for input and output.
+
+### Comments
+
+- Single-line comments: `//`
+- Multi-line comments: `/* */`
+
+### Objects and Variables
+
+```mermaid
+graph TD
+classDef RAM fill:#bb56f6;
+classDef object fill:#4fc4ff;
+classDef variable fill:#f6de56;
+  RAM["RAM"]:::RAM
+  subgraph RAM
+    object:::object
+    subgraph object["Object / Memory Region"]
+      variable:::variable
+      subgraph variable["Variable"]
+        name["Name"]
+        type["Type"]
+        value["Value"]
+      end
+    end
+    object2:::object
+    object3:::object
+    object4:::object
+  end
+```
+
+- `object`: An object is a region of memory with a type that stores a value. For example, `int x = 5;` creates an object named `x` that stores the value `5`.
+
+- `variable`: A variable is a named object. For example, `int x = 5;` creates a variable named `x` that stores the value `5`.
+  - `variable instantiation`: The process of creating a variable is called variable instantiation.
+    - `declaration`: The process of introducing a new name in the program.
+      ```cpp
+      int x; // declares a variable named x of type int
+      ```
+      - multiple declarations can be done in a single line.
+      ```cpp
+      int x, y, z; // declares three variables named x, y, and z of type int
+      ```
+    - `definition`: The process of allocating storage for a variable and possibly initializing it.
+      - assignement operator `=` is used to initialize a variable.
+      ```cpp
+      int x = 5; // defines a variable named x of type int and initializes it with the value 5
+      ```
+    - `initialization`: The process of giving a variable an initial value.
+
+      | Initialization | Description |
+      |----------------|-------------|
+      | `int a;` | Default initialization (for built-in types, this means uninitialized) |
+      | `int a = 5;` | Copy initialization |
+      | `int a( 5 );` | Direct initialization |
+      | `int a{ 5 };` | Direct list initialization (since C++11) |
+      | `int a = { 5 };` | Copy list initialization (since C++11) |
+      | `int a{};` | Value initialization (since C++11, `a` is initialized to `0`) |
+
+  - `instance`: A variable that has been defined and initialized is called an instance of a variable.
+  - `data type`: The type of data that a variable can store is called its data type.
+
+### [IoStream](https://www.learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/)
+
+Includes:
+
+```cpp
+#include <iostream>
+```
+
+The `iostream` library provides functionality for input and output. It contains two main classes: `std::istream` and `std::ostream`.
+
+#### STD::COUT
+
+`cout` means "character output". It is an object of the `ostream` class that represents the standard output stream. It is used to output data to the console.
+  - It buffers the output, which means that the output is not immediately written to the console. Instead, it is stored in a **buffer** until the buffer is full or until the buffer is flushed.
+
+```cpp
+std::cout << "Hello, ";
+std::cout << "world!";
+// Output: Hello, world!
+```
+
+- `<<`: The `<<` operator is used to insert data into the output stream.
+  - It is called the **insertion operator**.
+  - It can be used multiple times in a single statement to insert multiple pieces of data into the output stream.
+
+- `std::cerr`: The `std::cerr` object is an instance of the `std::ostream` class that is used for writing error messages to the console.
+- `std::clog`: The `std::clog` object is an instance of the `std::ostream` class that is used for writing log messages to the console.
+
+#### STD::ENDL
+
+`endl` means "end line". It is a special value that represents a newline character. It is used to insert a newline character into the output stream and flush the stream.
+  - It is equivalent to `'\n'` followed by `std::flush`.
+    - `std::flush`: The `std::flush` manipulator is used to flush the output stream, which means that any buffered output is written to the console.
+    - **best practice is to use `\n` instead of `std::endl`** to insert a newline character into the output stream, because `std::endl` flushes the stream, which can be inefficient (It’s more efficient to let the system flush itself periodically (which it has been designed to do efficiently)). As a result, **`std::endl` should only be used when you need to flush the stream**.
+  - It is called a manipulator because it modifies the behavior of the output stream.
+
+```cpp
+std::cout << "Hello, " << std::endl;
+std::cout << "world!";
+// Output: Hello,
+//         world!
+```
+
+#### STD::CIN
+
+`cin` means "character input". It is an object of the `istream` class that represents the standard input stream. It is used to read data from the console.
+  - `>>`: The `>>` operator is used to extract data from the input stream.
+    - It is called the **extraction operator**.
+    - It can be used multiple times in a single statement to extract multiple pieces of data from the input stream.
+
+```cpp
+int x{};
+std::cin >> x;
+std::cout << "You entered: " << x;
+// Output: You entered: [value of x]
+```
+
 
 ### Literals
 
@@ -693,6 +697,366 @@ int main()
 ### [Operators](https://www.learncpp.com/cpp-tutorial/introduction-to-literals-and-operators/)
 
 Operators are symbols that perform operations on one or more operands. For example, `+` is an operator that performs addition on two operands.
+
+4 Different arity of operators:
+
+<table>
+  <th>Arity</th>
+  <th>Description</th>
+  <th>Example</th>
+  <tr>
+    <td>Unary</td>
+    <td>Operates on a single operand</td>
+    <td><code>-5</code></td>
+  </tr>
+  <tr>
+    <td>Binary</td>
+    <td>Operates on two operands</td>
+    <td><code>5 + 3</code></td>
+  </tr>
+  <tr>
+    <td>Ternary</td>
+    <td>Operates on three operands</td>
+    <td><code>condition ? true_value : false_value</code></td>
+  </tr>
+  <tr>
+    <td>Nullary</td>
+    <td>Operates on no operands</td>
+    <td><code>sizeof(int)</code></td>
+</table>
+
+### Expressions
+
+An expression is a sequence of literals, variables, operators, and function calls that calculates a single value. The process of executing an expression is called **evaluation**, and the single value produced is called the **result** of the expression.
+
+For example, `2 + 3` is an expression that evaluates to `5`.
+
+```cpp
+#include <iostream>
+
+int main()
+{
+  std::cout << 2 + 3 << "\n"; // 2 + 3 is an expression that evaluates to 5
+  return (0);
+}
+```
+
+#### Different Types of Expressions
+
+- **Expression Statement**: An expression followed by a semicolon is called an expression statement. For example, `2 + 3;` is an expression statement.
+- **Compound Expression**: An expression that contains other expressions is called a compound expression. For example, `2 + (3 * 4);` is a compound expression.
+
+## Functions
+
+A function is a block of code that performs a specific task. Functions are used to organize code into manageable pieces, and to facilitate code reuse.
+
+```cpp
+returnType functionName(parameters) // function header
+{
+  // function body
+}
+```
+
+- `caller`: The code that calls a function is called the caller.
+- `callee`: The code inside the function is called the callee.
+
+### Function Return
+
+- `return`: The `return` statement is used to return a value from a function. When a `return` statement is executed, the function stops executing and the value is returned to the caller.
+
+```cpp
+#include <iostream>
+
+int add(int x, int y)
+{
+  return x + y;
+}
+
+int main()
+{
+  std::cout << add(2, 3) << "\n"; // Output: 5
+  return (0);
+}
+```
+
+- Return type specifies the type of value that the function returns. For example, `int` is the return type of the `add` function.
+  - Good practice is to specify the return type of a function, even if it returns nothing. This makes the code easier to read and understand.
+  - `void`: The `void` keyword is used to specify that a function does not return a value.
+    - For example, `void printHello() { std::cout << "Hello!\n"; }` is a function that does not return a value.
+
+<img src="https://www.learncpp.com/images/CppTutorial/Chapter2/ParametersReturn.png?ezimgfmt=rs:441x251/rscb2/ng:webp/ngcb2" title="Return and parameters - code with captions">
+
+### Don't Repeat Yourself (DRY)
+
+**DRY**: The DRY principle states that code should not be repeated. Instead, it should be organized into functions that can be called multiple times.
+
+If you need to do something more than once, consider how to modify your code to remove as much redundancy as possible. Variables can be used to store the results of calculations that need to be used more than once (so we don’t have to repeat the calculation). Functions can be used to define a sequence of statements we want to execute more than once. And loops (which we’ll cover in a later chapter) can be used to execute a statement more than once.
+
+Like all best practices, DRY is meant to be a **guideline, not an absolute**.
+
+Sometimes, it’s better to repeat code than to create a function that’s only used once. But in general, if you find yourself copying and pasting code, you should consider whether there’s a better way to structure your program.
+
+### Unreferenced Parameters
+
+If a parameter is not used in a function, the compiler will issue a warning.
+
+In a function declaration, the parameter name can be omitted if the parameter is not used.
+
+```cpp
+void DoSomething(int x, int /*y*/)
+{
+  std::cout << x << "\n";
+}
+```
+
+### Local Variables
+
+A variable that is declared inside a function is called a local variable. Local variables are only accessible within the function in which they are declared.
+
+```cpp
+#include <iostream>
+
+void printValue()
+{
+  int x = 5; // x is a local variable
+  std::cout << x << "\n";
+}
+
+int main()
+{
+  printValue();
+  return (0);
+}
+```
+
+#### Variable Scope
+
+The scope of a variable is the region of code in which the variable is accessible. The scope of a local variable is the function in which it is declared.
+
+- `In scope`: A variable is in scope if it can be accessed at a particular point in the code.
+- `Out of scope`: A variable is out of scope if it cannot be accessed at a particular point in the code.
+
+The term “going out of scope” is typically applied to objects rather than identifiers. We say an object goes out of scope at the end of the scope (the end curly brace) in which the object was instantiated.
+
+#### Defining Variables
+
+Good pratice: Define as close to where they are used as possible.
+
+```cpp
+#include <iostream>
+
+int main()
+{
+  int x = 5;                // x is defined here
+  std::cout << x << "\n";   // x is used here
+  return (0);
+}
+```
+
+### Use Functions Effectively
+
+- Groups of statements that appear more than once in a program should generally be made into a function. For example, if we’re reading input from the user multiple times in the same way, that’s a great candidate for a function. If we output something in the same way in multiple places, that’s also a great candidate for a function.
+- Code that has a well-defined set of inputs and outputs is a good candidate for a function, (particularly if it is complicated). For example, if we have a list of items that we want to sort, the code to do the sorting would make a great function, even if it’s only done once. The input is the unsorted list, and the output is the sorted list. Another good prospective function would be code that simulates the roll of a 6-sided dice. Your current program might only use that in one place, but if you turn it into a function, it’s ready to be reused if you later extend your program or in a future program.
+- A function should **generally perform one** (and only one) **task**.
+- When a function becomes too long, too complicated, or hard to understand, it can be split into multiple sub-functions. This is called **refactoring**.
+
+## Defining and Declaring
+
+<table class="cpp-table">
+  <tr>
+    <th>Term</th>
+    <th>Technical Meaning</th>
+    <th>Examples</th>
+  </tr>
+  <tbody>
+    <tr>
+      <td>Declaration</td>
+      <td>Tells compiler about an identifier and its associated type information.</td>
+      <td>
+        void foo(); // function forward declaration (no body)<br>
+        void goo() {}; // function definition (has body)<br>
+        int x; // variable definition
+      </td>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td>Implements a function or instantiates a variable.<br>Definitions are also declarations.</td>
+      <td>
+        void foo() { } // function definition (has body)<br>
+        int x; // variable definition
+      </td>
+    </tr>
+    <tr>
+      <td>Pure declaration</td>
+      <td>A declaration that isn’t a definition.</td>
+      <td>void foo(); // function forward declaration (no body)</td>
+    </tr>
+    <tr>
+      <td>Initialization</td>
+      <td>Provides an initial value for a defined object.</td>
+      <td>int x { 2 }; // 2 is the initializer</td>
+    </tr>
+  </tbody>
+</table>
+
+### Declaration
+
+A declaration is a statement that introduces an identifier and describes its type. Declarations are used to tell the compiler about the existence of an identifier before it is used.
+
+#### Forward Declaration
+
+A forward declaration is a declaration that tells the compiler about the existence of an identifier without providing its definition. Forward declarations are used to break circular dependencies between functions and classes.
+
+```cpp
+void foo(); // forward declaration
+```
+
+### One Definition Rule (ODR)
+
+The One Definition Rule (ODR) is a rule in the C++ language that states that an object or function can only have one definition in a program.
+
+ODR has 3 parts:
+1.  Within a file, each function, variable, type, or template can only have one definition. Definitions occurring in different scopes (e.g. local variables defined inside different functions, or functions defined inside different namespaces) do not violate this rule.
+2. Within a program, each function or variable can only have one definition. This rule exists because programs can have more than one file.
+3. Types, templates, inline functions, and inline variables are allowed to have duplicate definitions in different files, so long as each definition is identical.
+
+## Scope
+
+### Scope Regions
+
+Area of source code where all declared identifiers are considered distinct from names declared in other scopes (much like the cities in our analogy). Two identifiers with the same name can be declared in separate scope regions without causing a naming conflict. However, within a given scope region, all identifiers must be unique, otherwise a naming collision will result.
+
+### Namespace Scope
+
+A namespace provides another type of scope region (called namespace scope) that allows you to declare names inside of it for the purpose of disambiguation. Any names declared inside the namespace won't be mistaken for identical names in other scopes.
+
+Namespaces are often used to group related identifiers in a large project to help ensure they don't inadvertently collide with other identifiers. For example, if you put all your math functions in a namespace named math, then your math functions won't collide with identically named functions outside the math namespace.
+
+## Namespaces
+
+Namespaces are used to organize code into logical groups and to prevent naming conflicts. A namespace is a region of code in which identifiers have meaning. Namespaces are used to group related identifiers together.
+
+```cpp
+namespace math
+{
+  int add(int x, int y)
+  {
+    return x + y;
+  }
+}
+
+int main()
+{
+  std::cout << math::add(2, 3) << "\n"; // Output: 5
+  return (0);
+}
+```
+
+### STD Namespace
+
+The `std` namespace is a namespace that contains the standard library. The standard library is a collection of precompiled functions that provide functionality that is not built into the language itself.
+
+```cpp
+#include <iostream>
+
+int main()
+{
+  std::cout << "Hello, world!\n"; // Use the std namespace to access the cout object
+  return (0);
+}
+```
+
+### Scope Resolution Operator (`::`)
+
+The scope resolution operator `::` is used to access identifiers in a namespace. It is used to specify the namespace or class to which an identifier belongs.
+
+```cpp
+namespace::identifier
+```
+
+- Good practice:
+  - Use explicit namespace prefixes to access identifiers defined in a namespace.
+  - Avoid using the `using namespace std;` directive. Instead, use the scope resolution operator to access identifiers in the `std` namespace.
+
+## [Preprocessor](https://www.learncpp.com/cpp-tutorial/introduction-to-the-preprocessor/)
+
+The preprocessor is a program that processes the source code before it is compiled. It is used to perform tasks such as including header files, defining macros, and conditional compilation.
+
+```mermaid
+graph TD
+  classDef preprocessor fill:#bb56f6;
+  subgraph Source Code
+    A[Preprocessor Directives]:::preprocessor 
+    A --> B[Preprocessor]:::preprocessor
+    B --> C[Modified Source Code]
+    click A "./README.md#preprocessor-directives"
+  end
+  C --> |"Translation Unit"|D[Compiler]
+  D --> E[Object Code]
+  E --> F[Linker]
+  F --> G[Executable]
+```
+
+### Preprocessor Directives
+
+Preprocessor directives are special commands that are used to tell the preprocessor to perform a specific task. Preprocessor directives begin with a `#` symbol.
+
+#### Include Directive
+
+The `#include` directive is used to include the contents of a file in the source code. The contents of the file are inserted into the source code at the location of the `#include` directive.
+
+```cpp
+#include <iostream>
+```
+
+- `<>`: The `<>` characters are used to include system header files. System header files are header files that are provided by the compiler.
+- `""`: The `""` characters are used to include user-defined header files. User-defined header files are header files that are created by the user.
+
+#### Define Directive
+
+The `#define` directive is used to define a macro. A macro is a fragment of code that has been given a name. When the name is used, it is replaced by the contents of the macro.
+
+```cpp
+#define IDENTIFIER substitution
+```
+
+Example:
+
+```cpp
+#define PI 3.14159
+```
+
+##### Macro Substitution
+
+When the preprocessor encounters a macro name in the source code, it replaces the macro name with the contents of the macro.
+
+```cpp
+#include <iostream>
+
+#define PI 3.14159
+
+int main()
+{
+  std::cout << PI << "\n"; // Output: 3.14159
+  return (0);
+}
+```
+
+##### Scope of Define Directive
+
+Define are file-scoped, meaning that they are valid from the point at which they are defined until the end of the file.
+
+#### Conditional Compilation
+
+The `#if`, `#ifdef`, and `#ifndef` directives are used to conditionally compile code. Conditional compilation is used to include or exclude code based on certain conditions.
+
+```cpp
+#ifdef IDENTIFIER
+  // code to include if IDENTIFIER is defined
+#endif
+```
+
+## Header Files
 
 ## C++ Modules [0-4]
 

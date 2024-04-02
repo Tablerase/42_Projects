@@ -1261,5 +1261,30 @@ double x = 5.5;
 int y = static_cast<int>(x); // explicit conversion from double to int
 ```
 
+## Constants
+
+A constant is a value that cannot be changed. Constants are used to represent fixed values in a program.
+
+### Literal Constants
+
+A literal constant is a fixed value that is written directly in the source code. **Not associated with an identifier**.
+  - For example, `5` is a literal integer value.
+
+### Named Constants
+
+A named constant is a constant that is given a name. Named constants are used to represent fixed values in a program.
+
+```cpp
+const int x = 5;
+```
+
+### Type Qualifiers
+
+A type qualifier (sometimes called a qualifier for short) is a keyword that is applied to a type that modifies how that type behaves.
+
+- `const`: The `const` keyword is used to declare a named constant. A named constant is a value that cannot be changed.
+
+- `volatile`: The `volatile` keyword is used to indicate that a variable may be changed at any time. This rarely-used qualifier disables certain types of optimizations.
+
 ## Strings
 

@@ -3,7 +3,7 @@
 ## Resources
 
 * [🗃️ C++ Reference](https://en.cppreference.com/w/)
-* [🧑‍🎓 C++ Tutorial - Website Course](https://www.learncpp.com/)
+* [🧑‍🎓 C++ Tutorial - Website Course - LearnCPP](https://www.learncpp.com/)
 
 ## Description
 ### Keywords
@@ -77,7 +77,7 @@
     <td>Used to execute a block of code as long as a condition is true, but at least once</td>
   </tr>
   <tr>
-    <td rowspan="15" style="background-color: #4fc4ff;">Type</td>
+    <td rowspan="15" style="background-color: #4fc4ff;"><a href="./README.md#data-types">Type</a></td>
     <td>class</td>
     <td>Defines a class</td>
   </tr>
@@ -135,12 +135,12 @@
   </tr>
   <tr>
   <tr>
-    <td rowspan="4">Casts</td>
+    <td rowspan="4"><a href="./README.md#conversion--casting">Casts</a></td>
     <td>dynamic_cast</td>
     <td>Converts a pointer or reference to a base class to a pointer or reference to a derived class</td>
   </tr>
   <tr>
-    <td>static_cast</td>
+    <td><a href="./README.md#static-cast">static_cast</a></td>
     <td>Converts a value from one type to another</td>
   </tr>
   <tr>
@@ -1104,10 +1104,162 @@ Header guards are used to prevent the contents of a header file from being inclu
 // header file content
 ```
 
-## C++ Modules [0-4]
+## Debugging
 
-### Module 00
+### Flags
 
-Objectives:
-Namespaces, classes, member functions, stdio streams, initialization lists, static, const, and some other basic stuff
+- `-g`: This flag tells the compiler to include debugging information in the executable.
+
+- `D_DEBUG`: This flag tells the compiler to define the `_DEBUG` preprocessor macro, which can be used to conditionally compile code.
+
+### Debugging Tools
+
+- **Compiler Warnings**: Compiler warnings are messages that are issued by the compiler when it detects potential issues in the source code. Compiler warnings can help you identify and fix problems in your code.
+
+- **Debugger**: A debugger is a tool that allows you to step through your code line by line, inspect variables, and set breakpoints. Debuggers are useful for finding and fixing bugs in your code.
+
+- **Print Statements**: Print statements are statements that output information to the console. Print statements can help you understand the flow of your program and identify issues.
+
+- **Static Analysis Tools**: Static analysis tools are tools that analyze your code without executing it. Static analysis tools can help you identify potential issues in your code.
+
+### [Logger](https://www.learncpp.com/cpp-tutorial/more-debugging-tactics/)
+
+A logger is a tool that is used to record information about the execution of a program. Loggers are useful for tracking the flow of a program and identifying issues.
+
+```cpp
+#include <iostream>
+#include <plog/Log.h>
+
+int main()
+{
+  plog::init(plog::debug, "Logfile.txt");
+  LOGD << "Hello, world!";
+  return (0);
+}
+```
+
+```shell
+g++ -o myProgram myProgram.cpp -lplog
+```
+
+```txt
+[2019-03-10 15:00:00.000] DEBUG [main:2] Hello, world!
+```
+
+### Debugger
+
+- **GDB**: The GNU Debugger (GDB) is a powerful debugger that is used to debug C and C++ programs. GDB allows you to step through your code line by line, inspect variables, and set breakpoints.
+
+- **LLDB**: The LLDB debugger is a debugger that is used to debug C and C++ programs. LLDB is part of the LLVM project and is designed to be a replacement for GDB.
+
+- **Visual Studio Debugger**: The Visual Studio Debugger is a debugger that is used to debug C++ programs in the Visual Studio IDE. The Visual Studio Debugger allows you to step through your code line by line, inspect variables, and set breakpoints.
+  - 🔗 [How to setup a c/cpp project in VSCode + Setup Debug for multiple files](https://dev.to/talhabalaj/setup-visual-studio-code-for-multi-file-c-projects-1jpi)
+
+#### Leak Detection
+
+- **Valgrind**: Valgrind is a memory debugging tool that is used to detect memory leaks, memory errors, and other memory-related issues in C and C++ programs.
+
+- **AddressSanitizer**: AddressSanitizer is a memory error detector that is used to detect memory errors in C and C++ programs. AddressSanitizer is part of the LLVM project and is designed to be a replacement for Valgrind.
+
+## Data Types
+
+### Fundamental Data Types
+
+<table>
+  <tr>
+    <th>Types</th>
+    <th>Category</th>
+    <th>Meaning</th>
+    <th>Example</th>
+  </tr>
+  <tbody>
+  <tr>
+    <td>
+      float<br>
+      double<br>
+      long double
+    </td>
+    <td>Floating Point</td>
+    <td>a number with a fractional part</td>
+    <td>3.14159</td>
+  </tr>
+  <tr>
+    <td>bool</td>
+    <td>Integral (Boolean)</td>
+    <td>true or false</td>
+    <td>true</td>
+  </tr>
+  <tr>
+    <td>
+      char<br>
+      wchar_t<br>
+      char8_t (C++20)<br>
+      char16_t (C++11)<br>
+      char32_t (C++11)
+    </td>
+    <td>Integral (Character)</td>
+    <td>a single character of text</td>
+    <td>‘c’</td>
+  </tr>
+  <tr>
+    <td>
+      short int<br>
+      int<br>
+      long int<br>
+      long long int (C++11)
+    </td>
+    <td>Integral (Integer)</td>
+    <td>positive and negative whole numbers, including 0</td>
+    <td>64</td>
+  </tr>
+  <tr>
+    <td>std::nullptr_t (C++11)</td>
+    <td>Null Pointer</td>
+    <td>a null pointer</td>
+    <td>nullptr</td>
+  </tr>
+  <tr>
+    <td>void</td>
+    <td>Void</td>
+    <td>no type</td>
+    <td>n/a</td>
+  </tr>
+</tbody>
+</table>
+
+### Conversion / Casting
+
+- **Implicit Conversion**: Implicit conversion is a conversion that is performed automatically by the compiler. Implicit conversion is also known as coercion.
+  - Example:
+  ```cpp
+  int x = 5;
+  double y = x; // implicit conversion from int to double
+  ```
+- **Explicit Conversion**: Explicit conversion is a conversion that is performed by the programmer using a cast. Explicit conversion is also known as type casting.
+  - Example:
+  ```cpp
+  double x = 5.5;
+  int y = static_cast<int>(x); // explicit conversion from double to int
+  ```
+- **C-Style Cast**: The C-style cast is a type of cast that is used to perform both implicit and explicit conversions. The C-style cast is not recommended because it is not as safe as the other types of casts.
+  - Example:
+  ```cpp
+  double x = 5.5;
+  int y = (int)x; // C-style cast from double to int
+  ```
+
+#### Static Cast
+
+```cpp
+static_cast<new_type>(expression)
+```
+
+The `static_cast` operator is used to perform explicit conversions between related types. The `static_cast` operator is safer than the C-style cast because it performs additional checks to ensure that the conversion is valid.
+
+```cpp
+double x = 5.5;
+int y = static_cast<int>(x); // explicit conversion from double to int
+```
+
+## Strings
 

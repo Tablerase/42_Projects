@@ -131,6 +131,8 @@ int main()
 
 ## String Class
 
+🔗 [List of String - functions](https://cplusplus.com/reference/string/string/)
+
 <table>
   <tbody>
     <tr>

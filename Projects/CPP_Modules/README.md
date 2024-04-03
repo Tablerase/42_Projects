@@ -79,7 +79,7 @@
   </tr>
   <tr>
     <td rowspan="17" style="background-color: #4fc4ff;"><a href="./README.md#data-types">Type</a></td>
-    <td>class</td>
+    <td><a href="./Class.md">class</a></td>
     <td>Defines a class</td>
   </tr>
   <tr>
@@ -214,7 +214,7 @@
     <td>Boolean false value</td>
   </tr>
   <tr>
-    <td rowspan="10" style="background-color: #bb56f6; color: white;">Classes</td>
+    <td rowspan="10" style="background-color: #bb56f6; color: white;"><a href="./Class.md">Classes</a></td>
     <td>class</td>
     <td>Defines a class</td>
   </tr>

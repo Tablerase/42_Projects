@@ -77,7 +77,7 @@
     <td>Used to execute a block of code as long as a condition is true, but at least once</td>
   </tr>
   <tr>
-    <td rowspan="15" style="background-color: #4fc4ff;"><a href="./README.md#data-types">Type</a></td>
+    <td rowspan="17" style="background-color: #4fc4ff;"><a href="./README.md#data-types">Type</a></td>
     <td>class</td>
     <td>Defines a class</td>
   </tr>
@@ -104,6 +104,14 @@
   <tr>
     <td>char</td>
     <td>Character type</td>
+  </tr>
+  <tr>
+    <td><a href="./README.md#stdstring">std::string</a></td>
+    <td><a href="./README.md#strings">String</a> type</td>
+  </tr>
+  <tr>
+    <td><a href="./README.md#stdstring_view-c17">std::string_view</a></td>
+    <td>String view type (since C++17)</td>
   </tr>
   <tr>
     <td>int</td>
@@ -359,7 +367,7 @@
     <td>Specifies that a function is inline</td>
   </tr>
   <tr>
-    <td>constexpr</td>
+    <td><a href="./README.md#constexpr">constexpr<a></td>
     <td>Specifies that a function or object is constant and can be evaluated at compile time (since C++11)</td>
   </tr>
   <tr>
@@ -1261,9 +1269,114 @@ double x = 5.5;
 int y = static_cast<int>(x); // explicit conversion from double to int
 ```
 
+### Literals
+
+A literal is a fixed value that is written directly in the source code. For example, `5` is a literal integer value.
+
+#### Literal Suffixes
+
+<table>
+  <tbody>
+    <tr>
+      <th>Data type</th>
+      <th>Suffix</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>u or U</td>
+      <td>unsigned int</td>
+      <td>10U</td>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>l or L</td>
+      <td>long</td>
+      <td>10L</td>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>ul, uL, Ul, UL, lu, lU, Lu, LU</td>
+      <td>unsigned long</td>
+      <td>10UL</td>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>ll or LL</td>
+      <td>long long</td>
+      <td>10LL</td>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>ull, uLL, Ull, ULL, llu, llU, LLu, LLU</td>
+      <td>unsigned long long</td>
+      <td>10ULL</td>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>z or Z</td>
+      <td>The signed version of std::size_t (C++23)</td>
+      <td>10Z</td>
+    </tr>
+    <tr>
+      <td>integral</td>
+      <td>uz, uZ, Uz, UZ, zu, zU, Zu, ZU</td>
+      <td>std::size_t (C++23)</td>
+      <td>10UZ</td>
+    </tr>
+    <tr>
+      <td>floating point</td>
+      <td>f or F</td>
+      <td>float</td>
+      <td>10.0f</td>
+    </tr>
+    <tr>
+      <td>floating point</td>
+      <td>l or L</td>
+      <td>long double</td>
+      <td>10.0L</td>
+    </tr>
+    <tr>
+      <td>string</td>
+      <td>s</td>
+      <td>std::string</td>
+      <td>"hello"s</td>
+    </tr>
+    <tr>
+      <td>string</td>
+      <td>sv</td>
+      <td>std::string_view</td>
+      <td>"hello"sv</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Avoid Magic Numbers
+
+A magic number is a fixed value that is used directly in the source code. Magic numbers can make the code difficult to read and maintain. Instead of using magic numbers, it is better to use named constants.
+
+```cpp
+if (maxDay == 5) // magic number
+{
+  // code
+}
+```
+```cpp
+const int maxWorkDays = 5; // named constant
+if (maxDay == maxWorkDays)
+{
+  // code
+}
+```
+
 ## Constants
 
 A constant is a value that cannot be changed. Constants are used to represent fixed values in a program.
+
+Constants are used to make code more readable and maintainable. Constants are also used to prevent accidental changes to values.
+
+They also improve optimization by allowing the compiler to make certain assumptions about the code.
 
 ### Literal Constants
 
@@ -1286,5 +1399,295 @@ A type qualifier (sometimes called a qualifier for short) is a keyword that is a
 
 - `volatile`: The `volatile` keyword is used to indicate that a variable may be changed at any time. This rarely-used qualifier disables certain types of optimizations.
 
+### Constexpr
+
+When using `const`, our variables could end up as either a *compile-time const* or a *runtime const*, depending on whether the initializer is a constant expression or not. In some cases, it can be hard to tell whether a *const variable* is a *compile-time constant* (and thus usable in a constant expression) or a *runtime constant* (and thus not usable in a constant expression).
+
+The `constexpr` keyword is used to declare a constant expression. A constant expression is an expression that can be evaluated at compile time.
+  - Must be initialized with a constant expression.
+
+```cpp
+constexpr int x = 5;
+```
+
+<table class="cpp-table">
+  <tbody>
+    <tr>
+      <th>Term</th>
+      <th>Definition</th>
+    </tr>
+    <tr>
+      <td>Compile-time constant</td>
+      <td>An object whose value must be known at compile time (e.g. literals and constexpr variables).</td>
+    </tr>
+    <tr>
+      <td>Constexpr</td>
+      <td>Keyword that declares variables as compile-time constants (and functions that can be evaluated at compile-time). Informally, shorthand for “constant expression”.</td>
+    </tr>
+    <tr>
+      <td>Constant expression</td>
+      <td>An expression that contains only compile-time constants and operators/functions that support compile-time evaluation.</td>
+    </tr>
+    <tr>
+      <td>Runtime expression</td>
+      <td>An expression that is not a constant expression.</td>
+    </tr>
+    <tr>
+      <td>Runtime constant</td>
+      <td>An constant object that is not a compile-time constant.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Numbers
+
+### Binary
+
+- **Base**: Binary is a base-2 number system, which means that it uses two symbols (0 and 1) to represent numbers.
+
+- **Bit**: A bit is the smallest unit of data in a computer. A bit can have one of two values: 0 or 1.
+
+- **Byte**: A byte is a group of 8 bits. A byte can represent 256 different values (0 to 255).
+
+- **Nibble**: A nibble is a group of 4 bits.
+
+#### Binary Literals
+
+Before C++14, binary literals were not supported in C++. However,
+using hexadecimal literals was a common workaround.
+
+```cpp
+int x = 0x4; // x is assigned the value 0000 0000 0000 0100
+```
+
+C++14 introduced the ability to specify binary literals using the `0b` prefix.
+
+```cpp
+int x = 0b100; // x is assigned the value 0000 0000 0000 0100
+```
+
+#### Outputting Binary Numbers
+
+To output a number in binary format, you can use the `std::bitset` class.
+  - The `std::bitset` class is a template class that represents a fixed-size sequence of bits.
+  - <bits> header file is required.
+
+```cpp
+#include <iostream>
+
+int main()
+{
+  int x = 4;
+  std::cout << std::bitset<4>(x) << "\n"; // Output: 0100
+  return (0);
+}
+```
+
+### Digit Separators
+
+C++14 introduced digit separators, which are used to separate groups of digits in a number. Digit separators are useful for making large numbers easier to read.
+
+```cpp
+int x = 1'000'000; // x is assigned the value 1,000,000
+```
+
+## Conditions
+
+### Conditional Operator
+
+The conditional operator `?:` is a **ternary operator** that is used to evaluate a condition and return a value based on the result of the condition.
+
+Also known as **arythmetic if**.
+
+```cpp
+condition ? true_value : false_value
+```
+
+Best practice: 
+  - Use the conditional operator when the condition is simple and the true and false values are simple expressions.
+  - For readability, consider parenthesizing the condition if it contains any operators (other than the function call operator).
+  - Avoid using the conditional operator when the condition is complex or the true and false values are complex expressions.
+
 ## Strings
 
+A string is a sequence of characters. Strings are used to represent text in a program.
+
+- C-style strings are arrays of characters that are terminated by a null character (`\0`).
+
+```cpp
+char s[] = "Hello, world!";
+```
+
+- C++ strings are objects that are used to represent text. C++ strings are part of the standard library and provide more functionality than C-style strings.
+
+```cpp
+std::string s = "Hello, world!";
+```
+
+*Best practice*: Use C++ strings instead of C-style strings whenever possible.
+
+### std::string
+
+The `std::string` class is a class type that is used to represent text in a program. The `std::string` class is part of the standard library (in the string header) and provides a wide range of functionality for working with strings.
+
+```cpp
+#include <string>
+
+int main()
+{
+  std::string s { "Hello, world!" };
+  return (0);
+}
+```
+
+- The `std::string` class is a class template that is used to create string objects.
+- The `std::string` class is part of the `std` namespace, so it is accessed using the scope resolution operator (`::`).
+
+Cost of using `std::string`:
+- Avoid copying `std::string` objects unnecessarily.
+- It is expensive to use `std::string` for small strings because it dynamically allocates memory on the heap.
+  - For small strings, it is better to use C-style strings or `std::string_view`.
+
+```cpp
+#include <iostream>
+#include <string>
+
+void printString(std::string str) // str makes a copy of its initializer
+{
+    std::cout << str << '\n';
+}
+
+int main()
+{
+    std::string s{ "Hello, world!" }; // s makes a copy of its initializer
+    printString(s);
+
+    return 0;
+}
+```
+
+#### [std::string_view (C++17)](https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring_view/)
+
+`std::string_view` is a lightweight object that is used to represent a view of a string. It does not own the string data, so it is more efficient than `std::string` for small strings.
+
+It recommended to use `std::string_view` instead of `std::string` when you need to pass a string to a function that does not need to modify the string. **Read-only** functions should take `std::string_view` parameters.
+
+```cpp
+#include <iostream>
+#include <string_view> // C++17
+
+// str provides read-only access to whatever argument is passed in
+void printSV(std::string_view str) // now a std::string_view
+{
+    std::cout << str << '\n';
+}
+
+int main()
+{
+    std::string_view s{ "Hello, world!" }; // now a std::string_view
+    printSV(s);
+
+    return 0;
+}
+```
+
+### String Literals
+
+A string literal is a sequence of characters enclosed in double quotes. String literals are used to represent text in a program.
+
+```cpp
+std::string s { "Hello, world!" };
+```
+
+### String input
+
+The `std::getline` function is used to read a line of text from the console.
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+  std::string s;
+  std::getline(std::cin >> std::ws, s);
+  std::cout << "You entered: " << s << "\n";
+  return (0);
+}
+```
+
+- The `std::cin` is not used to read strings directly because it stops reading at the first whitespace character.
+- The `std::ws` manipulator is used to skip leading whitespace characters.
+  - 'ws' stands for whitespace.
+  - `space`, `tab`, `newline`, `carriage return`, `vertical tab`, `form feed`.
+
+### String Length
+
+The `length` function is used to get the length of a string. The length of a string is the number of characters in the string. The length of a string does not include the null character (`\0`).
+  - The `size` function can also be used to get the length of a string.
+  - lenght is a member function of the `std::string` class.
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+  std::string s { "Hello, world!" };
+  std::cout << s.length() << "\n"; // Output: 13
+  return (0);
+}
+```
+
+### String Class
+
+<table>
+  <tbody>
+    <tr>
+      <th>Function</th>
+      <th>Effect</th>
+    </tr>
+    <tr>
+        <td colspan="2"><center><b>Creation and destruction</b></center>
+      </td>
+    </tr>
+    <tr>
+      <td><a href="https://www.learncpp.com/cpp-tutorial/17-2-ststring-construction-and-destruction/">(constructor)</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-2-ststring-construction-and-destruction/">(destructor)</a></td>
+      <td>Create or copy a string<br>Destroy a string</td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><b>Size and capacity</b></center></td>
+    </tr>
+    <tr>
+      <td nowrap=""><a href="https://www.learncpp.com/cpp-tutorial/17-3-stdstring-length-and-capacity/">capacity()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-3-stdstring-length-and-capacity/">empty()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-3-stdstring-length-and-capacity/">length(), size()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-3-stdstring-length-and-capacity/">max_size()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-3-stdstring-length-and-capacity/">reserve()</a></td>
+      <td nowrap="">Returns the number of characters that can be held without reallocation<br>Returns a boolean indicating whether the string is empty<br>Returns the number of characters in string<br>Returns the maximum string size that can be allocated<br>Expand or shrink the capacity of the string</td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><b>Element access</b></center></td></tr><tr><td nowrap=""><a href="https://www.learncpp.com/cpp-tutorial/17-4-stdstring-character-access-and-conversion-to-c-style-arrays/">[], at()</a></td><td nowrap="">Accesses the character at a particular index</td></tr><tr><td colspan="2"><center><b>Modification</b></center></td></tr><tr><td nowrap=""><a href="https://www.learncpp.com/cpp-programming/17-5-stdstring-assignment-and-swapping/">=, assign()</a><br><a href="https://www.learncpp.com/uncategorized/17-6-stdstring-appending/">+=, append(), push_back()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-7-stdstring-inserting/">insert()</a><br>clear()<br>erase()<br>replace()<br>resize()<br><a href="https://www.learncpp.com/cpp-programming/17-5-stdstring-assignment-and-swapping/">swap()</a></td>
+      <td nowrap="">Assigns a new value to the string<br>Concatenates characters to end of the string<br>Inserts characters at an arbitrary index in string<br>Delete all characters in the string<br>Erase characters at an arbitrary index in string<br>Replace characters at an arbitrary index with other characters<br>Expand or shrink the string (truncates or adds characters at end of string)<br>Swaps the value of two strings</td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><b>Input and Output</b></center></td>
+    </tr>
+    <tr>
+      <td nowrap="">&gt;&gt;, getline()<br>&lt;&lt;<br><a href="https://www.learncpp.com/cpp-tutorial/17-4-stdstring-character-access-and-conversion-to-c-style-arrays/">c_str()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-4-stdstring-character-access-and-conversion-to-c-style-arrays/">copy()</a><br><a href="https://www.learncpp.com/cpp-tutorial/17-4-stdstring-character-access-and-conversion-to-c-style-arrays/">data()</a></td><td nowrap="">Reads values from the input stream into the string<br>Writes string value to the output stream<br>Returns the contents of the string as a NULL-terminated C-style string<br>Copies contents (not NULL-terminated) to a character array<br>Same as c_str(). The non-const overload allows writing to the returned string.</td></tr><tr><td colspan="2"><center><b>String comparison</b></center></td>
+    </tr>
+    <tr>
+      <td nowrap="">==, !=<br>&lt;, &lt;=, &gt; &gt;=<br>compare()</td>
+      <td nowrap="">Compares whether two strings are equal/unequal (returns bool)<br>Compares whether two strings are less than / greater than each other (returns bool)<br>Compares whether two strings are equal/unequal (returns -1, 0, or 1)</td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><b>Substrings and concatenation</b></center></td></tr>
+    <tr>
+      <td nowrap="">+<br>substr()</td><td nowrap="">Concatenates two strings<br>Returns a substring</td></tr><tr><td colspan="2"><center><b>Searching</b></center></td>
+    </tr>
+    <tr>
+      <td nowrap="">find()<br>find_first_of()<br>find_first_not_of()<br>find_last_of()<br>find_last_not_of()<br>rfind()</td>
+      <td nowrap="">Find index of first character/substring<br>Find index of first character from a set of characters<br>Find index of first character not from a set of characters<br>Find index of last character from a set of characters<br>Find index of last character not from a set of characters<br>Find index of last character/substring<p></p></td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><b>Iterator and allocator support</b></center></td></tr><tr><td nowrap="">begin(), end()<br>get_allocator()<br>rbegin(), rend()</td>
+      <td nowrap="">Forward-direction iterator support for beginning/end of string<br>Returns the allocator<br>Reverse-direction iterator support for beginning/end of string</td>
+    </tr>
+  </tbody>
+</table>

@@ -55,3 +55,37 @@ Recommened extensions for better experience in `vscode` are as follows:
 
 * [Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
   - ID: `bierner.markdown-mermaid`
+
+## Timeline
+
+```mermaid
+gantt
+    title 42 Projects
+    dateFormat  YYYY-MM-DD
+
+    section Goals
+    End of Common Core : milestone, crit, m1, 2024-09-01, 1m
+
+    section Events
+    DigHacktion :crit, 2024-04-26, 2024-04-28
+    CodinGame - Fall Challenge :done, 2023-12-18, 2023-12-28
+
+    section Rank 4
+    CPP_Modules[0-4] :active, 2024-03-28, 5w
+    Cube3D :done, 2024-03-07, 2024-03-28
+  
+    section Rank 3
+    Philosophers :done, 2024-02-21, 2024-03-07
+    MiniShell :done, 2024-02-01, 2024-02-21
+
+    section Rank 2
+    Pipex :done, 2024-01-15, 2024-01-31
+    Push_Swap :done, 2023-12-29, 2024-01-17
+    Fract-ol :done, 2023-12-05, 2023-12-18
+
+    section Rank 1
+    Ft_Printf :done, 2023-11-27, 2023-12-05
+    GetNextLine :done, 2023-11-21, 2023-12-01
+    Born2BeRoot :done, 2023-11-15, 2023-11-22
+    Libft :done, 2023-11-06, 2023-11-15
+```

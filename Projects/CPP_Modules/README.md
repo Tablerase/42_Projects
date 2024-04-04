@@ -1509,3 +1509,178 @@ Best practice:
   - For readability, consider parenthesizing the condition if it contains any operators (other than the function call operator).
   - Avoid using the conditional operator when the condition is complex or the true and false values are complex expressions.
 
+## Structures
+
+A structure is a user-defined data type that is used to group related data together. A structure is a collection of variables (members) that are grouped together under a single name (the structure name).
+
+```cpp
+struct Person
+{
+  std::string name;
+  int age;
+};
+
+int main()
+{
+  Person person;
+  person.name = "Alice";
+  person.age = 30;
+  return (0);
+}
+```
+
+### Accessing Structure Members
+
+The members of a structure can be accessed using the dot operator (`.`).
+
+```cpp
+Person person;
+person.name = "Alice";
+person.age = 30;
+```
+
+### Nested Structures
+
+A structure can contain another structure as a member. This is known as a nested structure.
+
+```cpp
+struct Date
+{
+  int day;
+  int month;
+  int year;
+};
+
+struct Person
+{
+  std::string name;
+  Date birthDate;
+};
+
+int main()
+{
+  Person person;
+  person.name = "Alice";
+  person.birthDate.day = 1;
+  person.birthDate.month = 1;
+  person.birthDate.year = 2000;
+  return (0);
+}
+```
+
+### Initialization
+
+A structure can be initialized using an initializer list.
+
+```cpp
+Person person{"Alice", {1, 1, 2000}};
+```
+
+### Typedef
+
+The `typedef` keyword is used to create an alias for a data type. The `typedef` keyword is used to define a new name for an existing data type.
+
+```cpp
+typedef int Number;
+Number x = 5;
+```
+
+### Passing Structures to Functions
+
+A structure can be passed to a function by value or by reference.
+
+- By Value: When a structure is passed by value, a copy of the structure is passed to the function.
+  - Good practice: Use this method when the structure is small and you don’t need to modify the structure.
+  ```cpp
+  void printPerson(Person person)
+  {
+    std::cout << "Name: " << person.name << "\n";
+    std::cout << "Age: " << person.age << "\n";
+  }
+  ```
+
+- By Reference: When a structure is passed by reference, a reference to the structure is passed to the function.
+  - Good practice: Use this method when the structure is large or you need to modify the structure.
+  ```cpp
+  void printPerson(const Person& person)
+  {
+    std::cout << "Name: " << person.name << "\n";
+    std::cout << "Age: " << person.age << "\n";
+  }
+  ```
+
+### Size of Structures
+
+Typically, the size of a struct is the sum of the size of all its members, but not always!
+
+- **Padding**: The compiler may add padding between members to ensure that each member is aligned to a memory address that is a multiple of its size.
+
+- **Alignment**: The alignment of a type is the number of bytes between consecutive memory addresses at which objects of that type can be allocated.
+
+```cpp
+#include <iostream>
+
+struct Foo
+{
+    short a {};
+    int b {};
+    double c {};
+};
+
+int main()
+{
+    std::cout << "The size of short is " << sizeof(short) << " bytes\n"; // 2 bytes
+    std::cout << "The size of int is " << sizeof(int) << " bytes\n"; // 4 bytes
+    std::cout << "The size of double is " << sizeof(double) << " bytes\n"; // 8 bytes
+
+    std::cout << "The size of Foo is " << sizeof(Foo) << " bytes\n"; // 16 bytes (2 + padding + 4 + padding + 8)
+
+    return 0;
+}
+```
+
+You can minimize padding by defining your members in decreasing order of size.
+
+The C++ compiler is not allowed to reorder members, so this has to be done manually.
+
+### Member selection
+
+The member selection operator (`.`) is used to access the members of a structure.
+
+#### By struct
+
+The `struct` keyword can be used to access the members of a structure.
+
+```cpp
+Person person;
+person.name = "Alice";
+person.age = 30;
+```
+
+#### By Pointer
+
+The member selection operator (`->`) is used to access the members of a structure through a pointer.
+
+```cpp
+Person person;
+
+Person* pPerson = &person;
+pPerson->name = "Alice";
+pPerson->age = 30;
+```
+
+## Templates
+
+A template is a feature of C++ that allows you to write generic code that can work with any data type. Templates are used to define functions and classes that can work with any data type.
+
+### [Function Templates](https://www.learncpp.com/cpp-tutorial/function-templates/)
+
+A function template is a function that is defined using a template. A function template allows you to write a single function that can work with any data type.
+
+```cpp
+template <typename T>
+T add(T x, T y)
+{
+  return x + y;
+}
+```

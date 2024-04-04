@@ -1684,3 +1684,58 @@ T add(T x, T y)
   return x + y;
 }
 ```
+
+- typename: The `typename` keyword is used to declare a type parameter in a function template. The `typename` keyword is used to specify that the type parameter is a type.
+  - The `typename` keyword can be replaced with the `class` keyword.
+- T: The `T` is a type parameter that represents a placeholder for a data type. The `T` can be replaced with any data type when the function is called.
+
+Templates can work with types that didn’t even exist when the template was written. This helps make template code both flexible and future proof!
+
+#### Using Function Templates
+
+To use a function template, you need to specify the data type when calling the function.
+
+```cpp
+#include <iostream>
+
+template <typename T>
+T max(T x, T y)
+{
+    return (x < y) ? y : x;
+}
+
+int main()
+{
+    std::cout << max<int>(1, 2) << '\n'; // instantiates and calls function max<int>(int, int)
+
+    return 0;
+}
+```
+
+#### Instantiation
+
+When a function template is called with a specific data type, the compiler generates a new function from the template with the specified data type. This process is known as **instantiation** or **template instantiation**.
+
+#### Multiple Type Parameters
+
+A function template can have multiple type parameters.
+
+```cpp
+template <typename T, typename U>
+T add(T x, U y)
+{
+  return x + y;
+}
+```
+
+#### Multiple File Templates
+
+Templates that are needed in multiple files should be defined in a `header file`, and then `#included` wherever needed. 
+
+This allows the compiler to see the full template definition and instantiate the template when needed.
+
+### Naming Conventions
+
+Use a single capital letter starting with T (e.g. `T`, `U`, `V`, etc…) to name type template parameters that are used in trivial or obvious ways.
+
+If the type template parameter has a non-obvious usage or meaning, then a more descriptive name is warranted. (e.g. `Allocator` or `TAllocator`).

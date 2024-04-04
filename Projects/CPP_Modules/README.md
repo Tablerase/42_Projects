@@ -6,6 +6,11 @@
 * [📚 List of Standard Library Headers](https://en.cppreference.com/w/cpp/header)
 * [🧑‍🎓 C++ Tutorial - Website Course - LearnCPP](https://www.learncpp.com/)
 
+### Styles Guides
+
+* [📏 Google C++ Guide - Naming Convention](https://google.github.io/styleguide/cppguide.html)
+
+
 ## Description
 ### Keywords
 
@@ -1739,3 +1744,4 @@ This allows the compiler to see the full template definition and instantiate the
 Use a single capital letter starting with T (e.g. `T`, `U`, `V`, etc…) to name type template parameters that are used in trivial or obvious ways.
 
 If the type template parameter has a non-obvious usage or meaning, then a more descriptive name is warranted. (e.g. `Allocator` or `TAllocator`).
+

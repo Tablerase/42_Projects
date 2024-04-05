@@ -1518,6 +1518,8 @@ Best practice:
 
 A structure is a user-defined data type that is used to group related data together. A structure is a collection of variables (members) that are grouped together under a single name (the structure name).
 
+Same as class but with default public access.
+
 ```cpp
 struct Person
 {
@@ -1745,3 +1747,41 @@ Use a single capital letter starting with T (e.g. `T`, `U`, `V`, etc…) to name
 
 If the type template parameter has a non-obvious usage or meaning, then a more descriptive name is warranted. (e.g. `Allocator` or `TAllocator`).
 
+## Arrays
+
+An array is a collection of elements of the same data type that are stored in contiguous memory locations. Arrays are used to store multiple values in a single variable.
+
+There are two types of arrays in C++:
+- **fixed-size arrays**: The size of the array is known at compile time.
+- **dynamic arrays**: The size of the array is determined at runtime.
+
+### Fixed-Size Arrays
+
+A fixed-size array is an array whose size is known at compile time. The size of a fixed-size array is specified in square brackets `[]`.
+
+```cpp
+int arr[5] {};
+```
+
+We can use `std::array` to create a fixed-size array. (C++11)
+
+```cpp
+#include <array>
+
+std::array<int, 5> arr {};
+```
+
+### Dynamic Arrays
+
+A dynamic array is an array whose size is determined at runtime. Dynamic arrays are created using pointers and the `new` operator.
+
+```cpp
+int size = 5;
+int* arr = new int[size];
+```
+
+To delete a dynamic array, use the `delete[]` operator.
+
+```cpp
+delete[] arr;
+```

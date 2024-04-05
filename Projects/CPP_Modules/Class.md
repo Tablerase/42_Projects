@@ -1,7 +1,5 @@
 # Class
 
-- vid = class vs struct
-
 ## Object-Oriented Programming (OOP)
 
 In object-oriented programming (often abbreviated as OOP), the focus is on creating program-defined data types that contain both properties and a set of well-defined behaviors. The term “object” in OOP refers to the objects that we can instantiate from such types.
@@ -14,7 +12,7 @@ OOP concepts:
   - Encapsulation 
   - Inheritance 
   - Abstraction 
-  - Polymorphism 
+  - Polymorphism
 
 ## Class components
 
@@ -116,7 +114,80 @@ class MyClass {
 Note:
 - Prefer using `namespace` when you don't have data members in the class.
 
+## Non-Member Functions or data
+
+You can define with keyword `static` to make a member function or data a class member, not an object member.
+
+You cant use `this` pointer in static / non member functions.
+
+```cpp
+class MyClass {
+  public:
+    static int my_static_variable; // static data member
+    static void myStaticMethod() { // static member function
+      cout << "Hello World!";
+    }
+};
+
+int MyClass::my_static_variable = 0; // initialize static data member
+```
+
+## Pointers to Classes/Objects/Members
+
+### Pointers to Members
+
+#### Pointers to data members
+
+Pointers to members are pointers that point to the members of a class.
+
+```cpp
+class MyClass {
+  public:
+    int x;
+    void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+int main() {
+  int MyClass::*ptr = &MyClass::x; // pointer to data member
+
+  MyClass obj;
+  obj.*ptr = 10; // access data member using pointer
+}
+```
+
+- `int MyClass::*ptr` is a pointer to a data member of the class `MyClass`.
+- `&MyClass::x` is the address of the data member `x` of the class `MyClass`.
+- `obj.*ptr` is used to access the data member `x` of the object `obj` using the pointer `ptr`.
+  - `obj.*ptr` is equivalent to `obj.x`.
+
+#### Pointers to member functions
+
+```cpp
+class MyClass {
+  public:
+    void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+int main() {
+  void (MyClass::*ptr)() = &MyClass::myMethod; // pointer to member function
+
+  MyClass obj;
+  (obj.*ptr)(); // access member function using pointer
+}
+```
+
+- `void (MyClass::*ptr)()` is a pointer to a member function of the class `MyClass`.
+- `&MyClass::myMethod` is the address of the member function `myMethod` of the class `MyClass`.
+- `(obj.*ptr)()` is used to access the member function `myMethod` of the object `obj` using the pointer `ptr`.
+  - `(obj.*ptr)()` is equivalent to `obj.myMethod()`.
+
 ## Access Specifiers / Visibility Modes
+
+By default, all members of a class are private.
 
 Access specifiers are used to define the access control for the members of the class. There are three types of access specifiers in C++:
   - Public: Members are accessible from outside the class.
@@ -131,6 +202,25 @@ class MyClass {
     int y; // private data member
   protected: // protected access specifier
     int z; // protected data member
+};
+```
+
+### Getters and Setters
+
+Getters and setters are used to access and modify the private data members of a class.
+
+```cpp
+class MyClass {
+  private:
+    int x;
+  public:
+    int getX() const { // getter
+      return x;
+    }
+    void setX(int y) { // setter
+      if (y > 0)
+        x = y;
+    }
 };
 ```
 
@@ -305,6 +395,36 @@ int main()
 
 A member function that does not (and will not ever) modify the state of the object **should be made const**, so that it can be called on both const and non-const objects.
 
+## Compare Objects
+
+To compare two objects of a class, you can overload the `==` operator.
+
+```cpp
+class MyClass
+{
+  public:
+    int x;
+    MyClass(int y)
+    {
+      x = y;
+    }
+    bool operator==(MyClass obj) // operator overloading
+    {
+      return x == obj.x;
+    }
+};
+
+int main()
+{
+  MyClass obj1(10);
+  MyClass obj2(10);
+  if (obj1 == obj2) // compare objects
+    cout << "Equal";
+  else
+    cout << "Not equal";
+}
+```
+
 ## Files Organization
 
 Prefer to put your class definitions in a header file with the same name as the class. Trivial member functions (such as access functions, constructors with empty bodies, etc…) can be defined inside the class definition.
@@ -358,4 +478,3 @@ int main() {
   return 0;
 }
 ```
-

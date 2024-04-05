@@ -18,7 +18,11 @@ The `cctype` header file provides functions for working with characters.
 | `toupper(int c)` | Converts the passed character to uppercase | `toupper('a')` returns 'A' |
 | `tolower(int c)` | Converts the passed character to lowercase | `tolower('A')` returns 'a' |
 
-## [IOMANIP](https://cplusplus.com/reference/iomanip/)
+## [IOMANIP]()
+
+📚 [Documentation](https://cplusplus.com/reference/iomanip/)
+
+🏗️ [Info with Example](https://www.geeksforgeeks.org/iomanip-in-cpp/)
 
 The `iomanip` header file provides functions for formatting input and output.
 
@@ -43,16 +47,16 @@ The `iomanip` header file provides functions for formatting input and output.
       <td>Set basefield flag (function)</td>
     </tr>
     <tr>
-      <td>setfill</td>
+      <td><a href="https://cplusplus.com/reference/iomanip/setfill/">setfill</td>
       <td>Set fill character (function)</td>
+    </tr>
+    <tr>
+      <td><a href ="https://cplusplus.com/reference/iomanip/setw/">setw</td>
+      <td>Set field width (function)</td>
     </tr>
     <tr>
       <td>setprecision</td>
       <td>Set decimal precision (function)</td>
-    </tr>
-    <tr>
-      <td>setw</td>
-      <td>Set field width (function)</td>
     </tr>
     <tr>
       <td>get_money</td>

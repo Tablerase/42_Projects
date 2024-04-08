@@ -32,11 +32,12 @@
 
 ## ANSI Escape Codes
 
+<img src="./Media/ANSI-color.png" title="ANSI color in a shell">
 <details>
   <summary>ANSI Escape Codes - Includes/Imports</summary>
 
-In C language: 
-- [Download this header](https://raw.githubusercontent.com/Tablerase/42_Projects/main/Projects/Pipex/pipex/Includes/color.h)
+In C/CPP language: 
+- [Download this header](https://raw.githubusercontent.com/Tablerase/42_Projects/main/Notes/Media/color.h)
 - Include it in your project with `#include "color.h"`
 
 ```c
@@ -44,6 +45,7 @@ In C language:
 ```
 
 </details>
+
 
 The format is `\033[<attribute>;<foreground>;<background>m`.
 

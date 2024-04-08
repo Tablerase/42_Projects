@@ -142,3 +142,72 @@ The `fstream` header file provides functions for working with files.
       <td>Get put position (function)</td>
     </tr>
   </tbody>
+</table>
+
+### Opening a file
+
+In order to open a file with a stream object we use its member function open:
+
+```cpp
+open (filename, mode);
+```
+Where `filename` is a string representing the name of the file to be opened, and `mode` is an optional parameter with a combination of the following flags:
+
+Mode | Description
+---- | -----------
+`ios::in`|	Open for input operations.
+`ios::out`|	Open for output operations.
+`ios::binary`|	Open in binary mode.
+`ios::ate`|Set the initial position at the end of the file. <br> If this flag is not set, the initial position is the beginning of the file.
+`ios::app`|	All output operations are performed at the end of the file, appending the content to the current content of the file.
+`ios::trunc`|	If the file is opened for output operations and it already existed, its previous content is deleted and replaced by the new one.
+
+<table>
+  <tr>
+    <th>Class</th>
+    <th>Default mode</th>
+  </tr>
+  <tr>
+    <td><code>ofstream</code></td>
+    <td><code>ios::out</code></td>
+  </tr>
+  <tr>
+    <td><code>ifstream</code></td>
+    <td><code>ios::in</code></td>
+  </tr>
+  <tr>
+    <td><code>fstream</code></td>
+    <td><code>ios::in | ios::out</code></td>
+  </tr>
+</table>
+
+### Moving the pointer
+
+tellg() and tellp() are member functions of istream and ostream classes that return the current position of the get and put pointers, respectively.
+
+```cpp
+streampos tellg();
+streampos tellp();
+```
+
+seekg() and seekp() are member functions of istream and ostream classes that allow to change the position of the get and put pointers, respectively.
+
+```cpp
+seekg (position);
+seekp (position);
+```
+
+Where `position` is an object of type streampos representing the new position of the get or put pointer.
+
+```cpp
+seekg (offset, direction);
+seekp (offset, direction);
+```
+
+Where `offset` is an integer value representing the number of characters to move the pointer, and `direction` is an object of type `ios::seekdir` that specifies the direction where the pointer has to be moved. It can take one of the following values:
+
+Direction | Description
+---- | -----------
+`ios::beg`|	Beginning of the stream.
+`ios::cur`|	Current position of the stream pointer.
+`ios::end`|	End of the stream.

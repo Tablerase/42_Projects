@@ -1785,3 +1785,171 @@ To delete a dynamic array, use the `delete[]` operator.
 ```cpp
 delete[] arr;
 ```
+
+## Allocation and Deallocation
+
+### Stack Allocation
+
+Stack allocation is a method of allocating memory on the stack. Stack allocation is fast and efficient because it involves only a few instructions.
+
+```cpp
+int x = 5; // stack allocation
+```
+
+### Heap Allocation
+
+Heap allocation is a method of allocating memory on the heap. Heap allocation is slower than stack allocation because it involves more instructions.
+
+```cpp
+int* x = new int(5); // heap allocation
+```
+
+### Deallocation
+
+To deallocate memory that was allocated on the heap, use the `delete` operator.
+
+```cpp
+delete x;
+```
+
+We dont use c style `free` function to deallocate memory allocated with `new`. Because `free` does not call the destructor of the object.
+
+## References
+
+A reference is an alias for a variable. A reference is used to access the value of a variable indirectly.
+
+Consider a reference as a **constant pointer** that is **automatically dereferenced** and **never null**.
+
+### Reference Declaration
+
+A reference is declared using the `&` operator.
+
+```cpp
+int x = 5;
+int& y = x; // y is a reference to x
+```
+
+You **cant reassign a reference to another variable**.
+
+### Passing by Reference
+
+When a variable is passed by reference to a function, the function can modify the value of the variable.
+
+```cpp
+void increment(int& x)
+{
+  x++;
+}
+
+int main()
+{
+  int x = 5;
+  increment(x);
+  std::cout << x << "\n"; // Output: 6
+  return (0);
+}
+```
+
+### Return by Reference
+
+A function can return a reference to a variable.
+
+```cpp
+int& get(int& x)
+{
+  return x;
+}
+
+int main()
+{
+  int x = 5;
+  get(x) = 10;
+  std::cout << x << "\n"; // Output: 10
+  return (0);
+}
+```
+
+## Streams
+
+Streams are used to read and write data in C++. Streams are a sequence of bytes that represent a source or destination of data.
+
+### File Streams
+
+File streams are used to read and write data to and from files. File streams are used to read data from a file or write data to a file.
+
+```cpp
+#include <fstream>
+
+int main()
+{
+  std::ofstream file("output.txt");
+  file << "Hello, world!";
+  file.close();
+  return (0);
+}
+```
+
+#### Input File Stream
+
+An input file stream is used to read data from a file.
+
+```cpp
+#include <fstream>
+
+int main()
+{
+  std::ifstream file("input.txt");
+  int x;
+  file >> x;
+  std::cout << x << "\n";
+  file.close();
+  return (0);
+}
+```
+
+#### Output File Stream
+
+An output file stream is used to write data to a file.
+
+```cpp
+#include <fstream>
+
+int main()
+{
+  std::ofstream file("output.txt");
+  file << "Hello, world!";
+  file.close();
+  return (0);
+}
+```
+
+### String Streams
+
+String streams are used to read and write data to and from strings. String streams are used to read data from a string or write data to a string.
+
+```cpp
+#include <sstream>
+
+int main()
+{
+  std::stringstream stream;
+  stream << "Hello, world!";
+  std::string str = stream.str();
+  std::cout << str << "\n";
+  return (0);
+}
+```
+
+### Stream Manipulators
+
+Stream manipulators are used to modify the behavior of a stream. Stream manipulators are used to set formatting options, such as the width of the output, the precision of floating-point numbers, and the alignment of the output.
+
+```cpp
+#include <iostream>
+
+int main()
+{
+  std::cout << std::setw(10) << std::setfill('*') << 5 << "\n"; // Output: *******5
+  return (0);
+}
+```

@@ -18,7 +18,7 @@ The `cctype` header file provides functions for working with characters.
 | `toupper(int c)` | Converts the passed character to uppercase | `toupper('a')` returns 'A' |
 | `tolower(int c)` | Converts the passed character to lowercase | `tolower('A')` returns 'a' |
 
-## [IOMANIP]()
+## IOMANIP
 
 📚 [Documentation](https://cplusplus.com/reference/iomanip/)
 
@@ -77,3 +77,68 @@ The `iomanip` header file provides functions for formatting input and output.
   </tbody>
 </table>
 
+## FSTREAM
+
+📚 [Documentation](https://cplusplus.com/reference/fstream/fstream/)
+
+🏗️ [Info with Example](https://cplusplus.com/doc/tutorial/files/)
+
+The `fstream` header file provides functions for working with files.
+
+<table>
+  <thead>
+    <tr>
+      <th>Function Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>open</td>
+      <td>Open file (function)</td>
+    </tr>
+    <tr>
+      <td>close</td>
+      <td>Close file (function)</td>
+    </tr>
+    <tr>
+      <td>is_open</td>
+      <td>Check if file is open (function)</td>
+    </tr>
+    <tr>
+      <td>eof</td>
+      <td>Check if end-of-file reached (function)</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td>Check if operation failed (function)</td>
+    </tr>
+    <tr>
+      <td>good</td>
+      <td>Check if stream is good (function)</td>
+    </tr>
+    <tr>
+      <td>bad</td>
+      <td>Check if stream is bad (function)</td>
+    </tr>
+    <tr>
+      <td>clear</td>
+      <td>Clear error flags (function)</td>
+    </tr>
+    <tr>
+      <td>seekg</td>
+      <td>Set get position (function)</td>
+    </tr>
+    <tr>
+      <td>seekp</td>
+      <td>Set put position (function)</td>
+    </tr>
+    <tr>
+      <td>tellg</td>
+      <td>Get get position (function)</td>
+    </tr>
+    <tr>
+      <td>tellp</td>
+      <td>Get put position (function)</td>
+    </tr>
+  </tbody>

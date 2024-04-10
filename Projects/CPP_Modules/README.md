@@ -1953,3 +1953,106 @@ int main()
   return (0);
 }
 ```
+
+## Overloading
+
+Function overloading is a feature of C++ that allows you to define multiple functions with the same name but different parameters. Function overloading is used to create functions that perform similar tasks but with different types or numbers of parameters.
+
+### Function Overloading
+
+Function overloading is a feature of C++ that allows you to define multiple functions with the same name but different parameters.
+
+```cpp
+int add(int x, int y)
+{
+  return x + y;
+}
+
+double add(double x, double y)
+{
+  return x + y;
+}
+```
+
+### Operator Overloading
+
+Operator overloading is a feature of C++ that allows you to define custom behavior for operators. Operator overloading is used to create custom operators that work with user-defined types.
+
+```cpp
+class Complex
+{
+public:
+  double real;
+  double imag;
+
+  Complex operator+(const Complex& other)
+  {
+    Complex result;
+    result.real = real + other.real;
+    result.imag = imag + other.imag;
+    return result;
+  }
+};
+```
+
+#### Overloading the Assignment Operator
+
+The assignment operator `=` is used to assign a value to a variable. The assignment operator can be overloaded to define custom behavior for assigning values to objects.
+
+```cpp
+class Complex
+{
+public:
+  double real;
+  double imag;
+
+  Complex& operator=(const Complex& other)
+  {
+    real = other.real;
+    imag = other.imag;
+    return *this;
+  }
+};
+```
+
+#### Overloading the << Operator
+
+The `<<` operator is used to output data to a stream. The `<<` operator can be overloaded to define custom behavior for outputting objects to a stream.
+
+```cpp
+class Complex
+{
+public:
+  double real;
+  double imag;
+
+  friend std::ostream& operator<<(std::ostream& os, const Complex& complex)
+  {
+    os << complex.real << " + " << complex.imag << "i";
+    return os;
+  }
+};
+```
+
+Or:
+
+```cpp
+class Complex
+{
+public:
+  double real;
+  double imag;
+};
+
+std::ostream& operator<<(std::ostream& os, const Complex& complex)
+{
+  os << complex.real << " + " << complex.imag << "i";
+  return os;
+}
+```
+
+```cpp
+Complex c{1, 2};
+
+std::cout << c; // Output: 1 + 2i
+```

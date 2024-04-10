@@ -478,3 +478,21 @@ int main() {
   return 0;
 }
 ```
+
+## Canonic Form (Copley)
+
+The canonic form of a class is a set of functions that are commonly defined for a class. These functions are:
+  - Default constructor
+  - Copy constructor
+  - Copy assignment operator
+  - Destructor
+
+```cpp
+class MyClass {
+  public:
+    MyClass(); // default constructor
+    MyClass(const MyClass &obj); // copy constructor
+    MyClass& operator=(const MyClass &obj); // copy assignment operator
+    ~MyClass(); // destructor
+};
+```

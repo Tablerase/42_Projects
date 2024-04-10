@@ -135,6 +135,34 @@ The result of XOR is **1 if the two bits are different**.
 
 Takes **one number** and **inverts all bits** of it.
 
+### Floating Point
+
+<img src="https://engineering.fb.com/wp-content/uploads/2018/11/floating_point_4_darkcolor.006.png" title="Facebook engineering schema to represent traditionnal floating point">
+
+- [Traditional Floating Point](http://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html)
+- [In AI - Meta](https://engineering.fb.com/2018/11/08/ai-research/floating-point-math/)
+
+$$ \text{Floating Point} = \text{Sign} \times 2^{\text{Exponent}} \times \text{Fraction} $$
+
+Floating point numbers are numbers that have fractional parts (usually expressed with a decimal point). They are used when the range of values is too large for an integer. Floating point numbers are used to represent real numbers (numbers that may have a fractional part).
+
+Floating point numbers are stored in memory in a format that is different from the way integers are stored. Integers are stored in memory as a series of bits (binary digits), but floating point numbers are stored in a format that allows for a fractional part.
+
+Floating point numbers are stored in memory using a format called IEEE 754. This format allows for a fractional part and an exponent part. The fractional part is stored as a series of bits, and the exponent part is stored as a series of bits. The exponent part is used to represent the power of 2 that the fractional part should be multiplied by.
+
+Precision problem: to simplify things, the way we often think about loss of precision problems is that a float gradually gets "corrupted" as you do more and more operations on it.
+
+### Fixed Point
+
+- [Fixed Point - Berkley](https://inst.eecs.berkeley.edu//~cs61c/sp06/handout/fixedpt.html)
+
+<div style="display: flex; justify-content: space-between; margin: 10px;">
+  <img src="https://www.researchgate.net/publication/353927374/figure/fig1/AS:1057456302080001@1629128637300/Example-of-fixed-point-number-representation.png" title="Fixed number example" width="50%" style="padding: 10px;">
+  <img src="https://www.allaboutcircuits.com/uploads/thumbnails/round-26.gif" title="Schema fixed point" style="padding: 10px;">
+</div>
+
+Fixed-point arithmetic is an arithmetic that represents numbers in a fixed number of digits. It is a way to represent numbers that have a fractional part without using floating-point numbers. Fixed-point arithmetic is used in situations where the range of values is too large for integers but the precision of floating-point numbers is not needed.
+
 ### [Complexity](https://victoria.dev/blog/a-coffee-break-introduction-to-time-complexity-of-algorithms/)
 
 Complexity is a way to describe how an algorithm performs as the input size increases. It's a way to compare the efficiency of different approaches to a problem. It's also a way to describe how much time and memory an algorithm will require to run. There are two types of complexity:

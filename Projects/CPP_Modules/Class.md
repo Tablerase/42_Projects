@@ -479,7 +479,7 @@ int main() {
 }
 ```
 
-## Canonic Form (Copley)
+## Canonic Form (Coplien Form)
 
 The canonic form of a class is a set of functions that are commonly defined for a class. These functions are:
   - Default constructor

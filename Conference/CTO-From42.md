@@ -14,7 +14,7 @@ Help during multiple phase of developpement of a product/starup
 
 # Tips of CTO
 
-1 CTO and 2 Tech lead
+1 CTO and 2 Tech lead during the conf (entreprise: 1BTC, 2BTB)
 
 ## Phisophy Dev/Features
 
@@ -29,6 +29,8 @@ Finding user/business: asking consumer at the end of interview if it know someon
 ## Management policy
 
 Differente example adapt to the scale of the enterprise.
+
+Place dev in features they likes to do if possible they will be more invested in it. Have developpement phase where you go for features without polish first and then iterate on it.
 
 ## Recrutement/Hiring
 

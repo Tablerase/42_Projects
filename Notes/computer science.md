@@ -152,16 +152,35 @@ Floating point numbers are stored in memory using a format called IEEE 754. This
 
 Precision problem: to simplify things, the way we often think about loss of precision problems is that a float gradually gets "corrupted" as you do more and more operations on it.
 
-### Fixed Point
+#### Fixed Point
 
 - [Fixed Point - Berkley](https://inst.eecs.berkeley.edu//~cs61c/sp06/handout/fixedpt.html)
 
 <div style="display: flex; justify-content: space-between; margin: 10px;">
   <img src="https://www.researchgate.net/publication/353927374/figure/fig1/AS:1057456302080001@1629128637300/Example-of-fixed-point-number-representation.png" title="Fixed number example" width="50%" style="padding: 10px;">
-  <img src="https://www.allaboutcircuits.com/uploads/thumbnails/round-26.gif" title="Schema fixed point" style="padding: 10px;">
+  <img src="https://www.allaboutcircuits.com/uploads/thumbnails/round-26.gif" width="50%" title="Schema fixed point" style="padding: 10px;">
 </div>
 
 Fixed-point arithmetic is an arithmetic that represents numbers in a fixed number of digits. It is a way to represent numbers that have a fractional part without using floating-point numbers. Fixed-point arithmetic is used in situations where the range of values is too large for integers but the precision of floating-point numbers is not needed.
+
+[Fixed Point in code - Geeks for Geeks](https://www.geeksforgeeks.org/fixed-point-representation/)
+
+When an integer is shifted right by one bit in a binary system, it is comparable to being divided by two. Since we cannot represent a digit to the right of a binary point in the case of integers since there is no fractional portion, this shifting operation is an integer division.
+-  A number is always divided by two when the bit pattern of the number is shifted to the right by one bit.
+-  A number is multiplied by two when it is moved left one bit.
+
+Advantages of Fixed Point Representation:
+
+-  Integer representation and fixed point numbers are indeed close relatives.
+-  Because of this, fixed point numbers can also be calculated using all the arithmetic operations a computer can perform on integers.
+-  They are just as simple and effective as computer integer arithmetic.
+-  To conduct real number arithmetic using fixed point format, we can reuse all the hardware designed for integer arithmetic.
+
+Disadvantages of Fixed Point Representation:
+
+-  Loss in range and precision when compared to representations of floating point numbers.
+
+
 
 ### [Complexity](https://victoria.dev/blog/a-coffee-break-introduction-to-time-complexity-of-algorithms/)
 

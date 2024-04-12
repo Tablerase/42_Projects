@@ -1974,7 +1974,7 @@ double add(double x, double y)
 }
 ```
 
-### Operator Overloading
+### [Operator Overloading](https://www.ibm.com/docs/en/zos/3.1.0?topic=only-overloading-operators-c)
 
 Operator overloading is a feature of C++ that allows you to define custom behavior for operators. Operator overloading is used to create custom operators that work with user-defined types.
 
@@ -2055,4 +2055,33 @@ std::ostream& operator<<(std::ostream& os, const Complex& complex)
 Complex c{1, 2};
 
 std::cout << c; // Output: 1 + 2i
+```
+
+#### Overloading incrementation/decrementation
+
+##### Prefix Increment
+
+The prefix increment operator `++` is used to increment a value before it is used.
+
+```cpp
+Complex& operator++()
+{
+  real++;
+  imag++;
+  return *this;
+}
+```
+
+##### Postfix Increment
+
+The postfix increment operator `++` is used to increment a value after it is used.
+
+```cpp
+Complex operator++(int)
+{
+  Complex temp = *this;
+  real++;
+  imag++;
+  return temp;
+}
 ```

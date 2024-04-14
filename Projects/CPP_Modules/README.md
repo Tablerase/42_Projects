@@ -10,7 +10,6 @@
 
 * [📏 Google C++ Guide - Naming Convention](https://google.github.io/styleguide/cppguide.html)
 
-
 ## Description
 ### Keywords
 

@@ -818,6 +818,45 @@ Best Practice:
   - Avoid multiple inheritance as it can lead to ambiguity and maintenance issues.
   - Prefer composition over multiple inheritance.
 
+##### Ambiguity in Multiple Inheritance
+
+Ambiguity in multiple inheritance occurs when a class inherits from two classes that have a member with the same name.
+
+```cpp
+class BaseClass1 {
+  public:
+    void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+class BaseClass2 {
+  public:
+    void myMethod() {
+      cout << "Hello Universe!";
+    }
+};
+
+class DerivedClass : public BaseClass1, public BaseClass2 {
+  // code
+};
+
+int main() {
+  DerivedClass obj;
+  obj.myMethod(); // error: ambiguous call to overloaded function
+}
+```
+
+To resolve ambiguity, you can use the scope resolution operator to specify which version of the function you want to call.
+
+```cpp
+int main() {
+  DerivedClass obj;
+  obj.BaseClass1::myMethod(); // output: Hello World!
+  obj.BaseClass2::myMethod(); // output: Hello Universe!
+}
+```
+
 #### Mixin Inheritance
 
 A mixin (also spelled “mix-in”) is a small class that can be inherited from in order to **add properties to a class**. The name mixin indicates that the class is intended to be mixed into other classes, **not instantiated on its own**.
@@ -870,4 +909,215 @@ int main()
 	button.Label::setFontSize(6);
 	button.Tooltip::setText("Submit the form to the server");
 }
+```
+
+### Virtual Inheritance
+
+Virtual inheritance is a type of inheritance where a class inherits from a base class virtually. This is used to avoid the diamond problem in multiple inheritance.
+
+```cpp
+class BaseClass {
+  // code
+};
+
+class DerivedClass1 : virtual public BaseClass {
+  // code
+};
+
+class DerivedClass2 : virtual public BaseClass {
+  // code
+};
+
+class DerivedClass3 : public DerivedClass1, public DerivedClass2 {
+  // code
+};
+```
+
+#### Diamond Problem
+
+The diamond problem is an ambiguity that arises when two classes that are derived from a common base class have a class that inherits from both of these classes.
+
+```cpp
+class BaseClass {
+  public:
+    void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+class DerivedClass1 : public BaseClass {
+  // code
+};
+
+class DerivedClass2 : public BaseClass {
+  // code
+};
+
+class DerivedClass3 : public DerivedClass1, public DerivedClass2 {
+  // code
+};
+
+int main() {
+  DerivedClass3 obj;
+  obj.myMethod(); // error: ambiguous call to overloaded function
+}
+```
+
+To resolve the diamond problem, you can use virtual inheritance.
+
+```cpp
+class BaseClass {
+  public:
+    void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+class DerivedClass1 : virtual public BaseClass {
+  // code
+};
+
+class DerivedClass2 : virtual public BaseClass {
+  // code
+};
+
+class DerivedClass3 : public DerivedClass1, public DerivedClass2 {
+  // code
+};
+
+int main() {
+  DerivedClass3 obj;
+  obj.myMethod(); // output: Hello World!
+}
+```
+
+#### [Virtual Functions](https://www.learncpp.com/cpp-tutorial/virtual-functions/)
+
+A virtual function is a member function that is declared within a base class and redefined by a derived class. When you refer to a derived class object using a pointer or a reference to the base class, you can call a virtual function for that object and execute the derived class’s version of the function.
+
+If a function is declared as **virtual in a base class**, it is **implicitly virtual in all derived classes**.
+
+```cpp
+class BaseClass {
+  public:
+    virtual void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+class DerivedClass : public BaseClass {
+  public:
+    void myMethod() {
+      cout << "Hello Universe!";
+    }
+};
+
+int main() {
+  BaseClass *obj = new DerivedClass();
+  obj->myMethod(); // output: Hello Universe!
+}
+```
+
+Why not use virtual functions everywhere?
+  - Virtual functions are slower than non-virtual functions.
+  - Virtual functions can be confusing and error-prone.
+
+Best practice:
+  - Never call virtual functions from constructors or destructors.
+    - Why not call virtual functions from constructors or destructors?
+      - When a constructor is called, the object is not yet fully constructed.
+      - When a destructor is called, the object is not fully destructed.
+      - Calling a virtual function from a constructor or destructor can lead to unexpected behavior.
+
+#### Virtual Destructors
+
+Virtual destructors are used to ensure that the destructor of the derived class is called when an object of the derived class is deleted using a pointer to the base class.
+
+*“A base class destructor should be either public and virtual, or protected and nonvirtual.” - Scott Meyers*
+
+```cpp
+class BaseClass {
+  public:
+    virtual ~BaseClass() {
+      cout << "Base destructor";
+    }
+};
+
+class DerivedClass : public BaseClass {
+  public:
+    ~DerivedClass() {
+      cout << "Derived destructor";
+    }
+};
+
+int main() {
+  BaseClass *obj = new DerivedClass();
+  delete obj; // output: Derived destructor, Base destructor
+}
+```
+
+### [Override and Final Specifiers](https://www.learncpp.com/cpp-tutorial/the-override-and-final-specifiers-and-covariant-return-types/)
+
+#### Override Specifier
+
+The `override` specifier is used to indicate that a member function is intended to override a virtual function in a base class.
+
+```cpp
+class BaseClass {
+  public:
+    virtual void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+class DerivedClass : public BaseClass {
+  public:
+    void myMethod() override {
+      cout << "Hello Universe!";
+    }
+};
+```
+
+Best practice :
+- Use the virtual keyword on virtual functions in a base class.
+- Use the override specifier (but not the virtual keyword) on override functions in derived classes. This includes virtual destructors.
+
+#### Final Specifier
+
+The `final` specifier is used to indicate that a member function is not intended to be overridden in a derived class.
+
+If the user tries to override a function or inherit from a class that has been specified as final, the compiler will give a compile error.
+
+Final on functions:
+
+```cpp
+class BaseClass {
+  public:
+    virtual void myMethod() final {
+      cout << "Hello World!";
+    }
+};
+
+class DerivedClass : public BaseClass {
+  public:
+    void myMethod() { // error: cannot override final function
+      cout << "Hello Universe!";
+    }
+};
+```
+
+Final on classes:
+
+```cpp
+class BaseClass {
+  // code
+};
+
+class DerivedClass final: public BaseClass {
+  // code
+};
+
+class DerivedDerivedClass : public DerivedClass { // error: cannot inherit from final class
+  // code
+};
 ```

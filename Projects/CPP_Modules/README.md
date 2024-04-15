@@ -235,7 +235,7 @@
     <td>Specifies that members are accessible only from within the class</td>
   </tr>
   <tr>
-    <td>protected</td>
+    <td><a href="./Class.md#protected">protected</td>
     <td>Specifies that members are accessible from within the class and its derived classes</td>
   </tr>
   <tr>
@@ -243,7 +243,7 @@
     <td>Specifies that a function or class is a friend
   </tr>
   <tr>
-    <td>virtual</td>
+    <td><a href="./Class.md#virtual-inheritance">virtual</a></td>
     <td>Specifies that a member function is virtual</td>
   </tr>
   <tr>

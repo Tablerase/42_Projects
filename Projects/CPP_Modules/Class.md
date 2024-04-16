@@ -933,6 +933,8 @@ class DerivedClass3 : public DerivedClass1, public DerivedClass2 {
 };
 ```
 
+<img src="https://pencilprogrammer.com/wp-content/uploads/2019/01/Virtual-Inheritance-in-C-min.png" title="Virtual inheritance in C++">
+
 #### Diamond Problem
 
 The diamond problem is an ambiguity that arises when two classes that are derived from a common base class have a class that inherits from both of these classes.
@@ -1120,4 +1122,87 @@ class DerivedClass final: public BaseClass {
 class DerivedDerivedClass : public DerivedClass { // error: cannot inherit from final class
   // code
 };
+```
+
+### Polymorphism with Inheritance
+
+Polymorphism in the context of inheritance is the ability of a base class pointer to point to an object of a derived class and to call the derived class’s member functions through that pointer.
+
+```cpp
+class BaseClass {
+  public:
+    virtual void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+class DerivedClass : public BaseClass {
+  public:
+    void myMethod() {
+      cout << "Hello Universe!";
+    }
+};
+
+int main() {
+  BaseClass *obj = new DerivedClass();
+  obj->myMethod(); // output: Hello Universe! (if not virtual, output: Hello World!)
+}
+```
+
+**Base class pointer** can **point to a derived class object**. But the **reverse is not true**.
+
+### Abstract Classes
+
+Different from a regular class, an abstract class is a class that cannot be instantiated. It is used to define an interface for derived classes and to provide a common interface for all derived classes.
+
+An abstract class is a class that contains at least one pure virtual function.
+
+It's a good practice to name abstract classes with a prefix `A`.
+
+```cpp
+class AAbstractClass {
+  private:
+    int x;
+  public:
+    virtual void myMethod() = 0; // pure virtual function
+};
+
+class DerivedClass : public AbstractClass {
+  public:
+    void myMethod() {
+      cout << "Hello Universe!";
+    }
+};
+
+int main() {
+  AbstractClass *obj = new DerivedClass();
+  obj->myMethod(); // output: Hello Universe!
+}
+```
+
+### Interface Classes
+
+An interface class is a class that contains only pure virtual functions. It is used for making a rule that all derived classes must follow.
+
+It's a good practice to name interface classes with a prefix `I`.
+
+The difference between an abstract class and an interface class is that an abstract class can have both pure virtual functions and non-pure virtual functions, while an interface class can only have pure virtual functions.
+
+```cpp
+class IInterfaceClass {
+  public:
+    virtual void myMethod() = 0; // pure virtual function
+};
+
+class DerivedClass : public IInterfaceClass {
+  public:
+    void myMethod() {
+      cout << "Hello Universe!";
+    }
+};
+
+int main() {
+  IInterfaceClass *obj = new DerivedClass();
+  obj->myMethod(); // output: Hello Universe!
+}
 ```

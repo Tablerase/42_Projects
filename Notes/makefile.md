@@ -46,6 +46,12 @@
       rm -f *.o
   ```
 
+## Debug
+
+- **`-n`** :
+  - The `-n` option is used to perform a dry run of the make command. When you run `make -n`, it will print the commands that would be executed, but it will not actually execute them. This is useful for checking what commands would be executed without actually running them.
+  - Useful to check the commands that would be executed without actually running them (unmasking the implicit rules).
+
 ## Hide/Silence outputs and echos
 
 - **`@`** `cmd` :

@@ -2084,3 +2084,90 @@ Complex operator++(int)
   return temp;
 }
 ```
+
+## Copy
+
+```mermaid
+graph LR
+  classDef ptr fill:#afa, color:#000, stroke:#333, stroke-width:2px, stroke-dasharray: 5, 5;
+  classDef obj fill:#afa, color:#000, stroke:#333, stroke-width:2px;
+  classDef copy fill:#19e679, color:#000, stroke:#333, stroke-width:2px;
+
+  subgraph Source Object
+    Attr1[Member 1]:::obj
+    Attr2[Member 2]:::obj
+  end
+  subgraph Shallow Copy
+    direction LR
+    Memory["Points to the same memory location"]
+    subgraph A["Object Copy"]
+      AttrShaCopy1[Member 1]:::ptr
+      AttrShaCopy2[Member 2]:::ptr
+    end
+    AttrShaCopy1 --> Attr1
+    AttrShaCopy2 --> Attr2
+  end
+  subgraph Deep Copy
+    direction LR
+    Memory2["Points to a new memory location"]
+    subgraph B["Object Copy"]
+      AttrDeepCopy1[Member 1']:::copy -.- Attr1
+      AttrDeepCopy2[Member 2']:::copy -.- Attr2
+    end
+  end
+```
+
+### Shallow Copy
+
+A shallow copy is a copy of an object that copies the object’s members without copying the objects that the members point to. A shallow copy creates a new object that points to the same memory locations as the original object.
+
+```cpp
+class Person
+{
+public:
+  std::string name;
+  int age;
+};
+
+Person alice;
+alice.name = "Alice";
+alice.age = 30;
+
+Person bob = alice; // shallow copy
+```
+
+### Deep Copy
+
+A deep copy is a copy of an object that copies the object’s members and the objects that the members point to. A deep copy creates a new object that points to new memory locations.
+
+```cpp
+class Person
+{
+public:
+  std::string name;
+  int age;
+};
+
+Person alice;
+alice.name = "Alice";
+alice.age = 30;
+
+Person bob;
+bob.name = alice.name; // deep copy
+bob.age = alice.age; // deep copy
+```
+
+## [Memory Management](https://www.programiz.com/cpp-programming/memory-management)
+
+Memory management is the process of allocating and deallocating memory in a program. Memory management is an important aspect of programming because it can affect the performance and stability of a program.
+
+### Array New and Delete
+
+The `new[]` operator is used to allocate memory for an array of objects. The `delete[]` operator is used to deallocate memory that was allocated with the `new[]` operator.
+
+```cpp
+int* arr = new int[5];
+
+delete[] arr;
+```
+

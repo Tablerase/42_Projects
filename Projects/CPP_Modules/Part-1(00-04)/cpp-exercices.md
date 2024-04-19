@@ -31,3 +31,21 @@ Possible way to solve (but this solutions **doesnt really use BSP**):
   - Calculate the cross product of the vectors of the sides of the triangle and the vectors between the point and the three points of the triangle
   - If the cross product of the three vectors is the same sign, the point is inside the triangle.
   - 🔗[Direction of a Point from a line segment](https://www.geeksforgeeks.org/direction-point-line-segment/)
+
+## CPP 04
+
+### [Materia](https://finalfantasy.fandom.com/wiki/Materia_(term))
+
+<img src="https://static.wikia.nocookie.net/finalfantasy/images/e/e2/Ehrgeiz_Fire_Materia.png" title="Fire Materia" align="right">
+
+<img src="https://static.wikia.nocookie.net/finalfantasy/images/2/2a/Ehrgeiz_Ice_Materia.png" title="Ice Materia" align="right">
+
+<img src="https://static.wikia.nocookie.net/finalfantasy/images/9/93/Ehrgeiz_Thunder_Materia.png" title="Lightning Materia" align="right">
+
+<img src="https://static.wikia.nocookie.net/finalfantasy/images/c/c3/Ehrgeiz_Quake_Materia.png" title="Quake Materia" align="right">
+
+<img src="https://static.wikia.nocookie.net/finalfantasy/images/2/2b/Ehrgeiz_Holy_Materia.png" title="Holy Materia" align="right">
+
+Materia (マテリア) is a recurring term and set of items in the Final Fantasy series that is typically associated with stat boosts and abilities, or in some cases, is used as a plot device. Materia is typically crafted into the equipment of the users, and used for boosting their performance. It originates from Final Fantasy VII.
+
+<img src="https://static.wikia.nocookie.net/finalfantasy/images/8/8c/MateriaAC.JPG" title="Materia Chest">

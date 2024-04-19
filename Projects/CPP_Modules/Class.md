@@ -1151,7 +1151,7 @@ int main() {
 
 **Base class pointer** can **point to a derived class object**. But the **reverse is not true**.
 
-### Abstract Classes
+### [Abstract Classes](https://www.ibm.com/docs/en/zos/3.1.0?topic=only-abstract-classes-c)
 
 Different from a regular class, an abstract class is a class that cannot be instantiated. It is used to define an interface for derived classes and to provide a common interface for all derived classes.
 

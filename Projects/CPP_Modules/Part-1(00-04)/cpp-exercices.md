@@ -1,5 +1,18 @@
 # CPP Exercices
 
+## Checks during correction
+
+- To quickly check for forbidden keywords, use `grep` with the following options:
+  - `-r` (or `--recursive`) option to search through a directory and its subdirectories. 
+  - To exclude binary files, use the `-I` option which tells `grep` to ignore binary files.
+
+```bash
+grep -rI "*alloc"
+grep -rI "free"
+grep -rI "*printf"
+grep -rI "friend"
+```
+
 ## CPP 02
 
 ### [BSP](../../../Notes/binary_space_partitioning.md)

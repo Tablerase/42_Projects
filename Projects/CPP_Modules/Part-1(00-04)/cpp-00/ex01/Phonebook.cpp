@@ -6,14 +6,15 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 18:29:09 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/08 15:09:43 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/04/23 14:38:07 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <sstream>
 #include "Phonebook.hpp"
 
-Phonebook::Phonebook(/* args */) {
+Phonebook::Phonebook() : contacts_max_amount_(8) {
   contacts_amount_ = 0;
 }
 
@@ -94,9 +95,16 @@ void Phonebook::PhoneGrid(){
   std::cout << "\n";
 }
 
+int stringToInt(const std::string &str) {
+    std::stringstream ss(str);
+    int num;
+    ss >> num;
+    return num;
+}
+
 void  Phonebook::PhoneSelection(){
-  std::string str {};
-  int input {};
+  std::string str;
+  int input;
   while (true)
   {
     std::cout << "Search by index: ";
@@ -104,7 +112,7 @@ void  Phonebook::PhoneSelection(){
     if (std::cin.eof())
       return;
     try {
-      input = std::stoi(str);
+      input = stringToInt(str);
       if (input >= 0 && input < this->contacts_amount_)
         break;
       else

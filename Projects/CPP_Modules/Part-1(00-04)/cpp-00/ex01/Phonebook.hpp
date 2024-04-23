@@ -6,7 +6,7 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 21:02:27 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/05 22:50:41 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/04/23 14:34:44 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 class Phonebook {
   private:
     int contacts_amount_;
-    const int contacts_max_amount_ = 8;
+    const int contacts_max_amount_;
     Contact contact_array_[8];
   public:
     Phonebook();

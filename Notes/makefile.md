@@ -52,6 +52,35 @@
   - The `-n` option is used to perform a dry run of the make command. When you run `make -n`, it will print the commands that would be executed, but it will not actually execute them. This is useful for checking what commands would be executed without actually running them.
   - Useful to check the commands that would be executed without actually running them (unmasking the implicit rules).
 
+### Debugging in C/C++
+
+You can use the macro `DEBUG` or `LOG` to print debug messages in your code. 
+
+```c
+#ifdef DEBUG
+    printf("Debug message\n");
+#endif
+```
+
+Add in your rules the define tag `-D DEBUG` or `-D LOG` to compile with the debug messages.
+  - `-D` : Define a macro
+
+```makefile
+all: $(NAME)
+
+CFLAGS = -Wall -Wextra -Werror -g3
+
+...
+
+$(NAME): $(OBJ)
+    $(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+
+debug: CFLAGS += -D DEBUG
+debug: $(NAME)
+```
+
+This will add the `-D DEBUG` flag to the compilation command and add during compilation the code between the `#ifdef DEBUG` and `#endif`. And when you dont want to compile with the debug messages, you can just run `make` without the `debug` target.
+
 ## Hide/Silence outputs and echos
 
 - **`@`** `cmd` :

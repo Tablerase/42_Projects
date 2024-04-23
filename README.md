@@ -8,9 +8,9 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ### Rank 4
 
-* [Cube3D](./Projects/Cube3D/)
-* [CPP Modules [0-4]](./Projects/CPP_Modules)
 * [NetPractice](./Projects/NetPractice/)
+* [CPP Modules [0-4]](./Projects/CPP_Modules)
+* [Cube3D](./Projects/Cube3D/)
 
 ### Rank 3
 
@@ -19,16 +19,16 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ### Rank 2
 
-* [Fract-ol](./Projects/Fract-ol/)
-* [Push_Swap](./Projects/Push_swap/)
 * [Pipex](./Projects/Pipex/)
+* [Push_Swap](./Projects/Push_swap/)
+* [Fract-ol](./Projects/Fract-ol/)
 
 ### Rank 1
 
-* [Libft](./Projects/Libft/)
-* [Born2BeRoot](./Projects/Born2BeRoot/)
-* [GetNextLine](./Projects/GetNextLine/)
 * [Ft_Printf](./Projects/Ft_printf/)
+* [GetNextLine](./Projects/GetNextLine/)
+* [Born2BeRoot](./Projects/Born2BeRoot/)
+* [Libft](./Projects/Libft/)
 
 ### Piscine
 
@@ -36,9 +36,9 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ## [Notes](./Notes/)
 
-* [MinilibX](./Notes/minilibx.md)
-* [Makefile](./Notes/makefile.md)
 * [Git](./Notes/git.md)
+* [Makefile](./Notes/makefile.md)
+* [MinilibX](./Notes/minilibx.md)
 
 ## [Configs](./Config/)
 

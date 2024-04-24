@@ -1,3 +1,6 @@
 [submodule "Projects/MiniShell/minishell"]
 	path = Projects/MiniShell/minishell
 	url = git@github.com:Tablerase/MiniShell.git
+[submodule "Projects/Cube3D/cub3D"]
+	path = Projects/Cube3D/cub3D
+	url = git@github.com:Tablerase/42_Cub3D.git

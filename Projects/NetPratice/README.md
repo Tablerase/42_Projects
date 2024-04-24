@@ -4,7 +4,8 @@
 
 - [TCP/IP addressing and subnetting - Microsoft](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/tcpip-addressing-and-subnetting)
 - [TCP/IP in MAAS context - Refresher about network and internet - with lots of articles links](https://discourse.maas.io/t/tcp-ip-primer/5806)
-- [TCP/IP protocol suite](https://www.scaler.com/topics/computer-network/tcp-ip-protocol-suite/)
+- [Computer Network - Scaler](https://www.scaler.com/topics/computer-network/)
+- [What is the network layer? - Cloudflare](https://www.cloudflare.com/learning/network-layer/)
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Protocole_HTTP_TCP-IP_Passerelle_Routage.svg" title="Protocole HTTP TCP-IP Passerelle Routage">
 
@@ -64,23 +65,280 @@ The TCP/IP model consists of four layers, each of which is responsible for a spe
     -  **ARP**: Address Resolution Protocol (ARP) is a protocol for resolving conflicts between computers. Its task is to determine a host's hardware address from an IP address. ARP's primary function is to convert 32-bit addresses to 48-bit addresses and vice versa. ARP is necessary because IP addresses in IP version 4 (IPv4) are 32 bits long, but MAC addresses are 48 bits long.
         - In case of IPv6, ARP is replaced by **NDP (Neighbor Discovery Protocol)**. NDP is a protocol in the Internet Protocol Suite used with Internet Protocol Version 6 (IPv6). It operates in the Link Layer of the Internet model. It mainly replaces ARP (Address Resolution Protocol), ICMP Router Discovery, and ICMP Redirect used in IPv4.
 
-4. Network Access Layer/Link Layer
+4. **Network Access/Link Layer**: This layer specifies the physical transmission of data over the network. This layer handles data transmission between two adjacent devices on the same network. It also determines how bits should be optically signaled by hardware devices that interface directly with a network media such as coaxial, optical, fiber, or twisted-pair cables.
+    - **[Ethernet](https://cot-cn.cougarnet.uh.edu/docs/compnet/012-ethernet.html)**: Ethernet is a protocol that controls how data is transmitted over a LAN. It is the most widely used LAN technology. Ethernet is a frame-based technology that uses a **CSMA/CD (Carrier Sense Multiple Access with Collision Detection)** access method. It is a **connectionless protocol** that operates at the **Data Link Layer** of the OSI model. Ethernet is a **physical and data link layer technology** for local area networks (LANs).
+      - The Ethernet frame includes a preamble and FSD (frame sequence delimiter) so that the receiving network interfaces can detect the starting bit of the data part of the frame, i.e., the packet of one and zero bits. The trailing FCS (frame check sequence) verifies frame’s integrity. Ethernet protocol defines the frame format.
+    <figure>
+      <img src="https://cot-cn.cougarnet.uh.edu/docs/compnet/_images/linkpacket.png" title="packet forwarding diagram">
+      <figcaption>Frame: Preamble, Frame Sequence Delimiter (FSD), Data (Ethernet packet), Frame Check Sequence (FCS).</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr>
+          <th>EtherType</th>
+          <th>Protocol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0x0800</td>
+          <td>Internet Protocol v4 (IPv4)</td>
+        </tr>
+        <tr>
+          <td>0x0806</td>
+          <td>Address Resolution Protocol (ARP)</td>
+        </tr>
+        <tr>
+          <td>0x86DD</td>
+          <td>Internet Protocol v6 (IPv6)</td>
+        </tr>
+        <tr>
+          <td>0x8100</td>
+          <td>VLAN-tagged frame (IEEE 802.1Q)</td>
+        </tr>
+        <tr>
+          <td>0x88CC</td>
+          <td>Link Layer Discovery Protocol (LLDP)</td>
+        </tr>
+      </tbody>
+    </table>
 
-Network access or Link layer specifies the physical transmission of data over the network. This layer handles data transmission between two adjacent devices on the same network. It also determines how bits should be optically signaled by hardware devices that interface directly with a network media such as coaxial, optical, fiber, or twisted-pair cables.
+## IP Addressing
 
-Highlights:
-
-  -  Application Layer is responsible for node-to-node communication and controls user-interface specifications. HTTP, SMTP, TELNET, etc., are some of its essential protocols.
-  -  Host-To-Host Layer specifies how much data should be sent, when, and where at what rate. TCP and UDP are two significant protocols of this Layer.
-  -  The Internet layer's primary function is to send packets from the source or computer to their destination, regardless of their route. IP and ARP are two significant protocols of this layer.
-    Network Acess Layer handles data transmission between two adjacent devices on the same network.
-
-### IP Addressing
-
-#### IP Forwading
+### IP Forwading
 
 IP forwarding is a process used to determine the next hop for a packet to reach its destination. It is a routing process that is used to send packets from one network to another network. IP forwarding is a process that is used to determine the next hop for a packet to reach its destination. It is a routing process that is used to send packets from one network to another network.
 
 <img src="./Media/tcpipguide-ipdirectindirect.png" title="IP Datagram Indirect Routing">
-<img src="./Media/tcpipguide-iphops.png" title="IP Datagram Next-Hop Routing">
 <img src="./Media/tcpipguide-iprouting.png" title="IP Routing and Routing Tables">
+<img src="./Media/tcpipguide-iphops.png" title="IP Datagram Next-Hop Routing">
+
+### IP Address
+
+For a TCP/IP **wide area network (WAN)** to work efficiently as a collection of networks, the routers that pass packets of data between networks **don't know the exact location of a host** for which a packet of information is destined. **Routers only know** what network the host is a member of and use information stored in their route table to determine how to get the packet to the **destination host's network**. After the packet is delivered to the destination's network, the packet is delivered to the appropriate host.
+
+For this process to work, an IP address has **two parts**. The first part of an IP address is used as a **network address**, the last part as a **host address**. If you take the example 192.168.123.132 and divide it into these two parts, you get 192.168.123. Network .132 Host or 192.168.123.0 - network address. 0.0.0.132 - host address.
+
+#### IPv4
+
+IP**v4** is the **fourth version** of the Internet Protocol (IP). It is the most widely used version of the Internet Protocol. IPv4 is a **connectionless protocol** used in packet-switched networks. It operates at the network layer of the OSI model. IPv4 provides an addressing capability of approximately **4.3 billion addresses**. The size of an IPv4 address is **32 bits**.
+
+<img src="./Media/NetWork - NetPractice - ipv4.png" title="ipv4 - 2 parts">
+
+##### Different type of addressing
+
+- **Unicast**: A unicast address identifies a single network interface. The packets sent to a unicast address are delivered to the interface identified by the address.
+- **Broadcast**: A broadcast address is an address that allows information to be sent to all interfaces on a given network segment. A broadcast address can be used to send a message to all devices on a network.
+- **Multicast**: A multicast address is an address that identifies a group of devices. The packets sent to a multicast address are delivered to all devices that are members of the multicast group.
+
+Note:
+  - Last number can't be `0 or 255` in a network address for a host ip address. 0 is used for network address and 255 is used for broadcast address.
+
+##### Classful Addressing
+
+IPv4 addresses are divided into five classes: A, B, C, D, and E. Each class has a different range of IP addresses. The first three classes (A, B, and C) are used for unicast addresses, while the last two classes (D and E) are used for multicast and experimental purposes, respectively.
+
+<img src="https://scaler.com/topics/images/parts-of-ipv4-address.webp" title="classes ipv4">
+
+<img src="https://scaler.com/topics/images/working-of-subnetting-in-html.webp" title="ipv4 class b">
+
+## [Subnetting](https://www.cloudflare.com/learning/network-layer/what-is-a-subnet/)
+
+<img src="https://cf-assets.www.cloudflare.com/slt3lc6tev37/2pBqIHUTSlxI7EW9XZPKf3/551ab3390ab9ab86fee15c73fd245f6c/subnet-diagram.svg" title="cloudflare subnet image" width="50%" align="right">
+
+### What is Subnetting?
+
+Subnetting is the process of dividing a large network into smaller networks called subnets. Subnetting allows network administrators to create smaller networks within a larger network. This helps to reduce network congestion and improve network performance. Subnetting allows a business to expand its network without requiring a new network number from its Internet service provider. Subnetting also helps to improve network security by isolating different parts of the network from each other.
+
+### How does Subnetting work?
+
+The size of a subnet is determined by the network technology used and the connection needs. Within the restrictions of the address space available for its usage, each organization is responsible for determining the number and size of the subnets it generates.
+
+Subnetting is done by borrowing bits from the host portion of an IP address. The number of bits borrowed determines the number of subnets that can be created. The number of bits borrowed also determines the number of hosts that can be assigned to each subnet.
+
+### Benefits of Subnetting
+
+Subnetting offers several benefits, including:
+
+- **Improved network performance**: Subnetting helps to reduce network congestion by dividing a large network into smaller subnets. This helps to improve network performance by reducing the amount of traffic on each subnet.
+
+- **Enhanced network security**: Subnetting helps to improve network security by isolating different parts of the network from each other. This helps to prevent unauthorized access to sensitive data and resources.
+
+- **Simplified network management**: Subnetting helps to simplify network management by allowing network administrators to manage each subnet independently. This makes it easier to troubleshoot network issues and make changes to the network configuration.
+
+- **Scalability**: Subnetting allows a business to expand its network without requiring a new network number from its Internet service provider. This makes it easier to add new devices and users to the network as the business grows.
+
+### Subnetting Process
+
+The subnetting process involves the following steps:
+
+1. **Determine the number of subnets required**: The first step in the subnetting process is to determine the number of subnets required. This will depend on the size of the network and the number of devices that need to be connected to the network.
+
+2. **Determine the number of bits to borrow**: The next step is to determine the number of bits to borrow from the host portion of the IP address. This will depend on the number of subnets required and the number of devices that need to be connected to each subnet.
+
+3. **Calculate the subnet mask**: Once the number of bits to borrow has been determined, the next step is to calculate the subnet mask. The subnet mask is used to divide the IP address into network and host portions.
+
+4. **Assign IP addresses to each subnet**: The final step in the subnetting process is to assign IP addresses to each subnet. This will involve assigning a network address to each subnet and then assigning host addresses to the devices connected to each subnet.
+
+### [Subnet Mask](https://www.ipxo.com/blog/what-is-subnet-mask/)
+
+A subnet mask is a 32-bit number that is used to divide an IP address into network and host portions. The subnet mask is used to determine which part of an IP address is the network address and which part is the host address. The subnet mask is represented in decimal format, with each octet separated by a period.
+
+<table>
+  <thead>
+    <tr>
+      <th>Class</th>
+      <th>1st Octet of IP Address</th>
+      <th>Default Subnet Mask</th>
+      <th>Network/Host</th>
+      <th>Number of Networks</th>
+      <th>Maximum Nodes in a Network</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>1-126</td>
+      <td>255.0.0.0</td>
+      <td>N.H.H.H</td>
+      <td>126</td>
+      <td>16,777,214</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>128-191</td>
+      <td>255.255.0.0</td>
+      <td>N.N.H.H</td>
+      <td>16,384</td>
+      <td>65,534</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>192-223</td>
+      <td>255.255.255.0</td>
+      <td>N.N.N.H</td>
+      <td>2,097,152</td>
+      <td>254</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>224-239</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>240-255</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+How to find subnet mask from IP address?
+
+To find a subnet mask from an IP address, a subnet mask must be provided. It can be expressed in a standard way (255.255.255.0) or in CIDR notation (f.e. /24).
+
+### [CIDR](https://www.ipxo.com/blog/what-is-cidr/)
+
+CIDR stands for **Classless Inter-Domain Routing**. CIDR is a method used to create unique identifiers for networks and individual devices. CIDR notation is a **compact representation of an IP address and its associated subnet mask**. CIDR notation is used to specify the number of bits in an IP address that are used for the network portion of the address.
+
+#### How CIDR works?
+
+The basis of CIDR is **variable-length subnet masking (VLSM)**. This numerical masking sequence allows network administrators to break down an IP address space into subnets of various sizes. Each subnet has a different host count and a limited number of IP addresses.
+
+A CIDR IP address may look something like this: `123.45.67.89/12`. This IP address contains two groups of numbers:
+
+-  **Network prefix**(`123.45.67.89`): The binary configuration of a network address   
+-  **Suffix** (`/12`): The indication of how many bits are in the entire CIDR address
+
+IPv4 addresses are 32-bits long, and while the first 12 bits represent network addresses, the remaining 20 bits represent the available host addresses. It’s worth mentioning that every network, by default, has only one subnet containing all host addresses.
+
+## Ports
+
+### What is a Port?
+
+A port is just like a physical docking point which is used to connect the external device to the computer. A Port can also be considered as a programmatic docking point by which information transmits from a program to the computer or over the Internet.
+  -  **In a computer** network, a Port is a **logical address that is assigned to each application** on the computer that utilizes the internet for communication.
+      -  Port is an address of a `16-bit` unsigned integer number that ranges from `0 to 65535`.
+      -  The primary application of a port number is to **transmit the data between a Computer Network and an Application**.
+      -  Port is just a unique number assigned to every application of a computer.
+      -  However, the operating system can automatically assign a port number to the application running on the computer.
+      -  Port allows the computer to differentiate between all coming traffic such as email going to different ports and web pages going to different ports.
+  -  After seeing what is the port number now let us see different ranges of port numbers.
+      -  The ports `0 to 1023` are called **well-known ports or system ports**, these ports are especially associated with particular services.
+      -  The ports from `1024 to 49151` are called **registered ports** and this range port can be registered with the Internet Assigned Numbers Authority for a specific use.
+      -  The ports from `49152 to 65535` are unassigned ports, called **dynamic or ephemeral ports**, and can be utilized for any type of service.
+
+#### Common Ports
+
+<table>
+  <thead>
+    <tr>
+      <th>Port Number</th>
+      <th>Process Name</th>
+      <th>Protocol Used</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20 & 21</td>
+      <td>FTP</td>
+      <td>TCP</td>
+      <td>File Transfer Protocol (Data & Control)</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td>SSH</td>
+      <td>TCP & UDP</td>
+      <td>Secure Shell</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td>TELNET</td>
+      <td>TCP</td>
+      <td>Telnet protocol</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>SMTP</td>
+      <td>TCP</td>
+      <td>Simple Mail Transfer Protocol</td>
+    </tr>
+    <tr>
+      <td>53</td>
+      <td>DNS</td>
+      <td>TCP & UDP</td>
+      <td>Domain Name System</td>
+    </tr>
+    <tr>
+      <td>80</td>
+      <td>HTTP</td>
+      <td>TCP</td>
+      <td>Hypertext Transfer Protocol</td>
+    </tr>
+    <tr>
+      <td>110</td>
+      <td>POP3</td>
+      <td>TCP</td>
+      <td>Post Office Protocol version 3</td>
+    </tr>
+    <tr>
+      <td>143</td>
+      <td>IMAP</td>
+      <td>TCP</td>
+      <td>Internet Message Access Protocol</td>
+    </tr>
+    <tr>
+      <td>443</td>
+      <td>HTTPS</td>
+      <td>TCP & UDP</td>
+      <td>HTTP Secure</td>
+    </tr>
+  </tbody>
+</table>

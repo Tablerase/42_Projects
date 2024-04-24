@@ -239,6 +239,8 @@ A subnet mask is a 32-bit number that is used to divide an IP address into netwo
   </tbody>
 </table>
 
+<img src="./Media/NetWork - NetPractice - Subnet Mask.png" title="">
+
 How to find subnet mask from IP address?
 
 To find a subnet mask from an IP address, a subnet mask must be provided. It can be expressed in a standard way (255.255.255.0) or in CIDR notation (f.e. /24).

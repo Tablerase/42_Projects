@@ -1,5 +1,9 @@
 # NetPratice
 
+## Guide
+
+📔 [NetPractice Guide - Medium](https://medium.com/@imyzf/netpractice-2d2b39b6cf0a)
+
 ## Ressources
 
 - [TCP/IP addressing and subnetting - Microsoft](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/tcpip-addressing-and-subnetting)
@@ -249,16 +253,87 @@ To find a subnet mask from an IP address, a subnet mask must be provided. It can
 
 CIDR stands for **Classless Inter-Domain Routing**. CIDR is a method used to create unique identifiers for networks and individual devices. CIDR notation is a **compact representation of an IP address and its associated subnet mask**. CIDR notation is used to specify the number of bits in an IP address that are used for the network portion of the address.
 
+#### Uses of CIDR
+
+CIDR is used to:
+  -  **Reduce the size of routing tables**: CIDR allows network administrators to create smaller routing tables by aggregating multiple IP addresses into a single routing entry.
+  -  **Improve network performance**: CIDR helps to reduce network congestion by dividing a large network into smaller subnets. This helps to improve network performance by reducing the amount of traffic on each subnet.
+  -  **Enhance network security**: CIDR helps to improve network security by isolating different parts of the network from each other. This helps to prevent unauthorized access to sensitive data and resources.
+
 #### How CIDR works?
 
 The basis of CIDR is **variable-length subnet masking (VLSM)**. This numerical masking sequence allows network administrators to break down an IP address space into subnets of various sizes. Each subnet has a different host count and a limited number of IP addresses.
 
-A CIDR IP address may look something like this: `123.45.67.89/12`. This IP address contains two groups of numbers:
+A CIDR IP address may look something like this: *123.45.67.89* **/12**. This IP address contains two groups of numbers:
 
 -  **Network prefix**(`123.45.67.89`): The binary configuration of a network address   
 -  **Suffix** (`/12`): The indication of how many bits are in the entire CIDR address
 
 IPv4 addresses are 32-bits long, and while the first 12 bits represent network addresses, the remaining 20 bits represent the available host addresses. It’s worth mentioning that every network, by default, has only one subnet containing all host addresses.
+
+The figure below represent classfull IP address:
+
+<img src="https://www.ipxo.com/app/uploads/2021/09/Class-A-Class-B-and-Class-C-network-and-host-identifiers.png" title="class abc ip">
+
+To store subnet information **classful IP address** needs a **routing table with a separate entry for each subnet**. This is where CIDR comes in. **CIDR** allows network administrators to create a **single routing table entry for multiple subnets**. This is done by aggregating multiple IP addresses into a single routing entry.
+
+CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a different number of bits for the network and host portions. This allows for a more flexible and efficient use of IP addresses.
+
+#### CIDR Notation
+
+📑 [Interactive IP address and CIDR range visualizer](https://cidr.xyz/)
+
+<img src="./Media/CDIR visualization.png">
+
+| CIDR | Subnet Mask (Decimal) | Subnet Mask (Binary) | Available | Available(pow 2) |
+|------|-----------------------|----------------------|---------------------|------------------------|
+| /32  | 255.255.255.255       | 11111111.11111111.11111111.11111111 | 1 | $2^0$ |
+| /31  | 255.255.255.254       | 11111111.11111111.11111111.11111110 | 2 | $2^1$ |
+| /30  | 255.255.255.252       | 11111111.11111111.11111111.11111100 | 4 | $2^2$ |
+| /29  | 255.255.255.248       | 11111111.11111111.11111111.11111000 | 8 | $2^3$ |
+| /28  | 255.255.255.240       | 11111111.11111111.11111111.11110000 | 16 | $2^4$ |
+| /27  | 255.255.255.224       | 11111111.11111111.11111111.11100000 | 32 | $2^5$ |
+| /26  | 255.255.255.192       | 11111111.11111111.11111111.11000000 | 64 | $2^6$ |
+| /25  | 255.255.255.128       | 11111111.11111111.11111111.10000000 | 128 | $2^7$ |
+| /24  | 255.255.255.0         | 11111111.11111111.11111111.00000000 | 256 | $2^8$ |
+| /23  | 255.255.254.0         | 11111111.11111111.11111110.00000000 | 512 | $2^9$ |
+| /22  | 255.255.252.0         | 11111111.11111111.11111100.00000000 | 1024 | $2^{10}$ |
+| /21  | 255.255.248.0         | 11111111.11111111.11111000.00000000 | 2048 | $2^{11}$ |
+| /20  | 255.255.240.0         | 11111111.11111111.11110000.00000000 | 4096 | $2^{12}$ |
+| /19  | 255.255.224.0         | 11111111.11111111.11100000.00000000 | 8192 | $2^{13}$ |
+| /18  | 255.255.192.0         | 11111111.11111111.11000000.00000000 | 16384 | $2^{14}$ |
+| /17  | 255.255.128.0         | 11111111.11111111.10000000.00000000 | 32768 | $2^{15}$ |
+| /16  | 255.255.0.0           | 11111111.11111111.00000000.00000000 | 65536 | $2^{16}$ |
+| /15  | 255.254.0.0           | 11111111.11111110.00000000.00000000 | 131072 | $2^{17}$ |
+| /14  | 255.252.0.0           | 11111111.11111100.00000000.00000000 | 262144 | $2^{18}$ |
+| /13  | 255.248.0.0           | 11111111.11111000.00000000.00000000 | 524288 | $2^{19}$ |
+| /12  | 255.240.0.0           | 11111111.11110000.00000000.00000000 | 1048576 | $2^{20}$ |
+| /11  | 255.224.0.0           | 11111111.11100000.00000000.00000000 | 2097152 | $2^{21}$ |
+| /10  | 255.192.0.0           | 11111111.11000000.00000000.00000000 | 4194304 | $2^{22}$ |
+| /9   | 255.128.0.0           | 11111111.10000000.00000000.00000000 | 8388608 | $2^{23}$ |
+| /8   | 255.0.0.0             | 11111111.00000000.00000000.00000000 | 16777216 | $2^{24}$ |
+| /7   | 254.0.0.0             | 11111110.00000000.00000000.00000000 | 33554432 | $2^{25}$ |
+| /6   | 252.0.0.0             | 11111100.00000000.00000000.00000000 | 67108864 | $2^{26}$ |
+| /5   | 248.0.0.0             | 11111000.00000000.00000000.00000000 | 134217728 | $2^{27}$ |
+| /4   | 240.0.0.0             | 11110000.00000000.00000000.00000000 | 268435456 | $2^{28}$ |
+| /3   | 224.0.0.0             | 11100000.00000000.00000000.00000000 | 536870912 | $2^{29}$ |
+| /2   | 192.0.0.0             | 11000000.00000000.00000000.00000000 | 1073741824 | $2^{30}$ |
+| /1   | 128.0.0.0             | 10000000.00000000.00000000.00000000 | 2147483648 | $2^{31}$ |
+| /0   | 0.0.0.0               | 00000000.00000000.00000000.00000000 | 4294967296 | $2^{32}$ |
+
+Please note that the number of available addresses is theoretical. In practice, the **first and last addresses of each subnet** are **reserved for network address and broadcast address respectively**, so the actual number of usable addresses is two less than the number listed for **CIDR <= 30**.
+
+#### What's CIDR blocks ?
+
+CIDR blocks represent groups of IP addresses that have the same network prefixes and number of bits. Combining CIDR blocks that share a network prefix into a larger routing network is called supernetting, the single most important trait of CIDR.
+
+<img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2016/10/25/VPC_Image2.png" title="amazon cdir block example">
+
+IP addresses with an identical address prefix in their binary notation and the same number of bits are always a part of the same CIDR block. What separates large blocks from smaller ones is the length of the prefix. A short prefix indicates more addresses that make up a bigger block, while the longer prefix indicates a smaller block with fewer IP addresses. 
+
+The Internet Assigned Numbers Authority (IANA) takes care of the assignment of the larger blocks to Regional Internet Registries (RIRs). In turn, RIRs create smaller blocks to assign them to Local Internet Registries (LIRs). These blocks of IP addresses are then further divided into individual addresses dedicated to end-users. 
+
+The internet service provider (ISP) is in charge of assigning blocks to an end-user for their private network. That said, organizations and individuals using multiple ISPs may obtain provider-independent blocks directly from RIRs or LIRs.
 
 ## Ports
 

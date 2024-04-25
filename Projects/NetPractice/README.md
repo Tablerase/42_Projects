@@ -1,5 +1,9 @@
 # NetPratice
 
+🧮 [CDIR Table](./README.md#cidr-notation)
+
+todo: static / dinamic ip and routes. gateway. switch. bridge. router. dns
+
 ## Guide
 
 📔 [NetPractice Guide - Medium](https://medium.com/@imyzf/netpractice-2d2b39b6cf0a)
@@ -249,6 +253,8 @@ How to find subnet mask from IP address?
 
 To find a subnet mask from an IP address, a subnet mask must be provided. It can be expressed in a standard way (255.255.255.0) or in CIDR notation (f.e. /24).
 
+<img src="https://www.ipxo.com/app/uploads/2021/10/Subnetting-min.png" title="subnetting with cidr">
+
 ### [CIDR](https://www.ipxo.com/blog/what-is-cidr/)
 
 CIDR stands for **Classless Inter-Domain Routing**. CIDR is a method used to create unique identifiers for networks and individual devices. CIDR notation is a **compact representation of an IP address and its associated subnet mask**. CIDR notation is used to specify the number of bits in an IP address that are used for the network portion of the address.
@@ -287,15 +293,15 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 
 | CIDR | Subnet Mask (Decimal) | Subnet Mask (Binary) | Available | Available(pow 2) |
 |------|-----------------------|----------------------|---------------------|------------------------|
-| /32  | 255.255.255.255       | 11111111.11111111.11111111.11111111 | 1 | $2^0$ |
-| /31  | 255.255.255.254       | 11111111.11111111.11111111.11111110 | 2 | $2^1$ |
-| /30  | 255.255.255.252       | 11111111.11111111.11111111.11111100 | 4 | $2^2$ |
-| /29  | 255.255.255.248       | 11111111.11111111.11111111.11111000 | 8 | $2^3$ |
-| /28  | 255.255.255.240       | 11111111.11111111.11111111.11110000 | 16 | $2^4$ |
-| /27  | 255.255.255.224       | 11111111.11111111.11111111.11100000 | 32 | $2^5$ |
-| /26  | 255.255.255.192       | 11111111.11111111.11111111.11000000 | 64 | $2^6$ |
-| /25  | 255.255.255.128       | 11111111.11111111.11111111.10000000 | 128 | $2^7$ |
-| /24  | 255.255.255.0         | 11111111.11111111.11111111.00000000 | 256 | $2^8$ |
+| /32  | 255.255.255.**255**       | 11111111.11111111.11111111.11111111 | 1 | $2^0$ |
+| /31  | 255.255.255.**254**       | 11111111.11111111.11111111.11111110 | 2 | $2^1$ |
+| /30  | 255.255.255.**252**       | 11111111.11111111.11111111.11111100 | 4 | $2^2$ |
+| /29  | 255.255.255.**248**       | 11111111.11111111.11111111.11111000 | 8 | $2^3$ |
+| /28  | 255.255.255.**240**       | 11111111.11111111.11111111.11110000 | 16 | $2^4$ |
+| /27  | 255.255.255.**224**       | 11111111.11111111.11111111.11100000 | 32 | $2^5$ |
+| /26  | 255.255.255.**192**       | 11111111.11111111.11111111.11000000 | 64 | $2^6$ |
+| /25  | 255.255.255.**128**       | 11111111.11111111.11111111.10000000 | 128 | $2^7$ |
+| /24  | 255.255.255.**0**         | 11111111.11111111.11111111.00000000 | 256 | $2^8$ |
 | /23  | 255.255.254.0         | 11111111.11111111.11111110.00000000 | 512 | $2^9$ |
 | /22  | 255.255.252.0         | 11111111.11111111.11111100.00000000 | 1024 | $2^{10}$ |
 | /21  | 255.255.248.0         | 11111111.11111111.11111000.00000000 | 2048 | $2^{11}$ |

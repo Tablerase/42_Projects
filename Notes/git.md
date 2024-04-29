@@ -1,5 +1,13 @@
 # Git
 
+## Ressources
+
+### Convention
+
+- 🔗 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+
+### Learning
+
 🎮 Interactive Web Tutorial : [Learn Git Branching](https://learngitbranching.js.org/?locale=en_EN)
 
 ⌨️ Command Line Game: [Githug](https://github.com/Gazler/githug)

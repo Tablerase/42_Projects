@@ -37,6 +37,7 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 ## [Notes](./Notes/)
 
 * [Git](./Notes/git.md)
+* [Git Conventions](./Notes/git-conventions.md)
 * [Makefile](./Notes/makefile.md)
 * [MinilibX](./Notes/minilibx.md)
 
@@ -68,7 +69,7 @@ gantt
     End of Common Core : milestone, crit, m1, 2024-09-01, 1m
 
     section Events
-    DigHacktion :crit, 2024-04-26, 2024-04-28
+    DigHacktion : done, 2024-04-26, 2024-04-28
     CodinGame - Fall Challenge :done, 2023-12-18, 2023-12-28
 
     section Rank 4

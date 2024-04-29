@@ -293,7 +293,7 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 
 | CIDR | Subnet Mask (Decimal) | Subnet Mask (Binary) | Available | Available(pow 2) |
 |------|-----------------------|----------------------|---------------------|------------------------|
-| /32  | 255.255.255.**255**       | 11111111.11111111.11111111.11111111 | 1 | $2^0$ |
+| **/32**  | 255.255.255.**255**       | 11111111.11111111.11111111.11111111 | 1 | $2^0$ |
 | /31  | 255.255.255.**254**       | 11111111.11111111.11111111.11111110 | 2 | $2^1$ |
 | /30  | 255.255.255.**252**       | 11111111.11111111.11111111.11111100 | 4 | $2^2$ |
 | /29  | 255.255.255.**248**       | 11111111.11111111.11111111.11111000 | 8 | $2^3$ |
@@ -301,7 +301,7 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 | /27  | 255.255.255.**224**       | 11111111.11111111.11111111.11100000 | 32 | $2^5$ |
 | /26  | 255.255.255.**192**       | 11111111.11111111.11111111.11000000 | 64 | $2^6$ |
 | /25  | 255.255.255.**128**       | 11111111.11111111.11111111.10000000 | 128 | $2^7$ |
-| /24  | 255.255.255.**0**         | 11111111.11111111.11111111.00000000 | 256 | $2^8$ |
+| **/24**  | 255.255.255.**0**         | 11111111.11111111.11111111.00000000 | 256 | $2^8$ |
 | /23  | 255.255.254.0         | 11111111.11111111.11111110.00000000 | 512 | $2^9$ |
 | /22  | 255.255.252.0         | 11111111.11111111.11111100.00000000 | 1024 | $2^{10}$ |
 | /21  | 255.255.248.0         | 11111111.11111111.11111000.00000000 | 2048 | $2^{11}$ |
@@ -309,7 +309,7 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 | /19  | 255.255.224.0         | 11111111.11111111.11100000.00000000 | 8192 | $2^{13}$ |
 | /18  | 255.255.192.0         | 11111111.11111111.11000000.00000000 | 16384 | $2^{14}$ |
 | /17  | 255.255.128.0         | 11111111.11111111.10000000.00000000 | 32768 | $2^{15}$ |
-| /16  | 255.255.0.0           | 11111111.11111111.00000000.00000000 | 65536 | $2^{16}$ |
+| **/16**  | 255.255.0.0           | 11111111.11111111.00000000.00000000 | 65536 | $2^{16}$ |
 | /15  | 255.254.0.0           | 11111111.11111110.00000000.00000000 | 131072 | $2^{17}$ |
 | /14  | 255.252.0.0           | 11111111.11111100.00000000.00000000 | 262144 | $2^{18}$ |
 | /13  | 255.248.0.0           | 11111111.11111000.00000000.00000000 | 524288 | $2^{19}$ |
@@ -317,7 +317,7 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 | /11  | 255.224.0.0           | 11111111.11100000.00000000.00000000 | 2097152 | $2^{21}$ |
 | /10  | 255.192.0.0           | 11111111.11000000.00000000.00000000 | 4194304 | $2^{22}$ |
 | /9   | 255.128.0.0           | 11111111.10000000.00000000.00000000 | 8388608 | $2^{23}$ |
-| /8   | 255.0.0.0             | 11111111.00000000.00000000.00000000 | 16777216 | $2^{24}$ |
+| **/8**   | 255.0.0.0             | 11111111.00000000.00000000.00000000 | 16777216 | $2^{24}$ |
 | /7   | 254.0.0.0             | 11111110.00000000.00000000.00000000 | 33554432 | $2^{25}$ |
 | /6   | 252.0.0.0             | 11111100.00000000.00000000.00000000 | 67108864 | $2^{26}$ |
 | /5   | 248.0.0.0             | 11111000.00000000.00000000.00000000 | 134217728 | $2^{27}$ |
@@ -325,7 +325,7 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 | /3   | 224.0.0.0             | 11100000.00000000.00000000.00000000 | 536870912 | $2^{29}$ |
 | /2   | 192.0.0.0             | 11000000.00000000.00000000.00000000 | 1073741824 | $2^{30}$ |
 | /1   | 128.0.0.0             | 10000000.00000000.00000000.00000000 | 2147483648 | $2^{31}$ |
-| /0   | 0.0.0.0               | 00000000.00000000.00000000.00000000 | 4294967296 | $2^{32}$ |
+| **/0**  | 0.0.0.0               | 00000000.00000000.00000000.00000000 | 4294967296 | $2^{32}$ |
 
 Please note that the number of available addresses is theoretical. In practice, the **first and last addresses of each subnet** are **reserved for network address and broadcast address respectively**, so the actual number of usable addresses is two less than the number listed for **CIDR <= 30**.
 
@@ -340,6 +340,68 @@ IP addresses with an identical address prefix in their binary notation and the s
 The Internet Assigned Numbers Authority (IANA) takes care of the assignment of the larger blocks to Regional Internet Registries (RIRs). In turn, RIRs create smaller blocks to assign them to Local Internet Registries (LIRs). These blocks of IP addresses are then further divided into individual addresses dedicated to end-users. 
 
 The internet service provider (ISP) is in charge of assigning blocks to an end-user for their private network. That said, organizations and individuals using multiple ISPs may obtain provider-independent blocks directly from RIRs or LIRs.
+
+## Routing
+
+### What is Routing?
+
+Routing is the process of selecting a path for traffic in a network or between or across multiple networks. The process of routing involves **forwarding data packets between various nodes in a network**. The routing process is performed by a device called a router, which is responsible for determining the best path for data packets to travel from the source to the destination.
+
+### How does Routing work?
+
+Routing works by using a routing table to determine the best path for data packets to travel from the source to the destination. The routing table contains information about the network topology, including the available paths and the cost of each path. The router uses this information to determine the best path for data packets to travel.
+
+The routing process involves several steps:
+
+1. **Packet Forwarding**: The router receives a data packet from a source device and examines the destination IP address in the packet header.
+
+2. **Routing Table Lookup**: The router looks up the destination IP address in its routing table to determine the best path for the data packet to travel.
+
+3. **Next-Hop Selection**: The router selects the next-hop router based on the routing table lookup and forwards the data packet to the next-hop router.
+
+4. **Packet Forwarding**: The next-hop router receives the data packet and repeats the routing process to determine the best path for the data packet to travel.
+
+5. **Destination Reachability**: The data packet is forwarded from router to router until it reaches the destination device.
+
+### Types of Routing
+
+There are several types of routing, including:
+
+- **Static Routing**: Static routing is a routing method in which network administrators manually configure the routing table with specific routes. Static routing is simple to configure but does not adapt to changes in the network topology.
+
+- **Dynamic Routing**: Dynamic routing is a routing method in which routers exchange routing information with each other to automatically update the routing table. Dynamic routing adapts to changes in the network topology and is more scalable than static routing.
+
+- **Distance Vector Routing**: Distance vector routing is a routing algorithm that calculates the best path for data packets based on the distance to the destination. Distance vector routing uses the Bellman-Ford algorithm to determine the best path.
+
+- **Link-State Routing**: Link-state routing is a routing algorithm that calculates the best path for data packets based on the state of the links in the network. Link-state routing uses the Dijkstra algorithm to determine the best path.
+
+- **Hybrid Routing**: Hybrid routing is a combination of static and dynamic routing. Hybrid routing uses static routes for specific routes and dynamic routing for all other routes.
+
+### Router
+
+A router is a networking device that forwards data packets between computer networks. Routers perform the routing process, which involves selecting the best path for data packets to travel from the source to the destination. Routers use routing tables to determine the best path for data packets to travel.
+
+Routers are used to connect multiple networks together and enable communication between devices on different networks. Routers are commonly used in home and business networks to connect devices to the internet and other networks.
+
+#### Routes
+
+A route is a path that data packets take from the source to the destination. Routes are determined by routers using routing tables, which contain information about the available paths and the cost of each path. Routers use routing tables to select the best path for data packets to travel.
+
+Routes can be classified into two types:
+
+- **Direct Route**: A direct route is a route that connects two devices on the same network. Data packets can travel directly between devices on the same network without passing through a router.
+
+- **Indirect Route**: An indirect route is a route that connects two devices on different networks. Data packets must pass through a router to travel between devices on different networks.
+
+##### Routes containt
+
+- **Destination Network**: The destination network is the network address of the destination device.
+
+- **Next-Hop Router**: The next-hop router is the router that data packets must pass through to reach the destination device.
+
+- **Interface**: The interface is the network interface on the router that data packets must pass through to reach the destination device.
+
+- **Metric**: The metric is a value that represents the cost of the route. The router uses the metric to determine the best path for data packets to travel.
 
 ## Ports
 

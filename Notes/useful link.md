@@ -17,3 +17,12 @@
 🎓 [Github Student Pack](https://education.github.com/pack)
 
 🖌️ [Figma Student](https://www.figma.com/fr/education/)
+
+## 42 Paris
+
+### Broken Browser 🕸️
+
+- Brave Browser:
+  ```bash
+  rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton*
+  ```

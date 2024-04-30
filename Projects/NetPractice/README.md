@@ -10,6 +10,17 @@ todo: static / dinamic ip and routes. gateway. switch. bridge. router. dns
 
 ## Ressources
 
+### Training
+
+- [Practice SubNetworking IPv4](https://subnetipv4.com/)
+
+### Videos
+
+- [Subnetting - NetworKing](https://youtu.be/Ct4PU6CyvTQ?feature=shared)
+- [Subnetting Calculations Playlist - Practical networking](https://youtu.be/BWZ-MHIhqjM?feature=shared)
+
+### Articles
+
 - [TCP/IP addressing and subnetting - Microsoft](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/tcpip-addressing-and-subnetting)
 - [TCP/IP in MAAS context - Refresher about network and internet - with lots of articles links](https://discourse.maas.io/t/tcp-ip-primer/5806)
 - [Computer Network - Scaler](https://www.scaler.com/topics/computer-network/)
@@ -381,7 +392,7 @@ There are several types of routing, including:
 
 A router is a networking device that forwards data packets between computer networks. Routers perform the routing process, which involves selecting the best path for data packets to travel from the source to the destination. Routers use routing tables to determine the best path for data packets to travel.
 
-Routers are used to connect multiple networks together and enable communication between devices on different networks. Routers are commonly used in home and business networks to connect devices to the internet and other networks.
+Routers are used to connect multiple networks together and enable communication between devices on different networks. Routers are commonly used in home and business networks to connect devices to the internet and other networks. 
 
 #### Routes
 
@@ -402,6 +413,20 @@ Routes can be classified into two types:
 - **Interface**: The interface is the network interface on the router that data packets must pass through to reach the destination device.
 
 - **Metric**: The metric is a value that represents the cost of the route. The router uses the metric to determine the best path for data packets to travel.
+
+## [Interface](https://www.digitalocean.com/community/tutorials/an-introduction-to-networking-terminology-interfaces-and-protocols#interfaces)
+
+### What is an Interface?
+
+An interface is a connection point between two devices or systems. In networking, an interface is a network connection that allows devices to communicate with each other. An interface can be physical, such as an Ethernet port, or virtual, such as a loopback interface.
+
+Typically, your server will have one configurable network interface for each Ethernet or wireless internet card you have.
+
+In addition, it will define a virtual network interface called the “loopback” or localhost interface. This is used as an interface to connect applications and processes on a single computer to other applications and processes. You can see this referenced as the “lo” interface in many tools.
+
+Many times, administrators configure one interface to service traffic to the internet and another interface for a LAN or private network.
+
+In datacenters with private networking enabled, your VPS will have two networking interfaces. The “eth0” interface will be configured to handle traffic from the internet, while the “eth1” interface will operate to communicate with a private network.
 
 ## Ports
 

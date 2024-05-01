@@ -2,11 +2,13 @@
 
 🧮 [CDIR Table](./README.md#cidr-notation)
 
-todo: static / dinamic ip and routes. gateway. switch. bridge. router. dns
+🎨 [FigJam NetPractice](https://www.figma.com/file/hBp3cgllz8ZR9EcHTHkA25/NetWork---NetPractice?type=whiteboard&t=ks6nBoWMuCtlolsg-1)
 
 ## Guide
 
-📔 [NetPractice Guide - Medium](https://medium.com/@imyzf/netpractice-2d2b39b6cf0a)
+📔 [NetPractice Notions Guide - Medium](https://medium.com/@imyzf/netpractice-2d2b39b6cf0a)
+
+🖼️ [NetPractice Exercice Usage with picture Guide - Github](https://github.com/lpaube/NetPractice)
 
 ## Ressources
 
@@ -18,6 +20,7 @@ todo: static / dinamic ip and routes. gateway. switch. bridge. router. dns
 
 - [Subnetting - NetworKing](https://youtu.be/Ct4PU6CyvTQ?feature=shared)
 - [Subnetting Calculations Playlist - Practical networking](https://youtu.be/BWZ-MHIhqjM?feature=shared)
+- [Default Gateway - PowerCert Animated Videos](https://youtu.be/pCcJFdYNamc?feature=shared)
 
 ### Articles
 
@@ -158,8 +161,6 @@ Note:
 IPv4 addresses are divided into five classes: A, B, C, D, and E. Each class has a different range of IP addresses. The first three classes (A, B, and C) are used for unicast addresses, while the last two classes (D and E) are used for multicast and experimental purposes, respectively.
 
 <img src="https://scaler.com/topics/images/parts-of-ipv4-address.webp" title="classes ipv4">
-
-<img src="https://scaler.com/topics/images/working-of-subnetting-in-html.webp" title="ipv4 class b">
 
 ## [Subnetting](https://www.cloudflare.com/learning/network-layer/what-is-a-subnet/)
 
@@ -340,6 +341,12 @@ CDIR is **like having 32 classes** of IP addresses (in IPv4), each with a differ
 
 Please note that the number of available addresses is theoretical. In practice, the **first and last addresses of each subnet** are **reserved for network address and broadcast address respectively**, so the actual number of usable addresses is two less than the number listed for **CIDR <= 30**.
 
+#### CIDR Sheet Cheat
+
+<img src="./Media/NetWork - NetPractice - SheetCheat.png" title="CIDR SheetCheat">
+
+<img src="./Media/NetWork - NetPractice - Example subnet calc.png" title="example of subnet">
+
 #### What's CIDR blocks ?
 
 CIDR blocks represent groups of IP addresses that have the same network prefixes and number of bits. Combining CIDR blocks that share a network prefix into a larger routing network is called supernetting, the single most important trait of CIDR.
@@ -407,12 +414,25 @@ Routes can be classified into two types:
 ##### Routes containt
 
 - **Destination Network**: The destination network is the network address of the destination device.
+  - The route of `default` or `0.0.0.0/0`, is the route that takes effect when no other route is available for an IP destination address. The default route will use the next-hop address to send the packets on their way without giving a specific destination. The default route will match any network.
 
 - **Next-Hop Router**: The next-hop router is the router that data packets must pass through to reach the destination device.
 
 - **Interface**: The interface is the network interface on the router that data packets must pass through to reach the destination device.
 
 - **Metric**: The metric is a value that represents the cost of the route. The router uses the metric to determine the best path for data packets to travel.
+
+<img src="https://github.com/lpaube/NetPractice/raw/main/img/routing_table1.png?raw=true" title="routing table">
+
+## Switch
+
+A switch is a device that connects devices within the same network, usually a LAN network (which is a Local Area Network), and forwards data packets to and from those devices, unlike a router, a switch only sends the data to the devices it is intended for (which may be another switch, a router, or a user's computer).
+
+## Gateway
+
+A gateway is a networking device that connects two networks together. Gateways are used to enable communication between devices on different networks. Gateways are commonly used in home and business networks to connect devices to the internet and other networks.
+
+A gateway can be a router, a switch, or a computer.
 
 ## [Interface](https://www.digitalocean.com/community/tutorials/an-introduction-to-networking-terminology-interfaces-and-protocols#interfaces)
 

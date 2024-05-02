@@ -31,6 +31,172 @@
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Protocole_HTTP_TCP-IP_Passerelle_Routage.svg" title="Protocole HTTP TCP-IP Passerelle Routage">
 
+## Exercices
+
+<table>
+  <thead>
+    <th>Exercices</th>
+    <th>Problems</th>
+    <th>Solutions</th>
+  </thead>
+  <tbody>
+    <tr>
+        <td>1</td>
+        <td>
+          <details>
+            <summary>Problem 1</summary>
+            <img src="./Media/exercices/lvl1-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 1</summary>
+            <img src="./Media/exercices/lvl1-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>
+          <details>
+            <summary>Problem 2</summary>
+            <img src="./Media/exercices/lvl2-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 2</summary>
+            <img src="./Media/exercices/lvl2-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>
+          <details>
+            <summary>Problem 3</summary>
+            <img src="./Media/exercices/lvl3-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 3</summary>
+            <img src="./Media/exercices/lvl3-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>
+          <details>
+            <summary>Problem 4</summary>
+            <img src="./Media/exercices/lvl4-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 4</summary>
+            <img src="./Media/exercices/lvl4-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>
+          <details>
+            <summary>Problem 5</summary>
+            <img src="./Media/exercices/lvl5-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 5</summary>
+            <img src="./Media/exercices/lvl5-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>
+          <details>
+            <summary>Problem 6</summary>
+            <img src="./Media/exercices/lvl6-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 6</summary>
+            <img src="./Media/exercices/lvl6-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>
+          <details>
+            <summary>Problem 7</summary>
+            <img src="./Media/exercices/lvl7-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 7</summary>
+            <img src="./Media/exercices/lvl7-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>
+          <details>
+            <summary>Problem 8</summary>
+            <img src="./Media/exercices/lvl8-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 8</summary>
+            <img src="./Media/exercices/lvl8-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>
+          <details>
+            <summary>Problem 9</summary>
+            <img src="./Media/exercices/lvl9-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 9</summary>
+            <img src="./Media/exercices/lvl9-fill.png">
+          </details>
+        </td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>
+          <details>
+            <summary>Problem 10</summary>
+            <img src="./Media/exercices/lvl10-empty.png">
+          </details>
+        </td>
+        <td>
+          <details>
+            <summary>Solution 10 - Not Opti</summary>
+            <img src="./Media/exercices/lvl10-fill.png">
+          </details>
+          <details>
+            <summary>Training 10 - Good</summary>
+            <img src="./Media/exercices/training-lvl10-fill.png">
+          </details>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
 ## TCP/IP
 
 ### What is TCP/IP?

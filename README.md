@@ -6,6 +6,9 @@ This repository contain my work at 42 school, it act as a backup as well as shar
 
 ## Projects
 
+### Rank 5
+* [CPP Modules [5-9]](./Projects/CPP_Modules)
+
 ### Rank 4
 
 * [NetPractice](./Projects/NetPractice/)
@@ -72,8 +75,11 @@ gantt
     DigHacktion : done, 2024-04-26, 2024-04-28
     CodinGame - Fall Challenge :done, 2023-12-18, 2023-12-28
 
+    section Rank 5
+    CPP Modules[5-8] : active, 2024-05-06, 4w
+
     section Rank 4
-    NetPractice : active, 2024-04-22, 2w
+    NetPractice : done, 2024-04-22, 2024-05-03
     CPP Modules[0-4] : done, 2024-03-28, 2024-04-22
     Cube3D :done, 2024-03-07, 2024-03-28
   

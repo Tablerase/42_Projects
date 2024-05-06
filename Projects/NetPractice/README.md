@@ -2,13 +2,11 @@
 
 🧮 [CDIR Table](./README.md#cidr-notation)
 
-🎨 [FigJam NetPractice](https://www.figma.com/file/hBp3cgllz8ZR9EcHTHkA25/NetWork---NetPractice?type=whiteboard&t=ks6nBoWMuCtlolsg-1)
+🎨 [FigJam NetPractice (exercice explain + cidr calc)](https://www.figma.com/file/hBp3cgllz8ZR9EcHTHkA25/NetWork---NetPractice?type=whiteboard&t=ks6nBoWMuCtlolsg-1)
 
 ## Guide
 
 📔 [NetPractice Notions Guide - Medium](https://medium.com/@imyzf/netpractice-2d2b39b6cf0a)
-
-🖼️ [NetPractice Exercice Usage with picture Guide - Github](https://github.com/lpaube/NetPractice)
 
 ## Ressources
 

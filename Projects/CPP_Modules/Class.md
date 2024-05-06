@@ -1206,3 +1206,24 @@ int main() {
   obj->myMethod(); // output: Hello Universe!
 }
 ```
+
+## Nested Classes
+
+A nested class is a class that is defined within another class. Nested classes are useful when a class is only used by the class in which it is defined.
+
+```cpp
+class OuterClass {
+  public:
+    class InnerClass {
+      public:
+        void myMethod() {
+          cout << "Hello World!";
+        }
+    };
+};
+
+int main() {
+  OuterClass::InnerClass obj;
+  obj.myMethod(); // output: Hello World!
+}
+```

@@ -301,7 +301,7 @@
     <td>Specifies that the variable is a register variable</td>
   </tr>
   <tr>
-    <td rowspan="2">Memory</td>
+    <td rowspan="2"><a href="./README.md#memory-management">Memory</a></td>
     <td>new</td>
     <td>Allocates memory dynamically</td>
   </tr>
@@ -328,13 +328,17 @@
     <td>Indicates that an object may be changed by something external to the program at any time</td>
   </tr>
   <tr>
-    <td rowspan="2" style="background-color: #cc2222; color: white;">Exceptions</td>
-    <td>try</td>
+    <td rowspan="3" style="background-color: #cc2222; color: white;"><a href="./README.md#exceptions">Exceptions</a></td>
+    <td><a href="./README.md#try-catch-block">try</a></td>
     <td>Specifies a block of code to be tested for errors</td>
   </tr>
   <tr>
-    <td>catch</td>
+    <td><a href="./README.md#try-catch-block">catch</a></td>
     <td>Specifies a block of code to be executed if an error occurs in the try block</td>
+  </tr>
+  <tr>
+    <td><a href="./README.md#throwing-exceptions">throw</a></td>
+    <td>Throws an exception</td>
   </tr>
   <tr>
     <td rowspan="2"><a href="./README.md#namespaces">Namespaces</a></td>
@@ -758,6 +762,16 @@ int main()
 
 - **Expression Statement**: An expression followed by a semicolon is called an expression statement. For example, `2 + 3;` is an expression statement.
 - **Compound Expression**: An expression that contains other expressions is called a compound expression. For example, `2 + (3 * 4);` is a compound expression.
+
+### [Polymorphism](https://www.geeksforgeeks.org/cpp-polymorphism/)
+
+The word “polymorphism” means having many forms. In simple words, we can define polymorphism as the ability of a message to be displayed in more than one form. A real-life example of polymorphism is a person who at the same time can have different characteristics. A man at the same time is a father, a husband, and an employee. So the same person exhibits different behavior in different situations. This is called polymorphism. Polymorphism is considered one of the important features of Object-Oriented Programming.
+
+- **Compile-time Polymorphism**: Compile-time polymorphism is achieved by function overloading and operator overloading.
+
+- **Run-time Polymorphism**: Run-time polymorphism is achieved by function overriding.
+
+Polymorphism is the ability of a function to operate on different types of data. For example, the `+` operator is polymorphic because it can be used to add integers, floating-point numbers, and strings.
 
 ## Functions
 
@@ -1395,6 +1409,34 @@ A named constant is a constant that is given a name. Named constants are used to
 ```cpp
 const int x = 5;
 ```
+
+### Positioning of Constants
+
+1. `const` **before** a function: This is actually quite rare and not typically seen. If it's used, it would modify the **return type of the function** to be a constant type.
+
+2. `const` **after** a function: This is used in member functions to specify that the function **will not modify any member variables** of the class (i.e., it will not change the state of the object). This is known as a const member function.
+
+Here's an example:
+
+```cpp
+class MyClass {
+    int value;
+
+public:
+    MyClass(int v) : value(v) {}
+
+    int getValue() const { // This function won't modify any member variables
+        return value;
+    }
+
+    void setValue(int v) { // This function can modify member variables
+        value = v;
+    }
+};
+```
+
+In this example, `getValue` is a const member function, which means it can't modify any member variables of the class. `setValue`, on the other hand, is not a const member function, so it can modify member variables.
+
 
 ### Type Qualifiers
 
@@ -2171,3 +2213,261 @@ int* arr = new int[5];
 delete[] arr;
 ```
 
+## [Exceptions](https://www.learncpp.com/cpp-tutorial/the-need-for-exceptions/)
+
+An exception is an object that is thrown when an error occurs in a program. Exceptions are used to handle errors and unexpected conditions in a program.
+
+Include the `<exception>` header file (only the exception class) or `<stdexcept>` header file (all standard exceptions).
+
+### Try-Catch Block
+
+A try-catch block is used to catch exceptions that are thrown in a program. A try-catch block consists of a try block and one or more catch blocks.
+
+```cpp
+try
+{
+  // code that may throw an exception
+  if (condition)
+  {
+    throw std::exception();
+  }
+}
+catch (const std::exception& e)
+{
+  // code to handle the exception
+}
+```
+
+### Catching Exceptions
+
+A catch block is used to catch exceptions that are thrown in a program. A catch block consists of the `catch` keyword, followed by a parameter that specifies the type of exception to catch.
+
+Exceptions of fundamental types can be caught by value, but exceptions of non-fundamental types should be caught by const reference to avoid making an unnecessary copy (and, in some cases, to prevent slicing).
+
+#### Catching Exceptions in a Hierarchy
+
+When catching exceptions in a hierarchy, the catch blocks should be ordered from the most derived exception to the most general exception.
+
+#### Catching All Exceptions
+
+- Functions can potentially throw exceptions of any data type (including program-defined data types), meaning there is an infinite number of possible exception types to catch
+- If an exception is not caught, your program will terminate immediately (and the stack may not be unwound, so your program may not even clean up after itself properly).
+- Adding explicit catch handlers for every possible type is tedious, especially for the ones that are expected to be reached only in exceptional cases!
+
+```cpp
+#include <iostream>
+
+int main()
+{
+	try
+	{
+		throw 5; // throw an int exception
+	}
+	catch (double x)
+	{
+		std::cout << "We caught an exception of type double: " << x << '\n';
+	}
+	catch (...) // catch-all handler
+	{
+		std::cout << "We caught an exception of an undetermined type\n";
+	}
+}
+```
+
+```bash
+We caught an exception of an undetermined type
+```
+
+Fortunately, C++ also provides us with a mechanism to catch all types of exceptions. This is known as a catch-all handler.
+
+A catch block can be used to catch all exceptions.
+
+```cpp
+try
+{
+  if (condition)
+  {
+    throw std::exception();
+  }
+}
+catch (...)
+{
+  std::cout << "An error occurred\n";
+}
+```
+
+- `(...)` is called an ellipsis operator, and it is used to catch all exceptions.
+
+The catch-all handler must be placed last in the catch block chain. This is to ensure that exceptions can be caught by exception handlers tailored to specific data types if those handlers exist.
+
+Best Practice:
+  - Avoid using the catch-all handler unless absolutely necessary.
+  - If your program uses exceptions, consider using a catch-all handler in main, to help ensure orderly behavior when an unhandled exception occurs. Also consider disabling the catch-all handler for debug builds, to make it easier to identify how unhandled exceptions are occurring.
+
+### Throwing Exceptions
+
+An exception is thrown using the `throw` keyword.
+
+```cpp
+if (condition)
+{
+  throw std::exception();
+}
+```
+
+#### Using Throw Statements
+
+To use a throw statement, simply use the throw keyword, followed by a value of any data type you wish to use to signal that an error has occurred. Typically, this value will be an error code, a description of the problem, or a custom exception class.
+
+Here are some examples:
+
+```cpp
+throw -1; // throw a literal integer value
+throw ENUM_INVALID_INDEX; // throw an enum value
+throw "Can not take square root of negative number"; // throw a literal C-style (const char*) string
+throw dX; // throw a double variable that was previously defined
+throw MyException("Fatal Error"); // Throw an object of class MyException
+```
+
+Each of these statements acts as a signal that some kind of problem that needs to be handled has occurred.
+
+### Standard Exceptions
+
+The C++ standard library provides a set of standard exceptions that can be used to handle common error conditions.
+
+```cpp
+try
+{
+  if (condition)
+  {
+    throw std::runtime_error("An error occurred");
+  }
+}
+catch (const std::runtime_error& e)
+{
+  std::cout << e.what() << "\n";
+}
+```
+
+### Custom Exceptions
+
+You can create custom exceptions by subclassing the `std::exception` class.
+
+```cpp
+class MyException : public std::exception
+{
+public:
+  const char* what() const throw()
+  {
+    return "My custom exception";
+  }
+};
+
+try
+{
+  if (condition)
+  {
+    throw MyException();
+  }
+}
+catch (const MyException& e)
+{
+  std::cout << e.what() << "\n";
+}
+```
+
+- The `what()` method is a virtual method that is defined in the `std::exception` class. The `what()` method is used to return a description of the exception.
+
+### Rethrowing Exceptions
+
+An exception can be rethrown using the `throw` keyword without any arguments.
+
+```cpp
+try
+{
+  try
+  {
+    throw std::exception();
+  }
+  catch (const std::exception& e)
+  {
+    std::cout << "Caught an exception\n";
+    throw; // rethrow the exception
+  }
+}
+catch (const std::exception& e)
+{
+  std::cout << "Caught the rethrown exception\n";
+}
+```
+
+```bash
+Caught an exception
+Caught the rethrown exception
+```
+
+### Exception Cases
+
+#### Throwing Exceptions in Constructors
+
+If an exception is thrown in a constructor, the object is not fully constructed, and the destructor is not called.
+
+This can lead to resource leaks if the constructor allocates resources that need to be deallocated in the destructor.
+
+To solve this problem:
+- Make the allocation in a class member object that is constructed before the object in question. The destructor of the member object will be called if an exception is thrown in the constructor of the main object.
+- Use smart pointers or RAII (Resource Acquisition Is Initialization) to manage resources. Smart pointers and RAII ensure that resources are deallocated when they are no longer needed.
+
+```cpp
+#include <iostream>
+
+class Member
+{
+public:
+	Member()
+	{
+		std::cerr << "Member allocated some resources\n";
+	}
+	~Member()
+	{
+		std::cerr << "Member cleaned up\n";
+	}
+};
+
+class A
+{
+private:
+	int m_x {};
+	Member m_member;
+public:
+	A(int x) : m_x{x}
+	{
+		if (x <= 0)
+			throw 1;
+	}
+	~A()
+	{
+		std::cerr << "~A\n"; // should not be called
+	}
+};
+
+
+int main()
+{
+	try
+	{
+		A a{0};
+	}
+	catch (int)
+	{
+		std::cerr << "Oops\n";
+	}
+	return 0;
+}
+```
+
+```bash
+Member allocated some resources
+Member cleaned up
+Oops
+```

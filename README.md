@@ -76,7 +76,7 @@ gantt
     CodinGame - Fall Challenge :done, 2023-12-18, 2023-12-28
 
     section Rank 5
-    CPP Modules[5-8] : active, 2024-05-06, 4w
+    CPP Modules[5-9] : active, 2024-05-06, 4w
 
     section Rank 4
     NetPractice : done, 2024-04-22, 2024-05-03

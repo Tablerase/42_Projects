@@ -2424,12 +2424,10 @@ To solve this problem:
 class Member
 {
 public:
-	Member()
-	{
+	Member(){
 		std::cerr << "Member allocated some resources\n";
 	}
-	~Member()
-	{
+	~Member(){
 		std::cerr << "Member cleaned up\n";
 	}
 };
@@ -2440,26 +2438,21 @@ private:
 	int m_x {};
 	Member m_member;
 public:
-	A(int x) : m_x{x}
-	{
+  A(int x) : m_x{x}{
 		if (x <= 0)
 			throw 1;
-	}
-	~A()
-	{
+  }
+  ~A(){
 		std::cerr << "~A\n"; // should not be called
-	}
+  }
 };
-
 
 int main()
 {
-	try
-	{
+	try{
 		A a{0};
 	}
-	catch (int)
-	{
+	catch (int){
 		std::cerr << "Oops\n";
 	}
 	return 0;

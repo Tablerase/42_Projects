@@ -214,10 +214,10 @@ class MyClass {
   private:
     int x;
   public:
-    int getX() const { // getter
+    int get_x() const { // getter
       return x;
     }
-    void setX(int y) { // setter
+    void set_x(int y) { // setter
       if (y > 0)
         x = y;
     }

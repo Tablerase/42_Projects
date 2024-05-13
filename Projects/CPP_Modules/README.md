@@ -360,7 +360,7 @@
   </tr>
   <tr>
     <td rowspan="11" style="background-color: #2366e2; color: white;">Qualifiers</td>
-    <td>const</td>
+    <td><a href="./README.md#constants">const</a></td>
     <td>Declares an object as constant</td>
   </tr>
   <tr>

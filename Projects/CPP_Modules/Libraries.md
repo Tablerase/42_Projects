@@ -211,3 +211,34 @@ Direction | Description
 `ios::beg`|	Beginning of the stream.
 `ios::cur`|	Current position of the stream pointer.
 `ios::end`|	End of the stream.
+
+## CSTDLIB
+
+📚 [Documentation](https://cplusplus.com/reference/cstdlib/)
+
+The `cstdlib` header file provides functions for dynamic memory management, random number generation, communication with the environment, integer arithmetics, searching, sorting and converting.
+
+### Random number generation
+
+The [`rand()`](https://cplusplus.com/reference/cstdlib/rand/) function is used to generate random numbers. The `srand()` function is used to seed the random number generator.
+
+```cpp
+#include <cstdlib>
+#include <ctime>
+
+int main() {
+  srand(time(0));
+  int random = rand() % 100;
+  return 0;
+}
+```
+
+- `rand()` returns a pseudo-random number in the range of 0 to `RAND_MAX`.
+  - `RAND_MAX` is the maximum value that can be returned by the `rand()` function. It is guaranteed to be at least 32767.
+- `srand()` seeds the random number generator.
+  - The `srand()` function is used to seed the random number generator. The `srand()` function should only be called once in the program.
+  - The `srand()` function is typically called with the current time as the seed, so that the random number generator is seeded with a different value each time the program is run.
+
+#### Modern C++ random numbers
+
+There is a more modern way to generate random numbers in C++11 and later. The `rand()` function is not recommended for use in modern C++ code. Instead, the `<random>` header file should be used.

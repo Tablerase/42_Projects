@@ -1412,6 +1412,8 @@ const int x = 5;
 
 ### Positioning of Constants
 
+#### With functions
+
 1. `const` **before** a function: This is actually quite rare and not typically seen. If it's used, it would modify the **return type of the function** to be a constant type.
 
 2. `const` **after** a function: This is used in member functions to specify that the function **will not modify any member variables** of the class (i.e., it will not change the state of the object). This is known as a const member function.
@@ -1437,6 +1439,17 @@ public:
 
 In this example, `getValue` is a const member function, which means it can't modify any member variables of the class. `setValue`, on the other hand, is not a const member function, so it can modify member variables.
 
+#### With pointers
+
+When `const` is used with pointers, it can be a bit confusing. There are two ways to use `const` with pointers:
+
+- `const int* ptr`: This means that the integer being pointed to is constant (i.e., the integer value cannot be changed through the pointer).
+- `int* const ptr`: This means that the pointer itself is constant (i.e., the pointer cannot be changed to point to a different memory location).
+
+```cpp
+const int* ptr = &x; // x is a constant integer pointed to by ptr
+int* const ptr = &x; // ptr is a constant pointer to an integer x
+```
 
 ### Type Qualifiers
 

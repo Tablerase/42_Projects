@@ -6,7 +6,7 @@
 #    By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 18:08:42 by rcutte            #+#    #+#              #
-#    Updated: 2024/04/16 18:00:26 by rcutte           ###   ########.fr        #
+#    Updated: 2024/05/14 14:21:43 by rcutte           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ all: $(NAME)
 COMPILATOR = c++
 
 CWARNINGS = -Wall -Wextra -Werror
-STANDARD = -std=c++98
+STANDARD = -std=c++11
 CDEBUG = -g
 
 CFLAGS = $(CWARNINGS) $(STANDARD) $(CDEBUG)

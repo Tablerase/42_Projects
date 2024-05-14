@@ -6,13 +6,18 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 14:29:21 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/09 20:31:21 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:19:05 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Harl.hpp"
 
-Harl::Harl(){}
+Harl::Harl(){
+  this->levels[0] = "DEBUG";
+  this->levels[1] = "INFO";
+  this->levels[2] = "WARNING";
+  this->levels[3] = "ERROR";
+}
 Harl::~Harl(){}
 
 void Harl::debug(){

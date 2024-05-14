@@ -6,11 +6,12 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:30:59 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/09 20:30:52 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:12:17 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <cstdlib>
 
 #include "Harl.hpp"
 
@@ -20,16 +21,17 @@ void  checkArgs(int ac, char **av) {
       << BRED << "Invalid Amount of Arguments" << RESET << "\n"
       << BYEL << "Usage (DEBUG, INFO, WARNING, ERROR): "
       << RESET << "./harl_filter LEVEL" << "\n";
-    exit(EXIT_FAILURE);
+    exit(1);
   }
+  (void)av;
 }
 
 int main(int ac, char **av)
 {
   checkArgs(ac, av);
-  Harl veteran_eater{};
+  Harl veteran_eater;
   if (veteran_eater.setMinComplain(av[1]) == false)
-    return EXIT_FAILURE;
+    return 1;
 
   std::cout
     << WHTB << "Harl is in the Restaurant" << RESET << "\n";
@@ -42,5 +44,5 @@ int main(int ac, char **av)
   veteran_eater.complain("WARNING");
   veteran_eater.complain("ERROR");
 
-  return EXIT_SUCCESS;
+  return 0;
 }

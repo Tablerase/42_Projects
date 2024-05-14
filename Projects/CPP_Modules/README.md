@@ -880,6 +880,46 @@ int main()
 }
 ```
 
+### Function arrays
+
+Functions can be stored in arrays. This can be useful when you want to call a function based on an index or other criteria.
+
+```cpp
+#include <iostream>
+
+int add(int x, int y)
+{
+  return x + y;
+}
+
+int subtract(int x, int y)
+{
+  return x - y;
+}
+
+int multiply(int x, int y)
+{
+  return x * y;
+}
+
+int divide(int x, int y)
+{
+  return x / y;
+}
+
+int main()
+{
+  int (*functionArray[])(int, int) = { add, subtract, multiply, divide };
+
+  for (int i = 0; i < 4; ++i)
+  {
+    std::cout << functionArray[i](4, 2) << "\n";
+  }
+
+  return (0);
+}
+```
+
 ### Use Functions Effectively
 
 - Groups of statements that appear more than once in a program should generally be made into a function. For example, if we’re reading input from the user multiple times in the same way, that’s a great candidate for a function. If we output something in the same way in multiple places, that’s also a great candidate for a function.

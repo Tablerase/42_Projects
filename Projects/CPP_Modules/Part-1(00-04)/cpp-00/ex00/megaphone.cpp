@@ -6,13 +6,14 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:40:11 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/08 15:05:06 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/15 18:27:05 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <cstdlib>
 
 void	shout(std::string str)
 {

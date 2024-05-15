@@ -6,12 +6,13 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:48:51 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/05 22:33:09 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/15 18:38:16 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iomanip>
+#include <ctime>
 #include "Account.hpp"
 
 Account::Account( void ){}
@@ -48,11 +49,12 @@ void Account::displayStatus( void ) const {
 }
 
 void Account::_displayTimestamp( void ){
-  std::time_t t = std::time(nullptr); // get current time
+  std::time_t t = std::time(0); // get current time
   std::tm* timePtr = std::localtime(&t); // convert to local time
 
-  std::cout 
-    << "[" << std::put_time(timePtr, "%Y%m%d_%H%M%S") << "] ";
+  char buffer[80];
+  strftime(buffer, sizeof(buffer), "%Y%m%d_%H%M%S", timePtr);
+  std::cout << "[" << buffer << "] ";
 }
 
 void Account::makeDeposit( int deposit ){

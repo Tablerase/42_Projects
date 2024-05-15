@@ -149,7 +149,7 @@
   <tr>
   <tr>
     <td rowspan="4"><a href="./README.md#conversion--casting">Casts</a></td>
-    <td>dynamic_cast</td>
+    <td><a href="./README.md#dynamic-cast">dynamic_cast</a></td>
     <td>Converts a pointer or reference to a base class to a pointer or reference to a derived class</td>
   </tr>
   <tr>
@@ -157,11 +157,11 @@
     <td>Converts a value from one type to another</td>
   </tr>
   <tr>
-    <td>reinterpret_cast</td>
+    <td><a href="./README.md#reinterpret-cast">reinterpret_cast</a></td>
     <td>Converts a pointer or reference to one type to a pointer or reference to another type</td>
   </tr>
   <tr>
-    <td>const_cast</td>
+    <td><a href="./README.md#const-cast">const_cast</a></td>
     <td>Removes the const qualifier from a variable</td>
   </tr>
     <td rowspan="4" style="background-color: #ee7220;">Bitwise</td>
@@ -1315,17 +1315,177 @@ g++ -o myProgram myProgram.cpp -lplog
   int y = (int)x; // C-style cast from double to int
   ```
 
+#### C-Style Cast
+
+##### Reinterpretation Cast
+
+A conversion can be both implicit and explicit. The conversion can be reinterprated or simply casted.
+
+```cpp
+float x = 5.5;
+void *y = &x; // implicit reinterpretation cast
+void *z = (void*)&x; // explicit reinterpretation cast
+```
+
+- `void*`: A void pointer is a pointer that has no associated data type. A void pointer can point to any data type.
+
+Good practice: Use explicit casts to make the code more readable and to make the conversion explicit. So that the *reader knows that the **conversion is intentional***.
+
+##### Promotion / Demotion Cast
+
+- A promotion cast is a cast that converts a value to a larger data type.
+- A demotion cast is a cast that converts a value to a smaller data type.
+
+```cpp
+int x = 5;
+double y = x; // implicit promotion cast
+int z = (int)y; // explicit demotion cast
+```
+
+It is important to note that demotion casts can result in data loss. For example, when converting a `double` to an `int`, the fractional part of the `double` is truncated.
+
+##### Type Qualifier Cast
+
+A type qualifier cast is a cast that adds or removes a type qualifier. Type qualifiers include `const`, `volatile`, and `mutable`.
+
+```cpp
+int x = 5;
+const int y = x; // implicit type qualifier cast
+int z = (int)y; // explicit type qualifier cast
+```
+
+You should rarely need to use type qualifier casts, as the compiler will usually handle type qualifiers automatically.
+
+##### Downcast / Upcast
+
+- A downcast is a cast that converts a base class pointer to a derived class pointer.
+- An upcast is a cast that converts a derived class pointer to a base class pointer.
+
+```cpp
+class Base
+{
+public:
+  virtual void foo() {}
+};
+
+class Derived : public Base
+{
+public:
+  void bar() {}
+};
+
+int main()
+{
+  Derived d;
+  Base* b = &d; // implicit upcast
+  Derived* d2 = (Derived*)b; // explicit downcast
+  return (0);
+}
+```
+
 #### Static Cast
 
 ```cpp
 static_cast<new_type>(expression)
 ```
 
-The `static_cast` operator is used to perform explicit conversions between related types. The `static_cast` operator is safer than the C-style cast because it performs additional checks to ensure that the conversion is valid.
+The `static_cast` operator is used to perform explicit conversions **between related types**. The `static_cast` operator is **safer than the C-style** cast because it performs additional checks to ensure that the conversion is valid.
 
 ```cpp
 double x = 5.5;
 int y = static_cast<int>(x); // explicit conversion from double to int
+```
+
+#### Dynamic Cast
+
+```cpp
+dynamic_cast<new_type>(expression)
+```
+
+The `dynamic_cast` operator is used to perform explicit conversions between **polymorphic types**. A polymorphic type is a type that has at least one virtual function. Take place at **runtime**.
+
+Dynamic cast check the RTTI (Run-Time Type Information) to ensure that the conversion is valid.
+
+```cpp
+class Base
+{
+public:
+  virtual void foo() {}
+};
+
+class Derived : public Base
+{
+public:
+  void bar() {}
+};
+
+int main()
+{
+  Base* b = new Derived;
+  Derived* d = dynamic_cast<Derived*>(b); // explicit downcast
+  return (0);
+}
+```
+
+In case of failure, it returns a `nullptr` (cpp++11) or `NULL` (cpp++98). In case of a reference, it throws a `std::bad_cast` exception because references cannot be `nullptr` or `NULL`.
+
+```cpp
+try {
+  Derived& d = dynamic_cast<Derived&>(*b); // explicit downcast
+} catch (std::bad_cast& e) {
+  std::cout << "Error: " << e.what() << "\n";
+}
+```
+
+#### Reinterpret Cast
+
+```cpp
+reinterpret_cast<new_type>(expression)
+```
+
+The `reinterpret_cast` operator is used to perform explicit conversions between **unrelated types**. The `reinterpret_cast` operator is **unsafe** because it does not perform any checks to ensure that the conversion is valid.
+
+```cpp
+float x = 5.5;
+void* y = reinterpret_cast<void*>(&x); // explicit reinterpretation cast
+```
+
+Common use cases for `reinterpret_cast` include converting between pointers and integers, and converting between pointers to different types.
+
+#### Const Cast
+
+```cpp
+const_cast<new_type>(expression)
+```
+
+The `const_cast` operator is used to add or remove the `const` qualifier from a variable. The `const_cast` operator is used to perform explicit conversions between **const and non-const types**.
+
+```cpp
+const int x = 5;
+int y = const_cast<int>(x); // explicit type qualifier cast
+```
+
+#### Typecast Operator
+
+```cpp
+operator new_type()
+```
+
+The typecast operator is a user-defined conversion operator that is used to define how a class is converted to another type.
+
+```cpp
+class MyClass
+{
+public:
+  operator int() { return 5; } // typecast operator
+};
+
+int main()
+{
+  MyClass myClass;
+  int x = myClass; // implicit typecast
+  return (0);
+}
 ```
 
 ### Literals

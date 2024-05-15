@@ -1,0 +1,16 @@
+# executables
+*.out
+Bureaucrat
+Form
+ThisFormNotThatForm
+
+# test
+*_shrubbery
+
+# object files
+*.a
+*.o
+*.so
+
+# hidden files
+.vscode

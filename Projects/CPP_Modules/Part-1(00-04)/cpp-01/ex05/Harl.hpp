@@ -6,7 +6,7 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 14:14:44 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/09 18:18:03 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:32:59 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,7 @@ class Harl{
     void error( void );
 
     static const int amount_of_levels = 4;
-    void (Harl::*functionArray[amount_of_levels])() = { 
-      &Harl::debug,
-      &Harl::info,
-      &Harl::warning,
-      &Harl::error
-    };
-    std::string levels[amount_of_levels] = {
-      "DEBUG",
-      "INFO",
-      "WARNING",
-      "ERROR"
-    };
+    std::string levels[amount_of_levels];
 
   public:
     Harl();

@@ -6,7 +6,7 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 14:00:11 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/09 18:21:50 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:11:36 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int main()
 {
-  Harl veteran_eater{};
+  Harl veteran_eater;
 
   std::cout 
     << WHTB << "Harl is in the Restaurant" << RESET << "\n";

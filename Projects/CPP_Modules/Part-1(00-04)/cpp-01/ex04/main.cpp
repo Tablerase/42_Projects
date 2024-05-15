@@ -6,12 +6,13 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:59:00 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/09 13:57:44 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/05/15 19:10:18 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include "color.h"
 
 void  checkArgs(int ac, char **av) {
@@ -23,6 +24,7 @@ void  checkArgs(int ac, char **av) {
       << RESET "./replacer [filename] [string_from] [string_to]\n";
     exit(EXIT_FAILURE);
   }
+  (void)av;
 }
 
 bool replaceStringInFile(
@@ -31,7 +33,7 @@ bool replaceStringInFile(
   std::string const &replacement) {
     
   std::ifstream fileIn;
-  fileIn.open(filename);
+  fileIn.open(filename.c_str());
   if (!fileIn.is_open()) {
     std::cerr << BRED << "Failed to open file: " << RESET << filename << "\n";
     return false;
@@ -39,7 +41,7 @@ bool replaceStringInFile(
 
   std::string buffer;
   std::string line;
-  size_t pos{};
+  size_t pos;
   while (std::getline(fileIn, line))
   {
     pos = 0;
@@ -55,7 +57,7 @@ bool replaceStringInFile(
   }
   
   std::ofstream fileOut;
-  fileOut.open(filename + ".replace");
+  fileOut.open((filename + ".replace").c_str());
   if (!fileOut.is_open()) {
     std::cerr 
       << BRED << "Failed to open/create file: "

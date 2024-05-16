@@ -1236,8 +1236,8 @@ Utility classes are classes that contain only static members and are used to gro
 class UtilityClass {
   private:
     UtilityClass() {} // private constructor
-  public:
     ~UtilityClass() {} // destructor
+  public:
     static void myMethod() {
       cout << "Hello World!";
     }

@@ -1490,6 +1490,8 @@ int main()
 
 ### Literals
 
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20240102170140/Cpp-literals.png" title="c++ literals">
+
 A literal is a fixed value that is written directly in the source code. For example, `5` is a literal integer value.
 
 #### Literal Suffixes

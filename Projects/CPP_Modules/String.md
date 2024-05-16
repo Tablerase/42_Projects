@@ -183,3 +183,39 @@ int main()
     </tr>
   </tbody>
 </table>
+
+## String Iteration
+
+The `for` loop can be used to iterate over the characters in a string.
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+  std::string s { "Hello, world!" };
+  for (char c : s)
+  {
+    std::cout << c << "\n";
+  }
+  return (0);
+}
+```
+
+You can also use the `std::string::iterator` type to iterate over the characters in a string.
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+  std::string s { "Hello, world!" };
+  for (std::string::iterator it = s.begin(); it != s.end(); ++it)
+  {
+    std::cout << *it << "\n";
+  }
+  return (0);
+}
+```

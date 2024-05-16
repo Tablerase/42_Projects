@@ -62,3 +62,17 @@ Possible way to solve (but this solutions **doesnt really use BSP**):
 Materia (マテリア) is a recurring term and set of items in the Final Fantasy series that is typically associated with stat boosts and abilities, or in some cases, is used as a plot device. Materia is typically crafted into the equipment of the users, and used for boosting their performance. It originates from Final Fantasy VII.
 
 <img src="https://static.wikia.nocookie.net/finalfantasy/images/8/8c/MateriaAC.JPG" title="Materia Chest">
+
+## CPP 06
+
+### [Scalar Types](https://en.wikipedia.org/wiki/Scalar_type)
+
+Scalar type: `int`, `float`, `double`, `char`, `bool`, ...
+
+A scalar type is a general term used to describe a data type that can represent a **single value**. A primitive type is a specific type of scalar type that is built into the programming language and provides the most basic operations.
+
+**Primitive types** are the building blocks of more complex data structures and include data types like integers, floating-point numbers, booleans, and strings, among others. They are often used to represent simple values such as numbers or characters and are generally considered the simplest and most basic data types.
+
+In contrast, scalar types can include not only primitive types but also other data types like enumerated types or user-defined types that can represent single values.
+
+In summary, all primitive types are scalar types, but not all scalar types are primitive types.

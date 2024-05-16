@@ -1227,3 +1227,23 @@ int main() {
   obj.myMethod(); // output: Hello World!
 }
 ```
+
+## Utility/Helper classes
+
+Utility classes are classes that contain only static members and are used to group related functions together.
+
+```cpp
+class UtilityClass {
+  private:
+    UtilityClass() {} // private constructor
+  public:
+    ~UtilityClass() {} // destructor
+    static void myMethod() {
+      cout << "Hello World!";
+    }
+};
+
+int main() {
+  UtilityClass::myMethod(); // output: Hello World!
+}
+```

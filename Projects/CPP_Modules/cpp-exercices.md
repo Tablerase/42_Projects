@@ -15,7 +15,9 @@ grep -rI "friend"
 
 ## CPP 02
 
-### [BSP](../../../Notes/binary_space_partitioning.md)
+### [Fixed Point](/Notes/computer%20science.md#fixed-point)
+
+### [BSP](/Notes/binary_space_partitioning.md)
 
 BSP conrespond to Binary Space Partitioning. It is a method used to divide a space into two parts.
 In the context of video games, it is used to divide a map into two parts, to optimize the rendering of the map.
@@ -76,3 +78,16 @@ A scalar type is a general term used to describe a data type that can represent 
 In contrast, scalar types can include not only primitive types but also other data types like enumerated types or user-defined types that can represent single values.
 
 In summary, all primitive types are scalar types, but not all scalar types are primitive types.
+
+### Special values
+
+Special values are values that have a special meaning in the context of a program. They are often used to represent exceptional or undefined conditions, such as errors or missing data. Some common examples of special values include:
+
+- `nanf`: Not a number (float)
+  - represents a value that is not a number in case of undefined operations
+- `+inff`: Infinity (float)
+- `-inff`: Negative infinity (float)
+
+- `nan`: Not a number (double)
+- `+inf`: Infinity (double)
+- `-inf`: Negative infinity (double)

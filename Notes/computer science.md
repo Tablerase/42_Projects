@@ -161,6 +161,22 @@ Precision problem: to simplify things, the way we often think about loss of prec
   <img src="https://www.allaboutcircuits.com/uploads/thumbnails/round-26.gif" width="50%" title="Schema fixed point" style="padding: 10px;">
 </div>
 
+```cpp
+| Decimal | Binary Fixed-Point|
+|---------|-------------------|
+| 0.0     | 0000 0000         |
+| 0.5     | 0000 1000         |
+| 1.0     | 0001 0000         |
+| 1.5     | 0001 1000         |
+| 2.0     | 0010 0000         |
+| 2.5     | 0010 1000         |
+| 3.0     | 0011 0000         |
+| 3.5     | 0011 1000         |
+
+Note: This table assumes 8-bit fixed-point binary representation 
+in <8,4> format. The binary values are approximations.
+```
+
 Fixed-point arithmetic is an arithmetic that represents numbers in a fixed number of digits. It is a way to represent numbers that have a fractional part without using floating-point numbers. Fixed-point arithmetic is used in situations where the range of values is too large for integers but the precision of floating-point numbers is not needed.
 
 [Fixed Point in code - Geeks for Geeks](https://www.geeksforgeeks.org/fixed-point-representation/)

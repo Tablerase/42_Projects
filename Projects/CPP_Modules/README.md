@@ -2041,7 +2041,31 @@ int main()
 
 Template specialization is a feature of C++ that allows you to define a different implementation for a template for a specific data type. Template specialization is used to provide a custom implementation for a specific data type.
 
+```cpp
+template <typename T> // primary template
+T max(T x, T y)
+{
+  return (x < y) ? y : x;
+}
 
+template <> // explicit specialization for const char*
+const char* max<const char*>(const char* x, const char* y)
+{
+  return (std::strcmp(x, y) < 0) ? y : x;
+}
+
+int main()
+{
+  const char* result = max<const char*>("apple", "banana");
+  return (0);
+}
+```
+
+- **Primary Template**: The primary template is the original template that is defined without specialization.
+
+- **Explicit Specialization**: An explicit specialization is a specialization that is defined explicitly by the programmer.
+
+- **Partial Specialization**: A partial specialization is a specialization that is defined for a subset of the template parameters.
 
 ### Multiple Type Parameters
 

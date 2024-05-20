@@ -259,7 +259,7 @@
     <td>Specifies an operator function</td>
   </tr>
   <tr>
-    <td rowspan="8">Templates</td>
+    <td rowspan="8"><a href="./README.md#templates">Templates</a></td>
     <td>template</td>
     <td>Specifies that a function or class is a template</td>
   </tr>
@@ -1427,7 +1427,7 @@ int main()
 }
 ```
 
-In case of failure, it returns a `nullptr` (cpp++11) or `NULL` (cpp++98). In case of a reference, it throws a `std::bad_cast` exception because references cannot be `nullptr` or `NULL`.
+In case of **failure**, it returns a **`nullptr` (cpp++11) or `NULL` (cpp++98)**. In case of a **reference**, it **throws a `std::bad_cast`** exception because references cannot be `nullptr` or `NULL`.
 
 ```cpp
 try {
@@ -1975,13 +1975,77 @@ int main()
 }
 ```
 
-#### Instantiation
+### Class Templates
+
+A class template is a class that is defined using a template. A class template allows you to write a single class that can work with any data type.
+
+```cpp
+template <typename T>
+class Pair
+{
+public:
+  T first;
+  T second;
+};
+
+int main()
+{
+  Pair<int> pair;
+  pair.first = 1;
+  pair.second = 2;
+  return (0);
+}
+```
+
+### Template Instantiation
 
 When a function template is called with a specific data type, the compiler generates a new function from the template with the specified data type. This process is known as **instantiation** or **template instantiation**.
 
-#### Multiple Type Parameters
+```cpp
+template <typename T>
+T max(T x, T y)
+{
+  return (x < y) ? y : x;
+}
 
-A function template can have multiple type parameters.
+int main()
+{
+  int result = max<int>(1, 2); // instantiates and calls function max<int>(int, int)
+  return (0);
+}
+```
+
+### Default Template
+
+A default template is a template that is defined with a default data type. A default template allows you to specify a default data type that will be used if no data type is specified.
+
+```cpp
+template <typename T = int>
+class Pair
+{
+public:
+  T first;
+  T second;
+};
+
+int main()
+{
+  Pair<> pair; // T is int by default, unless specified otherwise
+  pair.first = 1;
+  pair.second = 2;
+  return (0);
+}
+```
+
+### Template Specialization
+
+Template specialization is a feature of C++ that allows you to define a different implementation for a template for a specific data type. Template specialization is used to provide a custom implementation for a specific data type.
+
+
+
+### Multiple Type Parameters
+
+A template can have multiple type parameters.
 
 ```cpp
 template <typename T, typename U>
@@ -1991,7 +2055,7 @@ T add(T x, U y)
 }
 ```
 
-#### Multiple File Templates
+### Multiple File Templates
 
 Templates that are needed in multiple files should be defined in a `header file`, and then `#included` wherever needed. 
 

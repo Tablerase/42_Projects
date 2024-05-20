@@ -5,12 +5,16 @@
 
 ## 🖥️ Computer Science
 
-* [Computer science](/Notes/computer%20science.md)
+* [Computer science](/Notes/computer_science.md)
 * [Sorting](/Notes/sorting.md)
 
 ## 🏗️ Workflow
 
 * [Git](/Notes/git.md)
+* [Git conventions](/Notes/git-conventions.md)
+
+## 📑 Documentation
+
 * [Markdown](/Notes/markdown.md)
 
 ## :bug: Debug
@@ -29,4 +33,4 @@
 
 ## 🔗 Useful links
 
-* [Useful link](/Notes/useful%20link.md)
+* [Useful link](/Notes/useful_link.md)

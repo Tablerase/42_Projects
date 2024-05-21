@@ -1,0 +1,10 @@
+.vscode
+
+Scalar
+Serialize
+Types
+
+*.o
+*.a
+*.so
+*.out

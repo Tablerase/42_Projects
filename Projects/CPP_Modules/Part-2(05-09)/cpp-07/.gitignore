@@ -1,0 +1,10 @@
+.vscode
+
+Whatever
+Iter
+Array
+
+*.o
+*.so
+*.a
+*.out

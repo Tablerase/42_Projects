@@ -73,8 +73,9 @@ gantt
     End of Common Core : milestone, crit, m1, 2024-09-01, 1m
 
     section Events
+    Hackathon EY : active, 2024-06-04, 2024-06-05
     DigHacktion : done, 2024-04-26, 2024-04-28
-    CodinGame - Fall Challenge :done, 2023-12-18, 2023-12-28
+    CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Rank 5
     CPP Modules[5-9] : active, 2024-05-06, 4w

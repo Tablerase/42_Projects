@@ -2,6 +2,7 @@
 
 ## Resources
 
+* [📚 Cplusplus - Best Documentation](https://cplusplus.com/reference/)
 * [🗃️ C++ Reference](https://en.cppreference.com/w/)
 * [📚 List of Standard Library Headers](https://en.cppreference.com/w/cpp/header)
 * [🧑‍🎓 C++ Tutorial - Website Course - LearnCPP](https://www.learncpp.com/)
@@ -9,6 +10,12 @@
 ### Styles Guides
 
 * [📏 Google C++ Guide - Naming Convention](https://google.github.io/styleguide/cppguide.html)
+
+### Notes
+
+* [🗃️ Containers - STL](./Containers.md)
+* [🕴️ Class](./Class.md)
+* [🖋️ String](./String.md)
 
 ## Description
 ### Keywords

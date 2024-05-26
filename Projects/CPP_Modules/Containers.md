@@ -389,6 +389,32 @@ int main()
 
 //TODO: Set, (Unordered Map, Unordered Set, Multimap, Multiset) ...
 
+## Container Adaptors
+
+Container adaptors provide a different interface for sequential containers.
+
+### Stack
+
+[⚙️ Operations / Member Functions](https://cplusplus.com/reference/stack/stack/)
+
+```cpp
+std::stack<value_type> stack_name;
+```
+
+Stacks are a type of **container adaptor**, specifically designed to operate in a **LIFO** context (last-in first-out), where **elements** are *inserted and extracted* **only from one end of the container**.
+
+stacks are implemented as container adaptors, which are classes that use an **encapsulated object of a specific container class** as its **underlying container**, providing a specific set of member functions to access its elements. Elements are **pushed/popped** from the **"back"** of the specific container, which is known as the **top of the stack**.
+
+The underlying container may be any of the standard container class templates or some other specifically designed container class. The container shall support the following operations:
+
+-  empty
+-  size
+-  back
+-  push_back
+-  pop_back
+
+The standard container classes vector, deque and list fulfill these requirements. By **default**, if no container class is specified for a particular stack class instantiation, the **standard container deque is used**.
+
 ## Iterators
 
 An iterator is an object that is used to traverse a container. Iterators are used to access the elements of a container in a specific order.
@@ -411,11 +437,95 @@ int main()
 }
 ```
 
+### Custom Iterators
+
+🔗 [Article - Writing custom iterators](https://internalpointers.com/post/writing-custom-iterators-modern-cpp)
+
+You can create custom iterators for your own classes by defining the following types and member functions:
+
+- **iterator**: A type that can be used to iterate over the elements of the container.
+- **const_iterator**: A type that can be used to iterate over the elements of a const container.
+- **begin()**: A member function that returns an iterator to the first element of the container.
+- **end()**: A member function that returns an iterator to one past the last element of the container.
+
+```cpp
+#include <iostream>
+
+template <typename T>
+class MyContainer
+{
+public:
+  MyContainer() : size_(10){this->data_[4] = 4;}
+  class iterator
+  {
+  public:
+    iterator(T *ptr) : ptr_(ptr) {}
+    T &operator*() { return *ptr_; }
+    iterator &operator++()
+    {
+      ++ptr_;
+      return *this;
+    }
+    bool operator!=(const iterator &other) const { return ptr_ != other.ptr_; }
+
+  private:
+    T *ptr_;
+  };
+
+  iterator begin() { return iterator(data_); }
+  iterator end() { return iterator(data_ + size_); }
+
+private:
+
+  T data_[10];
+  int size_;
+};
+
+int main()
+{
+  MyContainer<int> container;
+  for (MyContainer<int>::iterator it = container.begin(); it != container.end(); ++it)
+  {
+    std::cout << *it << " ";
+  }
+  std::cout << "\n";
+  return (0);
+}
+// Output: 0 0 0 0 4 0 0 0 0 0
+```
+
 ## Algorithms
 
 An algorithm is a sequence of steps that is used to solve a problem. Algorithms are used to perform specific tasks, such as searching, sorting, and counting.
 
-## For Each
+### Find
+
+The `std::find` algorithm is used to search for an element in a container.
+
+```cpp
+std::container_type::iterator it = std::find(container.begin(), container.end(), value);
+```
+
+Returns an iterator to the first element in the range [first, last) that compares equal to value. If no such element is found, the function returns last.
+
+```cpp
+#include <algorithm>
+
+int main()
+{
+  std::vector<int> vector{1, 2, 3};
+  std::vector<int>::iterator it = std::find(vector.begin(), vector.end(), 2);
+  if (it != vector.end())
+  {
+    std::cout << "Element found\n";
+  }
+  return (0);
+}
+
+// Output: Element found
+```
+
+### For Each
 
 The `std::for_each` algorithm is used to apply a function to each element in a container.
 

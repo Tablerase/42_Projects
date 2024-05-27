@@ -397,6 +397,8 @@ Container adaptors provide a different interface for sequential containers.
 
 [⚙️ Operations / Member Functions](https://cplusplus.com/reference/stack/stack/)
 
+[📑 Code details](https://en.cppreference.com/w/cpp/header/stack)
+
 ```cpp
 std::stack<value_type> stack_name;
 ```

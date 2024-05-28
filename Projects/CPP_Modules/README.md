@@ -272,7 +272,7 @@
     <td>Specifies that a function or class is a template</td>
   </tr>
   <tr>
-    <td>typename</td>
+    <td><a href="./README.md#typename">typename</a></td>
     <td>Specifies that a dependent name is a type</td>
   </tr>
   <tr>
@@ -1980,6 +1980,30 @@ int main()
     std::cout << max<int>(1, 2) << '\n'; // instantiates and calls function max<int>(int, int)
 
     return 0;
+}
+```
+
+### Typename
+
+The `typename` keyword is used in template programming to indicate that a name represents a type. This is necessary because in templates, many names are dependent on template parameters, and the compiler cannot always determine on its own whether a name represents a type or a value.
+
+The `typename` keyword is used to declare a type parameter in a function template.
+
+```cpp
+template <typename T>
+T max(T x, T y)
+{
+  return (x < y) ? y : x;
+}
+```
+
+The `typename` keyword can be replaced with the `class` keyword.
+
+```cpp
+template <class T>
+T max(T x, T y)
+{
+  return (x < y) ? y : x;
 }
 ```
 

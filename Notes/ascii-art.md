@@ -29,6 +29,12 @@
 | `╮`       | Top right curved corner |
 | `╯`       | Bottom right curved corner |
 | `╰`       | Bottom left curved corner |
+| `╔`       | Top left double corner |
+| `╚`       | Bottom left double corner |
+| `═`       | Double horizontal |
+| `║`       | Double vertical |
+| `╗`       | Top right double corner |
+| `╝`       | Bottom right double corner |
 
 ## ANSI Escape Codes
 

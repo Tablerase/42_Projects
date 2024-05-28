@@ -13,7 +13,8 @@
 
 ### Notes
 
-* [🗃️ Containers - STL](./Containers.md)
+* [🗃️ Containers](./Containers.md)
+* [⚙️ STL - Algorithm](./STL.md)
 * [🕴️ Class](./Class.md)
 * [🖋️ String](./String.md)
 

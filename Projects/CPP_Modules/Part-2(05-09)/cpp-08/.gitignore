@@ -1,0 +1,8 @@
+*.out
+*.o
+
+EasyFind
+Span
+MutantStack
+
+.vscode

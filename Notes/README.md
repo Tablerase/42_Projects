@@ -33,4 +33,4 @@
 
 ## 🔗 Useful links
 
-* [Useful link](/Notes/useful_link.md)
+* [Useful link](/Notes/useful_links.md)

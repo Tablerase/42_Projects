@@ -67,6 +67,8 @@ Containers replicate structures very commonly used in programming:
     </tr>
 </table>
 
+***
+
 ## STL Containers
 
 The **Standard Template Library (STL)** is a set of C++ template classes to provide common programming data structures and functions such as lists, stacks, arrays, etc. It is a library of container classes, algorithms, and iterators.
@@ -74,6 +76,60 @@ The **Standard Template Library (STL)** is a set of C++ template classes to prov
 ## Sequence Containers
 
 Sequence containers maintain the ordering of inserted elements that you specify.
+
+<figure>
+<table>
+<tbody>
+<tr><td colspan="2">Headers</td>
+  <th><tt><a href="./Containers.md#vector">&lt;vector&gt;</a></tt></th>
+  <th><tt><a href="./Containers.md#deque">&lt;deque&gt;</a></tt></th>
+  <th><tt><a href="./Containers.md#list">&lt;list&gt;</a></tt></th></tr>
+<tr><td colspan="2">Members</td>
+  <th>vector</th><th>deque</th><th>list</th></tr>
+  <tr><td rowspan="3"> </td><td><i>constructor</i></td><td>vector</td><td>deque</td><td>list</td></tr>
+  <tr><td><i>destructor</i></td><td>~vector</td><td>~deque</td><td>~list</td></tr>
+  <tr><td>operator=</td><td>operator=</td><td>operator=</td><td>operator=</td></tr>
+<tr><td rowspan="4">iterators</td>
+  <td>begin</td><td>begin</td><td>begin</td><td>begin</td></tr>
+  <tr><td>end</td><td>end</td><td>end</td><td>end</td></tr>
+  <tr><td>rbegin</td><td>rbegin</td><td>rbegin</td><td> </td></tr>
+  <tr><td>rend</td><td>rend</td><td>rend</td><td> </td></tr>
+<tr><td rowspan="6">capacity</td>
+  <td>size</td><td>size</td><td>size</td><td>size</td></tr>
+  <tr><td>max_size</td><td>max_size</td><td>max_size</td><td>max_size</td></tr>
+  <tr><td>empty</td><td>empty</td><td>empty</td><td>empty</td></tr>
+  <tr><td>resize</td><td>resize</td><td>resize</td><td>resize</td></tr>
+  <tr><td>capacity</td><td>capacity</td><td> </td><td> </td></tr>
+  <tr><td>reserve</td><td>reserve</td><td> </td><td> </td></tr>
+<tr><td rowspan="4">element access</td>
+  <td>front</td><td>front</td><td>front</td><td>front</td></tr>
+  <tr><td>back</td><td>back</td><td>back</td><td>back</td></tr>
+  <tr><td>operator[]</td><td>operator[]</td><td>operator[]</td><td> </td></tr>
+  <tr><td>at</td><td>at</td><td>at</td><td> </td></tr>
+<tr><td rowspan="9">modifiers</td>
+  <td>assign</td><td>assign</td><td>assign</td><td>assign</td></tr>
+  <tr><td>insert</td><td>insert</td><td>insert</td><td>insert</td></tr>
+  <tr><td>erase</td><td>erase</td><td>erase</td><td>erase</td></tr>
+  <tr><td>push_back</td><td>push_back</td><td>push_back</td><td>push_back</td></tr>
+  <tr><td>pop_back</td><td>pop_back</td><td>pop_back</td><td>pop_back</td></tr>
+  <tr><td>push_front</td><td> </td><td>push_front</td><td>push_front</td></tr>
+  <tr><td>pop_front</td><td> </td><td>pop_front</td><td>pop_front</td></tr>
+  <tr><td>clear</td><td>clear</td><td>clear</td><td>clear</td></tr>
+  <tr><td>swap</td><td>swap</td><td>swap</td><td>swap</td></tr>
+<tr><td rowspan="7">list operations</td>
+  <td>splice</td><td> </td><td> </td><td>splice</td></tr>
+  <tr><td>remove</td><td> </td><td> </td><td>remove</td></tr>
+  <tr><td>remove_if</td><td> </td><td> </td><td>remove_if</td></tr>
+  <tr><td>unique</td><td> </td><td> </td><td>unique</td></tr>
+  <tr><td>merge</td><td> </td><td> </td><td>merge</td></tr>
+  <tr><td>sort</td><td> </td><td> </td><td>sort</td></tr>
+  <tr><td>reverse</td><td> </td><td> </td><td>reverse</td></tr>
+<tr><td rowspan="2">observers</td>
+  <td>get_allocator</td><td> </td><td>get_allocator</td><td>get_allocator</td></tr> 
+</tbody>
+</table>
+  <figcaption>Sequence containers CPP98 Table</figcaption>
+</figure>
 
 ### [List](https://cplusplus.com/reference/list/list/)
 

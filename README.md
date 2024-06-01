@@ -42,6 +42,7 @@ Notes and projects during my time at 42.
 * [Git](./Notes/git.md)
 * [Git Conventions](./Notes/git-conventions.md)
 * [Color/Ascii (e.g in Terminal)](./Notes/ascii-art.md)
+* [Useful Links](./Notes/useful_links.md)
 * [Makefile](./Notes/makefile.md)
 * [MinilibX](./Notes/minilibx.md)
 

@@ -91,3 +91,10 @@ Special values are values that have a special meaning in the context of a progra
 - `nan`: Not a number (double)
 - `+inf`: Infinity (double)
 - `-inf`: Negative infinity (double)
+
+## CPP 09
+
+### Merge Insertion Sort
+
+https://github.com/decidedlyso/merge-insertion-sort/blob/master/README.md
+

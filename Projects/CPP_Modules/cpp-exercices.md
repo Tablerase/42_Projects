@@ -15,7 +15,7 @@ grep -rI "friend"
 
 ## CPP 02
 
-### [Fixed Point](/Notes/computer%20science.md#fixed-point)
+### [Fixed Point](/Notes/computer_science.md#fixed%20point)
 
 ### [BSP](/Notes/binary_space_partitioning.md)
 

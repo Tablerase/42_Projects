@@ -1,5 +1,7 @@
 # C++ Modules
 
+🏗️ [Info about some exercices parts](./cpp-exercices.md)
+
 ## Resources
 
 * [📚 Cplusplus - Best Documentation](https://cplusplus.com/reference/)

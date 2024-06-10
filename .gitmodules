@@ -4,3 +4,6 @@
 [submodule "Projects/Cube3D/cub3D"]
 	path = Projects/Cube3D/cub3D
 	url = git@github.com:Tablerase/42_Cub3D.git
+[submodule "Projects/WebServ/WebServ-Wiki"]
+	path = Projects/WebServ/WebServ-Wiki
+	url = https://github.com/Tablerase/42_WebServ.wiki.git

@@ -6,11 +6,10 @@
 /*   By: rcutte <rcutte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 14:37:53 by rcutte            #+#    #+#             */
-/*   Updated: 2024/04/08 22:21:37 by rcutte           ###   ########.fr       */
+/*   Updated: 2024/06/11 12:03:51 by rcutte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
 #ifndef COLOR_H
 # define COLOR_H
 

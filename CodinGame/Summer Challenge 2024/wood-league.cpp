@@ -11,7 +11,7 @@ using namespace std;
  **/
 
 enum class Games {
-  HURDLE = 0,
+  HURDLE_RACE = 0,
 };
 
 enum class Direction {

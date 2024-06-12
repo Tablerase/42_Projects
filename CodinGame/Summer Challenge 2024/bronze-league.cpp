@@ -23,6 +23,48 @@ enum class Direction {
   STUN
 };
 
+string DirectionToString(Direction dir) {
+    switch (dir) {
+        case Direction::LEFT:
+            return "LEFT";
+        case Direction::DOWN:
+            return "DOWN";
+        case Direction::RIGHT:
+            return "RIGHT";
+        case Direction::UP:
+            return "UP";
+        case Direction::STUN:
+            return "STUN";
+        default:
+            return "UNKNOWN DIRECTION";
+    }
+}
+
+/**
+ * Move the player according to the distance
+ * @param Direction: the direction to move
+ */
+void Move(Direction dir) {
+  switch (dir) {
+    case Direction::LEFT:
+      cout << "LEFT" << endl;
+      break;
+    case Direction::DOWN:
+      cout << "DOWN" << endl;
+      break;
+    case Direction::RIGHT:
+      cout << "RIGHT" << endl;
+      break;
+    case Direction::UP:
+      cout << "UP" << endl;
+      break;
+    case Direction::STUN:
+      cerr << "No move selected, STUNNING..." << endl;
+      cout << "STUN" << endl;
+      break;
+  }
+}
+
 enum class Cell {
   EMPTY,
   HURDLE
@@ -31,12 +73,15 @@ enum class Cell {
 class Track
 {
 public:
+  bool game_over_;
+
   int track_id_;
   string track_ascii_;
   vector<Cell> track_;
   int player_penalty_;
   int player_pos_;
   int player_place_;
+  vector<int> next_moves; // Score for each move(direction)
 
   map<Direction, int> move_score_ = {
     {Direction::LEFT, 1},
@@ -47,6 +92,8 @@ public:
   };
   
   Track(int id) {
+    game_over_ = false;
+
     track_id_ = id;
     track_ascii_ = "";
     player_pos_ = 0;
@@ -65,6 +112,13 @@ public:
       else
         track_[i] = Cell::HURDLE;
     }
+    if (track_ascii == "GAME_OVER") {
+      game_over_ = true;
+      player_penalty_ = 1;
+      player_pos_ = 0;
+    } else {
+      game_over_ = false;
+    }
   }
 
   /**
@@ -74,6 +128,10 @@ public:
    * @note 1 = 1st place, 2 = 2nd place, 3 = 3rd place
    */
   void update_place(int player_2_pos, int player_3_pos) {
+    if (game_over_) {
+      player_place_ = 1;
+      return;
+    }
     if (player_pos_ < player_2_pos && player_pos_ < player_3_pos)
       player_place_ = 3;
     else if (player_pos_ > player_2_pos && player_pos_ > player_3_pos)
@@ -83,7 +141,9 @@ public:
   }
 
   void Print() {
-    cerr << "===========[Track " << track_id_ << "]===========" << endl;
+    if (game_over_) {
+      cerr << "xxxxxxxxxxxxxxxx[GAME OVER]xxxxxxxxxxxxxxxx" << endl;
+    }
     for (int i = 0; i < track_ascii_.size(); i++) {
       if (i == player_pos_ && player_penalty_ == 0) {
         cerr << 'P';
@@ -97,8 +157,15 @@ public:
     }
     cerr << endl;
     cerr << "Next Hurdle: " << Next_Hurdle() << " | ";
-    cerr << "Player Pos: " << player_place_ << " | ";
+    cerr << "Player Pos: " << player_pos_ << " | ";
+    cerr << "Player Place: " << player_place_ << " | ";
     cerr << "Player Penalty: " << player_penalty_ ;
+    cerr << endl;
+    cerr << "Moves: ";
+    for (auto it = next_moves.begin(); it != next_moves.end(); ++it) {
+      cerr << DirectionToString(static_cast<Direction>(std::distance(next_moves.begin(), it))) << " ";
+      cerr << *it << " ";
+    }
     cerr << endl;
   }
 
@@ -114,31 +181,6 @@ public:
     return track_.size();
   }
 
-  /**
-   * Move the player according to the distance
-   * @param Direction: the direction to move
-   */
-  static void Move(Direction dir) {
-    switch (dir) {
-      case Direction::LEFT:
-        cout << "LEFT" << endl;
-        break;
-      case Direction::DOWN:
-        cout << "DOWN" << endl;
-        break;
-      case Direction::RIGHT:
-        cout << "RIGHT" << endl;
-        break;
-      case Direction::UP:
-        cout << "UP" << endl;
-        break;
-      case Direction::STUN:
-        cerr << "No move selected, STUNNING..." << endl;
-        cout << "STUN" << endl;
-        break;
-    }
-  }
-
   // Help choose between tracks which one to prioritize based on next hurdle
   /**
    * Choose which track to priority
@@ -147,44 +189,39 @@ public:
    *      also excludes the track with player's in penalty stun,
    *      also takes into account the player's position
    */
-  static void Priority_Direction(vector<Track> tracks) {
-  // Calculate the move score for each track
-    vector<int> next_moves;
-    // Loop through each move and calculate the next move score for each track
-    for (Direction dir = Direction::LEFT; 
-      dir != Direction::STUN; 
-      dir = static_cast<Direction>(static_cast<int>(dir) + 1))
-      {
-      int total_score = 0;
-      for (auto &track : tracks) {
-        // Standard move
-        if (track.player_penalty_ == 0 && dir != Direction::UP ) {
-          if (track.Next_Hurdle() > track.move_score_[dir]){
-            total_score += track.move_score_[dir];
-          } else {
-            total_score += track.move_score_[Direction::STUN];
-          }
-        } // Jump move
-        else if (track.player_penalty_ == 0 && dir == Direction::UP ) {
-          if (track.Next_Hurdle() == 1){
-            total_score += track.move_score_[dir];
-          } else if (track.Next_Hurdle() > 2) {
-            total_score += track.move_score_[dir];
-          } else {
-            total_score += track.move_score_[Direction::STUN];
-          }
-        }
+  void calculate_moves(void) {
+  // Reset the next moves
+  next_moves.clear();
+  // Loop through each move and calculate the next move score for each track
+  for (Direction dir = Direction::LEFT; 
+    dir != Direction::STUN; 
+    dir = static_cast<Direction>(static_cast<int>(dir) + 1))
+  {
+    int total_score = 0;
+    // Standard move
+    if (player_penalty_ == 0 && dir != Direction::UP ) {
+      if (Next_Hurdle() > move_score_[dir]){
+        total_score += move_score_[dir];
+      } else {
+        total_score += move_score_[Direction::STUN];
       }
-      next_moves.push_back(total_score);
+    } // Jump move
+    else if (player_penalty_ == 0 && dir == Direction::UP ) {
+      if (Next_Hurdle() == 1){
+        total_score += move_score_[dir];
+      } else if (Next_Hurdle() > 2) {
+        total_score += move_score_[dir];
+      } else {
+        total_score += move_score_[Direction::STUN];
+      }
     }
+    next_moves.push_back(total_score);
+  }
 
-  // Select the move with the highest score
+    // Select the move with the highest score
     auto max_score = max_element(next_moves.begin(), next_moves.end());
     // find the index of the max score
     auto max_index = distance(next_moves.begin(), max_score);
-
-  // Move the player
-    Move(static_cast<Direction>(max_index));
   };
 };
 
@@ -200,10 +237,7 @@ int main()
   cin >> nb_games; cin.ignore();
 
   // Init Objects
-  vector<Track> tracks;
-  for (int i = 0; i < nb_games; i++) {
-    tracks.push_back(Track(i));
-  }
+  Track track(0);
 
   // game loop
   while (1) {
@@ -214,40 +248,50 @@ int main()
       getline(cin, score_info);
     }
     for (int i = 0; i < nb_games; i++) {
-      // RaceTrack in ASCII representation: .....#...#...#................
-      // '.' = empty cell, '#' = hurdle
-      // "GAME_OVER", reset of race
       string gpu;
 
-      // Players' positions and penalties
-      // Stun: 0 = no stun, 1 = 1 turn stun, 2 = 2 turn stun, 3 = 3 turn stun
-      // Unused register = -1
-      int reg_0; // Player 1 position
-      int reg_3; // Player 1 penalty
-
-      int reg_1; // Player 2 position
-      int reg_4; // Player 2 penalty
-
-      int reg_2; // Player 3 position
-      int reg_5; // Player 3 penalty
-
-      int reg_6; // Unused
+      int reg_0; 
+      int reg_1; 
+      int reg_2;
+      int reg_3;
+      int reg_4; 
+      int reg_5;
+      int reg_6;
       cin
         >> gpu
         >> reg_0 >> reg_1 >> reg_2 >> reg_3
         >> reg_4 >> reg_5 >> reg_6; cin.ignore();
-      auto &track = tracks[i];
-      track.update(gpu, reg_0, reg_3);
-      track.update_place(reg_1, reg_2);
-      track.Print();
+      
+      cerr << "-----------------------[Game " << i << " Info]-----------------------" << endl;
+      cerr << "GPU: " << gpu << endl;
+      if (i == 0) {
+        cerr << "====================[Hurdle Race]====================" << endl;
+        track.update(gpu, reg_0, reg_3);
+        track.update_place(reg_1, reg_2);
+        track.calculate_moves();
+        track.Print();
+      }
     }
-    Track::Priority_Direction(tracks);
-    // Write an action using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    /* =============[ End of Game Loop ]============= */
+
+    // Select the move with the highest score
+    auto max_score = max_element(track.next_moves.begin(), track.next_moves.end());
+    // find the index of the max score
+    auto max_index = distance(track.next_moves.begin(), max_score);
+    Move(static_cast<Direction>(max_index));
   }
 }
 
-/* ========================= Context of Wood League ========================= */
+/* ============================ Game Rules ============================ */
+/*
+Actions: LEFT, DOWN, RIGHT, UP
+- Write an action using cout. DON'T FORGET THE "<< endl"
+
+Debug:
+- To debug: cerr << "Debug messages..." << endl;
+*/
+
+/* ========================= Context of Hurdle Race ========================= */
 /*
 Play multiple runs of the Hurdle Race mini-game against two other players.
 To play, print either LEFT, DOWN, RIGHT, UP on each turn.
@@ -258,6 +302,30 @@ To play, print either LEFT, DOWN, RIGHT, UP on each turn.
   ignoring any hurdle on the next space and moving by 2 spaces total.
 
 ⚡ One Action is done in for every simultaneous games at the same time. ⚡
+
+Params:
+- Track: ASCII representation of the race track
+- Player's position in the track
+- Player's penalty: 0 = no stun, 1 = 1 turn stun, 2 = 2 turn stun, 3 = 3 turn stun
+
+- string gpu : ASCII representation of race track : 
+  .....#...#...#................
+  '.' = empty cell, '#' = hurdle
+  "GAME_OVER", reset of race
+
+- line of 6 integers:
+  Players' positions and penalties
+  Unused register = -1
+  int reg_0; // Player 1 position
+  int reg_3; // Player 1 penalty
+
+  int reg_1; // Player 2 position
+  int reg_4; // Player 2 penalty
+
+  int reg_2; // Player 3 position
+  int reg_5; // Player 3 penalty
+
+  int reg_6; // Unused
 
 Constraints:
 - 100 turns

@@ -181,51 +181,46 @@ public:
     return track_.size();
   }
 
-  // Help choose between tracks which one to prioritize based on next hurdle
   /**
-   * Choose which track to priority
-   * @param tracks: the list of tracks to choose from
-   * @note choose the track with the least next hurdle,
-   *      also excludes the track with player's in penalty stun,
-   *      also takes into account the player's position
+   * Calculate the next moves for the player
+   * @note calcul according to the least next hurdle,
+   * also excludes the track with player's in penalty stun,
+   * also takes into account the player's position
    */
   void calculate_moves(void) {
-  // Reset the next moves
-  next_moves.clear();
-  // Loop through each move and calculate the next move score for each track
-  for (Direction dir = Direction::LEFT; 
-    dir != Direction::STUN; 
-    dir = static_cast<Direction>(static_cast<int>(dir) + 1))
-  {
-    int total_score = 0;
-    // Standard move
-    if (player_penalty_ == 0 && dir != Direction::UP ) {
-      if (Next_Hurdle() > move_score_[dir]){
-        total_score += move_score_[dir];
-      } else {
-        total_score += move_score_[Direction::STUN];
+    // Reset the next moves
+    next_moves.clear();
+    // Loop through each move and calculate the next move score for each track
+    for (Direction dir = Direction::LEFT; 
+      dir != Direction::STUN; 
+      dir = static_cast<Direction>(static_cast<int>(dir) + 1))
+    {
+      int total_score = 0;
+      // Standard move
+      if (player_penalty_ == 0 && dir != Direction::UP ) {
+        if (Next_Hurdle() > move_score_[dir]){
+          total_score += move_score_[dir];
+        } else {
+          total_score += move_score_[Direction::STUN];
+        }
+      } // Jump move
+      else if (player_penalty_ == 0 && dir == Direction::UP ) {
+        if (Next_Hurdle() == 1){
+          total_score += move_score_[dir];
+        } else if (Next_Hurdle() > 2) {
+          total_score += move_score_[dir];
+        } else {
+          total_score += move_score_[Direction::STUN];
+        }
       }
-    } // Jump move
-    else if (player_penalty_ == 0 && dir == Direction::UP ) {
-      if (Next_Hurdle() == 1){
-        total_score += move_score_[dir];
-      } else if (Next_Hurdle() > 2) {
-        total_score += move_score_[dir];
-      } else {
-        total_score += move_score_[Direction::STUN];
-      }
+      next_moves.push_back(total_score);
     }
-    next_moves.push_back(total_score);
-  }
-
-    // Select the move with the highest score
-    auto max_score = max_element(next_moves.begin(), next_moves.end());
-    // find the index of the max score
-    auto max_index = distance(next_moves.begin(), max_score);
+    // // Select the move with the highest score
+    // auto max_score = max_element(next_moves.begin(), next_moves.end());
+    // // find the index of the max score
+    // auto max_index = distance(next_moves.begin(), max_score);
   };
 };
-
-
 
 int main()
 {
@@ -243,13 +238,11 @@ int main()
   while (1) {
     for (int i = 0; i < 3; i++) {
       // Current player's score: 
-      // final_score, nb_gold_medals, nb_silver_medals, nb_bronze_medals
-      string score_info;
+      string score_info; // final_score, nb_gold_medals, nb_silver_medals, nb_bronze_medals
       getline(cin, score_info);
     }
     for (int i = 0; i < nb_games; i++) {
       string gpu;
-
       int reg_0; 
       int reg_1; 
       int reg_2;
@@ -262,8 +255,7 @@ int main()
         >> reg_0 >> reg_1 >> reg_2 >> reg_3
         >> reg_4 >> reg_5 >> reg_6; cin.ignore();
       
-      cerr << "-----------------------[Game " << i << " Info]-----------------------" << endl;
-      cerr << "GPU: " << gpu << endl;
+      cerr << "-----------------------[Game " << i << " Infos]-----------------------" << endl;
       if (i == 0) {
         cerr << "====================[Hurdle Race]====================" << endl;
         track.update(gpu, reg_0, reg_3);

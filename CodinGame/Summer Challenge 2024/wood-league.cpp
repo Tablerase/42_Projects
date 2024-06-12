@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 #include <algorithm>
 
 using namespace std;
@@ -18,7 +19,8 @@ enum class Direction {
   LEFT,
   DOWN,
   RIGHT,
-  UP
+  UP,
+  STUN
 };
 
 enum class Cell {
@@ -35,6 +37,14 @@ public:
   int player_penalty_;
   int player_pos_;
   int player_place_;
+
+  map<Direction, int> move_score_ = {
+    {Direction::LEFT, 1},
+    {Direction::DOWN, 2},
+    {Direction::RIGHT, 3},
+    {Direction::UP, 2},
+    {Direction::STUN, -6}
+  };
   
   Track(int id) {
     track_id_ = id;
@@ -106,24 +116,25 @@ public:
 
   /**
    * Move the player according to the distance
-   * @param distance: the distance to move
+   * @param Direction: the direction to move
    */
-  static void Move(int distance){
-    switch (distance) {
-      case 0:
-        cout << "UP" << endl;
-        break;
-      case 1:
-        cout << "UP" << endl;
-        break;
-      case 2:
+  static void Move(Direction dir) {
+    switch (dir) {
+      case Direction::LEFT:
         cout << "LEFT" << endl;
         break;
-      case 3:
+      case Direction::DOWN:
         cout << "DOWN" << endl;
         break;
-      default:
+      case Direction::RIGHT:
         cout << "RIGHT" << endl;
+        break;
+      case Direction::UP:
+        cout << "UP" << endl;
+        break;
+      case Direction::STUN:
+        cerr << "No move selected, STUNNING..." << endl;
+        cout << "STUN" << endl;
         break;
     }
   }
@@ -135,17 +146,45 @@ public:
    * @note choose the track with the least next hurdle,
    *      also excludes the track with player's in penalty stun,
    *      also takes into account the player's position
-   * !TODO: Update to take into account the player's position and other parameters
-   * !TODO: Make move from this function
    */
-  static int Priority_Direction(vector<Track> tracks) {
-    vector<int> next_hurdles;
-    for (auto &track : tracks) {
-      if (track.player_penalty_ > 0)
-        continue;
-      next_hurdles.push_back(track.Next_Hurdle());
+  static void Priority_Direction(vector<Track> tracks) {
+  // Calculate the move score for each track
+    vector<int> next_moves;
+    // Loop through each move and calculate the next move score for each track
+    for (Direction dir = Direction::LEFT; 
+      dir != Direction::STUN; 
+      dir = static_cast<Direction>(static_cast<int>(dir) + 1))
+      {
+      int total_score = 0;
+      for (auto &track : tracks) {
+        // Standard move
+        if (track.player_penalty_ == 0 && dir != Direction::UP ) {
+          if (track.Next_Hurdle() > track.move_score_[dir]){
+            total_score += track.move_score_[dir];
+          } else {
+            total_score += track.move_score_[Direction::STUN];
+          }
+        } // Jump move
+        else if (track.player_penalty_ == 0 && dir == Direction::UP ) {
+          if (track.Next_Hurdle() == 1){
+            total_score += track.move_score_[dir];
+          } else if (track.Next_Hurdle() > 2) {
+            total_score += track.move_score_[dir];
+          } else {
+            total_score += track.move_score_[Direction::STUN];
+          }
+        }
+      }
+      next_moves.push_back(total_score);
     }
-    return distance(next_hurdles.begin(), min_element(next_hurdles.begin(), next_hurdles.end()));
+
+  // Select the move with the highest score
+    auto max_score = max_element(next_moves.begin(), next_moves.end());
+    // find the index of the max score
+    auto max_index = distance(next_moves.begin(), max_score);
+
+  // Move the player
+    Move(static_cast<Direction>(max_index));
   };
 };
 
@@ -202,7 +241,7 @@ int main()
       track.update_place(reg_1, reg_2);
       track.Print();
     }
-    Track::Move(Track::Priority_Direction(tracks));
+    Track::Priority_Direction(tracks);
     // Write an action using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
   }

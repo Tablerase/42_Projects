@@ -1,3 +1,8 @@
+#pragma GCC optimize("O3")
+#pragma GCC optimize("inline")
+#pragma GCC optimize("omit-frame-pointer")
+#pragma GCC optimize("unroll-loops")
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,20 +29,20 @@ enum class Direction {
 };
 
 string DirectionToString(Direction dir) {
-    switch (dir) {
-        case Direction::LEFT:
-            return "LEFT";
-        case Direction::DOWN:
-            return "DOWN";
-        case Direction::RIGHT:
-            return "RIGHT";
-        case Direction::UP:
-            return "UP";
-        case Direction::STUN:
-            return "STUN";
-        default:
-            return "UNKNOWN DIRECTION";
-    }
+  switch (dir) {
+    case Direction::LEFT:
+        return "LEFT";
+    case Direction::DOWN:
+        return "DOWN";
+    case Direction::RIGHT:
+        return "RIGHT";
+    case Direction::UP:
+        return "UP";
+    case Direction::STUN:
+        return "STUN";
+    default:
+        return "UNKNOWN DIRECTION";
+  }
 }
 
 /**

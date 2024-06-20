@@ -96,5 +96,143 @@ Special values are values that have a special meaning in the context of a progra
 
 ### Merge Insertion Sort
 
+
 https://github.com/decidedlyso/merge-insertion-sort/blob/master/README.md
 
+#### [Ford-Johnson Algorithm](https://en.wikipedia.org/wiki/Merge-insertion_sort)
+
+The Ford-Johnson algorithm is a sorting algorithm that combines the merge sort and insertion sort algorithms to achieve a faster sorting time. 
+
+While not performing an optimal number of comparisons, it's still a reference and one of the best known comparison sorts when it comes to reducing the number of comparisons.
+
+The algorithm works by dividing the input array into smaller subarrays and sorting them using insertion sort. The sorted subarrays are then merged together using the merge sort algorithm to produce the final sorted array.
+
+##### Evolution
+
+- In 1979, The Manacher algorithm was published, which is a variant of the Ford-Johnson algorithm. It uses a different approach to divide the input array into subarrays and sort them using insertion sort in a way that reduces the number of comparisons and for large arrays, it can be faster than the Ford-Johnson algorithm.
+
+##### Steps
+
+1. Divide the input array $ X $ of $ n $ elements into $ n/2 $ smaller subarrays of size $ 2 $, if odd number of elements, last element is left alone.
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+  subgraph Array_X
+    direction LR
+    Array --> Element1["2"]:::yellow
+    Element1 --- Element2["5"]:::orange
+    Element2 --- Element3["7"]:::lightcoral
+    Element3 --- Element4["3"]:::lightpink
+    Element4 --- Element5["4"]:::lightgreen
+    Element5 --- Element6["1"]:::lightblue
+    Element6 --- Element7["6"]:::mediumpurple
+  end
+
+  subgraph Paired
+    direction TB
+    Pair1["[2, 5]"]:::yellow
+    Pair2["[7, 3]"]:::lightcoral
+    Pair3["[4, 1]"]:::lightgreen
+    Pair4["[6]"]:::mediumpurple
+  end
+  Array_X --> Paired
+```
+
+2. Sort each subarray using insertion sort.
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+  subgraph Array_X
+    direction LR
+    Element1["2"]:::yellow
+    Element1 --- Element2["5"]:::orange
+    Element2 --- Element3["7"]:::lightcoral
+    Element3 --- Element4["3"]:::lightpink
+    Element4 --- Element5["4"]:::lightgreen
+    Element5 --- Element6["1"]:::lightblue
+    Element6 --- Element7["6"]:::mediumpurple
+  end
+
+  subgraph Paired
+    direction TB
+    Pair1["[2, 5]"]:::yellow
+    Pair2["[7, 3]"]:::lightcoral
+    Pair3["[4, 1]"]:::lightgreen
+    Pair4["[6]"]:::mediumpurple
+  end
+  Array_X --> Paired
+  Paired --> Sorted_Paired
+  subgraph Sorted_Paired
+    direction TB
+    Sorted1["[2, 5]"]:::yellow
+    Sorted2["[3, 7]"]:::lightpink
+    Sorted3["[1, 4]"]:::lightblue
+    Sorted4["[6]"]:::mediumpurple
+  end
+```
+
+3. Create a new array $ S $ of size $ n/2 $ to store the sorted subarrays in ascending order (accordint to larger element of a pair).
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+  subgraph Array_X
+    direction LR
+    Element1["2"]:::yellow
+    Element1 --- Element2["5"]:::orange
+    Element2 --- Element3["7"]:::lightcoral
+    Element3 --- Element4["3"]:::lightpink
+    Element4 --- Element5["4"]:::lightgreen
+    Element5 --- Element6["1"]:::lightblue
+    Element6 --- Element7["6"]:::mediumpurple
+  end
+
+  subgraph Paired
+    direction TB
+    Pair1["[2, 5]"]:::yellow
+    Pair2["[7, 3]"]:::lightcoral
+    Pair3["[4, 1]"]:::lightgreen
+    Pair4["[6]"]:::mediumpurple
+  end
+  Array_X --> Paired
+
+  Paired --> Sorted_Paired
+  subgraph Sorted_Paired
+    direction TB
+    Sorted1["[2, 5]"]:::yellow
+    Sorted2["[3, 7]"]:::lightpink
+    Sorted3["[1, 4]"]:::lightblue
+    Sorted4["[6]"]:::mediumpurple
+  end
+
+  Sorted_Paired --> Array_S
+  subgraph Array_S
+    direction LR
+    Sorted3'["1, 4"]:::lightblue
+    Sorted1'["2, 5"]:::yellow
+    Sorted4'["6"]:::mediumpurple
+    Sorted2'["3, 7"]:::lightpink
+    Sorted3' --> Sorted1' --> Sorted4' --> Sorted2'
+  end
+  Note_Array_S["Ascending order\nfrom the larger element of each pair"] -.- Array_S
+```

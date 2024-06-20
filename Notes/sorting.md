@@ -26,3 +26,21 @@ Counting sort is a sorting algorithm that sorts the elements of an array by coun
 
 ![Counting Sort Demo](https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210219152324/ezgif.com-gif-maker2.gif)
 ![Counting Sort Demo](https://upload.wikimedia.org/wikipedia/commons/6/60/Counting_Sort_Animation.gif?20140818011201)
+
+## [Merge Sort](https://www.programiz.com/dsa/merge-sort)
+
+Merge sort is a sorting technique based on divide and conquer technique. With worst-case time complexity being $ Ο(\text{n log n}) $, it is one of the most respected algorithms.
+
+Merge sort first divides the array into equal halves and then combines them in a sorted manner.
+
+![Merge Sort Demo](https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge-sort-example-300px.gif)
+![Merge Sort Demo](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Merge_sort_algorithm_diagram.svg/300px-Merge_sort_algorithm_diagram.svg.png)
+
+## [Insertion Sort](https://www.programiz.com/dsa/insertion-sort)
+
+Insertion sort is a simple sorting algorithm that works similar to the way you sort playing cards in your hands. The array is virtually split into a sorted and an unsorted part. Values from the unsorted part are picked and placed at the correct position in the sorted part.
+
+Complexity: $ O(n^2) $
+
+![Insertion Sort Demo](https://upload.wikimedia.org/wikipedia/commons/0/0f/Insertion-sort-example-300px.gif)
+![Insertion Sort Demo](https://upload.wikimedia.org/wikipedia/commons/4/42/Insertion_sort.gif)

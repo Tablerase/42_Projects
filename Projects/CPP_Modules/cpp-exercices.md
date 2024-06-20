@@ -17,6 +17,10 @@ grep -rI "friend"
 
 ### [Fixed Point](/Notes/computer_science.md#fixed%20point)
 
+Fixed-point arithmetic is a method of representing numbers that allows for a fixed number of digits after the decimal point. This is in contrast to floating-point arithmetic, which allows for a variable number of digits after the decimal point.
+
+Fixed-point arithmetic is often used in embedded systems and other applications where floating-point arithmetic is not available or is too slow. It is also used in some programming languages, such as C and C++, to represent fixed-point numbers.
+
 ### [BSP](/Notes/binary_space_partitioning.md)
 
 BSP conrespond to Binary Space Partitioning. It is a method used to divide a space into two parts.
@@ -96,8 +100,11 @@ Special values are values that have a special meaning in the context of a progra
 
 ### Merge Insertion Sort
 
+- [Github - MergeInsertion Sort with Ressources - in Clojure](https://github.com/decidedlyso/merge-insertion-sort/blob/master/README.md)
+  - [Github - Same as with less details - in Python](https://github.com/PunkChameleon/ford-johnson-merge-insertion-sort)
 
-https://github.com/decidedlyso/merge-insertion-sort/blob/master/README.md
+- 📰 [Original Paper](https://doi.org/10.1080/00029890.1959.11989306) 
+  - Ford, L. R.; Johnson, S. M. (1959). "A Tournament Problem". The American Mathematical Monthly. 66 (5): 387–389. doi:10.2307/2310397. JSTOR 2310397. [📖](https://Maybe_sci-hub_can_help_if_think_that_knowledge_should_be_free)
 
 #### [Ford-Johnson Algorithm](https://en.wikipedia.org/wiki/Merge-insertion_sort)
 

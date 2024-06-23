@@ -120,7 +120,9 @@ The algorithm works by dividing the input array into smaller subarrays and sorti
 
 - In 1979, The Manacher algorithm was published, which is a variant of the Ford-Johnson algorithm. It uses a different approach to divide the input array into subarrays and sort them using insertion sort in a way that reduces the number of comparisons and for large arrays, it can be faster than the Ford-Johnson algorithm.
 
-##### Steps
+##### Steps (Brouillon not finished/understandable)
+
+<!-- ! TODO: coherent steps with where to use jacobsthal numbers -->
 
 1. Divide the input array $ X $ of $ n $ elements into $ n/2 $ smaller subarrays of size $ 2 $, if odd number of elements, last element is left alone.
 

@@ -100,11 +100,13 @@ Special values are values that have a special meaning in the context of a progra
 
 ### Merge Insertion Sort
 
-- [Github - MergeInsertion Sort with Ressources - in Clojure](https://github.com/decidedlyso/merge-insertion-sort/blob/master/README.md)
+- [Github - MergeInsertion Sort with Ressources - in Clojure](https://github.com/decidedlyso/merge-insertion-sort/tree/master)
   - [Github - Same as with less details - in Python](https://github.com/PunkChameleon/ford-johnson-merge-insertion-sort)
 
 - 📰 [Original Paper](https://doi.org/10.1080/00029890.1959.11989306) 
   - Ford, L. R.; Johnson, S. M. (1959). "A Tournament Problem". The American Mathematical Monthly. 66 (5): 387–389. doi:10.2307/2310397. JSTOR 2310397. [📖](https://Maybe_sci-hub_can_help_if_think_that_knowledge_should_be_free)
+
+- [Jacobsthal number](https://en.wikipedia.org/wiki/Jacobsthal_number)
 
 #### [Ford-Johnson Algorithm](https://en.wikipedia.org/wiki/Merge-insertion_sort)
 
@@ -121,38 +123,6 @@ The algorithm works by dividing the input array into smaller subarrays and sorti
 ##### Steps
 
 1. Divide the input array $ X $ of $ n $ elements into $ n/2 $ smaller subarrays of size $ 2 $, if odd number of elements, last element is left alone.
-
-```mermaid
-graph TD
-  classDef yellow fill:#e7f20d;
-  classDef orange fill:#f2a00d;
-  classDef lightcoral fill:LightCoral;
-  classDef lightpink fill:LightPink;
-  classDef lightgreen fill:LightGreen;
-  classDef lightblue fill:LightBlue;
-  classDef mediumpurple fill:MediumPurple;
-  subgraph Array_X
-    direction LR
-    Array --> Element1["2"]:::yellow
-    Element1 --- Element2["5"]:::orange
-    Element2 --- Element3["7"]:::lightcoral
-    Element3 --- Element4["3"]:::lightpink
-    Element4 --- Element5["4"]:::lightgreen
-    Element5 --- Element6["1"]:::lightblue
-    Element6 --- Element7["6"]:::mediumpurple
-  end
-
-  subgraph Paired
-    direction TB
-    Pair1["[2, 5]"]:::yellow
-    Pair2["[7, 3]"]:::lightcoral
-    Pair3["[4, 1]"]:::lightgreen
-    Pair4["[6]"]:::mediumpurple
-  end
-  Array_X --> Paired
-```
-
-2. Sort each subarray using insertion sort.
 
 ```mermaid
 graph TD
@@ -182,6 +152,27 @@ graph TD
     Pair4["[6]"]:::mediumpurple
   end
   Array_X --> Paired
+```
+
+2. Sort each subarray (single comparison).
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+
+  subgraph Paired
+    direction TB
+    Pair1["[2, 5]"]:::yellow
+    Pair2["[7, 3]"]:::lightcoral
+    Pair3["[4, 1]"]:::lightgreen
+    Pair4["[6]"]:::mediumpurple
+  end
   Paired --> Sorted_Paired
   subgraph Sorted_Paired
     direction TB
@@ -192,7 +183,39 @@ graph TD
   end
 ```
 
-3. Create a new array $ S $ of size $ n/2 $ to store the sorted subarrays in ascending order (accordint to larger element of a pair).
+3. Create a new array $ S $ of size $ n/2 $ to store the sorted subarrays in ascending order (accordint to first of a pair). Odd number of elements, last element is left alone. **Insertion sort** is used to sort the subarrays.
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+
+  subgraph Sorted_Paired
+    direction TB
+    Sorted1["[2, 5]"]:::yellow
+    Sorted2["[3, 7]"]:::lightpink
+    Sorted3["[1, 4]"]:::lightblue
+    Sorted4["[6]"]:::mediumpurple
+  end
+
+  Sorted_Paired --> Array_S
+  subgraph Array_S
+    direction LR
+    Sorted3'["1, 4"]:::lightblue
+    Sorted1'["2, 5"]:::yellow
+    Sorted2'["3, 7"]:::lightpink
+    Sorted4'["6"]:::mediumpurple
+    Sorted3' --> Sorted1' --> Sorted2' --> Sorted4'
+  end
+  Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
+```
+
+4. Merge the sorted subarrays in $ S $ using the **merge sort** algorithm.
 
 ```mermaid
 graph TD
@@ -237,9 +260,15 @@ graph TD
     direction LR
     Sorted3'["1, 4"]:::lightblue
     Sorted1'["2, 5"]:::yellow
-    Sorted4'["6"]:::mediumpurple
     Sorted2'["3, 7"]:::lightpink
-    Sorted3' --> Sorted1' --> Sorted4' --> Sorted2'
+    Sorted4'["6"]:::mediumpurple
+    Sorted3' --> Sorted1' --> Sorted2' --> Sorted4'
   end
-  Note_Array_S["Ascending order\nfrom the larger element of each pair"] -.- Array_S
+  Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
+
+  Array_S --> Merged_Array
+  subgraph Merged_Array
+    direction LR
+    Merged1["1, 2, 3, 4, 5, 6, 7"]:::yellow
+  end
 ```

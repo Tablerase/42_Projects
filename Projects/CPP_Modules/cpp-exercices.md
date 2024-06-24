@@ -137,19 +137,19 @@ graph TD
   classDef mediumpurple fill:MediumPurple;
   subgraph Array_X
     direction LR
-    Element1["2"]:::yellow
-    Element1 --- Element2["5"]:::orange
-    Element2 --- Element3["7"]:::lightcoral
+    Element3["7"]:::lightcoral
     Element3 --- Element4["3"]:::lightpink
-    Element4 --- Element5["4"]:::lightgreen
+    Element4 --- Element1["2"]:::yellow
+    Element1 --- Element2["5"]:::orange
+    Element2 --- Element5["4"]:::lightgreen
     Element5 --- Element6["1"]:::lightblue
     Element6 --- Element7["6"]:::mediumpurple
   end
 
   subgraph Paired
     direction TB
-    Pair1["[2, 5]"]:::yellow
     Pair2["[7, 3]"]:::lightcoral
+    Pair1["[2, 5]"]:::yellow
     Pair3["[4, 1]"]:::lightgreen
     Pair4["[6]"]:::mediumpurple
   end
@@ -170,22 +170,22 @@ graph TD
 
   subgraph Paired
     direction TB
-    Pair1["[2, 5]"]:::yellow
     Pair2["[7, 3]"]:::lightcoral
+    Pair1["[2, 5]"]:::yellow
     Pair3["[4, 1]"]:::lightgreen
     Pair4["[6]"]:::mediumpurple
   end
   Paired --> Sorted_Paired
   subgraph Sorted_Paired
     direction TB
-    Sorted1["[2, 5]"]:::yellow
     Sorted2["[3, 7]"]:::lightpink
+    Sorted1["[2, 5]"]:::yellow
     Sorted3["[1, 4]"]:::lightblue
     Sorted4["[6]"]:::mediumpurple
   end
 ```
 
-3. Create a new array $ S $ of size $ n/2 $ to store the sorted subarrays in ascending order (accordint to first of a pair). Odd number of elements, last element is left alone. **Insertion sort** is used to sort the subarrays.
+3. Create a new array $ S $ of size $ n/2 $ to store the sorted subarrays in ascending order (accordint to first of a pair). **Merge sort** is used to sort the subarrays.
 
 ```mermaid
 graph TD
@@ -199,25 +199,62 @@ graph TD
 
   subgraph Sorted_Paired
     direction TB
-    Sorted1["[2, 5]"]:::yellow
     Sorted2["[3, 7]"]:::lightpink
+    Sorted1["[2, 5]"]:::yellow
     Sorted3["[1, 4]"]:::lightblue
     Sorted4["[6]"]:::mediumpurple
   end
 
-  Sorted_Paired --> Array_S
+  Sorted_Paired --> row_1
+  Sorted_Paired --> row_1'
+  subgraph Merged_Steps
+    direction TB
+    subgraph row_1
+      direction TB
+      Sorted2'["3, 7"]:::lightpink
+      Sorted1'["2, 5"]:::yellow
+    end
+    subgraph row_1'
+      direction TB
+      Sorted3'["1, 4"]:::lightblue
+      Sorted4'["6"]:::mediumpurple
+    end
+    row_1 --> row_2
+    subgraph row_2
+      direction TB
+      Sorted1''["2, 5"]:::yellow
+      Sorted2''["3, 7"]:::lightpink
+    end
+    row_1' --> row_2'
+    subgraph row_2'
+      direction TB
+      Sorted3''["1, 4"]:::lightblue
+      Sorted4''["6"]:::mediumpurple
+    end
+    row_2 --> row_3
+    row_2' --> row_3
+    subgraph row_3
+      direction TB
+      Sorted3'''["1, 4"]:::lightblue
+      Sorted1'''["2, 5"]:::yellow
+      Sorted2'''["3, 7"]:::lightpink
+      Sorted4'''["6"]:::mediumpurple
+    end
+  end
+
+  row_3 --> Array_S
   subgraph Array_S
     direction LR
-    Sorted3'["1, 4"]:::lightblue
-    Sorted1'["2, 5"]:::yellow
-    Sorted2'["3, 7"]:::lightpink
-    Sorted4'["6"]:::mediumpurple
-    Sorted3' --> Sorted1' --> Sorted2' --> Sorted4'
+    Sorted3'''''["1, 4"]:::lightblue
+    Sorted1'''''["2, 5"]:::yellow
+    Sorted2'''''["3, 7"]:::lightpink
+    Sorted4'''''["6"]:::mediumpurple
+    Sorted3''''' --> Sorted1''''' --> Sorted2''''' --> Sorted4'''''
   end
   Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
 ```
 
-4. Merge the sorted subarrays in $ S $ using the **merge sort** algorithm.
+4. Insert the sorted subarrays in $ S $ using the **insert sort** algorithm.
 
 ```mermaid
 graph TD
@@ -228,49 +265,41 @@ graph TD
   classDef lightgreen fill:LightGreen;
   classDef lightblue fill:LightBlue;
   classDef mediumpurple fill:MediumPurple;
-  subgraph Array_X
-    direction LR
-    Element1["2"]:::yellow
-    Element1 --- Element2["5"]:::orange
-    Element2 --- Element3["7"]:::lightcoral
-    Element3 --- Element4["3"]:::lightpink
-    Element4 --- Element5["4"]:::lightgreen
-    Element5 --- Element6["1"]:::lightblue
-    Element6 --- Element7["6"]:::mediumpurple
-  end
-
-  subgraph Paired
-    direction TB
-    Pair1["[2, 5]"]:::yellow
-    Pair2["[7, 3]"]:::lightcoral
-    Pair3["[4, 1]"]:::lightgreen
-    Pair4["[6]"]:::mediumpurple
-  end
-  Array_X --> Paired
-
-  Paired --> Sorted_Paired
-  subgraph Sorted_Paired
-    direction TB
-    Sorted1["[2, 5]"]:::yellow
-    Sorted2["[3, 7]"]:::lightpink
-    Sorted3["[1, 4]"]:::lightblue
-    Sorted4["[6]"]:::mediumpurple
-  end
-
-  Sorted_Paired --> Array_S
+  
   subgraph Array_S
     direction LR
-    Sorted3'["1, 4"]:::lightblue
-    Sorted1'["2, 5"]:::yellow
-    Sorted2'["3, 7"]:::lightpink
-    Sorted4'["6"]:::mediumpurple
-    Sorted3' --> Sorted1' --> Sorted2' --> Sorted4'
+    Sorted3'''''["1, 4"]:::lightblue
+    Sorted1'''''["2, 5"]:::yellow
+    Sorted2'''''["3, 7"]:::lightpink
+    Sorted4'''''["6"]:::mediumpurple
+    Sorted3''''' --> Sorted1''''' --> Sorted2''''' --> Sorted4'''''
   end
-  Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
 
-  Array_S --> Merged_Array
-  subgraph Merged_Array
+  Array_S --> Inserted_Array_S
+  subgraph Inserted_Array_S
     direction LR
-    Merged1["1, 2, 3, 4, 5, 6, 7"]:::yellow
+    subgraph Main_Chain
+      direction LR
+      subgraph node_1
+        direction TB
+        element_1["1"]:::lightblue
+        element_4["4"]:::lightblue
+      end
+      subgraph node_2
+        direction TB
+        element_2["2"]:::yellow
+        element_5["5"]:::yellow
+      end
+      subgraph node_3
+        direction TB
+        element_3["3"]:::lightpink
+        element_7["7"]:::lightpink
+      end
+      subgraph node_4
+        direction TB
+        element_6["6"]:::mediumpurple
+      end
+      element_1 --- element_2 --- element_3
+    end
   end
 ```

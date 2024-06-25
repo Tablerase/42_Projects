@@ -107,6 +107,28 @@ Special values are values that have a special meaning in the context of a progra
   - Ford, L. R.; Johnson, S. M. (1959). "A Tournament Problem". The American Mathematical Monthly. 66 (5): 387–389. doi:10.2307/2310397. JSTOR 2310397. [📖](https://Maybe_sci-hub_can_help_if_think_that_knowledge_should_be_free)
 
 - [Jacobsthal number](https://en.wikipedia.org/wiki/Jacobsthal_number)
+  <details>
+    <summary>Definition</summary>
+
+    - The Jacobsthal numbers form a sequence of integers that are defined by the recurrence relation:
+      $$ J_0 = 0 $$
+      $$ J_1 = 1 $$
+      $$ J_n = J_{n-1} + 2 \times J_{n-2} $$
+
+    - The first few Jacobsthal numbers are:
+    ```math
+    0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765, 2863311531, 5726623061, 11453246123
+    ```
+    [Full list with details](https://oeis.org/A001045)
+
+    ```cpp
+    int jacobsthal(int n) {
+      if (n == 0) return 0;
+      if (n == 1) return 1;
+      return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
+    }
+    ```
+  </details>
 
 #### [Ford-Johnson Algorithm](https://en.wikipedia.org/wiki/Merge-insertion_sort)
 
@@ -254,7 +276,7 @@ graph TD
   Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
 ```
 
-4. Insert the sorted subarrays in $ S $ using the **insert sort** algorithm.
+4. Insert the sorted subarrays in $ S $ using the **insert sort** algorithm with the Jacobsthal set for the order of comparison.
 
 ```mermaid
 graph TD
@@ -278,7 +300,7 @@ graph TD
   Array_S --> Inserted_Array_S
   subgraph Inserted_Array_S
     direction LR
-    subgraph Main_Chain
+    subgraph Setup_Arrays
       direction LR
       subgraph node_1
         direction TB
@@ -299,7 +321,61 @@ graph TD
         direction TB
         element_6["6"]:::mediumpurple
       end
-      element_1 --- element_2 --- element_3
+    end
+  end
+```
+
+TEST diagram
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+  
+  subgraph Array_S
+    direction LR
+    Sorted3'''''["1, 4"]:::lightblue
+    Sorted1'''''["2, 5"]:::yellow
+    Sorted2'''''["3, 7"]:::lightpink
+    Sorted4'''''["6"]:::mediumpurple
+    Sorted3''''' --> Sorted1''''' --> Sorted2''''' --> Sorted4'''''
+  end
+
+  Array_S --> Inserted_Array_S
+  subgraph Inserted_Array_S
+    direction LR
+    subgraph Setup_Arrays
+      direction TB
+      subgraph node_1
+        direction TB
+        element_1["1"]:::lightblue
+        element_4["4"]:::lightblue
+      end
+      subgraph node_2
+        direction TB
+        element_2["2"]:::yellow
+        element_5["5"]:::yellow
+      end
+      subgraph node_3
+        direction TB
+        element_3["3"]:::lightpink
+        element_7["7"]:::lightpink
+      end
+      subgraph node_4
+        direction TB
+        element_6["6"]:::mediumpurple
+      end
+    end
+    subgraph Init_Final_Array
+      direction LR
+      element_1'["1"]:::lightblue
+      element_4'["4"]:::lightblue
+      element_1' --> element_4'
     end
   end
 ```

@@ -101,7 +101,7 @@ Special values are values that have a special meaning in the context of a progra
 ### Merge Insertion Sort
 
 - [Github - MergeInsertion Sort with Ressources - in Clojure](https://github.com/decidedlyso/merge-insertion-sort/tree/master)
-  - [Github - Same as with less details - in Python](https://github.com/PunkChameleon/ford-johnson-merge-insertion-sort)
+  - [Github - Same - in Python](https://github.com/PunkChameleon/ford-johnson-merge-insertion-sort)
 
 - 📰 [Original Paper](https://doi.org/10.1080/00029890.1959.11989306) 
   - Ford, L. R.; Johnson, S. M. (1959). "A Tournament Problem". The American Mathematical Monthly. 66 (5): 387–389. doi:10.2307/2310397. JSTOR 2310397. [📖](https://Maybe_sci-hub_can_help_if_think_that_knowledge_should_be_free)

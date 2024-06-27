@@ -8,6 +8,9 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <cmath>
+
+#include <sstream>
 
 using namespace std;
 
@@ -34,14 +37,24 @@ public:
     // y, x;
     vector< vector<bool> > building;
 
+    // limits
+    int x_min;
+    int x_max;
+    int y_min;
+    int y_max;
+
     void PrintBuilding(Batman player){
-        for (int i = 0; i < building.size(); i++){
+        for (int i = 0; i < x_max; i++){
             cerr << "| ";
-            for (int j = 0; j < building.at(i).size(); j++){
+            for (int j = 0; j < y_max; j++){
                 if (player.x == j && player.y == i){
                     cerr << "P ";
                 } else {
-                    cerr << building.at(i).at(j) << " ";
+                  if (i <= y_min || i >= y_max || j <= x_min || j >= x_max){
+                    cerr << "0 ";
+                  } else {
+                    cerr << "1 ";
+                  }
                 }
             }
             cerr << "|" << endl;
@@ -64,46 +77,22 @@ public:
 
     void UpMap(Batman player){
       cerr << "Up clear" << endl;
-      for (auto it = building.begin(); it != building.end(); ++it){
-        for (auto jt = it->begin(); jt != it->end(); ++jt){
-          if (std::distance(building.begin(), it) >= player.y){
-            *jt = false;
-          }
-        }
-      }
+      y_max = player.y - 1;
     }
 
     void DownMap(Batman player){
       cerr << "Down clear" << endl;
-      for (auto it = building.begin(); it != building.end(); ++it){
-        for (auto jt = it->begin(); jt != it->end(); ++jt){
-          if (std::distance(building.begin(), it) <= player.y){
-            *jt = false;
-          }
-        }
-      }
+      y_min = player.y + 1;
     }
 
     void LeftMap(Batman player){
       cerr << "Left clear" << endl;
-      for (auto it = building.begin(); it != building.end(); ++it){
-        for (auto jt = it->begin(); jt != it->end(); ++jt){
-          if (std::distance(it->begin(), jt) >= player.x){
-            *jt = false;
-          }
-        }
-      }
+      x_max = player.x - 1;
     }
 
     void RightMap(Batman player){
       cerr << "Right clear" << endl;
-      for (auto it = building.begin(); it != building.end(); ++it){
-        for (auto jt = it->begin(); jt != it->end(); ++jt){
-          if (std::distance(it->begin(), jt) <= player.x){
-            *jt = false;
-          }
-        }
-      }
+      x_min = player.x + 1;
     }
 
     // "U", "UR", "R", "DR", "D", "DL", "L", "UL"
@@ -142,40 +131,19 @@ public:
     }
 
     void FindTarget(){
-      int middle_row;
-      int midlle_column;
+      float middle_row;
+      float midlle_column;
 
-      int valueToFind = 1;
-      int min_row;
-      int min_column;
-      int max_column;
-      for (int i = 0; i < building.size(); i++){
-        auto first = std::find(building.at(i).begin(), building.at(i).end(),
-          valueToFind);
-        auto last = std::find_end(building.at(i).begin(), building.at(i).end(), 
-          &valueToFind, &valueToFind + 1);
-        if (first != building.at(i).end() && last != building.at(i).end()){
-          min_column = std::distance(building.at(i).begin(), first);
-          max_column = std::distance(building.at(i).begin(), last);
-          min_row = i;
-          break;
-        }
+      middle_row = ((float)y_min + (float)y_max) / 2;
+      midlle_column = ((float)x_min + (float)x_max) / 2;
+      target_position.first = ceil(midlle_column);
+      target_position.second = ceil(middle_row);
+      if (target_position.first >= width){
+          target_position.first = width - 1;
       }
-
-      int max_row;
-      for (int i = building.size() - 1; i != 0; i--){
-        auto it = std::find(building.at(i).begin(), building.at(i).end(),
-        true);
-        if (it != building.at(i).end()){
-          max_row = i;
-          break;
-        }
+      if (target_position.second >= height){
+        target_position.second = height - 1;
       }
-
-      middle_row = (min_row + max_row) / 2;
-      midlle_column = (min_column + max_column) / 2;
-      target_position.first = midlle_column;
-      target_position.second = middle_row;
     }
 };
 
@@ -200,14 +168,14 @@ int main()
     // Assign value to map
     area.height = h;
     area.width = w;
+    area.y_max = h;
+    area.y_min = 0;
+    area.x_max = w;
+    area.x_min = 0;
 
-    for (int i = 0; i < h; i++){
-        vector<bool> floor;
-        for (int j = 0; j < w; j++){
-            floor.push_back(true);
-        }
-        area.building.push_back(floor);
-    }
+    string last_output;
+    int same_output = 0;
+
     // game loop
     while (1) {
         cerr 
@@ -226,7 +194,8 @@ int main()
         // Write an action using cout. DON'T FORGET THE "<< endl"
         // To debug: cerr << "Debug messages..." << endl;
         // the location of the next window Batman should jump to.
-        cout 
+
+        cout
             << area.target_position.first << " " 
             << area.target_position.second
             << endl;

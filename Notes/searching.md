@@ -6,10 +6,11 @@ In computer science, binary search, also known as **half-interval search**, loga
 
 Binary search **compares the target value** to the **middle element of the array**. If they are not equal, the half in which the target cannot lie is eliminated and the search continues on the remaining half, again taking the middle element to compare to the target value, and **repeating this until the target value is found**. 
 
-If the search ends with the remaining half being empty, the target is not in the array. 
+If the search ends with the remaining half being empty, the target is not in the array.
 
-![Binary Search](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Binary-search-work.gif/220px-Binary-search-work.gif)
 ![Binary Search](https://upload.wikimedia.org/wikipedia/commons/8/83/Binary_Search_Depiction.svg)
+
+![Binary Search Coding Game](https://www.codingame.com/servlet/fileservlet?id=7769264647488)
 
 Complexity:
 - Best Case - $\omega(1) $
@@ -17,3 +18,5 @@ Complexity:
 - Worst Case - $O(\log n) $
 
 Space Complexity: $O(1)$
+
+[🎮 Training exercise](https://www.codingame.com/training/medium/shadows-of-the-knight-episode-1)

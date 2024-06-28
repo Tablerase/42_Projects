@@ -128,7 +128,7 @@ Sequence containers maintain the ordering of inserted elements that you specify.
   <td>get_allocator</td><td> </td><td>get_allocator</td><td>get_allocator</td></tr> 
 </tbody>
 </table>
-  <figcaption>Sequence containers CPP98 Table</figcaption>
+  <figcaption>Sequence containers <strong>CPP98</strong> Table</figcaption>
 </figure>
 
 ### [List](https://cplusplus.com/reference/list/list/)

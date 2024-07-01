@@ -98,13 +98,46 @@ Special values are values that have a special meaning in the context of a progra
 
 ## CPP 09
 
+### Bitcoin Exchange
+
+```mermaid
+graph TD
+  classDef yellow fill:#e7f20d;
+  classDef orange fill:#f2a00d;
+  classDef lightcoral fill:LightCoral;
+  classDef lightpink fill:LightPink;
+  classDef lightgreen fill:LightGreen;
+  classDef lightblue fill:LightBlue;
+  classDef mediumpurple fill:MediumPurple;
+
+  subgraph Exchange
+    direction TB
+    Check_Files["Check Files"]:::yellow
+    Check_Files --> Data_Map["Data Map"]:::orange
+    Data_Map --> Loop
+    subgraph Loop
+      direction TB
+      Read_Line["Read Line"]:::orange
+      Parse_Line["Parse Line"]:::lightcoral
+      Check_Line["Check Line"]:::lightpink
+      Read_Line --> Parse_Line --> Check_Line
+      Check_Line -->|Valid| Use_Line["Use Line"]:::lightgreen
+      Use_Line -->|Exchange| Exchange_Msg["Exchange Message"]:::lightgreen
+      Check_Line -->|Invalid| Skip_Line["Skip Line"]:::lightblue
+      Skip_Line -->|Error| Error_Msg["Error Message"]:::mediumpurple
+    end
+    Use_Line -.- Data_Map
+  end
+
+```
+
 ### Merge Insertion Sort
 
 - [Github - MergeInsertion Sort with Ressources - in Clojure](https://github.com/decidedlyso/merge-insertion-sort/tree/master)
   - [Github - Same - in Python](https://github.com/PunkChameleon/ford-johnson-merge-insertion-sort)
 
 - 📰 [Original Paper](https://doi.org/10.1080/00029890.1959.11989306) 
-  - Ford, L. R.; Johnson, S. M. (1959). "A Tournament Problem". The American Mathematical Monthly. 66 (5): 387–389. doi:10.2307/2310397. JSTOR 2310397. [📖](https://Maybe_sci-hub_can_help_if_think_that_knowledge_should_be_free)
+  - Ford, L. R.; Johnson, S. M. (1959). "A Tournament Problem". The American Mathematical Monthly. 66 (5): 387–389. doi:10.2307/2310397. JSTOR 2310397. [📖](https://Maybe_sci-hub_can_help_if_you_think_that_knowledge_should_be_free)
 
 - [Jacobsthal number](https://en.wikipedia.org/wiki/Jacobsthal_number)
   <details>
@@ -142,9 +175,7 @@ The algorithm works by dividing the input array into smaller subarrays and sorti
 
 - In 1979, The Manacher algorithm was published, which is a variant of the Ford-Johnson algorithm. It uses a different approach to divide the input array into subarrays and sort them using insertion sort in a way that reduces the number of comparisons and for large arrays, it can be faster than the Ford-Johnson algorithm.
 
-##### Steps (Brouillon not finished/understandable)
-
-<!-- ! TODO: coherent steps with where to use jacobsthal numbers -->
+##### Steps
 
 1. Divide the input array $ X $ of $ n $ elements into $ n/2 $ smaller subarrays of size $ 2 $, if odd number of elements, last element is left alone.
 
@@ -276,7 +307,7 @@ graph TD
   Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
 ```
 
-4. Insert the sorted subarrays in $ S $ using the **insert sort** algorithm with the Jacobsthal set for the order of comparison.
+4. Insert the sorted subarrays in $ S $ using the **Binary Insert sort** algorithm with the Jacobsthal set for the order of comparison.
 
 ```mermaid
 graph TD
@@ -296,86 +327,134 @@ graph TD
     Sorted4'''''["6"]:::mediumpurple
     Sorted3''''' --> Sorted1''''' --> Sorted2''''' --> Sorted4'''''
   end
-
-  Array_S --> Inserted_Array_S
-  subgraph Inserted_Array_S
+  Array_S --> Setup_Arrays
+  subgraph Setup_Arrays
     direction LR
-    subgraph Setup_Arrays
-      direction LR
-      subgraph node_1
-        direction TB
-        element_1["1"]:::lightblue
-        element_4["4"]:::lightblue
-      end
-      subgraph node_2
-        direction TB
-        element_2["2"]:::yellow
-        element_5["5"]:::yellow
-      end
-      subgraph node_3
-        direction TB
-        element_3["3"]:::lightpink
-        element_7["7"]:::lightpink
-      end
-      subgraph node_4
-        direction TB
-        element_6["6"]:::mediumpurple
-      end
-    end
-  end
-```
-
-TEST diagram
-
-```mermaid
-graph TD
-  classDef yellow fill:#e7f20d;
-  classDef orange fill:#f2a00d;
-  classDef lightcoral fill:LightCoral;
-  classDef lightpink fill:LightPink;
-  classDef lightgreen fill:LightGreen;
-  classDef lightblue fill:LightBlue;
-  classDef mediumpurple fill:MediumPurple;
-  
-  subgraph Array_S
-    direction LR
-    Sorted3'''''["1, 4"]:::lightblue
-    Sorted1'''''["2, 5"]:::yellow
-    Sorted2'''''["3, 7"]:::lightpink
-    Sorted4'''''["6"]:::mediumpurple
-    Sorted3''''' --> Sorted1''''' --> Sorted2''''' --> Sorted4'''''
-  end
-
-  Array_S --> Inserted_Array_S
-  subgraph Inserted_Array_S
-    direction LR
-    subgraph Setup_Arrays
+    subgraph node_1
       direction TB
-      subgraph node_1
-        direction TB
-        element_1["1"]:::lightblue
-        element_4["4"]:::lightblue
-      end
-      subgraph node_2
-        direction TB
-        element_2["2"]:::yellow
-        element_5["5"]:::yellow
-      end
-      subgraph node_3
-        direction TB
-        element_3["3"]:::lightpink
-        element_7["7"]:::lightpink
-      end
-      subgraph node_4
-        direction TB
-        element_6["6"]:::mediumpurple
-      end
+      element_1["1"]:::lightblue
+      element_4["4"]:::lightblue
     end
-    subgraph Init_Final_Array
+    subgraph node_2
+      direction TB
+      element_2["2"]:::yellow
+      element_5["5"]:::yellow
+    end
+    subgraph node_3
+      direction TB
+      element_3["3"]:::lightpink
+      element_7["7"]:::lightpink
+    end
+    subgraph node_4
+      direction TB
+      element_6["6"]:::mediumpurple
+    end
+    element_1 --- element_2 --- element_3
+    element_4 -.- element_5 -.- element_7 -.- element_6
+  end
+  subgraph Init_BinInsertSort
+    direction LR
+    subgraph main_chain
       direction LR
       element_1'["1"]:::lightblue
-      element_4'["4"]:::lightblue
-      element_1' --> element_4'
+      element_2'["2"]:::yellow
+      element_3'["3"]:::lightpink
+      element_1' --> element_2' --> element_3'
     end
+    subgraph pending_chain
+      direction LR
+      element_4'["4"]:::lightblue
+      element_5'["5"]:::yellow
+      element_7'["7"]:::lightpink
+      element_6'["6"]:::mediumpurple
+      subgraph gp_jacob1
+        direction TB
+        element_4'
+      end
+      subgraph gp_jacob3
+        direction LR
+        element_6' --> element_7' --> element_5'
+      end
+      Note_BinInsertSort["Make group according to jacobsthal numbers (0, 1, 1, 3, 5, ...)\nand each group in inverted order from original pending chain"]
+    end
+    gp_jacob1 --> gp_jacob3
+  end
+  Setup_Arrays --> Init_BinInsertSort
+  subgraph BinInsertSort
+    direction LR
+    subgraph main_chain'
+      direction LR
+      element_1''["1"]:::lightblue
+      element_2''["2"]:::yellow
+      element_3''["3"]:::lightpink
+      element_1'' --> element_2'' --> element_3''
+    end
+    subgraph pending_chain'
+      direction LR
+      element_4''["4"]:::lightblue
+      element_5''["5"]:::yellow
+      element_7''["7"]:::lightpink
+      element_6''["6"]:::mediumpurple
+      subgraph gp_jacob1'
+        direction TB
+        element_4''
+      end
+      subgraph gp_jacob3'
+        direction LR
+        element_6'' --> element_7'' --> element_5''
+      end
+      gp_jacob1' --> gp_jacob3'
+    end 
+    function("Binary Search (find insert pos)\n + Insertion")
+    element_4'' -.- function -.-> element_3''
+  end
+  Init_BinInsertSort --> BinInsertSort
+  
+  BinInsertSort --> Loop
+  subgraph Loop
+    direction TB
+    next_group(("Select\nnext Group"))
+    select(("Select\nnext Element"))
+    binsearch(["Binary Search"])
+    insert(["Insertion"])
+    select --> binsearch
+    binsearch -->|"position"| insert
+    insert --> select
+    select -.->|"Empty group"| next_group
+  end
+  Loop --> BinInsertSort_Last
+  
+  subgraph BinInsertSort_Last
+    direction LR
+    subgraph main_chain'''
+      direction LR
+      element_1'''["1"]:::lightblue
+      element_2'''["2"]:::yellow
+      element_3'''["3"]:::lightpink
+      element_4'''["4"]:::lightblue
+      element_6'''["6"]:::mediumpurple
+      element_7'''["7"]:::lightpink
+      element_1''' --> element_2''' --> element_3''' --> element_4''' --> element_6''' --> element_7'''
+    end
+    subgraph pending_chain'''
+      direction LR
+      subgraph gp_jacob3'''
+        direction LR
+        element_5'''["5"]:::yellow
+      end
+    end
+    element_5''' -.-> element_4'''
+  end
+  BinInsertSort_Last --> Final_Array
+  subgraph Final_Array
+    direction LR
+    element_1''''["1"]:::lightblue
+    element_2''''["2"]:::yellow
+    element_3''''["3"]:::lightpink
+    element_4''''["4"]:::lightblue
+    element_5''''["5"]:::yellow
+    element_6''''["6"]:::mediumpurple
+    element_7''''["7"]:::lightpink
+    element_1'''' --> element_2'''' --> element_3'''' --> element_4'''' --> element_5'''' --> element_6'''' --> element_7''''
   end
 ```

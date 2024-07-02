@@ -131,6 +131,24 @@ graph TD
 
 ```
 
+### Reverse Polish Notation
+
+Reverse Polish notation (RPN) is a mathematical notation in which every operator follows all of its operands, in contrast to Polish notation (PN), which puts the operator in the prefix position. It is also known as postfix notation.
+
+In RPN, the operator symbol is placed after the operands. For example, the infix expression `(3 + 4) * 5` can be written in RPN as `3 4 + 5 *`.
+
+RPN is often used in calculators and programming languages because it is easier to evaluate than infix notation. It eliminates the need for parentheses and operator precedence rules, making it simpler to parse and evaluate.
+
+⚙️ [Reverse Polish Algorithm - RossetaCode](https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm)
+
+#### Not for exercice, but interesting
+
+##### [Shunting Yard Algorithm - Infix to RPN](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
+
+Shunting-yard algorithm is a method for parsing mathematical expressions specified in infix notation. It can be used to produce either a postfix notation string (RPN Notation) or an abstract syntax tree (AST).
+
+⚙️ [Shunting Yard Algorithm - RossetaCode](https://rosettacode.org/wiki/Parsing/Shunting-yard_algorithm)
+
 ### Merge Insertion Sort
 
 - [Github - MergeInsertion Sort with Ressources - in Clojure](https://github.com/decidedlyso/merge-insertion-sort/tree/master)

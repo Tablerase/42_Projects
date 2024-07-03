@@ -54,7 +54,7 @@ Containers replicate structures very commonly used in programming:
     </tr>
     <tr>
         <td rowspan="3">Container Adaptors</td>
-        <td>std::stack</td>
+        <td><a href="./Containers.md#stack">std::stack</td>
         <td>Adaptor for a container, which provides a LIFO (Last In First Out) data structure.</td>
     </tr>
     <tr>
@@ -472,6 +472,31 @@ The underlying container may be any of the standard container class templates or
 -  pop_back
 
 The standard container classes vector, deque and list fulfill these requirements. By **default**, if no container class is specified for a particular stack class instantiation, the **standard container deque is used**.
+
+```mermaid
+graph TB
+  classDef element fill:#f6de56,stroke:#333,stroke-width:1px;
+  classDef memory fill:#ffffff,stroke:#333,stroke-width:1px, stroke-dasharray: 5, 5;
+  classDef head fill:#4fc4ff,stroke:#333,stroke-width:2px;
+  classDef tail fill:#bb56f6,stroke:#ff4f4f,stroke-width:2px, stroke-dasharray: 5, 5;
+  classDef delete fill:#ff4f4f,stroke:#ff4f4f,stroke-width:2px;
+  classDef insert fill:#00a651;
+
+  subgraph Stack
+    Element1:::head
+    Element2:::element
+    Element3:::element
+    Element1 --- Element2
+    Element2 --- Element3
+  end
+
+  subgraph Stack_Operations
+    Push("push()"):::insert
+    Pop("pop()"):::delete
+  end
+  Push -.- Element1
+  Pop -.- Element1
+```
 
 ## Iterators
 

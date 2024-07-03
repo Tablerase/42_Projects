@@ -1,0 +1,9 @@
+.vscode
+
+*.o
+*.out
+
+# Binaries for programs
+PmergeMe
+btc
+RPN

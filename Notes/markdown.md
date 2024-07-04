@@ -45,6 +45,45 @@ Format:
 
 There are many different types of diagrams that can be created with mermaid. Here are some examples and demo : :link: [Mermaid Live Editor](https://mermaid-js.github.io/mermaid-live-editor/)
 
+#### Custom Class Diagram
+
+- [➡️ Custom arrow - links](https://mermaid.js.org/syntax/flowchart.html#styling-links)
+- [🎨 Custom class - nodes](https://mermaid.js.org/syntax/classDiagram.html#custom-class)
+
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  rel="stylesheet"
+/>
+
+```mermaid
+graph TD
+  direction TB
+  classDef black fill:#000,stroke:#333,stroke-width:1px;
+  classDef white fill:#fff,stroke:#333,stroke-width:1px;
+  classDef lightblue fill:#99f,stroke:#333,stroke-width:1px,color:#fff;
+  classDef lightgreen fill:#9f9,stroke:#333,stroke-width:1px;
+  classDef lightred fill:#f99,stroke:#333,stroke-width:1px;
+  classDef lightyellow fill:#ff9,stroke:#333,stroke-width:1px;
+  classDef lightorange fill:#f90,stroke:#333,stroke-width:1px;
+  classDef lightpurple fill:#f0f,stroke:#333,stroke-width:1px;
+  classDef lightcyan fill:#9ff,stroke:#333,stroke-width:1px;
+  classDef lightpink fill:#f9f,stroke:#333,stroke-width:1px;
+  classDef lightbrown fill:#963,stroke:#333,stroke-width:1px;
+  classDef lightgrey fill:#999,stroke:#333,stroke-width:1px;
+  classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
+  classDef lightwhite fill:#fff,stroke:#333,stroke-width:1px;
+  classDef lightviolet fill:#9f9,stroke:#333,stroke-width:1px;
+
+
+  TEST["`*Mermaid* is **awesome**`"]:::lightred
+  TEST2[fa:fa-ban forbidden]:::lightblue
+  TEST --> |"Strings"| TEST2
+  TEST --- TEST2
+  TEST -.-> |"Strings"| TEST2
+
+  linkStyle 0,2 stroke:coral,stroke-width:4px, color:coral;
+```
+
 #### [Class Diagram](http://mermaid.js.org/syntax/classDiagram.html)
 
 In software engineering, a class diagram in the Unified Modeling Language (UML) is a type of static structure diagram that describes the structure of a system by showing the system's classes, their attributes, operations (or methods), and the relationships among objects.

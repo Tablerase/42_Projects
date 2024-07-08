@@ -12,7 +12,7 @@ NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as
 
 ### How does NGINX work?
 
-NGINX is a web server which can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache. The software was created by Igor Sysoev and first publicly released in 2004. A company of the same name was founded in 2011 to provide support and Nginx plus paid software.
+NGINX is a web server which can also be used as a **reverse proxy, load balancer, mail proxy and HTTP cache**. The software was created by Igor Sysoev and first publicly released in 2004. A company of the same name was founded in 2011 to provide support and Nginx plus paid software.
 
 ### How to install NGINX?
 

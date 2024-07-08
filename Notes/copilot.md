@@ -54,22 +54,15 @@ Important to know what you expected.
 
 Now: Give class details to help Copilot. In futur project analysis will do this.
 
-## Futures
+## Copilot Chat
 
-Copilot chat for all IDE.
+### How to use
 
-Copilot for docs, with data from github documentation of different projects.
-Also help design docs for your project.
+📚 [Documentation for Prompts](https://docs.github.com/en/copilot/using-github-copilot/asking-github-copilot-questions-in-your-ide?tool=vscode)
 
-Copilot for pull request
-
-GPT 4.0 -> Framework in a drawing structure.
-
-## Copilot Chat - vscode
-
-Specific for code
-
-You can select a part of your code and ask with copilot to add what you need.
+- Open chat
+- Write your question (with appropriate context, and tags)
+- Copilot will give you a code snippet
 
 ## Security
 

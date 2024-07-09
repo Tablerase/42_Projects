@@ -14,6 +14,12 @@ Docker is a platform for developing, shipping, and running applications in conta
 
 [🎬 Docker Guide (Portainer as example) - Chris Titus Tech](https://christitus.com/docker-guide/)
 
+### [Docker Architecture](https://docs.docker.com/guides/docker-overview/#docker-architecture)
+
+Docker uses a client-server architecture. The Docker client talks to the Docker daemon, which does the heavy lifting of building, running, and distributing your Docker containers. The Docker client and daemon can run on the same system, or you can connect a Docker client to a remote Docker daemon.
+
+![Docker Architecture](https://docs.docker.com/guides/images/docker-architecture.webp)
+
 ## Install Docker
 
 🔗 [Official Docker - Install on Debian](https://docs.docker.com/engine/install/debian/#install-using-the-repository)
@@ -221,76 +227,94 @@ A Dockerfile is a text document that contains all the commands a user could call
     <tr>
       <th>Instruction</th>
       <th>Description</th>
+      <th>Prototype/Example</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>FROM</td>
       <td>Set the base image for the subsequent instructions</td>
+      <td><code>FROM ubuntu:20.04</code></td>
     </tr>
     <tr>
       <td>WORKDIR</td>
       <td>Set the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile</td>
+      <td><code>WORKDIR /app</code></td>
     </tr>
     <tr>
       <td>RUN</td>
       <td>Execute any commands in a new layer on top of the current image and commit the results</td>
+      <td><code>RUN apt-get update && apt-get install -y curl</code></td>
     </tr>
     <tr>
       <td>CMD</td>
       <td>Provide defaults for an executing container</td>
+      <td><code>CMD ["curl", "https://www.google.com"]</code></td>
     </tr>
     <tr>
       <td>EXPOSE</td>
       <td>Informs Docker that the container listens on the specified network ports at runtime</td>
+      <td><code>EXPOSE 8080</code></td>
     </tr>
     <tr>
       <td>ENV</td>
       <td>Set the environment variables</td>
+      <td><code>ENV MY_VAR=my_value</code></td>
     </tr>
     <tr>
       <td>ADD</td>
       <td>Copy new files, directories, or remote file URLs from <src> and add them to the filesystem of the image at the path <dest></td>
+      <td><code>ADD app.jar /app</code></td>
     </tr>
     <tr>
       <td>COPY</td>
       <td>Copy new files or directories from <src> and add them to the filesystem of the image at the path <dest></td>
+      <td><code>COPY app.jar /app</code></td>
     </tr>
     <tr>
       <td>ENTRYPOINT</td>
       <td>Allows you to configure a container that will run as an executable</td>
+      <td><code>ENTRYPOINT ["java", "-jar", "app.jar"]</code></td>
     </tr>
     <tr>
       <td>VOLUME</td>
       <td>Creates a mount point with the specified name and marks it as holding externally mounted volumes from native host or other containers</td>
+      <td><code>VOLUME /data</code></td>
     </tr>
     <tr>
       <td>USER</td>
       <td>Set the user name or UID to use when running the image</td>
+      <td><code>USER myuser</code></td>
     </tr>
     <tr>
       <td>HEALTHCHECK</td>
       <td>Tells Docker how to test a container to check that it is still working</td>
+      <td><code>HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://localhost/ || exit 1</code></td>
     </tr>
     <tr>
       <td>ARG</td>
       <td>Defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag</td>
+      <td><code>ARG MY_ARG=default_value</code></td>
     </tr>
     <tr>
       <td>ONBUILD</td>
       <td>Adds a trigger instruction to the image that will be executed at a later time, when the image is used as the base for another build</td>
+      <td><code>ONBUILD COPY . /app</code></td>
     </tr>
     <tr>
       <td>STOPSIGNAL</td>
       <td>Sets the system call signal that will be sent to the container to exit</td>
+      <td><code>STOPSIGNAL SIGTERM</code></td>
     </tr>
     <tr>
       <td>LABEL</td>
       <td>Apply key-value metadata to your images, containers, or daemons</td>
+      <td><code>LABEL version="1.0"</code></td>
     </tr>
     <tr>
       <td>SHELL</td>
       <td>Allows the default shell used for the shell form of commands to be overridden</td>
+      <td><code>SHELL ["/bin/bash", "-c"]</code></td>
     </tr>
   </tbody>
 </table>
@@ -320,13 +344,23 @@ RUN apt-get update && apt-get install -y curl
 CMD ["curl", "https://www.google.com"]
 ```
 
-#### Build an Image
+## Build an Image
 
 Building an image is done with the `docker build` command. The `docker build` command builds an image from a Dockerfile and a context. A build’s context is the set of files located in the specified PATH or URL. The build process can refer to any of the files in the context. For example, your build can use a `COPY` instruction to reference a file in the context.
 
 ```bash
 docker build -t my-image .
 ```
+
+🔗 [Build Best Pratices](https://docs.docker.com/build/building/best-practices/)
+  - Use multi-stage builds
+  - Don’t install unnecessary packages
+  - Decouple applications
+  - Minimize the number of layers
+  - Sort multi-line arguments
+  - Leverage build cache
+  - Remove build dependencies
+  - Use .dockerignore
 
 Table of build options and their descriptions:
 
@@ -404,6 +438,16 @@ Table of build options and their descriptions:
     </tr>
   </tbody>
 </table>
+
+#### [Docker ignore file](https://docs.docker.com/build/building/context/#dockerignore-files)
+
+The `.dockerignore` file works just like a `.gitignore` file. It tells Docker which files to ignore when building an image. This can be useful when you have files in your directory that you don't want to include in the image.
+
+```dockerfile
+# .dockerignore
+node_modules
+npm-debug.log
+```
 
 ## PID 1
 

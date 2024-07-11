@@ -4,7 +4,7 @@
 
 ## What is Docker?
 
-Docker is a platform for developing, shipping, and running applications in containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package. By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.
+Docker is a platform for developing, shipping, and running applications in containers. **Containers** allow a developer to **package up an application** with all of the parts it needs, such as **libraries and other dependencies**, and ship it all out as one package. By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.
 
 ### Docker vs Virtual Machines
 
@@ -214,11 +214,66 @@ Few usefull ways to run a container:
   </tbody>
 </table>
 
+## Docker Containers
+
+### What is a Docker Container?
+
+A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. A Docker container image is a **lightweight**, **standalone**, **executable package of software** that includes everything needed to run a piece of software, including the code, a runtime, libraries, environment variables, and config files.
+
+### Docker Container Lifecycle
+
+```mermaid
+graph LR
+  classDef black fill:#000,stroke:#333,stroke-width:1px;
+  classDef white fill:#fff,stroke:#333,stroke-width:1px;
+  classDef white_border fill:#fff,stroke:#333,stroke-width:1px, stroke-dasharray: 5, 5;
+  classDef green fill:#0f0,stroke:#333,stroke-width:1px;
+  classDef lightblue fill:#99f,stroke:#333,stroke-width:1px,color:#fff;
+  classDef lightgreen fill:#9f9,stroke:#333,stroke-width:1px;
+  classDef lightred fill:#f99,stroke:#333,stroke-width:1px;
+  classDef lightyellow fill:#ff9,stroke:#333,stroke-width:1px;
+  classDef lightorange fill:#f90,stroke:#333,stroke-width:1px;
+  classDef lightpurple fill:#a7f,stroke:#333,stroke-width:1px;
+  classDef lightcyan fill:#9ff,stroke:#333,stroke-width:1px;
+  classDef lightpink fill:#f9f,stroke:#333,stroke-width:1px;
+  classDef lightbrown fill:#963,stroke:#333,stroke-width:1px;
+  classDef lightgrey fill:#999,stroke:#333,stroke-width:1px;
+  classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
+  classDef lightwhite fill:#fff,stroke:#333,stroke-width:1px;
+
+  create[Create]:::lightgreen;
+  start[Start]:::lightblue;
+  run[Run]:::lightpurple;
+  pause[Pause]:::lightyellow;
+  unpause[Unpause]:::lightyellow;
+  stop[Stop]:::lightred;
+  restart[Restart]:::lightcyan;
+  kill[Kill]:::lightorange;
+  delete[Delete]:::lightgrey;
+  create --> start;
+  start --> run;
+  run --> pause;
+  pause <--> unpause;
+  unpause --> stop;
+  stop --> restart;
+  restart --> kill;
+  kill --> delete;
+  restart --> start;
+```
+
 ## Dockerfile
 
 ### What is a Dockerfile?
 
 A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using `docker build`, users can create an automated build that executes several command-line instructions in succession.
+
+
+```dockerfile
+# Dockerfile
+FROM ubuntu:20.04
+RUN apt-get update && apt-get install -y curl
+CMD ["curl", "https://www.google.com"]
+```
 
 ### Dockerfile Instructions
 
@@ -319,6 +374,30 @@ A Dockerfile is a text document that contains all the commands a user could call
   </tbody>
 </table>
 
+📚 [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/)
+
+#### Entry Point vs Command
+
+- `ENTRYPOINT` specifies a command that will always be executed when the container starts.
+- `CMD` specifies arguments that will be fed to the `ENTRYPOINT`.
+
+```dockerfile
+# Dockerfile
+FROM ubuntu:lts
+ENTRYPOINT ["echo", "Hello"]
+CMD ["World"]
+```
+
+```bash
+docker run my-image
+# Output: Hello World
+```
+
+```bash
+docker run my-image John
+# Output: Hello John
+```
+
 ### Dockerfile Best Practices
 
 - Use `.dockerignore` file to exclude files and directories from the context.
@@ -333,18 +412,94 @@ A Dockerfile is a text document that contains all the commands a user could call
 - Use `USER` to set the user name or UID to use when running the image.
 - Use `WORKDIR` to set the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile.
 
-### What is a Docker Image?
+## Docker Image
+
+### [What is a Docker Image ?](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-an-image/)
+
+🎬 [What is an image - Docker](https://www.youtube.com/watch?v=NyvT9REqLe4)
 
 A Docker image is a file, comprised of multiple layers, used to execute code in a Docker container. An image is essentially built from the instructions for a complete and executable version of an application, which relies on the host OS kernel.
 
-```dockerfile
-# Dockerfile
-FROM ubuntu:20.04
-RUN apt-get update && apt-get install -y curl
-CMD ["curl", "https://www.google.com"]
+### Finding an Image
+
+[Docker Hub](https://hub.docker.com/search?image_filter=official) is the default registry where you can find images. You can also find images on other registries like GitHub Container Registry, Amazon Elastic Container Registry, Google Container Registry, and more.
+
+<table>
+  <thead>
+    <tr>
+      <th>GUI</th>
+      <th>CLI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="https://hub.docker.com/">Docker Hub</a>
+      </td>
+      <td>
+        <code>docker search &lt;image&gt;</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Docker Registry
+
+A Docker registry is a **storage and content delivery system** for **named Docker images**. You can use a registry to **save and share Docker images**. The default registry is Docker Hub, but you can also use other registries like GitHub Container Registry, Amazon Elastic Container Registry, Google Container Registry, and more. It's like a **Git for Docker images**.
+
+Registry contains **repositories** which contain **images**.
+
+```mermaid
+graph LR
+  classDef black fill:#000,stroke:#333,stroke-width:1px;
+  classDef white fill:#fff,stroke:#333,stroke-width:1px;
+  classDef white_border fill:#fff,stroke:#333,stroke-width:1px, stroke-dasharray: 5, 5;
+  classDef green fill:#0f0,stroke:#333,stroke-width:1px;
+  classDef lightblue fill:#99f,stroke:#333,stroke-width:1px,color:#fff;
+  classDef lightgreen fill:#9f9,stroke:#333,stroke-width:1px;
+  classDef lightred fill:#f99,stroke:#333,stroke-width:1px;
+  classDef lightyellow fill:#ff9,stroke:#333,stroke-width:1px;
+  classDef lightorange fill:#f90,stroke:#333,stroke-width:1px;
+  classDef lightpurple fill:#a7f,stroke:#333,stroke-width:1px;
+  classDef lightcyan fill:#9ff,stroke:#333,stroke-width:1px;
+  classDef lightpink fill:#f9f,stroke:#333,stroke-width:1px;
+  classDef lightbrown fill:#963,stroke:#333,stroke-width:1px;
+  classDef lightgrey fill:#999,stroke:#333,stroke-width:1px;
+  classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
+  classDef lightwhite fill:#fff,stroke:#333,stroke-width:1px;
+
+  registry[Registry]:::lightgreen;
+  repository[Repository]:::lightblue;
+  repository2[Repository]:::lightblue;
+  image[Image:v1]:::lightpurple;
+  image2[Image:v2]:::lightpurple;
+  image3[Image]:::lightpurple;
+  subgraph registry
+    subgraph repository
+      direction TB
+      image
+      image2
+    end
+    subgraph repository2
+      direction TB
+      image3
+    end
+  end
 ```
 
-## Build an Image
+Add a tag to an image:
+
+```bash
+docker tag my-image my-registry/my-image:latest
+```
+
+Push an image to a registry:
+
+```bash
+docker push my-registry/my-image:latest
+```
+
+### Build an Image
 
 Building an image is done with the `docker build` command. The `docker build` command builds an image from a Dockerfile and a context. A build’s context is the set of files located in the specified PATH or URL. The build process can refer to any of the files in the context. For example, your build can use a `COPY` instruction to reference a file in the context.
 

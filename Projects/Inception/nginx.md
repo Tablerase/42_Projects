@@ -248,3 +248,17 @@ http {
 ```
 
 - The `upstream` directive defines a group of servers named `backend` that will receive incoming requests. The `server` directive is used to define the servers in the group.
+
+### [SSL configuration](http://nginx.org/en/docs/http/configuring_https_servers.html)
+
+NGINX can be used to configure SSL for secure connections. SSL is used to encrypt data transmitted between the client and the server. NGINX can be used to configure SSL for secure connections. SSL is used to encrypt data transmitted between the client and the server.
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name example.com;
+
+    ssl_certificate /path/to/certificate.crt;
+    ssl_certificate_key /path/to/private.key;
+}
+```

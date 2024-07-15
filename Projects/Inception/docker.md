@@ -760,11 +760,11 @@ docker build --build-arg VERSION=1.21 -t my-image .
 The `--mount` option allows you to mount a volume to a container. This can be useful when you want to share files between the host and the container.
 
 There are different types of mounts:
-- `type=bind` - Bind mount
-- `type=volume` - Volume mount
-- `type=tmpfs` - Tmpfs mount
-- `type=cache` - Cache mount
-- `type=secret` - Secret mount
+- `type=bind` - Bind mount: Mount a file or directory from the host into the container
+- `type=volume` - Volume mount : Mount a volume into the container
+- `type=tmpfs` - Tmpfs mount : Mount a tmpfs (temporary filesystem) into the container
+- `type=cache` - Cache mount : Cache files between builds
+- `type=secret` - Secret mount : Mount a secret into the container
 
 #### Cache mount
 
@@ -832,3 +832,18 @@ Docker secrets are a secure way to store sensitive information such as passwords
 🔗 [PID 1 - Why do you need an init process inside your Docker container (PID 1)](https://daveiscoding.hashnode.dev/why-do-you-need-an-init-process-inside-your-docker-container-pid-1)
 
 🔗 [PID 1 - Docker processes container](https://cloud.theodo.com/en/blog/docker-processes-container)
+
+The PID 1 process is the first process that runs in a container. It is responsible for reaping zombie processes, handling signals, and starting and stopping processes in the container. If the PID 1 process exits, the container will stop.
+
+When you run a container, Docker runs the command you specify as the PID 1 process. If you don't specify a command, Docker will use the default command specified in the Dockerfile.
+
+# Docker Compose
+
+## What is Docker Compose?
+
+Docker Compose is a tool for defining and running multi-container Docker applications.
+
+Compose simplifies the control of your entire application stack, making it easy to manage **services**, **networks**, and **volumes** in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
+
+Compose is great for development, testing, and staging environments, as well as CI workflows.
+

@@ -14,6 +14,8 @@ Docker is a platform for developing, shipping, and running applications in conta
 
 [🎬 Docker Guide (Portainer as example) - Chris Titus Tech](https://christitus.com/docker-guide/)
 
+[🧑‍🎓 Docker Official Guides](https://docs.docker.com/guides/)
+
 ### [Docker Architecture](https://docs.docker.com/guides/docker-overview/#docker-architecture)
 
 Docker uses a client-server architecture. The Docker client talks to the Docker daemon, which does the heavy lifting of building, running, and distributing your Docker containers. The Docker client and daemon can run on the same system, or you can connect a Docker client to a remote Docker daemon.
@@ -603,6 +605,227 @@ The `.dockerignore` file works just like a `.gitignore` file. It tells Docker wh
 node_modules
 npm-debug.log
 ```
+
+### Docker layers
+
+Docker images are made up of multiple layers. **Each layer** represents an **instruction in the image’s Dockerfile**. Layers are stacked on top of each other to form a base for a container’s root filesystem.
+
+![Docker Layers Diagram](https://docs.docker.com/build/guide/images/layers.png)
+
+#### Docker cache
+
+Docker uses a cache to **speed up the build process**. When you build an image, Docker will cache the layers that are built. If a layer of an image is unchanged, then the builder picks it up from the build cache. If a layer has changed since the last build, that layer, and all layers that follow, must be rebuilt.
+
+![Docker Cache Diagram - No package tracking](https://docs.docker.com/build/guide/images/cache-bust.png)
+
+It's important to understand how the cache works so you can take advantage of it to speed up your builds.
+
+Example of a Dockerfile that takes advantage of the cache:
+
+- ![Docker Cache Diagram - Package tracking](https://docs.docker.com/build/guide/images/reordered-layers.png)
+
+  - Change the order of the instructions so that downloading and installing dependencies occur before the source code is copied over to the container. In that way, the **builder can reuse the "dependencies" layer from the cache**, **even when you make changes to your source code**.
+
+  - Go uses two files, called go.mod and go.sum, to track dependencies for a project. These files are to Go, what package.json and package-lock.json are to JavaScript.
+
+##### Disable cache
+
+Sometimes you may want to disable the cache to force Docker to rebuild all the layers. You can do this by using the `--no-cache` option.
+
+```bash
+docker build --no-cache -t my-image .
+```
+
+### Docker Multi-Stage Builds
+
+Multi-stage builds are a feature of Dockerfiles that allow you to use multiple `FROM` statements in a single Dockerfile. This feature allows you to build an image in multiple stages, where each stage can be used to build a different part of the final image.
+
+#### Add Stages
+
+Each stage in a multi-stage build is defined by a `FROM` statement. You can add as many stages as you need to build your image.
+
+```dockerfile
+# Dockerfile
+  # syntax=docker/dockerfile:1
+  FROM golang:1.21-alpine
+  WORKDIR /src
+  COPY go.mod go.sum .
+  RUN go mod download
+  COPY . .
+  RUN go build -o /bin/client ./cmd/client
+  RUN go build -o /bin/server ./cmd/server
++
++ FROM scratch
++ COPY --from=0 /bin/client /bin/server /bin/
+  ENTRYPOINT [ "/bin/server" ]
+```
+- The *first stage* uses the `golang:1.21-alpine` image to build the Go application.
+- The *second stage* uses the `scratch` image, which is an empty image, to create a minimal image that only contains the compiled Go application. This image is much smaller than the first stage image because it doesn't include the Go runtime or any other dependencies.
+  - ~450MB -> ~15MB
+
+#### Parallelism
+
+Docker can build multiple stages in parallel, which can speed up the build process. You can use `FROM image AS stage_name` to name a stage and then reference it with `COPY --from=stage_name`.
+
+```dockerfile
+  # syntax=docker/dockerfile:1
+- FROM golang:1.21-alpine
++ FROM golang:1.21-alpine AS base
+  WORKDIR /src
+  COPY go.mod go.sum .
+  RUN go mod download
+  COPY . .
++
++ FROM base AS build-client
+  RUN go build -o /bin/client ./cmd/client
++
++ FROM base AS build-server
+  RUN go build -o /bin/server ./cmd/server
+
+  FROM scratch
+- COPY --from=0 /bin/client /bin/server /bin/
++ COPY --from=build-client /bin/client /bin/
++ COPY --from=build-server /bin/server /bin/
+  ENTRYPOINT [ "/bin/server" ]
+```
+
+- The `base` stage is used to download dependencies and copy the source code.
+- The `build-client` and `build-server` stages are used to build the client and server binaries. These stages run in parallel, which can speed up the build process.
+- The `scratch` stage is used to create the final image that only contains the compiled binaries.
+
+### Docker target
+
+The `--target` option allows you to specify a build stage to build. This can be useful when you only want to build a specific stage of a multi-stage build.
+
+This way, you can skip building unwanted stage/program that doesnt need to be rebuild.
+
+```dockerfile
+  # syntax=docker/dockerfile:1
+  FROM golang:1.21-alpine AS base
+  WORKDIR /src
+  COPY go.mod go.sum .
+  RUN go mod download
+  COPY . .
+
+  FROM base AS build-client
+  RUN go build -o /bin/client ./cmd/client
+
+  FROM base AS build-server
+  RUN go build -o /bin/server ./cmd/server
+
+- FROM scratch
+- COPY --from=build-client /bin/client /bin/
+- COPY --from=build-server /bin/server /bin/
+- ENTRYPOINT [ "/bin/server" ]
+
++ FROM scratch AS client
++ COPY --from=build-client /bin/client /bin/
++ ENTRYPOINT [ "/bin/client" ]
+
++ FROM scratch AS server
++ COPY --from=build-server /bin/server /bin/
++ ENTRYPOINT [ "/bin/server" ]
+```
+
+Then you can build the `client` and `server` stages separately:
+
+```bash
+docker build --tag=buildme-client --target=client .
+docker build --tag=buildme-server --target=server .
+docker images "buildme*" # List the images (client, server)
+```
+
+### [Docker arguments](https://docs.docker.com/reference/dockerfile/#arg)
+
+The `--build-arg` option allows you to pass build-time variables to the builder. This can be useful when you want to customize the build process based on different environments.
+
+```dockerfile
+# syntax=docker/dockerfile:1
+ARG VERSION=latest
+FROM golang:${VERSION}-alpine AS base
+
+...
+```
+
+- The `ARG` instruction defines a build-time variable called `VERSION` with a default value of `latest`.
+
+```bash
+docker build --build-arg VERSION=1.21 -t my-image .
+```
+
+- The `--build-arg` option is used to pass the `VERSION` variable to the builder.
+
+### Docker mount
+
+The `--mount` option allows you to mount a volume to a container. This can be useful when you want to share files between the host and the container.
+
+There are different types of mounts:
+- `type=bind` - Bind mount
+- `type=volume` - Volume mount
+- `type=tmpfs` - Tmpfs mount
+- `type=cache` - Cache mount
+- `type=secret` - Secret mount
+
+#### Cache mount
+
+```bash
+--mount=type=cache,target=<path>
+```
+
+The `cache` mount type allows you to cache files between builds. This can be useful when you want to cache dependencies or other files that don't change often.
+
+```dockerfile
+# syntax=docker/dockerfile:1
+FROM golang:1.21-alpine AS base
+WORKDIR /src
+COPY go.mod go.sum .
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+  go mod download -x # -x flag to print the module download details
+COPY . .
+
+FROM base AS build-client
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    go build -o /bin/client ./cmd/client
+
+FROM base AS build-server
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    go build -o /bin/server ./cmd/server
+
+FROM scratch AS client
+COPY --from=build-client /bin/client /bin/
+ENTRYPOINT [ "/bin/client" ]
+
+FROM scratch AS server
+COPY --from=build-server /bin/server /bin/
+ENTRYPOINT [ "/bin/server" ]
+```
+
+##### Remove cache
+
+Before you rebuild the image, clear your build cache. This ensures that you're starting from a clean slate, making it easier to see exactly what the build is doing.
+
+```bash
+docker builder prune -af
+```
+
+- `-a` - Remove all build cache
+- `-f` - Do not prompt for confirmation
+
+## [Docker Storage](https://docs.docker.com/storage/)
+
+Docker provides different storage options for containers. You can use volumes, bind mounts, or tmpfs mounts to store data in containers.
+
+![Docker Storage](https://docs.docker.com/storage/images/types-of-mounts.webp)
+
+-  Volumes are stored in a part of the host filesystem which is managed by Docker (/var/lib/docker/volumes/ on Linux). Non-Docker processes should not modify this part of the filesystem. Volumes are the best way to persist data in Docker.
+
+-  Bind mounts may be stored anywhere on the host system. They may even be important system files or directories. Non-Docker processes on the Docker host or a Docker container can modify them at any time.
+
+-  tmpfs mounts are stored in the host system's memory only, and are never written to the host system's filesystem.
+
+## [Docker Secrets](https://docs.docker.com/tags/secrets/)
+
+Docker secrets are a secure way to store sensitive information such as passwords, API keys, and other secrets. Secrets are stored in a Docker swarm and are only accessible to the services that need them.
 
 ## PID 1
 

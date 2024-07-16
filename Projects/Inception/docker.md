@@ -847,3 +847,244 @@ Compose simplifies the control of your entire application stack, making it easy 
 
 Compose is great for development, testing, and staging environments, as well as CI workflows.
 
+Tools like **Compose Watch** can be used to automatically rebuild and restart your services when changes are detected in your source code. This can speed up your development workflow and make it easier to test changes.
+
+## [Compose File](https://docs.docker.com/compose/compose-file/)
+
+Compose uses a YAML file to configure your application's services. The `docker-compose.yml` or `compose.yaml` file defines the services, networks, and volumes for your application.
+
+```yaml
+name: myapp
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+  db:
+    image: postgres
+```
+
+### Compose File Structure
+
+The Compose file can be divided into differents top level sections:
+- [**name**](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element): Define the name of your application.
+- [**services**](https://docs.docker.com/compose/compose-file/05-services/): Define the services that make up your application. This is the **core of your Compose file**.
+- [**networks**](https://docs.docker.com/compose/compose-file/06-networks/): Define the networks that your services will connect to.
+- [**volumes**](https://docs.docker.com/compose/compose-file/07-volumes/): Define the volumes that your services will use.
+- [**configs**](https://docs.docker.com/compose/compose-file/08-configs/): Define the configs that your services will use.
+- [**secrets**](https://docs.docker.com/compose/compose-file/09-secrets/): Define the secrets that your services will use.
+
+```yaml
+name: myapp
+
+include:
+  # External Compose file (.yml or .yaml)
+
+services:
+  service1:
+    # Configuration options
+  service2:
+    # Configuration options
+
+networks:
+  network1:
+    # Configuration options
+  network2:
+    # Configuration options
+
+volumes:
+  volume1:
+    # Configuration options
+  volume2:
+    # Configuration options
+
+configs:
+  config1:
+    # Configuration options
+  config2:
+    # Configuration options
+
+secrets:
+  secret1:
+    # Configuration options
+  secret2:
+    # Configuration options
+```
+
+#### Services
+
+The `services` section defines the services that make up your application. Each service is defined by a name and configuration options/attributes.
+
+```yaml
+services:
+  web:
+    # Configuration options/attributes
+  db:
+    # Configuration options/attributes
+```
+
+##### Service Configuration Options
+
+🗃️ [Official References of Service Attributes](https://docs.docker.com/compose/compose-file/05-services/#attributes)
+
+<table border="1">
+    <tr>
+        <th>Attributes</th>
+        <th>Descriptions</th>
+        <th>Examples</th>
+    </tr>
+    <tr>
+        <td><a href="https://docs.docker.com/compose/compose-file/build/"><strong>build</strong></a></td>
+        <td>Build the service from a Dockerfile</td>
+        <td><code>build: .</code></td>
+    </tr>
+    <tr>
+        <td>image</td>
+        <td>Use an existing image for the service</td>
+        <td><code>image: alpine:latest</code></td>
+    </tr>
+    <tr>
+        <td>command</td>
+        <td>Override the default command</td>
+        <td><code>command: python app.py</code></td>
+    </tr>
+    <tr>
+        <td>environment</td>
+        <td>Set environment variables</td>
+        <td><code>environment: - DEBUG=1</code></td>
+    </tr>
+    <tr>
+        <td>ports</td>
+        <td>Expose ports</td>
+        <td><code>ports: - "3000:3000"</code></td>
+    </tr>
+    <tr>
+        <td>volumes</td>
+        <td>Mount volumes</td>
+        <td><code>volumes: - /var/lib/data</code></td>
+    </tr>
+    <tr>
+        <td>depends_on</td>
+        <td>Specify dependencies</td>
+        <td><code>depends_on: - db</code></td>
+    </tr>
+    <tr>
+        <td>networks</td>
+        <td>Connect to networks</td>
+        <td><code>networks: - frontend</code></td>
+    </tr>
+    <tr>
+        <td>restart</td>
+        <td>Restart policy</td>
+        <td><code>restart: always</code></td>
+    </tr>
+    <tr>
+        <td>logging</td>
+        <td>Logging options</td>
+        <td><code>logging: - driver: syslog</code></td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>Labels</td>
+        <td><code>labels: - "com.example.description=Accounting webapp"</code></td>
+    </tr>
+    <tr>
+        <td>entrypoint</td>
+        <td>Override the default entrypoint</td>
+        <td><code>entrypoint: /code/entrypoint.sh</code></td>
+    </tr>
+    <tr>
+        <td>healthcheck</td>
+        <td>Healthcheck options</td>
+        <td><code>healthcheck: test: ["CMD", "curl", "-f", "http://localhost"]</code></td>
+    </tr>
+    <tr>
+        <td>stop_grace_period</td>
+        <td>Stop grace period</td>
+        <td><code>stop_grace_period: 1m30s</code></td>
+    </tr>
+    <tr>
+        <td>stop_signal</td>
+        <td>Stop signal</td>
+        <td><code>stop_signal: SIGTERM</code></td>
+    </tr>
+    <tr>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+</table>
+
+#### Secrets
+
+🔑 [How to use secret with Compose](https://docs.docker.com/compose/use-secrets/)
+
+A secret is any piece of data, such as a password, certificate, or API key, that shouldn’t be transmitted over a network or stored unencrypted in a Dockerfile or in your application’s source code.
+
+Docker Compose provides a way for you to use secrets without having to use environment variables to store information. If you’re injecting passwords and API keys as environment variables, you risk unintentional information exposure. Services can only access secrets when explicitly granted by a secrets attribute within the services top-level element.
+
+```yaml
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/my_secret
+    secrets:
+      - mysecret
+  
+  wordpress:
+    image: wordpress
+    environment:
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/my_secret
+    secrets:
+      - mysecret
+
+secrets:
+  mysecret:
+    file: ./mysecret.txt
+```
+
+You can use the `docker secret` command to manage secrets in a Docker swarm. It's also possible to use secrets during the build process of a Docker image.
+
+## Compose Watch
+
+🔭 [How to Use Watch](https://docs.docker.com/compose/file-watch/)
+
+The watch attribute automatically updates and previews your running Compose services as you edit and save your code. For many projects, this enables a hands-off development workflow once Compose is running, as **services automatically update themselves when you save your work**.
+
+`watch` attribute defines a list of rules that control file changes and how they trigger service updates. Each rule is a dictionary with the following keys:
+- `action`: The action to take when a change is detected. The value can be one of the following:
+  - `sync`: **Sync the service**. Ideal for services that support hot reload.
+  - `rebuild`: **Rebuild the service**.
+  - `sync+restart`: **Restart the service**. Ideal when config files change and the service needs to be restarted (without the need to rebuild), nginx.conf for example.
+- `path`: The path to watch for changes.
+
+To use the `watch` attribute, add `watch` sections to at least one service in your Compose file.
+
+```yaml
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /code
+  redis:
+    image: "redis:alpine"
+```
+
+- `develop` attribute is used for development purposes.
+- `target` (with sync action): The path in the service where the changes are applied.
+
+Then run `docker compose up` with the `--watch` flag or `docker compose watch` to start the watch process.
+
+```bash
+docker compose watch
+```

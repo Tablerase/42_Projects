@@ -29,3 +29,49 @@ sudo apt-get install mariadb-server
 🗃️ [List of options of the Config File](https://dev.mysql.com/doc/refman/9.0/en/server-option-variable-reference.html)
 
 Location depends on the system, but it is usually located at `/etc/mysql/my.cnf`.
+
+##### Example
+
+```ini
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+port=3306 # Default port
+bind-address=* # Listen to all interfaces
+```
+
+### Usage
+
+When you install MariaDB, it will start automatically. You can check the status with:
+
+```bash
+sudo systemctl status mariadb
+```
+
+#### Start/Stop
+
+```bash
+sudo systemctl start mariadb
+sudo systemctl stop mariadb
+```
+
+#### Safety startup
+
+```bash
+exec mysqld_safe
+```
+
+#### Enable/Disable
+
+```bash
+sudo systemctl enable mariadb
+sudo systemctl disable mariadb
+```
+
+After installation, you can access the MariaDB shell with:
+
+```bash
+sudo mysql
+```
+

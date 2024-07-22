@@ -1101,3 +1101,107 @@ Then run `docker compose up` with the `--watch` flag or `docker compose watch` t
 ```bash
 docker compose watch
 ```
+
+# [Docker Network](https://docs.docker.com/network/)
+
+## What is a Docker Network?
+
+A Docker network is a virtual network that allows containers to communicate with each other and with other networks. Docker networks are used to isolate containers, control traffic between containers, and connect containers to external networks.
+
+## [Networking in Compose](https://docs.docker.com/compose/networking/)
+
+Compose allows you to define networks that your services will connect to. This can be useful when you want to isolate services from each other or when you want to connect services to external networks.
+
+```yaml
+services:
+  proxy:
+    build: ./proxy
+    networks:
+      - frontend
+  app:
+    build: ./app
+    networks:
+      - frontend
+      - backend
+  db:
+    image: postgres
+    networks:
+      - backend
+
+networks:
+  frontend:
+    # Use a custom driver
+    driver: custom-driver-1
+  backend:
+    # Use a custom driver which takes special options
+    driver: custom-driver-2
+    driver_opts:
+      foo: "1"
+      bar: "2"
+```
+
+### Network Configuration Options
+
+🗃️ [Official References of Network Attributes](https://docs.docker.com/compose/compose-file/06-networks/#attributes)
+
+<table border="1">
+    <tr>
+        <th>Attributes</th>
+        <th>Descriptions</th>
+        <th>Examples</th>
+    </tr>
+    <tr>
+        <td><a href="https://docs.docker.com/network/drivers/">driver</td>
+        <td>Specify the network driver</td>
+        <td><code>driver: bridge</code></td>
+    </tr>
+    <tr>
+        <td>external</td>
+        <td>Use an existing network</td>
+        <td><code>external: true</code></td>
+    </tr>
+    <tr>
+        <td>attachable</td>
+        <td>Allow service to connect to the network</td>
+        <td><code>attachable: true</code></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Specify the network name</td>
+        <td><code>name: mynetwork</code></td>
+    </tr>
+    <tr>
+        <td>driver_opts</td>
+        <td>Driver options</td>
+        <td><code>driver_opts: foo: bar</code></td>
+    </tr>
+    <tr>
+        <td>ipam</td>
+        <td>IP Address Management</td>
+        <td><code>ipam:
+  config:
+    - subnet: 172.28.0.0/16
+      ip_range: 172.28.5.0/24
+      gateway: 172.28.5.254
+      aux_addresses:
+      host1: 172.28.1.5
+      host2: 172.28.1.6
+      host3: 172.28.1.7</code></td>
+    </tr>
+    <tr>
+        <td>internal</td>
+        <td>Restrict external access</td>
+        <td><code>internal: true</code></td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>Labels</td>
+        <td><code>labels:
+  - com.example.description: "App network"</code></td>
+    </tr>
+    <tr>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+    </tr>
+</table>

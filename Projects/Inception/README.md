@@ -64,9 +64,9 @@ graph TD
 
 
   Makefile -->|Launch/Setup| Docker-compose[fab:fa-docker Docker Compose]
-  Docker-compose -->|Launch| Dockerfile-Mariadb[fab:fa-docker Dockerfile Mariadb]
-  Docker-compose -->|Launch| Dockerfile-Wordpress[fab:fa-docker Dockerfile Wordpress]
-  Docker-compose -->|Launch| Dockerfile-Nginx[fab:fa-docker Dockerfile Nginx]
+  Docker-compose -->|Image| Dockerfile-Mariadb[fab:fa-docker Dockerfile Mariadb]
+  Docker-compose -->|Image| Dockerfile-Wordpress[fab:fa-docker Dockerfile Wordpress]
+  Docker-compose -->|Image| Dockerfile-Nginx[fab:fa-docker Dockerfile Nginx]
   Dockerfile-Mariadb -->|Config| MariaDB[fa:fa-database MariaDB]
   Dockerfile-Wordpress -->|Config| Wordpress[fab:fa-wordpress Wordpress]
   Dockerfile-Nginx -->|Config| Nginx[fa:fa-globe Nginx]

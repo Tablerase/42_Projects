@@ -151,6 +151,18 @@ git commit -m "Ignore .env file"
 git push
 ```
 
+## [Hosts file](https://en.wikipedia.org/wiki/Hosts_(file))
+
+The hosts file is a computer file used by an operating system to map hostnames to IP addresses. The hosts file is a plain text file and is conventionally named `hosts`. It acts as a **local DNS service**, resolving hostnames to IP addresses.
+
+In Unix-like operating systems, the hosts file is located at `/etc/hosts`.
+
+```bash
+sudo nano /etc/hosts
+```
+
+Notes: This file can be used to **block** or **redirect** websites. It is an **attack vector for malware**.
+
 ## Bonus
 
 ### [Portainer](https://docs.portainer.io/start/install-ce/server/docker/linux)

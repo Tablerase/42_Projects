@@ -400,7 +400,7 @@ docker run my-image John
 # Output: Hello John
 ```
 
-### Dockerfile Best Practices
+### [Dockerfile Best Practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 
 - Use `.dockerignore` file to exclude files and directories from the context.
 - Use multi-stage builds to reduce the size of the final image.
@@ -413,6 +413,19 @@ docker run my-image John
 - Use `VOLUME` to create a mount point with the specified name.
 - Use `USER` to set the user name or UID to use when running the image.
 - Use `WORKDIR` to set the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile.
+
+#### Package Management
+
+- Use a package manager to install dependencies.
+- Use the package manager's cache to speed up the build process.
+- Remove the package manager cache after installing dependencies.
+
+```bash
+# Install curl
+apt-get update && apt-get install -y curl
+# Remove the package manager cache
+rm -rf /var/lib/apt/lists/*
+```
 
 ## Docker Image
 

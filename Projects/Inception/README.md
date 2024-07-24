@@ -8,9 +8,11 @@ The aim of this project is to introduce you to the world of system and network a
 
 ## Guide
 
-[Grademe Inception](https://tuto.grademe.fr/inception/#accueil)
+[Useful links](https://github.com/jotavare/42-resources?tab=readme-ov-file#inception)
 
-[Medium Inception](https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671)
+[Github Inception - Waltergcc](https://github.com/waltergcc/42-inception)
+
+[Grademe Inception](https://tuto.grademe.fr/inception/#accueil)
 
 ## Tools
 

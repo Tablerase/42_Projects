@@ -836,6 +836,8 @@ Docker provides different storage options for containers. You can use volumes, b
 
 -  tmpfs mounts are stored in the host system's memory only, and are never written to the host system's filesystem.
 
+### [Volumes](https://docs.docker.com/storage/volumes/)
+
 ## [Docker Secrets](https://docs.docker.com/tags/secrets/)
 
 Docker secrets are a secure way to store sensitive information such as passwords, API keys, and other secrets. Secrets are stored in a Docker swarm and are only accessible to the services that need them.
@@ -1151,7 +1153,7 @@ networks:
         <th>Examples</th>
     </tr>
     <tr>
-        <td><a href="https://docs.docker.com/network/drivers/">driver</td>
+        <td><a href="https://docs.docker.com/network/drivers/">driver</a></td>
         <td>Specify the network driver</td>
         <td><code>driver: bridge</code></td>
     </tr>
@@ -1205,3 +1207,29 @@ networks:
         <td>...</td>
     </tr>
 </table>
+
+## Debugging in Docker
+
+### [Docker Logs](https://docs.docker.com/engine/reference/commandline/logs/)
+
+The `docker logs` command allows you to view the logs of a container. You can use this command to view the output of a container, including any errors or warnings that may have occurred.
+
+```bash
+docker logs my-container
+```
+
+### [Docker Exec](https://docs.docker.com/engine/reference/commandline/exec/)
+
+The `docker exec` command allows you to run a command in a running container. You can use this command to debug a container by running commands inside it.
+
+```bash
+docker exec -it my-container sh
+```
+
+### [Docker Inspect](https://docs.docker.com/engine/reference/commandline/inspect/)
+
+The `docker inspect` command allows you to view detailed information about a container, image, network, or volume. You can use this command to get information about a container, such as its IP address, environment variables, and labels.
+
+```bash
+docker inspect my-container
+```

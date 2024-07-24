@@ -12,31 +12,34 @@
 # @reboot bash /usr/bin/local/switch-theme.sh
 
 set_theme() {
-	# Check if the log file and directory exists
-	if [ ! -d ~/Scripts ]; then
-		mkdir ~/Scripts
-	fi
-	if [ ! -f ~/Scripts/switch-theme.log ]; then
-		touch ~/Scripts/switch-theme.log
-	fi
+# Check if the log file and directory exists
+    if [ ! -d ~/Scripts ]; then
+        mkdir ~/Scripts
+    fi
+    if [ ! -f ~/Scripts/switch-theme.log ]; then
+        touch ~/Scripts/switch-theme.log
+    fi
 
     echo `date` Starting script execution - setting theme $1 >> ~/Scripts/switch-theme.log
     if [[ "$1" == "dark" ]]; then
-        new_gtk_theme="Yaru-orange-dark"
-        # Some apps also need color scheme
+        new_gtk_theme="Yaru-dark"
         new_color_scheme="prefer-dark"
-        new_icon_theme="Yaru-orange-dark"
+        new_icon_theme="Yaru"
     elif [[ "$1" == "light" ]]; then
-        new_gtk_theme="Yaru-orange"
+        new_gtk_theme="Yaru"
         new_color_scheme="prefer-light"
-        new_icon_theme="Yaru-orange"
+        new_icon_theme="Yaru"
     else
         echo "[!] Unsupported theme: $1"
         return
     fi
 
     current_gtk_theme=$(gsettings get org.gnome.desktop.interface gtk-theme)
+    # echo "Current GTK theme: ${current_gtk_theme}"
     current_color_scheme=$(gsettings get org.gnome.desktop.interface color-scheme)
+    # echo "Current color scheme: ${current_color_scheme}"
+    current_icon_theme=$(gsettings get org.gnome.desktop.interface icon-theme)
+    # echo "Current icon theme: ${current_icon_theme}"
     if [[ "${current_gtk_theme}" == "'${new_gtk_theme}'" ]]; then
         echo "`date` [i] Already using gtk '${new_gtk_theme}' theme" >> ~/Scripts/switch-theme.log
     else

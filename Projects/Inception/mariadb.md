@@ -69,10 +69,19 @@ FLUSH PRIVILEGES;
 
 ### Usage
 
-#### Command Line
+<details>
+<summary><h4>Command to Access Database</h4></summary>
 
-##### Connect to the Database
+```bash
+docker exec -it <container> mysql -u <user> -p <database>
+```
+
+or
 
 ```bash
 mysql -u <user> -p <database>
 ```
+
+Exit the database with `exit` command.
+
+</details>

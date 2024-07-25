@@ -6,11 +6,12 @@
 
 The aim of this project is to introduce you to the world of system and network administration, offering you a global vision of a network architecture. You will learn how to install a complete web server, using a deployment technology like Docker. You will discover the basics of system and network administration, as well as the essential concepts of security.
 
-## Guide
+## Guides
 
 [Useful links](https://github.com/jotavare/42-resources?tab=readme-ov-file#inception)
 
-[Github Inception - Waltergcc](https://github.com/waltergcc/42-inception)
+[🔗 Github Inception - Waltergcc](https://github.com/waltergcc/42-inception)
+[🔗 Github Inception - Forstman1](https://github.com/Forstman1/inception-42)
 
 ## Tools
 

@@ -36,6 +36,7 @@ One of the most important files in your WordPress installation is the `wp-config
 You can also use the Wordpress CLI to manage your Wordpress installation. The CLI is a powerful tool that allows you to manage your Wordpress installation from the command line. You can use it to install plugins, themes, and even update your Wordpress installation.
 
 🔗 [Official Wordpress CLI Documentation](https://developer.wordpress.org/cli/commands/)
+- [`wp-config.php with CLI`](https://developer.wordpress.org/cli/commands/config/)
 
 🧑‍🎓 [Wordpress CLI Guide](https://www.linode.com/docs/guides/how-to-install-wordpress-using-wp-cli-on-debian-10/)
 

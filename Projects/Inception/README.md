@@ -12,8 +12,6 @@ The aim of this project is to introduce you to the world of system and network a
 
 [Github Inception - Waltergcc](https://github.com/waltergcc/42-inception)
 
-[Grademe Inception](https://tuto.grademe.fr/inception/#accueil)
-
 ## Tools
 
 <ul>

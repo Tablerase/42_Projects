@@ -17,7 +17,7 @@ MariaDB is a community-developed fork of the MySQL relational database managemen
 #### Ubuntu/Debian
 
 ```bash
-sudo apt-get install mariadb-server
+apt-get install mariadb-server
 ```
 
 ### Configuration
@@ -28,50 +28,51 @@ sudo apt-get install mariadb-server
 
 🗃️ [List of options of the Config File](https://dev.mysql.com/doc/refman/9.0/en/server-option-variable-reference.html)
 
-Location depends on the system, but it is usually located at `/etc/mysql/my.cnf`.
+Location depends on the system, but it is usually located at `/etc/mysql/my.cnf`. For MariaDB server, the configuration file is `/etc/mysql/mariadb.conf.d/50-server.cnf`.
+
+##### Configuration Options
+
+- `datadir` : The directory where MariaDB stores its data.
+- `pid-file` : The file where the server writes the process ID.
+- `socket` : The Unix socket file that the server uses for communication with local clients.
+- `user` : The MariaDB user that the server runs as.
+- `port` : The port number on which the server listens for TCP/IP connections.
+- `bind-address` : The IP address to bind to.
 
 ##### Example
 
 ```ini
 [mysqld]
 datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
-user=mysql
+socket=/run/mysql/mysql.sock
+pid-file=/run/mysql/mysql.pid
+user=root
 port=3306 # Default port
-bind-address=* # Listen to all interfaces
+bind-address= 0.0.0.0 # Listen to all interfaces
+```
+
+#### Configuration of Database
+
+Setup the database with user and password.
+
+```sql
+-- Create database
+CREATE DATABASE IF NOT EXISTS <database>;
+-- Create user and grant privileges
+CREATE USER IF NOT EXISTS '<user>'@'<host>' IDENTIFIED BY '<password>';
+GRANT ALL PRIVILEGES ON <database>.* TO '<user>'@'<host>' IDENTIFIED BY '<password>';
+-- Change password of a user
+ALTER USER '<root_user>'@'<host>' IDENTIFIED BY '<root_password>';
+-- Flush privileges
+FLUSH PRIVILEGES;
 ```
 
 ### Usage
 
-When you install MariaDB, it will start automatically. You can check the status with:
+#### Command Line
+
+##### Connect to the Database
 
 ```bash
-sudo systemctl status mariadb
+mysql -u <user> -p <database>
 ```
-
-#### Start/Stop
-
-```bash
-sudo systemctl start mariadb
-sudo systemctl stop mariadb
-```
-
-#### Safety startup
-
-```bash
-exec mysqld_safe
-```
-
-#### Enable/Disable
-
-```bash
-sudo systemctl enable mariadb
-sudo systemctl disable mariadb
-```
-
-After installation, you can access the MariaDB shell with:
-
-```bash
-sudo mysql
-```
-

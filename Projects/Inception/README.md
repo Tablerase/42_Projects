@@ -6,15 +6,16 @@
 
 The aim of this project is to introduce you to the world of system and network administration, offering you a global vision of a network architecture. You will learn how to install a complete web server, using a deployment technology like Docker. You will discover the basics of system and network administration, as well as the essential concepts of security.
 
-## Guide
+## Mandatory Part
 
-[Useful links](https://github.com/jotavare/42-resources?tab=readme-ov-file#inception)
+### Guides
 
-[Github Inception - Waltergcc](https://github.com/waltergcc/42-inception)
+[🗂️ 42 Ressources - Inception](https://github.com/jotavare/42-resources?tab=readme-ov-file#inception)
 
-[Grademe Inception](https://tuto.grademe.fr/inception/#accueil)
+[🔗 Github Inception - Waltergcc](https://github.com/waltergcc/42-inception)
+[🔗 Github Inception - Forstman1](https://github.com/Forstman1/inception-42)
 
-## Tools
+### Tools
 
 <ul>
   <li><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 45 45">
@@ -36,8 +37,6 @@ The aim of this project is to introduce you to the world of system and network a
   <li>🔐 <a href="./tls.md">TLS - Transport Layer Security</a></li>
   <li>📜 <a href="./php.md">PHP</a></li>
 </ul>
-
-## Structure of the project
 
 ### Launch Structure
 
@@ -83,21 +82,21 @@ graph TD
 graph TD
   direction TB
   classDef black fill:#000,stroke:#333,stroke-width:1px;
-  classDef white fill:#fff,stroke:#333,stroke-width:1px;
-  classDef white_border fill:#fff,stroke:#333,stroke-width:1px, stroke-dasharray: 5, 5;
-  classDef green fill:#0f0,stroke:#333,stroke-width:1px;
-  classDef lightblue fill:#99f,stroke:#333,stroke-width:1px,color:#fff;
-  classDef lightgreen fill:#9f9,stroke:#333,stroke-width:1px;
-  classDef lightred fill:#f99,stroke:#333,stroke-width:1px;
-  classDef lightyellow fill:#ff9,stroke:#333,stroke-width:1px;
-  classDef lightorange fill:#f90,stroke:#333,stroke-width:1px;
-  classDef lightpurple fill:#f0f,stroke:#333,stroke-width:1px;
-  classDef lightcyan fill:#9ff,stroke:#333,stroke-width:1px;
-  classDef lightpink fill:#f9f,stroke:#333,stroke-width:1px;
-  classDef lightbrown fill:#963,stroke:#333,stroke-width:1px;
-  classDef lightgrey fill:#999,stroke:#333,stroke-width:1px;
+  classDef white fill:#fff,color:#555,stroke:#333,stroke-width:1px;
+  classDef white_border fill:#fff,color:#000,stroke:#333,stroke-width:1px, stroke-dasharray: 5, 5;
+  classDef green fill:#0f0,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightblue fill:#99f,color:#fff,stroke:#333,stroke-width:1px;
+  classDef lightgreen fill:#9f9,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightred fill:#f99,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightyellow fill:#ff9,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightorange fill:#f90,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightpurple fill:#f0f,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightcyan fill:#9ff,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightpink fill:#f9f,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightbrown fill:#963,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightgrey fill:#999,color:#555,stroke:#333,stroke-width:1px;
   classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
-  classDef lightwhite fill:#fff,stroke:#333,stroke-width:1px;
+  classDef lightwhite fill:#fff,color:#555,stroke:#333,stroke-width:1px;
 
   Project:::white_border
   subgraph Project
@@ -127,6 +126,38 @@ graph TD
 
   linkStyle 0 stroke:lightgreen,stroke-width:2px;
   linkStyle 1,2 stroke:lightcyan,stroke-width:2px;
+```
+
+### Wordpress design ideas
+
+Simple design with a home page and a list of cards that link to the other containers (Adminer, Portainer, etc.).
+
+```mermaid
+graph TD
+  direction TB
+  classDef black fill:#000,stroke:#333,stroke-width:1px;
+  classDef white fill:#fff,color:#555,stroke:#333,stroke-width:1px;
+  classDef green fill:#0f0,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightblue fill:#99f,color:#fff,stroke:#333,stroke-width:1px;
+  classDef lightgreen fill:#9f9,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightred fill:#f99,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightyellow fill:#ff9,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightorange fill:#f90,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightpurple fill:#f0f,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightcyan fill:#9ff,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightpink fill:#f9f,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightbrown fill:#963,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightgrey fill:#999,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
+  classDef lightwhite fill:#fff,color:#555,stroke:#333,stroke-width:1px;
+
+  Project:::white_border
+  subgraph Project
+    direction TB
+    Website:::lightgreen
+    Adminer:::lightblue
+    Portainer:::lightcyan
+  end
 ```
 
 ## Ignore the credentials
@@ -165,6 +196,39 @@ Notes: This file can be used to **block** or **redirect** websites. It is an **a
 
 ## Bonus
 
+### Static Website
+
+You can also host a static website with Node.js and Express.
+
+```bash
+npm install express
+```
+
+```javascript
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.static('public'));
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
+```
+
+Design your website in the `public` folder.
+
+### [Adminer](https://www.adminer.org/)
+
+https://dev.to/codewithml/setup-adminer-with-docker-for-database-management-4dd2
+
+Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP. Conversely to phpMyAdmin, it consist of a single file ready to deploy to the target server. Adminer is available for MySQL, MariaDB, PostgreSQL, SQLite, MS SQL, Oracle, Firebird, SimpleDB, Elasticsearch and MongoDB.
+
+Cool theme : [Hydra](https://raw.githubusercontent.com/Niyko/Hydra-Dark-Theme-for-Adminer/master/adminer.css)
+![Adminer - Hydra Theme](https://www.adminer.org/static/designs/hydra/screenshot.png)
+
+- Dashboard when container run : https://localhost:9444
+
 ### [Portainer](https://docs.portainer.io/start/install-ce/server/docker/linux)
 
 Portainer is a **lightweight management UI** which allows you to easily manage your Docker host or Swarm cluster.
@@ -178,3 +242,44 @@ A single Portainer Server will accept connections from any number of Portainer A
 ![Portainer architecture](https://docs.portainer.io/~gitbook/image?url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FtLcRoAdw9BYwwpba4ZAD%2Fblobs%2FlpaZLqkbhSEZgNgumgN7%2Fportainer-architecture-detailed.png&width=768&dpr=1&quality=100&sign=b2f2661c&sv=1)
 
 - Dashboard when container run : https://localhost:9443
+
+## Debug
+
+### Docker commands
+
+Log for all containers:
+```bash
+@docker compose -f <compose_file_path> logs -f
+```
+
+Go inside a container:
+```bash
+docker exec -it <container> bash
+# or
+# docker exec -it <container> <command>
+```
+
+### Important files
+
+- `/var/log/nginx/error.log`
+- `/var/log/nginx/access.log`
+
+Socket error:
+  - Can't connect to local MySQL server through socket `/var/run/mysqld/mysqld.sock`
+    ```bash
+    service mysql status
+    cat /etc/mysql/my.cnf | grep socket
+    cat /etc/mysql/mariadb.conf.d/50-server.cnf | grep socket
+    cat /var/run/mysqld/mysqld.sock
+    ```
+  - Can't connect to php-fpm through socket `/var/run/php/php7.4-fpm.sock` from Nginx
+    ```bash
+    # in Nginx
+    ## Check connection to the socket
+    curl -I -v wordpress:9000
+    ## Check connection to another socket
+    curl -I -v mariadb:3306
+    # in Wordpress
+    # Check the socket in the php-fpm pool configuration is listening on the right socket or port (9000)
+    cat /etc/php/7.4/fpm/pool.d/www.conf | grep listen
+    ```

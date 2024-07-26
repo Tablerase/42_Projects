@@ -1,5 +1,8 @@
 # Inception
 
+TODO:
+- Fix permission error when trying to access the uploaded files in Wordpress
+
 <img src="https://siscc.org/wp-content/uploads/2020/09/docker-compose-environment-e1599821255221.png" title="Docker compose environement - octopus with container image" style="width: 50%; border-radius: 10%;" align="right">
 
 ## Description
@@ -162,14 +165,31 @@ graph TD
 
 ## Ignore the credentials
 
+### Ignore the `secrets` folder but keep it in the repository
+
+#### Using git Update-index
+
 It is important to **never** commit your credentials to a repository. To avoid this, you can use a `.gitignore` file to ignore the files containing your credentials.
 
 ```bash
-git rm --cached -r secrets/ # Stop tracking secrets files
+echo "!secrets/*.template" >> .gitignore
+echo "secrets" >> .gitignore
 git add .gitignore
 git commit -m "Ignore secrets files but keep them in the repository as template"
 git push
 ```
+
+Using the update-index command:
+
+This command will ignore the changes made to the files in the `secrets` folder but keep them in the repository, this works only **locally**.
+
+```bash
+git update-index --skip-worktree secrets/*
+```
+
+### Ignore completely the `.env` file
+
+#### Using git ignore
 
 🔗 [Env details and good practices](https://platform.sh/blog/we-need-to-talk-about-the-env/)
 

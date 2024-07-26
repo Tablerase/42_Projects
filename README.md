@@ -41,16 +41,16 @@ Notes and projects during my time at 42.
 
 ## [Notes](./Notes/)
 
+* [Color/Ascii (e.g in Terminal)](./Notes/ascii-art.md)
 * [Git](./Notes/git.md)
 * [Git Conventions](./Notes/git-conventions.md)
-* [Color/Ascii (e.g in Terminal)](./Notes/ascii-art.md)
-* [Useful Links](./Notes/useful_links.md)
 * [Computer Science](./Notes/computer_science.md)
 * [Makefile](./Notes/makefile.md)
-* [MinilibX](./Notes/minilibx.md)
+* [Useful Links](./Notes/useful_links.md)
 
 ## [Configs](./Config/)
 
+* [Gnome Customization - Themes, Icons, Buttons...](./Config/Theme/gnome-customization/)
 * [VIM/Neovim](./Config/VIM/)
 
 ## About this repository

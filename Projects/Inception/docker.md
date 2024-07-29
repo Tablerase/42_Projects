@@ -1078,6 +1078,24 @@ secrets:
 
 You can use the `docker secret` command to manage secrets in a Docker swarm. It's also possible to use secrets during the build process of a Docker image.
 
+#### Healthcheck
+
+🩺 [How to use healthcheck with Compose](https://docs.docker.com/compose/compose-file/05-services/#healthcheck)
+
+The `healthcheck` configuration option allows you to define a command to test the health of a service. This can be useful when you want to monitor the health of a service and automatically restart it if it becomes unhealthy.
+
+```yaml
+services:
+  web:
+    image: nginx
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+```
+
 ## Compose Watch
 
 🔭 [How to Use Watch](https://docs.docker.com/compose/file-watch/)

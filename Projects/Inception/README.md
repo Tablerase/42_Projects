@@ -218,11 +218,21 @@ Notes: This file can be used to **block** or **redirect** websites. It is an **a
 
 ### Static Website
 
+🔗 [Docker - NodeJS container](https://docs.docker.com/language/nodejs/containerize/)
+🔗 [Tips for NodeJS with Docker](https://www.docker.com/blog/9-tips-for-containerizing-your-node-js-application/)
+
 You can also host a static website with Node.js and Express.
+
+```bash
+npm init
+# run the command and answer the questions
+```
 
 ```bash
 npm install express
 ```
+
+Create a `server.js` file:
 
 ```javascript
 const express = require('express');
@@ -236,7 +246,43 @@ app.listen(port, () => {
 });
 ```
 
+Create a `public` folder with an `index.html` file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Hello World</h1>
+</body>
+</html>
+```
+
+Run the server:
+
+```bash
+node server.js
+# or
+# npm start
+```
+
 Design your website in the `public` folder.
+
+### [FTP Server](https://en.wikipedia.org/wiki/FTP_server)
+
+FTP (File Transfer Protocol) is a standard network protocol used to transfer files from one host to another host over a TCP-based network, such as the Internet.
+
+A very popular and maintainded FTP server is ProFTPd.
+
+🔗 [ProFTPd - Official Website](http://www.proftpd.org/)
+
+🗃️ [Github ProFTPd - Official Repo](https://github.com/proftpd/proftpd/)
+
+🔗 [IONOS - Guide Debian Setup](https://www.ionos.com/digitalguide/server/configuration/set-up-your-own-debian-ftp-server-with-proftpd/)
 
 ### [Adminer](https://www.adminer.org/)
 
@@ -249,19 +295,6 @@ Cool theme : [Hydra](https://raw.githubusercontent.com/Niyko/Hydra-Dark-Theme-fo
 
 - Dashboard when container run : https://localhost:9444
 
-### [Portainer](https://docs.portainer.io/start/install-ce/server/docker/linux)
-
-Portainer is a **lightweight management UI** which allows you to easily manage your Docker host or Swarm cluster.
-
-Portainer hides the complexity of managing containers behind an easy-to-use UI. By removing the need to use the CLI, write YAML or understand manifests, Portainer makes deploying apps and troubleshooting problems so easy that anyone can do it.
-
-Portainer consists of two elements: the Portainer Server and the Portainer Agent. Both run as lightweight containers on your existing containerized infrastructure. The Portainer Agent should be deployed to each node in your cluster and configured to report back to the Portainer Server container.
-
-A single Portainer Server will accept connections from any number of Portainer Agents, providing the **ability to manage multiple clusters from one centralized interface**. To do this, the Portainer Server container requires data persistence. The Portainer Agents are stateless, with data being shipped back to the Portainer Server container.
-
-![Portainer architecture](https://docs.portainer.io/~gitbook/image?url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FtLcRoAdw9BYwwpba4ZAD%2Fblobs%2FlpaZLqkbhSEZgNgumgN7%2Fportainer-architecture-detailed.png&width=768&dpr=1&quality=100&sign=b2f2661c&sv=1)
-
-- Dashboard when container run : https://localhost:9443
 
 ## Debug
 
@@ -303,3 +336,19 @@ Socket error:
     # Check the socket in the php-fpm pool configuration is listening on the right socket or port (9000)
     cat /etc/php/7.4/fpm/pool.d/www.conf | grep listen
     ```
+
+## Further Reading (not for the project)
+
+### [Portainer](https://docs.portainer.io/start/install-ce/server/docker/linux)
+
+Portainer is a **lightweight management UI** which allows you to easily manage your Docker host or Swarm cluster.
+
+Portainer hides the complexity of managing containers behind an easy-to-use UI. By removing the need to use the CLI, write YAML or understand manifests, Portainer makes deploying apps and troubleshooting problems so easy that anyone can do it.
+
+Portainer consists of two elements: the Portainer Server and the Portainer Agent. Both run as lightweight containers on your existing containerized infrastructure. The Portainer Agent should be deployed to each node in your cluster and configured to report back to the Portainer Server container.
+
+A single Portainer Server will accept connections from any number of Portainer Agents, providing the **ability to manage multiple clusters from one centralized interface**. To do this, the Portainer Server container requires data persistence. The Portainer Agents are stateless, with data being shipped back to the Portainer Server container.
+
+![Portainer architecture](https://docs.portainer.io/~gitbook/image?url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FtLcRoAdw9BYwwpba4ZAD%2Fblobs%2FlpaZLqkbhSEZgNgumgN7%2Fportainer-architecture-detailed.png&width=768&dpr=1&quality=100&sign=b2f2661c&sv=1)
+
+- Dashboard when container run : https://localhost:9443

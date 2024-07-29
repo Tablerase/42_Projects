@@ -392,7 +392,6 @@ docker exec -it <container> bash
 - `/var/log/nginx/error.log`
 - `/var/log/nginx/access.log`
 
-
 Socket error:
   - Can't connect to local MySQL server through socket `/var/run/mysqld/mysqld.sock`
     ```bash

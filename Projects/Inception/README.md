@@ -1,8 +1,5 @@
 # Inception
 
-TODO:
-- Fix permission error when trying to access the uploaded files in Wordpress
-
 <img src="https://siscc.org/wp-content/uploads/2020/09/docker-compose-environment-e1599821255221.png" title="Docker compose environement - octopus with container image" style="width: 50%; border-radius: 10%;" align="right">
 
 ## Description
@@ -216,6 +213,84 @@ Notes: This file can be used to **block** or **redirect** websites. It is an **a
 
 ## Bonus
 
+### Environment
+<!-- 
+  List of curve options:
+  - step
+  - basis
+  - cardinal
+  - linear
+  - natural
+  - monotone
+  - catmullRom
+  - cubic
+  - quadratic
+  - bundle
+  - stepAfter
+  - stepBefore
+  - basisOpen
+  - basisClosed
+  - cardinalOpen
+  - cardinalClosed
+  - monotoneX
+  - monotoneY
+ -->
+```mermaid
+%%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
+graph TD
+  direction TB
+  classDef black fill:#000,stroke:#333,stroke-width:1px;
+  classDef white fill:#fff,color:#555,stroke:#333,stroke-width:1px;
+  classDef white_border fill:#fff,color:#000,stroke:#333,stroke-width:1px, stroke-dasharray: 5, 5;
+  classDef green fill:#0f0,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightblue fill:#99f,color:#fff,stroke:#333,stroke-width:1px;
+  classDef lightgreen fill:#9f9,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightred fill:#f99,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightyellow fill:#ff9,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightorange fill:#f90,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightpurple fill:#f0f,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightcyan fill:#9ff,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightpink fill:#f9f,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightbrown fill:#963,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightgrey fill:#999,color:#555,stroke:#333,stroke-width:1px;
+  classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
+  classDef lightwhite fill:#fff,color:#555,stroke:#333,stroke-width:1px;
+
+  Project:::white_border
+  subgraph Project
+    direction LR
+    WorldWideWeb <-->|"`*443*`"| Nginx
+    WorldWideWeb((fa:fa-globe World Wide\nWeb)):::lightgreen
+    WorldWideWeb <-->|"`*3000*`"| Static_Website
+    WorldWideWeb <-->|"`*20-21*`"| FTP_Server
+
+    subgraph Computer_Host["fas:fa-computer Computer Host"]
+      Docker_Network:::lightblue
+
+      subgraph Docker_Network["fas:fa-network-wired Docker Network"]
+        subgraph Wordpress_Stack
+          MariaDB("fa:fa-database MariaDB\nContainer")
+          Wordpress("fab:fa-wordpress Wordpress + PHP\nContainer")
+          Nginx("fa:fa-server Nginx + TLS\nContainer")
+          MariaDB <-->|"`*3306*`"| Wordpress <-->|"`*9000*`"| Nginx
+        end
+        Static_Website("fab:fa-js Static Website\nNodeJS + Express\nContainer")
+        FTP_Server("fa:fa-server FTP Server\nProFTPd\nContainer")
+      end
+
+    Volume_MariaDB[("fas:fa-hdd MariaDB\nVolume\n\n/home/login/data/...")]:::lightorange
+    Volume_Wordpress[("fas:fa-hdd Wordpress\nVolume\n\n/home/login/data/...")]:::lightorange
+    MariaDB <-.-> Volume_MariaDB
+    Wordpress <-.-> Volume_Wordpress
+    Nginx <-.-> Volume_Wordpress
+    FTP_Server <-.-> Volume_Wordpress
+    end
+  end
+
+  linkStyle 0,1,2 stroke:lightgreen,stroke-width:2px;
+  linkStyle 3,4 stroke:lightcyan,stroke-width:2px;
+```
+
 ### Static Website
 
 🔗 [Docker - NodeJS container](https://docs.docker.com/language/nodejs/containerize/)
@@ -316,6 +391,7 @@ docker exec -it <container> bash
 
 - `/var/log/nginx/error.log`
 - `/var/log/nginx/access.log`
+
 
 Socket error:
   - Can't connect to local MySQL server through socket `/var/run/mysqld/mysqld.sock`

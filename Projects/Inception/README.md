@@ -262,7 +262,8 @@ graph TD
     WorldWideWeb <-->|"`*443*`"| Nginx
     WorldWideWeb((fa:fa-globe World Wide\nWeb)):::lightgreen
     WorldWideWeb <-->|"`*3000*`"| Static_Website
-    WorldWideWeb <-->|"`*20-21*`"| FTP_Server
+    WorldWideWeb <-->|"`*20-21*
+    60000-60010`"| FTP_Server
 
     subgraph Computer_Host["fas:fa-computer Computer Host"]
       Docker_Network:::lightblue

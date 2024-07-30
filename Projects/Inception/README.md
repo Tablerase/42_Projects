@@ -237,7 +237,7 @@ Notes: This file can be used to **block** or **redirect** websites. It is an **a
  -->
 ```mermaid
 %%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
-graph TD
+graph
   direction TB
   classDef black fill:#000,stroke:#333,stroke-width:1px;
   classDef white fill:#fff,color:#555,stroke:#333,stroke-width:1px;
@@ -261,9 +261,10 @@ graph TD
     direction LR
     WorldWideWeb <-->|"`*443*`"| Nginx
     WorldWideWeb((fa:fa-globe World Wide\nWeb)):::lightgreen
-    WorldWideWeb <-->|"`*3000*`"| Static_Website
+    WorldWideWeb <-->|"`*7500*`"| Static_Website
     WorldWideWeb <-->|"`*20-21*
     60000-60010`"| FTP_Server
+    WorldWideWeb <-->|"`*7000*`"| Adminer
 
     subgraph Computer_Host["fas:fa-computer Computer Host"]
       Docker_Network:::lightblue
@@ -277,6 +278,7 @@ graph TD
         end
         Static_Website("fab:fa-js Static Website\nNodeJS + Express\nContainer")
         FTP_Server("fa:fa-server FTP Server\nProFTPd\nContainer")
+        Adminer("fa:fa-database Adminer\nContainer")
       end
 
     Volume_MariaDB[("fas:fa-hdd MariaDB\nVolume\n\n/home/login/data/...")]:::lightorange
@@ -288,8 +290,8 @@ graph TD
     end
   end
 
-  linkStyle 0,1,2 stroke:lightgreen,stroke-width:2px;
-  linkStyle 3,4 stroke:lightcyan,stroke-width:2px;
+  linkStyle 0,1,2,3 stroke:lightgreen,stroke-width:2px;
+  linkStyle 4,5 stroke:lightcyan,stroke-width:2px;
 ```
 
 ### Static Website
@@ -348,6 +350,8 @@ node server.js
 
 Design your website in the `public` folder.
 
+- Dashboard when container run : https://localhost:7500
+
 ### [FTP Server](https://en.wikipedia.org/wiki/FTP_server)
 
 FTP (File Transfer Protocol) is a standard network protocol used to transfer files from one host to another host over a TCP-based network, such as the Internet.
@@ -362,15 +366,32 @@ A very popular and maintainded FTP server is ProFTPd.
 
 ### [Adminer](https://www.adminer.org/)
 
-https://dev.to/codewithml/setup-adminer-with-docker-for-database-management-4dd2
+🔗 [Adminer Setup Docker (with docker image)](https://dev.to/codewithml/setup-adminer-with-docker-for-database-management-4dd2)
+🔗 [Adminer in Debian](https://www.howtoforge.com/how-to-install-adminer-database-administration-tool-on-debian-12/)
 
 Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP. Conversely to phpMyAdmin, it consist of a single file ready to deploy to the target server. Adminer is available for MySQL, MariaDB, PostgreSQL, SQLite, MS SQL, Oracle, Firebird, SimpleDB, Elasticsearch and MongoDB.
+
+Adminer is a **single php file** that can be **run in a container with php and php-mysql**.
 
 Cool theme : [Hydra](https://raw.githubusercontent.com/Niyko/Hydra-Dark-Theme-for-Adminer/master/adminer.css)
 ![Adminer - Hydra Theme](https://www.adminer.org/static/designs/hydra/screenshot.png)
 
-- Dashboard when container run : https://localhost:9444
+- To add custom css just put the css file in the same directory as the `adminer.php` file.
 
+- Dashboard when container run : https://localhost:7000
+
+### [Grafana](https://grafana.com/)
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" align="right" style="width: 200px;">
+
+🔗 [Grafana Setup Docker](https://grafana.com/docs/grafana/latest/installation/docker/)
+🔗 [Grafana in Debian](https://grafana.com/docs/grafana/latest/installation/debian/)
+
+Grafana is a multi-platform open-source analytics and interactive visualization web application. It provides charts, graphs, and alerts for the web when connected to supported data sources.
+
+Grafana is a **single binary** that can be **run in a container**.
+
+- Dashboard when container run : https://localhost:3000
 
 ## Debug
 

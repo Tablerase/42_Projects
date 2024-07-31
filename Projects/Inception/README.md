@@ -1,5 +1,7 @@
 # Inception
 
+TODO: Check persistence for grafana and add a read only user for the mariadb database.
+
 <img src="https://siscc.org/wp-content/uploads/2020/09/docker-compose-environment-e1599821255221.png" title="Docker compose environement - octopus with container image" style="width: 50%; border-radius: 10%;" align="right">
 
 ## Description
@@ -236,7 +238,7 @@ Notes: This file can be used to **block** or **redirect** websites. It is an **a
   - monotoneY
  -->
 ```mermaid
-%%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
+%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
 graph
   direction TB
   classDef black fill:#000,stroke:#333,stroke-width:1px;
@@ -258,13 +260,14 @@ graph
 
   Project:::white_border
   subgraph Project
-    direction LR
+    direction TB
     WorldWideWeb <-->|"`*443*`"| Nginx
     WorldWideWeb((fa:fa-globe World Wide\nWeb)):::lightgreen
     WorldWideWeb <-->|"`*7500*`"| Static_Website
     WorldWideWeb <-->|"`*20-21*
     60000-60010`"| FTP_Server
     WorldWideWeb <-->|"`*7000*`"| Adminer
+    WorldWideWeb <-->|"`*3000*`"| Grafana
 
     subgraph Computer_Host["fas:fa-computer Computer Host"]
       Docker_Network:::lightblue
@@ -279,19 +282,26 @@ graph
         Static_Website("fab:fa-js Static Website\nNodeJS + Express\nContainer")
         FTP_Server("fa:fa-server FTP Server\nProFTPd\nContainer")
         Adminer("fa:fa-database Adminer\nContainer")
+        Adminer <-->|"`*3306*`"| MariaDB
+        Redis("fa:fa-database Redis\nContainer")
+        Wordpress <-->|"`*6379*`"| Redis
+        Grafana("fa:fa-chart-line Grafana\nContainer")
+        Grafana <-->|"`*3306*`"| MariaDB
       end
 
     Volume_MariaDB[("fas:fa-hdd MariaDB\nVolume\n\n/home/login/data/...")]:::lightorange
     Volume_Wordpress[("fas:fa-hdd Wordpress\nVolume\n\n/home/login/data/...")]:::lightorange
+    Volume_Grafana[("fas:fa-hdd Grafana\nVolume\n\n/home/login/data/...")]:::lightorange
     MariaDB <-.-> Volume_MariaDB
+    FTP_Server <-.-> Volume_Wordpress
     Wordpress <-.-> Volume_Wordpress
     Nginx <-.-> Volume_Wordpress
-    FTP_Server <-.-> Volume_Wordpress
+    Grafana <-.-> Volume_Grafana
     end
   end
 
-  linkStyle 0,1,2,3 stroke:lightgreen,stroke-width:2px;
-  linkStyle 4,5 stroke:lightcyan,stroke-width:2px;
+  linkStyle 0,1,2,3,4 stroke:lightgreen,stroke-width:4px;
+  linkStyle 5,6,7,8,9 stroke:lightblue,stroke-width:2px;
 ```
 
 ### Static Website
@@ -401,6 +411,8 @@ Redis is a **pseudo open-source**, in-memory data structure store, used as a dat
 🔗 [Grafana Setup Docker](https://grafana.com/docs/grafana/latest/installation/docker/)
 
 🦮 [Graffana - Guide for setup](https://grafana.com/docs/grafana/latest/setup-grafana/start-restart-grafana/)
+
+🗂️ [Grafana Configuration](https://grafana.com/docs/grafana/latest/administration/configuration/)
 
 Grafana is a multi-platform open-source analytics and interactive visualization web application. It provides charts, graphs, and alerts for the web when connected to supported data sources.
 

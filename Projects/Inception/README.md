@@ -380,12 +380,27 @@ Cool theme : [Hydra](https://raw.githubusercontent.com/Niyko/Hydra-Dark-Theme-fo
 
 - Dashboard when container run : https://localhost:7000
 
+### [Redis](https://redis.io/)
+
+<img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" align="right" style="width: 200px;">
+
+🔗 [Redis in Linux](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/)
+
+🗂️ [Redis Configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/)
+  - Configuration file : `/etc/redis/redis.conf`
+  - [Config Redis as Cash](https://redis.io/docs/latest/operate/oss_and_stack/management/config/#configuring-redis-as-a-cache)
+  - [Wordpress Redis Cache - Installation](https://github.com/rhubarbgroup/redis-cache/blob/develop/INSTALL.md) - step made simpler using wp-cli (installing the plugin and configuring it)
+
+Redis is a **pseudo open-source**, in-memory data structure store, used as a database, cache, and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, geospatial indexes with radius queries, and streams.
+
 ### [Grafana](https://grafana.com/)
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" align="right" style="width: 200px;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" align="right" style="width: 150px;">
 
-🔗 [Grafana Setup Docker](https://grafana.com/docs/grafana/latest/installation/docker/)
 🔗 [Grafana in Debian](https://grafana.com/docs/grafana/latest/installation/debian/)
+🔗 [Grafana Setup Docker](https://grafana.com/docs/grafana/latest/installation/docker/)
+
+🦮 [Graffana - Guide for setup](https://grafana.com/docs/grafana/latest/setup-grafana/start-restart-grafana/)
 
 Grafana is a multi-platform open-source analytics and interactive visualization web application. It provides charts, graphs, and alerts for the web when connected to supported data sources.
 
@@ -447,5 +462,3 @@ Portainer consists of two elements: the Portainer Server and the Portainer Agent
 A single Portainer Server will accept connections from any number of Portainer Agents, providing the **ability to manage multiple clusters from one centralized interface**. To do this, the Portainer Server container requires data persistence. The Portainer Agents are stateless, with data being shipped back to the Portainer Server container.
 
 ![Portainer architecture](https://docs.portainer.io/~gitbook/image?url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FtLcRoAdw9BYwwpba4ZAD%2Fblobs%2FlpaZLqkbhSEZgNgumgN7%2Fportainer-architecture-detailed.png&width=768&dpr=1&quality=100&sign=b2f2661c&sv=1)
-
-- Dashboard when container run : https://localhost:9443

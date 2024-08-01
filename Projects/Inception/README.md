@@ -405,7 +405,7 @@ Redis is a **pseudo open-source**, in-memory data structure store, used as a dat
 
 ### [Grafana](https://grafana.com/)
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" align="right" style="width: 150px;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" align="right" style="width: 100px;">
 
 🔗 [Grafana in Debian](https://grafana.com/docs/grafana/latest/installation/debian/)
 🔗 [Grafana Setup Docker](https://grafana.com/docs/grafana/latest/installation/docker/)
@@ -413,14 +413,19 @@ Redis is a **pseudo open-source**, in-memory data structure store, used as a dat
 🦮 [Graffana - Guide for setup](https://grafana.com/docs/grafana/latest/setup-grafana/start-restart-grafana/)
 
 🗂️ [Grafana Configuration](https://grafana.com/docs/grafana/latest/administration/configuration/)
+  - Configuration file : `/etc/grafana/grafana.ini`
+  - [Provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/)
+  - [Datasources MySQL](https://grafana.com/docs/grafana/latest/datasources/mysql/)
 
 Grafana is a multi-platform open-source analytics and interactive visualization web application. It provides charts, graphs, and alerts for the web when connected to supported data sources.
 
 Grafana is a **single binary** that can be **run in a container**.
 
+![Grafana - Dashboard](https://grafana.com/media/oss/grafana-oss-meta.png)
+
 - Dashboard when container run : https://localhost:3000
 
-## Debug
+## Debug 🐛
 
 ### Docker commands
 
@@ -440,6 +445,8 @@ docker exec -it <container> bash
 
 - `/var/log/nginx/error.log`
 - `/var/log/nginx/access.log`
+- `/var/lib/mysql/error.log`
+- `/var/log/php7.4-fpm.log`
 
 Socket error:
   - Can't connect to local MySQL server through socket `/var/run/mysqld/mysqld.sock`

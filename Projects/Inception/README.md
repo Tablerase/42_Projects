@@ -1,7 +1,5 @@
 # Inception
 
-TODO: Check persistence for grafana and add a read only user for the mariadb database.
-
 <img src="https://siscc.org/wp-content/uploads/2020/09/docker-compose-environment-e1599821255221.png" title="Docker compose environement - octopus with container image" style="width: 50%; border-radius: 10%;" align="right">
 
 ## Description
@@ -128,38 +126,6 @@ graph TD
 
   linkStyle 0 stroke:lightgreen,stroke-width:2px;
   linkStyle 1,2 stroke:lightcyan,stroke-width:2px;
-```
-
-### Wordpress design ideas
-
-Simple design with a home page and a list of cards that link to the other containers (Adminer, Portainer, etc.).
-
-```mermaid
-graph TD
-  direction TB
-  classDef black fill:#000,stroke:#333,stroke-width:1px;
-  classDef white fill:#fff,color:#555,stroke:#333,stroke-width:1px;
-  classDef green fill:#0f0,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightblue fill:#99f,color:#fff,stroke:#333,stroke-width:1px;
-  classDef lightgreen fill:#9f9,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightred fill:#f99,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightyellow fill:#ff9,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightorange fill:#f90,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightpurple fill:#f0f,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightcyan fill:#9ff,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightpink fill:#f9f,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightbrown fill:#963,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightgrey fill:#999,color:#555,stroke:#333,stroke-width:1px;
-  classDef lightblack fill:#000,stroke:#333,stroke-width:1px;
-  classDef lightwhite fill:#fff,color:#555,stroke:#333,stroke-width:1px;
-
-  Project:::white_border
-  subgraph Project
-    direction TB
-    Website:::lightgreen
-    Adminer:::lightblue
-    Portainer:::lightcyan
-  end
 ```
 
 ## Ignore the credentials

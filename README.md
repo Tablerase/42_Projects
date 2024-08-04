@@ -62,10 +62,10 @@ Some display in `.md` files of this repository may not be supported by github (s
 > [!NOTE]\
 > Recommened extensions for better experience in `vscode` are as follows:
 > * [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
->  - ID: `bierner.markdown-preview-github-styles`
+>   - ID: `bierner.markdown-preview-github-styles`
 > 
 > * [Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
->  - ID: `bierner.markdown-mermaid`
+>   - ID: `bierner.markdown-mermaid`
 
 ## Timeline
 

@@ -1,5 +1,83 @@
 # Markdown Syntax
 
+## Quotes Block
+
+### Blockquote
+
+> This is a blockquote
+
+```markdown
+> This is a blockquote
+```
+
+#### Note / Tip / Important / Warning
+
+> [!NOTE]\
+> This is a note
+
+```markdown
+> [!NOTE]\
+> This is a note
+```
+
+> [!TIP]\
+> This is a tip
+
+```markdown
+> [!TIP]\
+> This is a tip
+```
+
+> [!IMPORTANT]\
+> This is important
+
+```markdown
+> [!IMPORTANT]\
+> This is important
+```
+
+> [!WARNING]\
+> This is a warning
+
+```markdown
+> [!WARNING]\
+> This is a warning
+```
+
+### Nested Blockquote
+
+> This is a blockquote
+>
+> > This is a nested blockquote
+
+```markdown
+> This is a blockquote
+>
+> > This is a nested blockquote
+```
+
+### Blockquote with code
+
+> This is a blockquote
+
+```c
+int main()
+{
+    return 0;
+}
+```
+
+```markdown
+> This is a blockquote
+>
+> ```c
+> int main()
+> {
+>     return 0;
+> }
+> ```
+```
+
 ## Math
 
 ### [Latex](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions)

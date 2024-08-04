@@ -10,3 +10,6 @@
 [submodule "Projects/WebServ/WebServ-Projet"]
 	path = Projects/WebServ/WebServ-Projet
 	url = git@github.com:Tablerase/42_WebServ.git
+[submodule "Projects/Inception/inception"]
+	path = Projects/Inception/inception
+	url = git@github.com:Tablerase/42_Inception.git

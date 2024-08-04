@@ -81,8 +81,11 @@ gantt
     DigHacktion : crit, done, 2024-04-26, 2024-04-28
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
+    section Rank 6
+    Transcendence : active, 2024-08-05, 2024-09-01
+
     section Rank 5
-    Inception : active, 2024-07-04, 4w
+    Inception : done, 2024-07-04, 2024-08-02
     CPP Modules[9] : done, 2024-06-19, 2024-07-03
     WebServ : done, 2024-05-28, 2024-06-18
     CPP Modules[5-8] : done, 2024-05-06, 4w

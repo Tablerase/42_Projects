@@ -57,7 +57,8 @@ Notes and projects during my time at 42.
 
 ### Documentation Preview
 
-Some display in `.md` files of this repository may not be supported by github (svg, css display, some math in latex, ...), you can clone the repository and view it locally.
+> [!WARNING]\
+> Some display in `.md` files of this repository may not be supported by github (svg, css display, some math in latex, ...), you can clone the repository and view it locally.
 
 > [!NOTE]\
 > Recommened extensions for better experience in `vscode` are as follows:

@@ -6,6 +6,10 @@ Notes and projects during my time at 42.
 
 ## Projects
 
+### Rank 6
+
+* [Transcendence](./Projects/Transcendence)
+
 ### Rank 5
 * [Inception](./Projects/Inception)
 * [CPP Modules [5-9]](./Projects/CPP_Modules)

@@ -55,7 +55,7 @@ Notes and projects during my time at 42.
 ## [Configs](./Config/)
 
 * [Gnome Customization - Themes, Icons, Buttons...](./Config/Theme/gnome-customization/)
-* [VIM/Neovim](./Config/VIM/)
+* [IDE](./Config/IDE/)
 
 ## About this repository
 

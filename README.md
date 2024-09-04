@@ -80,7 +80,7 @@ gantt
     dateFormat  YYYY-MM-DD
 
     section Goals
-    End of Common Core : milestone, crit, m1, 2024-09-01, 1m
+    End of Common Core : milestone, crit, m1, 2024-09-16, 1m
 
     section Events
     Hackathon EY : done, 2024-06-04, 2024-06-05
@@ -88,7 +88,7 @@ gantt
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Rank 6
-    Transcendence : active, 2024-08-05, 2024-09-01
+    Transcendence : active, 2024-08-05, 6w
 
     section Rank 5
     Inception : done, 2024-07-04, 2024-08-02

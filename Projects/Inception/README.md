@@ -47,6 +47,12 @@ The aim of this project is to introduce you to the world of system and network a
 />
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: default
+---
+
 graph TD
   direction TB
   classDef black fill:#000,stroke:#333,stroke-width:1px;
@@ -102,7 +108,7 @@ graph TD
   subgraph Project
     direction LR
     WorldWideWeb <-->|"`*443*`"| Nginx
-    WorldWideWeb((fa:fa-globe World Wide\nWeb)):::lightgreen
+    WorldWideWeb((fa:fa-globe World Wide<br>Web)):::lightgreen
 
     subgraph Computer_Host["fas:fa-computer Computer Host"]
       direction TB
@@ -110,14 +116,14 @@ graph TD
 
       subgraph Docker_Network["fas:fa-network-wired Docker Network"]
         direction LR
-        MariaDB("fa:fa-database MariaDB\nContainer")
-        Wordpress("fab:fa-wordpress Wordpress + PHP\nContainer")
-        Nginx("fa:fa-server Nginx + TLS\nContainer")
+        MariaDB("fa:fa-database MariaDB<br>Container")
+        Wordpress("fab:fa-wordpress Wordpress + PHP<br>Container")
+        Nginx("fa:fa-server Nginx + TLS<br>Container")
         MariaDB <-->|"`*3306*`"| Wordpress <-->|"`*9000*`"| Nginx
       end
 
-    Volume_MariaDB[("fas:fa-hdd MariaDB\nVolume\n\n/home/login/data/...")]:::lightorange
-    Volume_Wordpress[("fas:fa-hdd Wordpress\nVolume\n\n/home/login/data/...")]:::lightorange
+    Volume_MariaDB[("fas:fa-hdd MariaDB<br>Volume<br><br>/home/login/data/...")]:::lightorange
+    Volume_Wordpress[("fas:fa-hdd Wordpress<br>Volume<br><br>/home/login/data/...")]:::lightorange
     MariaDB <-.-> Volume_MariaDB
     Wordpress <-.-> Volume_Wordpress
     Nginx <-.-> Volume_Wordpress
@@ -204,8 +210,13 @@ Notes: This file can be used to **block** or **redirect** websites. It is an **a
   - monotoneY
  -->
 ```mermaid
-%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
-graph
+---
+config:
+  flowchart: { curve: 'basis' }
+  theme: default
+  htmlLabels: true
+---
+graph TD
   direction TB
   classDef black fill:#000,stroke:#333,stroke-width:1px;
   classDef white fill:#fff,color:#555,stroke:#333,stroke-width:1px;
@@ -228,7 +239,7 @@ graph
   subgraph Project
     direction TB
     WorldWideWeb <-->|"`*443*`"| Nginx
-    WorldWideWeb((fa:fa-globe World Wide\nWeb)):::lightgreen
+    WorldWideWeb((fa:fa-globe World Wide<br>Web)):::lightgreen
     WorldWideWeb <-->|"`*7500*`"| Static_Website
     WorldWideWeb <-->|"`*20-21*
     60000-60010`"| FTP_Server
@@ -240,24 +251,24 @@ graph
 
       subgraph Docker_Network["fas:fa-network-wired Docker Network"]
         subgraph Wordpress_Stack
-          MariaDB("fa:fa-database MariaDB\nContainer")
-          Wordpress("fab:fa-wordpress Wordpress + PHP\nContainer")
-          Nginx("fa:fa-server Nginx + TLS\nContainer")
+          MariaDB("fa:fa-database MariaDB<br>Container")
+          Wordpress("fab:fa-wordpress Wordpress + PHP<br>Container")
+          Nginx("fa:fa-server Nginx + TLS<br>Container")
           MariaDB <-->|"`*3306*`"| Wordpress <-->|"`*9000*`"| Nginx
         end
-        Static_Website("fab:fa-js Static Website\nNodeJS + Express\nContainer")
-        FTP_Server("fa:fa-server FTP Server\nProFTPd\nContainer")
-        Adminer("fa:fa-database Adminer\nContainer")
+        Static_Website("fab:fa-js Static Website<br>NodeJS + Express<br>Container")
+        FTP_Server("fa:fa-server FTP Server<br>ProFTPd<br>Container")
+        Adminer("fa:fa-database Adminer<br>Container")
         Adminer <-->|"`*3306*`"| MariaDB
-        Redis("fa:fa-database Redis\nContainer")
+        Redis("fa:fa-database Redis<br>Container")
         Wordpress <-->|"`*6379*`"| Redis
-        Grafana("fa:fa-chart-line Grafana\nContainer")
+        Grafana("fa:fa-chart-line Grafana<br>Container")
         Grafana <-->|"`*3306*`"| MariaDB
       end
 
-    Volume_MariaDB[("fas:fa-hdd MariaDB\nVolume\n\n/home/login/data/...")]:::lightorange
-    Volume_Wordpress[("fas:fa-hdd Wordpress\nVolume\n\n/home/login/data/...")]:::lightorange
-    Volume_Grafana[("fas:fa-hdd Grafana\nVolume\n\n/home/login/data/...")]:::lightorange
+    Volume_MariaDB[("fas:fa-hdd MariaDB<br>Volume<br><br>/home/login/data/...")]:::lightorange
+    Volume_Wordpress[("fas:fa-hdd Wordpress<br>Volume<br><br>/home/login/data/...")]:::lightorange
+    Volume_Grafana[("fas:fa-hdd Grafana<br>Volume<br><br>/home/login/data/...")]:::lightorange
     MariaDB <-.-> Volume_MariaDB
     FTP_Server <-.-> Volume_Wordpress
     Wordpress <-.-> Volume_Wordpress

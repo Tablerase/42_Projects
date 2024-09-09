@@ -322,7 +322,7 @@ graph TD
     Sorted4'''''["6"]:::mediumpurple
     Sorted3''''' --> Sorted1''''' --> Sorted2''''' --> Sorted4'''''
   end
-  Note_Array_S["Ascending order\nfrom the fist/smallest element of each pair"] -.- Array_S
+  Note_Array_S["Ascending order<br>from the fist smallest element of each pair"] -.- Array_S
 ```
 
 4. Insert the sorted subarrays in $ S $ using the **Binary Insert sort** algorithm with the Jacobsthal set for the order of comparison.
@@ -393,7 +393,7 @@ graph TD
         direction LR
         element_6' --> element_7' --> element_5'
       end
-      Note_BinInsertSort["Make group according to jacobsthal numbers (0, 1, 1, 3, 5, ...)\nand each group in inverted order from original pending chain"]
+      Note_BinInsertSort["Make group according to jacobsthal numbers (0, 1, 1, 3, 5, ...)<br>and each group in inverted order from original pending chain"]
     end
     gp_jacob1 --> gp_jacob3
   end
@@ -423,7 +423,7 @@ graph TD
       end
       gp_jacob1' --> gp_jacob3'
     end 
-    function("Binary Search (find insert pos)\n + Insertion")
+    function("Binary Search (find insert pos) <br> + Insertion")
     element_4'' -.- function -.-> element_3''
   end
   Init_BinInsertSort --> BinInsertSort
@@ -431,8 +431,8 @@ graph TD
   BinInsertSort --> Loop
   subgraph Loop
     direction TB
-    next_group(("Select\nnext Group"))
-    select(("Select\nnext Element"))
+    next_group(("Select<br>next Group"))
+    select(("Select<br>next Element"))
     binsearch(["Binary Search"])
     insert(["Insertion"])
     select --> binsearch

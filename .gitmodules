@@ -13,6 +13,7 @@
 [submodule "Projects/Inception/inception"]
 	path = Projects/Inception/inception
 	url = git@github.com:Tablerase/42_Inception.git
+	branch = main
 [submodule "Projects/Transcendence/42_Transcendence"]
 	path = Projects/Transcendence/42_Transcendence
 	url = git@github.com:Tablerase/42_Transcendence.git

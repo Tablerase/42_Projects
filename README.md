@@ -6,42 +6,58 @@ Notes and projects during my time at 42.
 
 ## Projects
 
-### Rank 6
+<details>
+<summary>
+
+### 🦄 Common Core
+
+</summary>
+
+#### Rank 6
 
 * [Transcendence](./Projects/Transcendence)
 
-### Rank 5
+#### Rank 5
 * [Inception](./Projects/Inception)
 * [CPP Modules [5-9]](./Projects/CPP_Modules)
 * [WebServ](https://github.com/Tablerase/42_WebServ/tree/main)
 
-### Rank 4
+#### Rank 4
 
 * [NetPractice](./Projects/NetPractice/)
 * [CPP Modules [0-4]](./Projects/CPP_Modules)
 * [Cube3D](./Projects/Cube3D/)
 
-### Rank 3
+#### Rank 3
 
 * [Philosophers](./Projects/Philosophers/)
 * [MiniShell](./Projects/MiniShell/)
 
-### Rank 2
+#### Rank 2
 
 * [Pipex](./Projects/Pipex/)
 * [Push_Swap](./Projects/Push_swap/)
 * [Fract-ol](./Projects/Fract-ol/)
 
-### Rank 1
+#### Rank 1
 
 * [Ft_Printf](./Projects/Ft_printf/)
 * [GetNextLine](./Projects/GetNextLine/)
 * [Born2BeRoot](./Projects/Born2BeRoot/)
 * [Libft](./Projects/Libft/)
 
-### Piscine
+</details>
+
+<details>
+<summary>
+
+### 🏊 Piscine
+
+</summary>
 
 * [PiscineReloaded](./Projects/PiscineReloaded/)
+
+</details>
 
 ## [Notes](./Notes/)
 
@@ -88,7 +104,7 @@ gantt
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Rank 6
-    Transcendence : crit, done, 2024-08-05, 2024-09-07
+    Transcendence : crit, done, 2024-07-30, 2024-09-07
 
     section Rank 5
     Inception : done, 2024-07-04, 2024-08-02

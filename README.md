@@ -6,10 +6,16 @@ Notes and projects during my time at 42.
 
 ## Projects
 
+### 🔮 Post Common Core
+
+#### Object Oriented Programming
+
+* [Piscine Django](./Projects/Django)
+
 <details>
 <summary>
 
-### 🦄 Common Core
+### 🦄 Common Core  
 
 </summary>
 
@@ -44,17 +50,10 @@ Notes and projects during my time at 42.
 * [Ft_Printf](./Projects/Ft_printf/)
 * [GetNextLine](./Projects/GetNextLine/)
 * [Born2BeRoot](./Projects/Born2BeRoot/)
+
+#### Rank 0
+
 * [Libft](./Projects/Libft/)
-
-</details>
-
-<details>
-<summary>
-
-### 🏊 Piscine
-
-</summary>
-
 * [PiscineReloaded](./Projects/PiscineReloaded/)
 
 </details>

@@ -120,8 +120,11 @@ Format:
 ### Mermaid
 
 📚 [Mermaid Documentation](http://mermaid.js.org/intro/syntax-reference.html)
+⚙️ [Mermaid Configuration](https://mermaid.js.org/config/setup/interfaces/mermaid.MermaidConfig.html)
 
 There are many different types of diagrams that can be created with mermaid. Here are some examples and demo : :link: [Mermaid Live Editor](https://mermaid-js.github.io/mermaid-live-editor/)
+
+**As mermaid is an open source project, it is possible that new diagram and config exist as it add new features rapidly.**
 
 #### Custom Class Diagram
 

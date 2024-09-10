@@ -70,6 +70,7 @@ Notes and projects during my time at 42.
 ## [Configs](./Config/)
 
 * [Gnome Customization - Themes, Icons, Buttons...](./Config/Theme/gnome-customization/)
+* [VirtualBox - Shared Folder](https://www.golinuxcloud.com/virtualbox-shared-folder/)
 * [IDE](./Config/IDE/)
 
 ## About this repository

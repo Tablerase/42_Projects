@@ -7,9 +7,11 @@
 [submodule "Projects/WebServ/WebServ-Wiki"]
 	path = Projects/WebServ/WebServ-Wiki
 	url = https://github.com/Tablerase/42_WebServ.wiki.git
+    branch = main
 [submodule "Projects/WebServ/WebServ-Projet"]
 	path = Projects/WebServ/WebServ-Projet
 	url = git@github.com:Tablerase/42_WebServ.git
+    branch = main
 [submodule "Projects/Inception/inception"]
 	path = Projects/Inception/inception
 	url = git@github.com:Tablerase/42_Inception.git

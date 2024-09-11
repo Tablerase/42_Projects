@@ -62,5 +62,185 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struc
 ```
 
 The `select()` function allows a program to monitor multiple file descriptors, waiting until one or more of the file descriptors become "ready" for some class of I/O operation.
+When `select()` returns, the `fd_set` structures are updated to reflect which file descriptors are ready.
 
+**Limitations**:
+- The maximum number of file descriptors that `select()` can monitor is defined by the constant `FD_SETSIZE`. Usually, it is 1024.
 
+**Parameters**:
+- nfds: 
+  - the highest-numbered file descriptor in any of the three sets, plus 1.
+- readfds:
+  - the set of file descriptors to be checked for being ready to read.
+- writefds:
+  - the set of file descriptors to be checked for being ready to write.
+- exceptfds:
+  - the set of file descriptors to be checked for error conditions.
+- timeout:
+  - the maximum time to wait before returning.
+    - If `NULL`, `select()` will block indefinitely until at least one file descriptor is ready.
+    - If `0`, `select()` will return immediately.
+    - If not `NULL`, the `struct timeval` structure it points to specifies the maximum time to wait.
+      - The `tv_sec` field specifies the number of seconds, and the `tv_usec` field specifies the number of microseconds.
+      - The maximum time limit is 31.7 minutes.
+
+**Returns**: 
+- the number of file descriptors contained in the three returned descriptor sets (that is, the total number of bits that are set in readfds, writefds, exceptfds) which may be zero if the timeout expires before anything interesting happens.
+- `-1` on error. The global variable `errno` is set to indicate the error.
+
+**Example**:
+
+```c
+#include <sys/select.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(void)
+{
+    fd_set readfds;
+    struct timeval tv;
+    int retval;
+
+    FD_ZERO(&readfds);
+    FD_SET(0, &readfds);
+
+    tv.tv_sec = 5;
+    tv.tv_usec = 0;
+
+    retval = select(1, &readfds, NULL, NULL, &tv);
+
+    if (retval == -1)
+        perror("select()");
+    else if (retval)
+        printf("Data is available now.\n");
+    else
+        printf("No data within five seconds.\n");
+
+    return (0);
+}
+```
+
+</details>
+
+<details>
+<summary>FD_SET, FD_CLR, FD_ISSET, FD_ZERO</summary>
+
+```c
+void FD_SET(int fd, fd_set *set);
+```
+
+```c
+void FD_CLR(int fd, fd_set *set);
+```
+
+```c
+int FD_ISSET(int fd, fd_set *set);
+```
+
+```c
+void FD_ZERO(fd_set *set);
+```
+
+These functions are used to manipulate file descriptor sets.
+
+- `FD_SET()` adds the file descriptor `fd` to the set `set`.
+- `FD_CLR()` removes the file descriptor `fd` from the set `set`.
+- `FD_ISSET()` tests whether the file descriptor `fd` is a member of the set `set`.
+  - Returns a non-zero value if `fd` is a member of the set, and zero otherwise.
+- `FD_ZERO()` initializes the set `set` to the null set.
+
+</details>
+
+<details>
+<summary>Socket</summary>
+
+```c
+int socket(int domain, int type, int protocol);
+```
+
+Creates an endpoint for communication and returns a file descriptor that refers to the endpoint.
+
+**Parameters**:
+
+- domain:
+  - the communication domain in which the socket should be created.
+    - `AF_INET`: IPv4 Internet protocols.
+    - `AF_INET6`: IPv6 Internet protocols.
+    - `AF_UNIX`: Local communication.
+    - ...
+- type:
+  - the type of socket to be created. Specifies the communication semantics.
+    - `SOCK_STREAM`: Provides sequenced, reliable, two-way, connection-based byte streams.
+    - `SOCK_DGRAM`: Supports datagrams (connectionless, unreliable messages of a fixed maximum length).
+    - `SOCK_RAW`: Provides raw network protocol access.
+    - ...
+- protocol:
+  - the protocol to be used with the socket.
+    - `0`: The default protocol for the given domain and type.
+
+**Returns**:
+- a file descriptor that refers to the endpoint.
+- `-1` on error. The global variable `errno` is set to indicate the error.
+
+**Example**:
+
+```c
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int main(void)
+{
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1)
+        perror("socket()");
+    return (0);
+}
+```
+
+</details>
+
+<details>
+<summary>Bind</summary>
+
+```c
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+```
+
+Assigns the address specified by `addr` to the socket referred to by the file descriptor `sockfd`.
+
+**Parameters**:
+
+- sockfd:
+  - the file descriptor of the socket.
+- addr:
+  - a pointer to a `sockaddr` structure containing the address to be assigned to the socket.
+- addrlen:
+  - the size of the `sockaddr` structure pointed to by `addr`.
+
+**Returns**:
+- `0` on success.
+- `-1` on error. The global variable `errno` is set to indicate the error.
+  
+**Example**:
+
+```c
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int main(void)
+{
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in addr;
+
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(8080);
+    addr.sin_addr.s_addr = INADDR_ANY;
+
+    if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1)
+        perror("bind()");
+    return (0);
+}
+```
+
+</details>

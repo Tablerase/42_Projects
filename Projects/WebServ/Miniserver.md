@@ -227,6 +227,7 @@ Assigns the address specified by `addr` to the socket referred to by the file de
 ```c
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
 
 int main(void)
 {
@@ -239,8 +240,116 @@ int main(void)
 
     if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1)
         perror("bind()");
+    
+    printf("Address family: %d\n", addr.sin_family);
+    printf("Port: %d\n", ntohs(addr.sin_port));
+    printf("IP address: %s\n", inet_ntoa(addr.sin_addr));
     return (0);
 }
 ```
 
 </details>
+
+<details>
+<summary>Listen</summary>
+
+```c
+int listen(int sockfd, int backlog);
+```
+
+Marks the socket referred to by `sockfd` as a passive socket, that is, as a socket that will be used to accept incoming connection requests.
+
+**Parameters**:
+- sockfd:
+  - the file descriptor of the socket.
+- backlog:
+  - the maximum length to which the queue of pending connections for the socket may grow.
+  - If a connection request arrives when the queue is full, the client may receive an error with an indication of `ECONNREFUSED`.
+  - If `backlog` is greater than `SOMAXCONN`, the value of `SOMAXCONN` is used. `SOMAXCONN` is a system-defined constant.
+  - If `backlog` is set to `0`, the kernel will use a default value.
+
+**Returns**:
+- `0` on success.
+- `-1` on error. The global variable `errno` is set to indicate the error.
+
+**Example**:
+
+```c
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
+int main(void)
+{
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in addr;
+
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(8080);
+    addr.sin_addr.s_addr = INADDR_ANY;
+
+    if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1)
+        perror("bind()");
+
+    if (listen(sockfd, 5) == -1)
+        perror("listen()");
+
+    printf("Listening on port %d\n", ntohs(addr.sin_port));
+    return (0);
+}
+```
+
+</details>
+
+<details>
+<summary>Accept</summary>
+
+```c
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+```
+
+Accepts a new incoming connection on the socket referred to by the file descriptor `sockfd`.
+
+**Parameters**:
+- sockfd:
+  - the file descriptor of the socket.
+- addr:
+  - a pointer to a `sockaddr` structure that will contain the address of the connecting entity.
+- addrlen:
+  - a pointer to a `socklen_t` that will contain the size of the `sockaddr` structure pointed to by `addr`.
+
+**Returns**:
+- a file descriptor for the accepted socket.
+- `-1` on error. The global variable `errno` is set to indicate the error.
+
+**Example**:
+
+```c
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
+int main(void)
+{
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in addr;
+    socklen_t addrlen = sizeof(addr);
+
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(8080);
+    addr.sin_addr.s_addr = INADDR_ANY;
+
+    if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1)
+        perror("bind()");
+
+    if (listen(sockfd, 5) == -1)
+        perror("listen()");
+
+    int newsockfd = accept(sockfd, (struct sockaddr *)&addr, &addrlen);
+    if (newsockfd == -1)
+        perror("accept()");
+
+    printf("Accepted connection from %s:%d\n", inet_ntoa(addr.sin_addr), ntohs(addr.sin_port));
+    return (0);
+}
+```

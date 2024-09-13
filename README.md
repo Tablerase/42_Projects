@@ -104,7 +104,7 @@ gantt
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Rank 6
-    Transcendence : crit, done, 2024-07-30, 2024-09-07
+    Transcendence : done, 2024-07-30, 2024-09-07
 
     section Rank 5
     Inception : done, 2024-07-04, 2024-08-02

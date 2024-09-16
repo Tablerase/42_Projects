@@ -1,5 +1,38 @@
 # Miniserver
 
+## Diagram
+
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+```mermaid
+---
+title: Miniserver
+config:
+  layout: elk
+  look: handDrawn
+  fontFamily: Architects Daughter, sans-sherif
+  theme: base
+---
+flowchart
+  subgraph Server
+    direction TB
+    socket
+    bind
+    listen
+    accept
+    send
+    recv
+    socket -.- bind -.- listen -.- accept
+    accept ---> connect_fd((connection_fd)) 
+  end
+  subgraph Client
+    socket_client
+    send_client
+    recv_client
+  end
+  connect_fd <-.-> socket_client
+```
+
 ## C Functions
 
 <details>
@@ -510,3 +543,36 @@ int main(void)
 ```
 
 </details>
+
+<details>
+<summary>Sprintf</summary>
+
+```c
+int sprintf(char *str, const char *format, ...);
+```
+
+Writes the formatted data to the string `str`. The function is similar to `printf()` but writes the **output to a string instead of file descriptor**.
+
+**Parameters**:
+- str:
+  - a pointer to the buffer where the formatted data should be stored.
+- format:
+  - a format string that contains the text to be written to the buffer.
+
+**Returns**:
+- the number of characters written to the buffer.
+- a negative value if an error occurred.
+
+**Example**:
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char buf[1024];
+    sprintf(buf, "Hello, %s!\n", "World");
+    printf("%s", buf);
+    return (0);
+}
+```

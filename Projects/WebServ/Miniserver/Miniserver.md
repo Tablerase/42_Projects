@@ -14,23 +14,35 @@ config:
   theme: base
 ---
 flowchart
+  classDef socket fill:#bbf,stroke:#333,stroke-width:2px;
+
   subgraph Server
     direction TB
     socket
     bind
     listen
     accept
-    send
-    recv
-    socket -.- bind -.- listen -.- accept
-    accept ---> connect_fd((connection_fd)) 
+    subgraph Server_Actions
+      direction LR
+      select
+      send
+      recv
+    end
+    server_socket{{"Server Socket"}}:::socket
+    socket --> server_socket
+    bind --> server_socket
+    listen --> server_socket
+    server_socket -->|"New incomming connection<br>when server is return as<br>ready to read by select()"| accept
+    
+    client_socket{{"Client Socket"}}:::socket
+    accept <-.-> client_socket
   end
   subgraph Client
-    socket_client
-    send_client
-    recv_client
+    send_client[send] -->|"write"| client_socket
+    client_socket -->|"read"| recv_client[recv]
   end
-  connect_fd <-.-> socket_client
+
+  linkStyle 5,6 stroke:#8bb,stroke-width:2px;
 ```
 
 ## C Functions

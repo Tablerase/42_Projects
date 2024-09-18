@@ -77,7 +77,7 @@ flowchart
         select -.->|read ready| readfds
         select -.->|write ready| writefds
       end
-      Update_Fds ------> Fds_ready
+      Update_Fds --------> Fds_ready
       subgraph Fds_ready
         direction TB
         read_ready_loop(("Loop over read fds<br> to check for data")) --> Accept_condition

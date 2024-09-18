@@ -20,13 +20,13 @@ fd_set currentset, readset, writeset;
 int g_id = 0;
 int g_server_socket;
 
-// 4 bytes buffer (avoid many memory operations)
-#define BUFFER_SIZE 4096
+// buffer (avoid many memory operations)
+#define BUFFER_SIZE 1000000
 char buffer[BUFFER_SIZE];
 
 ////////////////////////////////////////////////////////////////////////////
 
-void fatal(){
+void fatal_error(){
   char *msg = "Fatal error\n";
   write(2, msg, strlen(msg));
   close(g_server_socket);
@@ -68,7 +68,7 @@ void send_to_all(int except_fd){
         #ifdef LOG
         perror("send()");  
         #endif /* ifdef LOG */
-        fatal();
+        fatal_error();
       } else {
         #ifdef LOG
         printf("Server send \"%s\" of %d bytes\n", buffer, result);
@@ -77,6 +77,7 @@ void send_to_all(int except_fd){
     }
     tmp = tmp->next;
   }
+  bzero(&buffer, BUFFER_SIZE);
 }
 
 void add_client(){
@@ -90,7 +91,7 @@ void add_client(){
     #ifdef LOG
     perror("client accept()"); 
     #endif /* ifdef LOG */
-    fatal();
+    fatal_error();
   }
   
   // Send new connections msg to all
@@ -111,7 +112,7 @@ void add_client(){
     #ifdef LOG
     perror("malloc client()"); 
     #endif /* ifdef LOG */
-    fatal();
+    fatal_error();
   }
   new->next = NULL;
   new->id = g_id;
@@ -152,8 +153,30 @@ void rm_client(int fd_to_rm){
   close(fd_to_rm);
 }
 
-void extract_msg(int fd){
-
+void extract_msg(int except_fd){
+  char server_msg[BUFFER_SIZE + 64];
+  sprintf(server_msg, "client %d: ", get_id(except_fd));
+  strcat(server_msg + strlen(server_msg), buffer);
+  t_fdclient * tmp = clients;
+  int result = 0;
+  while(tmp)
+  {
+    if (tmp->fd != except_fd && FD_ISSET(tmp->fd, &writeset)){
+      result = send(tmp->fd, &server_msg, strlen(server_msg), 0);
+      if ( result == -1){
+        #ifdef LOG
+        perror("send()");  
+        #endif /* ifdef LOG */
+        fatal_error();
+      } else {
+        #ifdef LOG
+        printf("Server msg received send \"%s\" of %d bytes\n", server_msg, result);
+        #endif /* ifdef LOG */
+      };
+    }
+    tmp = tmp->next;
+  }
+  bzero(&buffer, BUFFER_SIZE);
 }
 
 int main(int ac, char **av) {
@@ -191,7 +214,7 @@ int main(int ac, char **av) {
 		#ifdef LOG
     perror("bind()");
     #endif
-    fatal();
+    fatal_error();
 	} else {
     #ifdef LOG
     perror("server socket bind()");
@@ -202,7 +225,7 @@ int main(int ac, char **av) {
     #ifdef LOG
     perror("listen()");
     #endif
-    fatal();
+    fatal_error();
 	}
 
   // Init FD sets
@@ -232,13 +255,19 @@ int main(int ac, char **av) {
           break;
         }
         // Receved msgs
-        int received_size = recv(fd, buffer, BUFFER_SIZE, 0);
+        int received_size = 1;
+          // Read and check for disconnection during reading
+        while(received_size == 1 && buffer[strlen(buffer) - 1] != '\n')
+        {
+          received_size = recv(fd, buffer + strlen(buffer), 1, 0);
+          if (received_size == 0)
+            break;
+        }
           // Check for disconnect
         if (received_size <= 0){
           rm_client(fd);
           break;
         }
-          // TODO: Extract msg
         extract_msg(fd);
       }
     }

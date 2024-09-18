@@ -4,11 +4,11 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
 
+
 ```mermaid
 ---
 title: Miniserver
 config:
-  layout: elk
   look: handDrawn
   fontFamily: Architects Daughter, sans-sherif
   theme: base
@@ -43,6 +43,77 @@ flowchart
   end
 
   linkStyle 5,6 stroke:#8bb,stroke-width:2px;
+```
+
+```mermaid
+---
+title: Miniserver - Server Loop
+config:
+  look: handDrawn
+  fontFamily: Architects Daughter, sans-sherif
+  theme: base
+---
+flowchart
+  classDef socket fill:#bbf,stroke:#333,stroke-width:2px;
+  classDef set fill:#BCE194,stroke:#333,stroke-width:2px;
+  classDef storefds fill:#F9E79F,stroke:#333,stroke-width:2px;
+  classDef buffer fill:#C1C6C8,stroke:#333,stroke-width:2px;
+
+  subgraph Server
+    direction TB
+
+    subgraph fds_set
+      readfds([Read fds]):::set
+      writefds([Write fds]):::set
+      storefds([Store fds]):::storefds
+    end
+
+    buffer[(Buffer)]:::buffer
+    server_socket{{"Server Socket"}}:::socket
+
+    subgraph Loop
+      subgraph Update_Fds
+        reset_fds_set["Reset read write<br> fds set"] --> select
+        select -.->|read ready| readfds
+        select -.->|write ready| writefds
+      end
+      Update_Fds ------> Fds_ready
+      subgraph Fds_ready
+        direction TB
+        read_ready_loop(("Loop over read fds<br> to check for data")) --> Accept_condition
+        Accept_condition{"Server Socket<br> Ready"}:::set
+        Accept_condition -->|Yes| Accept_Connection
+        subgraph Accept_Connection
+          direction TB
+          accept
+          client_socket{{"Client Socket"}}:::socket
+          accept -->|Stored in Store fds set| client_socket
+        end
+        Accept_condition -->|No| Receive_Data
+        subgraph Receive_Data
+          direction TB
+          recv_loop(("recv loop")) -->|read 1 byte| Message_condition
+          Message_condition{"Data"}:::set
+          Message_condition -->|No| Disconnect
+          subgraph Disconnect
+            close -->|Close <br>and remove| client_socket
+          end
+          Message_condition -->|Yes| Stop_condition
+          Stop_condition{"new line<br>char"}:::set
+          Stop_condition -->|No| buffer
+          Stop_condition -->|Yes| Send_Data
+        end
+        subgraph Send_Data
+          direction TB
+          buffer -.- send
+          send -->|write to all clients| client_socket
+        end
+      end
+    end
+    storefds -->|copy to reset<br> read and write| reset_fds_set
+    server_socket -.- Accept_condition
+  end
+
 ```
 
 ## C Functions

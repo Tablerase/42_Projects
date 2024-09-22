@@ -99,7 +99,6 @@ gantt
     End of Common Core : milestone, crit, m1, 2024-09-07, 2024-09-07
 
     section Events
-    Hackathon EY : done, 2024-06-04, 2024-06-05
     DigHacktion : crit, done, 2024-04-26, 2024-04-28
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 

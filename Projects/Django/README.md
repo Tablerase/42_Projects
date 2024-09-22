@@ -14,6 +14,10 @@
 
 [`bit.ly`](https://en.wikipedia.org/wiki/Bitly) - Shorten URLs and measure their performance
 
+#### Ex02
+
+[`form`](https://www.w3schools.com/html/html_forms.asp) - HTML `<form>` Tag
+
 #### Ex03
 
 [`progress`](https://www.w3schools.com/tags/tag_progress.asp) - HTML `<progress>` Tag

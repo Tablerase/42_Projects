@@ -102,6 +102,9 @@ gantt
     DigHacktion : crit, done, 2024-04-26, 2024-04-28
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
+    section Post Common Core
+    Piscine Django : done, 2024-09-23, 2w
+
     section Rank 6
     Transcendence : done, 2024-07-30, 2024-09-07
 

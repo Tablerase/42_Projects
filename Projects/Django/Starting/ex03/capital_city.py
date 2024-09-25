@@ -1,10 +1,14 @@
+import sys
+
 def capital_city_search(source_state: str):
   """
   Find the capital city of a state
-  Result in stdout
+  and output the result in stdout
 
   :param source_state: State of which we search the capital city
-  :type sour
+  :type source_state: str
+
+  Search by key
   """
 
   states = {
@@ -20,6 +24,14 @@ def capital_city_search(source_state: str):
     "CO": "Denver"
   }
 
+  try:
+    state_id = states[source_state]
+    capital_city = capital_cities[state_id]
+    print(capital_city)
+  except KeyError:
+    print("Unknown state")
+
 
 if __name__ == '__main__':
-  capital_city_search()
+  if len(sys.argv) == 2:
+    capital_city_search(sys.argv[1])

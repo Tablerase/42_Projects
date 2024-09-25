@@ -36,5 +36,7 @@
 
 🛡️ [HTML Validator - W3 org](https://validator.w3.org/)
 
+[What is `DOCTYPE`](https://www.geeksforgeeks.org/what-is-the-meaning-of-doctype-in-html/)
+
 ### [Module 00 - Starting - Python](https://projects.intra.42.fr/projects/django-0-starting)
 

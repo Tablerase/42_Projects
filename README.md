@@ -10,7 +10,7 @@ Notes and projects during my time at 42.
 
 #### Object Oriented Programming
 
-* [Piscine Django](./Projects/Django)
+* [Piscine Python Django](./Projects/Django)
 
 <details>
 <summary>

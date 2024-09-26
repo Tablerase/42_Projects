@@ -37,6 +37,7 @@ def state_search(capital_city: str):
 def all_in(string_all_in : list):
   """
   Detect if input string is a state, a capital city or none of them
+  and display the result in stdout
 
   :param string_all_in: String containing as many expressions as we search for, separated by a coma
   :type string_all_in: str
@@ -65,10 +66,6 @@ def all_in(string_all_in : list):
       else:
         capital_city = None
         print(f"{word} is neither a capital city nor a state\r")
-        
-
-
-
 
 if __name__ == "__main__":
   if (len(sys.argv) == 2):

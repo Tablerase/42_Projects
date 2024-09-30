@@ -17,7 +17,7 @@ class Atom:
     return f"{self.symbol} ({self.atomic_number})"
 
   def __repr__(self) -> str:
-    return f"⚛️ {self.name} ({self.symbol}):\n \
+    return f"{self.name} ({self.symbol}):\n \
             - num: {self.atomic_number}\n \
             - group: {self.group}\n \
             - molar: {self.molar}\n \
@@ -55,6 +55,41 @@ def periodic_table() -> list[Atom] :
     periodic_list.append(atom)
   return periodic_list
 
+def html_header() -> str :
+  header = '<!DOCTYPE html>\n'
+  header += '<html lang="en">\n'
+  header += '<head>\n\
+  <meta charset="UTF-8">\n\
+  <title>Periodic Table</title>\n\
+</head>\n\
+<body>\n'
+  return header
+
+def html_footer() -> str:
+  footer = '\
+</body>\n\
+</html>\n'
+  return footer
+
+def html_body(periodic_list: list[Atom]) -> str:
+  # Start of HTML Table
+  body = '\
+<h1>⚛️ Atoms are Awesome ⚛️</h1>\n\
+<table>\n\
+  <th><td colspan=17>Periodic Table</td></th>\n\
+  <tbody>\n'
+  # Each row / periods
+  for i in range(0, 17):
+    # Add each element from same period
+    body += '  <tr>\n'
+
+    body += '  </tr>\n'
+
+  # End of Table
+  body += '  </tbody>\n\
+</table>\n'
+  return body
+
 def make_html(periodic_list: list[Atom]):
   """
   Create the html file to display the periodic table
@@ -62,6 +97,11 @@ def make_html(periodic_list: list[Atom]):
   :param periodic_list: List of Atom from the parsed file
   :type periodic_list: List[Atom]
   """
+  content = html_header()
+  content += html_body(periodic_list)
+  content += html_footer()
+  with open("periodic_table.html", "w") as file :
+    file.write(content)
 
 if __name__ == "__main__" :
   """
@@ -71,7 +111,6 @@ if __name__ == "__main__" :
   try:
     periodic_list = periodic_table()
     make_html(periodic_list)
-
   except IndexError:
     sys.stdout.write("Invalid format in periodic input file\n")
     sys.stdout.flush()

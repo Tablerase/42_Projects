@@ -1,3 +1,4 @@
+# https://www.geeksforgeeks.org/python-sort-python-dictionaries-by-key-or-value/
 
 def sorting_dict():
   """
@@ -27,11 +28,14 @@ def sorting_dict():
     'Thompson' : '1949',
     'Burton' : '1939',
   }
-  list_year = list(d.values())
-  list_year.sort()
-  print(list_year)
-  ascending_d = { i : d[i] for i in list_year }
-  print(d)
+  # sorted ( iterable obj, key to customize the sorting process)
+  # return a list of tuples
+  ## key is a function that define a custom sort
+  ## returns a tuple, this tuple is used to compare firstly years kv[1]
+  ## and secondly the alphabetical order kv[0]
+  ascending_d = sorted(d.items(), key=lambda kv: (kv[1], kv[0]))
+  for musician, year in ascending_d:
+    print(musician)
 
 if __name__ == '__main__':
   sorting_dict()

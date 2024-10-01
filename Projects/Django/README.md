@@ -40,3 +40,10 @@
 
 ### [Module 00 - Starting - Python](https://projects.intra.42.fr/projects/django-0-starting)
 
+#### Ex07
+
+⚛️ [Periodic Table](https://ptable.com/#Properties)
+
+🧪[Properties of Elements](https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/07%3A_Periodic_Properties_of_the_Elements/7.06%3A_Metals_Nonmetals_and_Metalloids)
+
+### [Module 00 - OOB - Object Oriented Basics](https://projects.intra.42.fr/projects/django-0-oob)

@@ -1,9 +1,13 @@
+"""
+Regex pattern : https://regex101.com/
+"""
+
 import os
 import re
 import sys
 
-# Recover values from 
-import settings
+# Recover settings values
+from settings import *
 
 def get_template() -> str:
   """
@@ -13,7 +17,7 @@ def get_template() -> str:
   :raise Exception: invalid amount of arguments
   """
   if (len(sys.argv) != 2):
-    raise Exception("Invalid nb of arguments: [Usage] python3 render.py CV.template")
+    raise Exception("Invalid nb of arguments: \n\t[Usage] python3 render.py file.template")
   try:
     if (sys.argv[1].strip().rindex(".template") == len(sys.argv[1].strip()) - len(".template")):
       file_to_open = sys.argv[1].strip()
@@ -22,7 +26,7 @@ def get_template() -> str:
       return content
   except ValueError:
     raise Exception(f"{sys.argv[1].strip()} file extension not supported")
-      
+  return ""
 
 def rendering(template : str):
   """
@@ -31,9 +35,19 @@ def rendering(template : str):
   :param template: String that contains the data form .template file
   :type template: str
   """
-  print(template)
-  result = re.search(r'\{[\w]\}', template)
-  print(result)
+  # { : match char, () capture 1st group, \w+ matches any words character, } : match char
+  pattern = r"{(\w+)}"
+  # Find all matches
+  matches = re.findall(pattern, template)
+  # Replace each match with appropriate values
+  for key in matches:
+    if key in globals():
+      template = re.sub(rf"{{{key}}}", globals()[key], template)
+  
+  # Create the html page
+  file_to_create = sys.argv[1].strip().removesuffix(".template") + ".html"
+  with open(file_to_create, "w") as file:
+    file.write(template)
 
 if __name__ == "__main__":
   try:

@@ -52,6 +52,8 @@
 
 [`*args and **kwargs`](https://www.freecodecamp.org/news/args-and-kwargs-in-python/) - Variable number of arguments and keyword arguments
 
-[W3School - Regular Expressions](https://www.w3schools.com/python/python_regex.asp)
+- **🚧 [Regex Testing Ground](https://regex101.com/)**
 
-📚 [Python - Regular Expressions - HOWTO](https://docs.python.org/3/howto/regex.html)
+- [W3School - Regular Expressions](https://www.w3schools.com/python/python_regex.asp)
+
+- 📚 [Python Docs - Regular Expressions](https://docs.python.org/3/library/re.html)

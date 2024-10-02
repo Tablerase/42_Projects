@@ -47,3 +47,11 @@
 🧪[Properties of Elements](https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/07%3A_Periodic_Properties_of_the_Elements/7.06%3A_Metals_Nonmetals_and_Metalloids)
 
 ### [Module 00 - OOB - Object Oriented Basics](https://projects.intra.42.fr/projects/django-0-oob)
+
+#### Ex00
+
+[`*args and **kwargs`](https://www.freecodecamp.org/news/args-and-kwargs-in-python/) - Variable number of arguments and keyword arguments
+
+[W3School - Regular Expressions](https://www.w3schools.com/python/python_regex.asp)
+
+📚 [Python - Regular Expressions - HOWTO](https://docs.python.org/3/howto/regex.html)

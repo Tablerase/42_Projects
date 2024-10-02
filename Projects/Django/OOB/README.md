@@ -20,7 +20,6 @@ flowchart
 
   Template:::template --> |"Find patterns<br>{value_name}"| Render:::render
   Settings:::settings --> |"Values to use"| Render
-  Render --> |"Replace values in<br>corresponding patterns"| Edited_Template:::template
-  Edited_Template --> |"Used to generate HTML"| Render
-  Render --> |"Generate HTML"| Webpage:::webpage
+  Render --> |"Replace values in<br>corresponding patterns"| Filled_Template:::template
+  Filled_Template --> |"Used to generate HTML"| Webpage:::webpage
 ```

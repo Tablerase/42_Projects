@@ -1,4 +1,4 @@
-def ansi_color(color_symbol: str) -> str:
+def get_color(color_symbol: str) -> str:
   """
   Find ANSI color for Specified symbol
 
@@ -71,40 +71,48 @@ def ansi_color(color_symbol: str) -> str:
   return colors.get(color_symbol, "")
 
 class HotBeverage:
-    def __init__(self,
-                 name = "hot beverage",
-                 price = 0.30,
-                 desc = "Just some hot water in a cup.") -> None:
-        self.name = name
-        self.price = price 
-        self.desc = desc 
+    def __init__(self) -> None:
+        self.name = "hot beverage"
+        self.price = 0.30
 
     def description(self) -> str:
-        return self.desc
+        return "Just some hot water in a cup."
 
     def __str__(self) -> str:
-        blue = ansi_color("BLU") 
-        yellow = ansi_color("YEL")
-        magenta = ansi_color("MAG")
-        reset = ansi_color("RESET")
+        blue = get_color("BLU") 
+        yellow = get_color("YEL")
+        magenta = get_color("MAG")
+        reset = get_color("RESET")
         output = f"name: {blue}{self.name}{reset}\n" + f"price: {magenta}{self.price:.2f}{reset}\n" + f"description: {yellow}{self.description()}{reset}"
         return output
 
 class Coffee(HotBeverage):
     def __init__(self) -> None:
-        super().__init__("coffee", 0.40, "A coffee, to stay awake.")
+        self.name = "coffee"
+        self.price = 0.40
+    def description(self) -> str:
+        return "A coffee, to stay awake."
 
 class Tea(HotBeverage):
     def __init__(self) -> None:
-        super().__init__( "tea", 0.30, "Just some hot water in a cup.")
+        self.name = "tea"
+        self.price = 0.30
+    def description(self) -> str:
+        return "Just some hot water in a cup."
 
 class Chocolate(HotBeverage):
     def __init__(self) -> None:
-        super().__init__("chocolate", 0.50, "Chocolate, sweet chocolate...")
+        self.name = "chocolate"
+        self.price = 0.50
+    def description(self) -> str:
+        return "Chocolate, sweet chocolate..."
 
 class Cappucino(HotBeverage):
     def __init__(self) -> None:
-        super().__init__( "cappucino", 0.45,  "Un po' di Italia nella sua tazza!")
+        self.name = "cappucino"
+        self.price = 0.45
+    def description(self) -> str:
+        return "Un po' di Italia nella sua tazza!"
 
 if __name__ == "__main__":
     """

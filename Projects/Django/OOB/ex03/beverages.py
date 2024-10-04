@@ -2,11 +2,14 @@ def ansi_color(color_symbol: str) -> str:
   """
   Find ANSI color for Specified symbol
 
-  :param color_symbol: Symbol corresponding to wanted ANSI code
-  :type color_symbol: str
+  Args:
+    color_symbol (str): Symbol corresponding to wanted ANSI code
 
-  :return ANSI code: String code to enable terminal color,
-  returns an empty str if symbol code not found
+  Returns:
+    ANSI_code: String code to enable terminal color, returns an empty str if symbol code not found
+  
+  Examples:
+    >>> print(ansi_color("RED") + Text_to_color + ansi_color("RESET))
   """
   colors = {
     "BLK": "\033[0;30m",

@@ -154,8 +154,8 @@ class Module(Build):
 
 class Route:
     def __init__(self, build1, build2):
-        self.build1 : Build = build1
-        self.build2 : Build = build2
+        self.build1 : int = build1
+        self.build2 : int = build2
 
 # MagTub: bidirectionnal straight line between two buildings
 #     - permanent construction
@@ -235,7 +235,7 @@ class Area:
         self.month : int = 1
 
         self.resources : int = 0
-        self.routes : list[Route] = []
+        self.routes : set[tuple[int, int, int]] = set()
         self.mag_routes : list[MagneticTub] = []
         self.tp_routes : list[Teleporter] = []
 
@@ -256,15 +256,16 @@ while True:
     num_travel_routes = int(input())
     for i in range(num_travel_routes):
         building_id_1, building_id_2, capacity = [int(j) for j in input().split()]
+        new_tuple = (building_id_1, building_id_2, capacity)
         if capacity != 0:
             new_route = MagneticTub(building_id_1, building_id_2)
         else:
             new_route = Teleporter(building_id_1, building_id_2)
-        if new_route not in City.routes:
-            City.routes.append(new_route)
-            if new_route not in City.tp_routes and type(new_route) is Teleporter:
+        if new_tuple not in City.routes:
+            City.routes.add(new_tuple)
+            if type(new_route) is Teleporter:
                 City.tp_routes.append(new_route)
-            elif new_route not in City.mag_routes and type(new_route) is MagneticTub:
+            elif type(new_route) is MagneticTub:
                 City.mag_routes.append(new_route)
 
     num_pods = int(input())
@@ -282,7 +283,8 @@ while True:
 
 
     # TUBE | UPGRADE | TELEPORT | POD | DESTROY | WAIT
-    print("TUBE 0 1;TUBE 0 2;POD 42 0 1 0 2 0 1 0 2")
+    # print("TUBE 0 1;TUBE 0 2;POD 42 0 1 0 2 0 1 0 2")
+    print("TUBE 0 1")
     # print("WAIT")
 
 

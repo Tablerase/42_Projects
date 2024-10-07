@@ -111,17 +111,19 @@ class Elem:
 
 if __name__ == '__main__':
     # Edit section
+    test = Text('<')
+    print(test)
     # try:
-        body = Elem(tag='body')
-        h1 = Elem(tag='h1', content='"Oh no, <not again!"')
-        img = Elem(tag='img', attr={"src":"http://i.imgur.com/pfp3T.jpg"}, tag_type='simple')
-        body.add_content([h1, img])
-        head = Elem(tag='head')
-        title = Elem(tag='title', content='"Hello ground!"')
-        head.add_content(title)
-        html = Elem(tag='html')
-        html.add_content([head, body])
-        print(html)
+    # body = Elem(tag='body')
+    # h1 = Elem(tag='h1', content='"Oh no, <not again!"')
+    # img = Elem(tag='img', attr={"src":"http://i.imgur.com/pfp3T.jpg"}, tag_type='simple')
+    # body.add_content([h1, img])
+    # head = Elem(tag='head')
+    # title = Elem(tag='title', content='"Hello ground!"')
+    # head.add_content(title)
+    # html = Elem(tag='html')
+    # html.add_content([head, body])
+    # print(html)
     # except Exception as e:
         # print(e)
 

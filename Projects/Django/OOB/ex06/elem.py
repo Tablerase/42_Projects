@@ -28,7 +28,6 @@ class Elem:
     class ValidationError(Exception):
         def __init__(self):
             super().__init__("Invalid type")
-
     #
 
     def __init__(self, tag='div', attr={}, content=None, tag_type='double'):

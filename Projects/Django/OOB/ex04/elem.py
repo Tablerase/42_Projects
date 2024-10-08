@@ -12,7 +12,12 @@ class Text(str):
         """
         Do you really need a comment to understand this method?..
         """
-        return super().__str__().replace('\n', '\n<br />\n')
+        result = super().__str__()
+        result = result.replace('>', '&gt;')
+        result = result.replace('<', '&lt;')
+        result = result.replace('"', '&quot;')
+        result = result.replace('\n', '\n<br />\n')
+        return result
 
 
 class Elem:
@@ -33,15 +38,18 @@ class Elem:
         Obviously.
         """
         # Attributes section
+        if tag_type != 'double' and tag_type != 'simple':
+          raise self.ValidationError
         self.tag = tag
         self.tag_type = tag_type
         self.attr = attr
-        self.content = content if content is not None else []
-        ## !todo replacing <, >, " escape code for html compatibility
-        self.content.__str__().replace('<', '&lt;')
-        self.content.__str__().replace('>', '&gt;')
-        self.content.__str__().replace('"', '&quot;')
-        #
+        self.content = []
+        if not self.check_type(content) and len(str(content)) == 0:
+          raise self.ValidationError
+        elif isinstance(content, list) :
+          self.content = content
+        elif content is not None:
+          self.content.append(content)
 
     def __str__(self):
         """
@@ -50,20 +58,16 @@ class Elem:
         Make sure it renders everything (tag, attributes, embedded
         elements...).
         """
-        result = f"<{self.tag}"
+
+        result = f"<{self.tag}{self.__make_attr()}"
         if self.tag_type == 'double':
-            # double pair tag : <p> </p>, <h1> </h1>, ...
-            result += self.__make_attr()
-            result += ">"
-            result += self.__make_content()
-            result += f"\n</{self.tag}>"
-            #
+          # double pair tag : <p> </p>, <h1> </h1>, ...
+          result += f">{self.__make_content()}</{self.tag}>"
+          #
         elif self.tag_type == 'simple':
-            # single tag : <img>, <br>
-            result += self.__make_attr()
-            result += self.__make_content()
-            result += "/>"
-            #
+          # single tag : <img>, <br>
+          result += "/>"
+          #
         return result
 
     def __make_attr(self):
@@ -84,9 +88,13 @@ class Elem:
             return ''
         result = '\n'
         for elem in self.content:
-            # edit inline from =
-            result += Text(elem)
-            #
+          # edit section
+            if len(str(elem)) != 0:
+              result += f"{elem}" + "\n"
+        result = "  ".join(line for line in result.splitlines(True))
+        if len(result.strip()) == 0:
+          return ''
+        #
         return result
 
     def add_content(self, content):
@@ -111,20 +119,18 @@ class Elem:
 
 if __name__ == '__main__':
     # Edit section
-    test = Text('<')
-    print(test)
-    # try:
-    # body = Elem(tag='body')
-    # h1 = Elem(tag='h1', content='"Oh no, <not again!"')
-    # img = Elem(tag='img', attr={"src":"http://i.imgur.com/pfp3T.jpg"}, tag_type='simple')
-    # body.add_content([h1, img])
-    # head = Elem(tag='head')
-    # title = Elem(tag='title', content='"Hello ground!"')
-    # head.add_content(title)
-    # html = Elem(tag='html')
-    # html.add_content([head, body])
-    # print(html)
-    # except Exception as e:
-        # print(e)
+    try:
+      body = Elem(tag='body')
+      h1 = Elem(tag='h1', content='"Oh no, <not again!"')
+      img = Elem(tag='img', attr={"src":"http://i.imgur.com/pfp3T.jpg"}, tag_type='simple')
+      body.add_content([h1, img])
+      head = Elem(tag='head')
+      title = Elem(tag='title', content='"Hello ground!"')
+      head.add_content(title)
+      html = Elem(tag='html')
+      html.add_content([head, body])
+      print(html)
+    except Exception as e:
+        print(e)
 
     #

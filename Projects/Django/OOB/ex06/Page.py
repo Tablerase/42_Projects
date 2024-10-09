@@ -6,11 +6,17 @@ class Page:
     def __init__(self, elem : Elem) -> None:
         self.content = elem
     
-    def __str__(self):
-        if len(self.content.content) != 0 and isinstance(self.content.content[0], (Html)):
-            return self.content[0].__str__
+    def __str__(self) -> str:
+        if isinstance(self.content, (Html)):
+            result = '<!DOCTYPE html>\n'
+            result += self.content.__str__()
+            return result
         else:
-            return ''
+            return self.content.__str__()
+    
+    def write_to_file(self, file_name: str) -> None:
+        with open(file_name, "w") as file:
+            file.write(self.content.__str__())
 
     def recurv_validation(self, elem) -> bool:
         # print(f"Source: {type(elem)}")
@@ -279,6 +285,8 @@ def test_tr():
     test_print("Tr without exclusivity for td, th", test, False)
 
 def test_page():
+    print(ansi_color("CYN") + "====================================" + ansi_color("RESET"))
+    print(ansi_color("BLU") + "Print with html as root:" + ansi_color("RESET"))
     test = Page(
             Html([
                     Head([ 
@@ -290,8 +298,43 @@ def test_page():
                 ])
             )
     print(test)
+    print(ansi_color("BLU") + "Print without html as root:" + ansi_color("RESET"))
+    test = Page(
+                Div([
+                    Table([
+                        Tr([
+                            Th([
+                                Text("One cell")
+                            ]),
+                            Td([
+                                Text("another cell")
+                            ])
+                        ])
+                    ])
+                ])
+            )
+    print(test)
 
-def test():
+def test_write():
+    test = Page(    
+                Html(
+                    [
+                        Head(Title(Text("Hello ground!"))),
+                        Body([
+                            H1(Text("Oh no, not again!")),
+                            Img({"src":"http://i.imgur.com/pfp3T.jpg"})
+                            ])
+                    ]))
+    print(ansi_color("CYN") + "====================================" + ansi_color("RESET"))
+    try:
+        test.write_to_file("HelloThere.html")
+        print(ansi_color("BLU") + "File :" + ansi_color("RESET"))
+        print(test)
+    except Exception as e:
+        print(e)
+
+
+def tests():
     test_elem()
     test_html()
     test_title()
@@ -302,6 +345,7 @@ def test():
     test_tr()
 
     test_page()
+    test_write()
     
 if __name__ == "__main__":
-    test()
+    tests()

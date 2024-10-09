@@ -52,6 +52,28 @@
 
 [`*args and **kwargs`](https://www.freecodecamp.org/news/args-and-kwargs-in-python/) - Variable number of arguments and keyword arguments
 
+## Ex00
+
+```mermaid
+---
+title: "Ex00"
+config:
+  look: default
+  fontFamily: sans-sherif
+  theme: base
+---
+flowchart
+  classDef template fill:#f6de56, color:#000, stroke:#333, stroke-width:1px;
+  classDef settings fill:#969696, color:#000, stroke:#333, stroke-width:1px;
+  classDef render fill:#00a651, color:#000, stroke:#333, stroke-width:1px;
+  classDef webpage fill:#4fc4ff, color:#000, stroke:#333, stroke-width:1px;
+
+  Template:::template --> |"Find patterns<br>{value_name}"| Render:::render
+  Settings:::settings --> |"Values to use"| Render
+  Render --> |"Replace values in<br>corresponding patterns"| Filled_Template:::template
+  Filled_Template --> |"Used to generate HTML"| Webpage:::webpage
+```
+
 - **🚧 [Regex Testing Ground](https://regex101.com/)**
 
 - [W3School - Regular Expressions](https://www.w3schools.com/python/python_regex.asp)

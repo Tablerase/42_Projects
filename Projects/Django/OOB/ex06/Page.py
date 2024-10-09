@@ -17,27 +17,34 @@ class Page:
                                  Ol, Li, Table, Th, Tr, Td, 
                                  Span, Hr, Br, Img, Text)):
             return False
+        
         if isinstance(elem, Text):
             return True
+        
         elif isinstance(elem, Html) and len(elem.content) == 2 \
             and isinstance(elem.content[0], Head) \
             and isinstance(elem.content[1], Body):
                 if (all(self.recurv_validation(sub) for sub in elem.content)):
                     return True
+
         elif isinstance(elem, Head) \
             and [isinstance(sub, Title) for sub in elem.content].count(True) == 1 :
                 if (all(self.recurv_validation(sub) for sub in elem.content)):
                     return True
+                
         elif isinstance(elem, (Title, H1, H2, Li, Th, Td)) \
             and len(elem.content) == 1 and type(elem.content[0]) == Text:
             return True
+
         elif isinstance(elem, (P)) \
             and len(elem.content) == 1 and type(elem.content[0]) == Text:
             return True
+
         elif isinstance(elem, (Body, Div)) \
             and [isinstance(sub, (H1, H2, Div, Table, Ul, Ol, Span, Text)) for sub in elem.content] :
                 if (all(self.recurv_validation(sub) for sub in elem.content)):
                     return True
+
         return False
 
     def isvalid(self) -> bool:

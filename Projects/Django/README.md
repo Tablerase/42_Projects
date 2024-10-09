@@ -86,3 +86,11 @@ flowchart
 - 📚 [Python Docs - Regular Expressions](https://docs.python.org/3/library/re.html)
 
 ### [Module 01 - Lib - Libraries](https://projects.intra.42.fr/projects/django-1-lib)
+
+![Geohashing](https://imgs.xkcd.com/comics/python.png)
+
+#### Ex00 - Geohashing
+
+- [Geohashing - Wiki](https://en.wikipedia.org/wiki/Geohashing)
+
+![Geohashing](https://imgs.xkcd.com/comics/geohashing.png)

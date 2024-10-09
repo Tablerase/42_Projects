@@ -8,8 +8,9 @@ class Page:
 
     def recurv_validation(self, elem) -> bool:
         print(f"Source: {type(elem)}")
-        for sub in elem.content:
-            print(type(sub))
+        if (type(elem) != Text):
+            for sub in elem.content:
+                print(type(sub))
 
         if not isinstance(elem, (Html, Head, Meta, Title, 
                                  Div, Body, H1, H2, P, Ul, 
@@ -30,6 +31,13 @@ class Page:
         elif isinstance(elem, (Title, H1, H2, Li, Th, Td)) \
             and len(elem.content) == 1 and type(elem.content[0]) == Text:
             return True
+        elif isinstance(elem, (P)) \
+            and len(elem.content) == 1 and type(elem.content[0]) == Text:
+            return True
+        elif isinstance(elem, (Body, Div)) \
+            and [isinstance(sub, (H1, H2, Div, Table, Ul, Ol, Span, Text)) for sub in elem.content] :
+                if (all(self.recurv_validation(sub) for sub in elem.content)):
+                    return True
         return False
 
     def isvalid(self) -> bool:
@@ -80,10 +88,26 @@ def test_title():
     test = Page( Head([ Title(), Title()]) )
     test_print("Too many title in head", test, False) 
 
+def test_body():
+    test = Page(
+                Body([
+                    Div(Text("Yo")),
+                    Text("Lo")
+                    ])
+            )
+    test_print("Body and Div contains only some types", test, True)
+    test = Page(
+                Body([
+                    Div(Text("Yo")),
+                    P(Text("Lo"))
+                    ])
+            )
+    test_print("Body and Div with invalid types", test, False)
 def test():
     test_elem()
     test_html()
     test_title()
+    test_body()
     
 if __name__ == "__main__":
     test()

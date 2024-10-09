@@ -16,6 +16,10 @@
 
 * 📚 [HTML Element Reference](https://www.w3schools.com/tags/default.asp)
 
+### 🛠️ Tools
+
+- 🚧 [Regex Testing Ground](https://regex101.com/)
+
 ## 📝 Notes
 
 ### [Module 00 - Initiations - HTML, CSS, JavaScript integration](https://projects.intra.42.fr/projects/django-0-initiation)
@@ -52,7 +56,8 @@
 
 [`*args and **kwargs`](https://www.freecodecamp.org/news/args-and-kwargs-in-python/) - Variable number of arguments and keyword arguments
 
-## Ex00
+<details>
+<summary>📝 Diagram</summary>
 
 ```mermaid
 ---
@@ -74,8 +79,10 @@ flowchart
   Filled_Template --> |"Used to generate HTML"| Webpage:::webpage
 ```
 
-- **🚧 [Regex Testing Ground](https://regex101.com/)**
+</details>
 
 - [W3School - Regular Expressions](https://www.w3schools.com/python/python_regex.asp)
 
 - 📚 [Python Docs - Regular Expressions](https://docs.python.org/3/library/re.html)
+
+### [Module 01 - Lib - Libraries](https://projects.intra.42.fr/projects/django-1-lib)

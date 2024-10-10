@@ -94,3 +94,8 @@ flowchart
 - [Geohashing - Wiki](https://en.wikipedia.org/wiki/Geohashing)
 
 ![Geohashing](https://imgs.xkcd.com/comics/geohashing.png)
+
+#### Ex01 - Pip
+
+- [Pip - Wiki](https://en.wikipedia.org/wiki/Pip_(package_manager))
+- [path - Module Docs](https://path.readthedocs.io/en/latest/api.html#path.Path)

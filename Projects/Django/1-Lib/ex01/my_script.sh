@@ -15,12 +15,14 @@ python3 -m venv $venv_path
 source $venv_path/bin/activate
 
 # Display PIP version
+echo "=============={🧰 PIP Version 🧰}=============="
 python3 -m pip --version
 
 # Installation
 # --report : log the Installation
 # --target : send installed package to folder
 # --upgrade: enforce replacement of package already installed
+echo "=============={🧰 Path Module Installation 🧰}=============="
 python3 -m pip install git+$git_repo --report=$log_file --target=$target_dir --upgrade
 
 export PYTHONPATH=$target_dir:$PYTHONPATH

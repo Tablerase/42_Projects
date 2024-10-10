@@ -1,19 +1,21 @@
 from path import Path
+# Wrapper specifize in file management of os module 
+# https://path.readthedocs.io/en/latest/api.html#path.Path
 
-def ansi_color(color_symbol: str) -> str:
+def ansi(color_symbol: str) -> str:
   """
   Find ANSI color for Specified symbol
 
   Args:
-    color_symbol (str): Symbol corresponding to wanted ANSI code
+    code_symbol (str): Symbol corresponding to wanted ANSI code
 
   Returns:
-    ANSI_code: String code to enable terminal color, returns an empty str if symbol code not found
+    ANSI_code: String code to enable terminal font color, weight, returns an empty str if symbol code not found
   
   Examples:
-    >>> print(ansi_color("RED") + Text_to_color + ansi_color("RESET))
+    >>> print(ansi("RED") + Text_to_style + ansi("RESET))
   """
-  colors = {
+  code = {
     "BLK": "\033[0;30m",
     "RED": "\033[0;31m",
     "GRN": "\033[0;32m",
@@ -71,21 +73,62 @@ def ansi_color(color_symbol: str) -> str:
     "BHMAG": "\033[1;95m",
     "BHCYN": "\033[1;96m",
     "BHWHT": "\033[1;97m",
+    "ITALIC": "\033[3m",
     "RESET": "\033[0m"
   }
-  return colors.get(color_symbol, "")
+  return code.get(color_symbol, "")
 
 def the_function():
-    folder = Path.cwd()
-    print(f'current dir is: {folder}')
-    for file in folder.files():
-      blue = ansi_color("BLU")
-      reset = ansi_color("RESET")
-      magenta = ansi_color("BMAG")
-      output = f"The owner of {blue}{file}{reset} is :\n\t{magenta}{file.get_owner()}{reset}"
-      print(output)
-    
-    # TODO: create a folder and a file inside this folder, write something in this file and then read and display its content
+    try:
+      # Create a folder
+      ## https://docs.python.org/3/library/os.html#os.mkdir
+      Path.mkdir("Baudelaire")
+
+      # Create a file
+      ## https://path.readthedocs.io/en/latest/api.html#path.Path.touch
+      # Path.cd("Welcome")
+      Path.touch("Baudelaire/Albatros")
+      file = Path("Baudelaire/Albatros")
+
+      text_to_write = """
+  Souvent, pour s’amuser, les hommes d’équipage
+  Prennent des albatros, vastes oiseaux des mers,
+  Qui suivent, indolents compagnons de voyage,
+  Le navire glissant sur les gouffres amers.
+
+  A peine les ont-ils déposés sur les planches,
+  Que ces rois de l’azur, maladroits et honteux,
+  Laissent piteusement leurs grandes ailes blanches
+  Comme des avirons traîner à côté d’eux.
+
+  Ce voyageur ailé, comme il est gauche et veule !
+  Lui, naguère si beau, qu’il est comique et laid !
+  L’un agace son bec avec un brûle-gueule,
+  L’autre mime, en boitant, l’infirme qui volait !
+
+  Le Poète est semblable au prince des nuées
+  Qui hante la tempête et se rit de l’archer ;
+  Exilé sur le sol au milieu des huées,
+  Ses ailes de géant l’empêchent de marcher.
+
+  Charles Baudelaire
+  """
+      # Write in the file
+      ## https://path.readthedocs.io/en/latest/api.html#path.Path.write_text
+      file.write_text(text_to_write)
+
+      # Read the file
+      ## https://path.readthedocs.io/en/latest/api.html#path.Path.read_text
+      text_read = file.read_text()
+
+      # Display content
+      blue = ansi("BLU")
+      reset = ansi("RESET")
+      italic = ansi("ITALIC")
+      print(blue + "File content: \n" + reset + italic + text_read + reset)
+
+    except Exception as e:
+       print(ansi("REDB") + str(e) + ansi("RESET"))
 
 if __name__ == '__main__':
     the_function()

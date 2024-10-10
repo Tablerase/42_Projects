@@ -15,8 +15,9 @@ class Page:
             return self.content.__str__()
     
     def write_to_file(self, file_name: str) -> None:
+        result = str(self)
         with open(file_name, "w") as file:
-            file.write(self.content.__str__())
+            file.write(result)
 
     def recurv_validation(self, elem) -> bool:
         # print(f"Source: {type(elem)}")

@@ -94,24 +94,29 @@ Notes and projects during my time at 42.
 gantt
     title 42 Projects
     dateFormat  YYYY-MM-DD
+    axisFormat %Y-%m
+    todayMarker on
 
     section Goals
-    End of Common Core : milestone, crit, m1, 2024-09-07, 2024-09-07
+    End of Common Core : milestone, crit, m1, 2024-09-07, 2024-09-20
+
+    section Hackathons
+    MistralAlan_Healh : crit, done, 2024-10-12, 2024-10-14
+    DigHacktion : crit, done, 2024-04-26, 2024-04-28
 
     section Events
-    DigHacktion : crit, done, 2024-04-26, 2024-04-28
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Post Common Core
-    Piscine Django : done, 2024-09-23, 2w
+    Piscine Django : done, 2024-09-23, 4w
 
     section Rank 6
-    Transcendence : done, 2024-07-30, 2024-09-07
+    Transcendence : done, 2024-07-25, 2024-09-07
 
     section Rank 5
     Inception : done, 2024-07-04, 2024-08-02
     CPP Modules[9] : done, 2024-06-19, 2024-07-03
-    WebServ : done, 2024-05-28, 2024-06-18
+    WebServ : done, 2024-05-24, 2024-06-18
     CPP Modules[5-8] : done, 2024-05-06, 4w
 
     section Rank 4

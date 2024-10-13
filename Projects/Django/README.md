@@ -22,6 +22,28 @@
 
 ## 📝 Notes
 
+### Python Environment
+
+```bash
+# Create a virtual environment
+python3 -m venv .venv
+```
+
+```bash
+# Activate the virtual environment
+source .venv/bin/activate
+```
+
+```bash
+# Install the required packages
+pip install -r requirements.txt
+```
+
+```bash
+# Deactivate the virtual environment
+deactivate
+```
+
 ### [Module 00 - Initiations - HTML, CSS, JavaScript integration](https://projects.intra.42.fr/projects/django-0-initiation)
 
 #### Ex00
@@ -99,3 +121,12 @@ flowchart
 
 - [Pip - Wiki](https://en.wikipedia.org/wiki/Pip_(package_manager))
 - [path - Module Docs](https://path.readthedocs.io/en/latest/api.html#path.Path)
+
+#### Ex02 - Requests
+
+- [Requests - Docs](https://requests.readthedocs.io/en/stable/)
+- [Dewiki](https://pypi.org/project/dewiki/)
+
+- [Wikipedia API - Docs](https://www.mediawiki.org/wiki/API:Main_page)
+- [Wikipedia API - Sandbox](https://en.wikipedia.org/wiki/Special:ApiSandbox)
+- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)

@@ -7,7 +7,7 @@
 log_file="install.log"
 git_repo="https://github.com/jaraco/path.git"
 target_dir="./local_lib"
-venv_path="./.env"
+venv_path="./.venv"
 
 # Setup python dev environement
 # -m : allow module to run in isolation

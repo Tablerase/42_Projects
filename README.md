@@ -100,12 +100,6 @@ gantt
     section Goals
     End of Common Core : milestone, crit, m1, 2024-09-07, 2024-09-20
 
-    section Hackathons
-    MistralAlan_Healh : crit, done, 2024-10-12, 2024-10-14
-    DigHacktion : crit, done, 2024-04-26, 2024-04-28
-
-    section Events
-    CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Post Common Core
     Piscine Django : done, 2024-09-23, 4w
@@ -138,4 +132,21 @@ gantt
     GetNextLine :done, 2023-11-21, 2023-12-01
     Born2BeRoot :done, 2023-11-15, 2023-11-22
     Libft :done, 2023-11-06, 2023-11-15
+```
+
+```mermaid
+gantt
+    title Sides
+    dateFormat  YYYY-MM-DD
+    axisFormat %Y-%m
+    todayMarker on
+
+    section Hackathons
+    DigHacktion : crit, done, 2024-04-26, 2024-04-28
+
+    section Events
+    CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
+    
+    section Conferences
+    XYZ_Paris : done, 2024-09-27, 1d
 ```

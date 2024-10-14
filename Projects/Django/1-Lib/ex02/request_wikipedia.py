@@ -1,4 +1,3 @@
-from re import search
 import requests
 import json
 import dewiki #remove wiki markup text
@@ -87,6 +86,18 @@ def ansi(color_symbol: str) -> str:
   }
   return code.get(color_symbol, "")
 
+def wiki_file(data_parse : str, original_search : str):
+    """
+    Write wikipedia result to file with search name formated
+
+    Args:
+        data_parse (str) : Result of search parsed - no markup
+        original_search (str) : Searched string in wikipedia API
+    """
+    file_name = original_search.strip().replace(' ', '_') + '.wiki'
+    with open(file_name, 'w') as file :
+        print(ansi("GRN") + f"Writing to {file_name}" + ansi("RESET"))
+        file.write(data_parse)
 
 def wiki_search(to_search : str):
     """
@@ -103,10 +114,11 @@ def wiki_search(to_search : str):
     response = requests.get(url=wiki_endpoint, params=params)
     if response.status_code == 200:
         data = response.json()
-        print(dewiki.from_string(data["parse"]["wikitext"]["*"]))
+        data_parse = dewiki.from_string(data["parse"]["wikitext"]["*"])
         # TODO: write to file and format file name
+        wiki_file(data_parse, to_search)
     else:
-        Exception(f"Error: Failed to fetch data. Status code: {response.status_code}")
+        raise Exception(f"Error: Failed to fetch data. Status code: {response.status_code}")
 
 
 if __name__ == "__main__":

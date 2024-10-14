@@ -130,3 +130,8 @@ flowchart
 - [Wikipedia API - Docs](https://www.mediawiki.org/wiki/API:Main_page)
 - [Wikipedia API - Sandbox](https://en.wikipedia.org/wiki/Special:ApiSandbox)
 - [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+#### Ex03 - Scraping
+
+- [BeautifulSoup - Docs](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+- [BeautifulSoup - pip](https://pypi.org/project/beautifulsoup4/)

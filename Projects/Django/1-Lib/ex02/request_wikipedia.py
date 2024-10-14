@@ -115,7 +115,6 @@ def wiki_search(to_search : str):
     if response.status_code == 200:
         data = response.json()
         data_parse = dewiki.from_string(data["parse"]["wikitext"]["*"])
-        # TODO: write to file and format file name
         wiki_file(data_parse, to_search)
     else:
         raise Exception(f"Error: Failed to fetch data. Status code: {response.status_code}")

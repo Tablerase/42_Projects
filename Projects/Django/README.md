@@ -135,3 +135,15 @@ flowchart
 
 - [BeautifulSoup - Docs](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 - [BeautifulSoup - pip](https://pypi.org/project/beautifulsoup4/)
+
+#### Ex04 - Environment
+
+- [venv script - Medium](https://makwanadhruv.medium.com/automating-virtual-environments-bash-script-magic-for-python-developers-3a06df1777a6)
+- [venv - Docs](https://docs.python.org/3/library/venv.html)
+
+#### Ex05 - Django
+
+- [W3Schools - Django - Create project](https://www.w3schools.com/django/django_create_project.php)
+- [Django - Setup](https://docs.djangoproject.com/en/5.1/intro/tutorial01/)
+
+Localhost *Hello World* that should work: http://localhost:8000/helloworld

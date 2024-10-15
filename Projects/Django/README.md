@@ -147,3 +147,5 @@ flowchart
 - [Django - Setup](https://docs.djangoproject.com/en/5.1/intro/tutorial01/)
 
 Localhost *Hello World* that should work: http://localhost:8000/helloworld
+
+### [Module 01 - Django - Basics](https://projects.intra.42.fr/projects/django-1-base-django)

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Cheat Sheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Markdown Cheat Sheet</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Markdown Syntax</th>
+                <th>HTML Equivalent</th>
+                <th>Rendered Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><pre># Heading 1</pre></td>
+                <td><pre>&lt;h1&gt;Heading 1&lt;/h1&gt;</pre></td>
+                <td><h1>Heading 1</h1></td>
+            </tr>
+            <tr>
+                <td><pre>## Heading 2</pre></td>
+                <td><pre>&lt;h2&gt;Heading 2&lt;/h2&gt;</pre></td>
+                <td><h2>Heading 2</h2></td>
+            </tr>
+            <tr>
+                <td><pre>### Heading 3</pre></td>
+                <td><pre>&lt;h3&gt;Heading 3&lt;/h3&gt;</pre></td>
+                <td><h3>Heading 3</h3></td>
+            </tr>
+            <tr>
+                <td><pre>**Bold Text**</pre></td>
+                <td><pre>&lt;strong&gt;Bold Text&lt;/strong&gt;</pre></td>
+                <td><strong>Bold Text</strong></td>
+            </tr>
+            <tr>
+                <td><pre>*Italic Text*</pre></td>
+                <td><pre>&lt;em&gt;Italic Text&lt;/em&gt;</pre></td>
+                <td><em>Italic Text</em></td>
+            </tr>
+            <tr>
+                <td><pre>~~Strikethrough~~</pre></td>
+                <td><pre>&lt;del&gt;Strikethrough&lt;/del&gt;</pre></td>
+                <td><del>Strikethrough</del></td>
+            </tr>
+            <tr>
+                <td><pre>`Inline Code`</pre></td>
+                <td><pre>&lt;code&gt;Inline Code&lt;/code&gt;</pre></td>
+                <td><code>Inline Code</code></td>
+            </tr>
+            <tr>
+                <td><pre>```
+Block of Code
+```</pre></td>
+                <td><pre>&lt;pre&gt;&lt;code&gt;Block of Code&lt;/code&gt;&lt;/pre&gt;</pre></td>
+                <td><pre><code>Block of Code</code></pre></td>
+            </tr>
+            <tr>
+                <td><pre>- List Item 1
+                - List Item 2</pre></td>
+                <td><pre>&lt;ul&gt;
+                &lt;li&gt;List Item 1&lt;/li&gt;
+                &lt;li&gt;List Item 2&lt;/li&gt;
+                &lt;/ul&gt;</pre></td>
+                <td>
+                    <ul>
+                        <li>List Item 1</li>
+                        <li>List Item 2</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td><pre>1. Ordered List Item 1
+                2. Ordered List Item 2</pre></td>
+                <td><pre>&lt;ol&gt;
+                &lt;li&gt;Ordered List Item 1&lt;/li&gt;
+                &lt;li&gt;Ordered List Item 2&lt;/li&gt;
+                &lt;/ol&gt;</pre></td>
+                <td>
+                    <ol>
+                        <li>Ordered List Item 1</li>
+                        <li>Ordered List Item 2</li>
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <td><pre>[Link Text](https://example.com)</pre></td>
+                <td><pre>&lt;a href="https://example.com"&gt;Link Text&lt;/a&gt;</pre></td>
+                <td><a href="https://example.com">Link Text</a></td>
+            </tr>
+            <tr>
+                <td><pre>![Alt Text](https://static.cdnlogo.com/logos/m/18/markdown.svg)</pre></td>
+                <td><pre>&lt;img src="https://static.cdnlogo.com/logos/m/18/markdown.svg" alt="Alt Text"&gt;</pre></td>
+                <td><img src="https://static.cdnlogo.com/logos/m/18/markdown.svg" alt="Alt Text" width="100px"></td>
+            </tr>
+            <tr>
+                <td><pre>Horizontal Rule
+
+                ---</pre></td>
+                <td><pre>&lt;hr&gt;</pre></td>
+                <td><hr></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

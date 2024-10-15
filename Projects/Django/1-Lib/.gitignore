@@ -8,3 +8,7 @@ Baudelaire
 
 # Ex02
 *.wiki
+
+# Ex04
+
+django_venv

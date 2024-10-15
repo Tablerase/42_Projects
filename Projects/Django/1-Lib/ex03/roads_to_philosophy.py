@@ -7,11 +7,27 @@ Program that create a road from wiki origine page to wiki page of philosophy
     -> Lenght of road from origine to destination
 
     -> display errors in case of loop or dead end and other possible errors 
+
+>>> python3 roads_to_philosophy.py "L'albatros (poem)"
+--> L'albatros (poem)
+--> French language
+--> Romance languages
+--> Language
+--> Communication
+--> Information
+--> Abstraction
+--> Rule of inference
+--> Logic
+--> Logical reasoning
+--> Action (philosophy)
+--> Philosophy
+12 roads form L'albatros (poem) to Philosophy
 """
 
 import sys
 import requests
-from bs4 import BeautifulSoup
+# BeautifulSoup 4 - Parser / Scraper
+from bs4 import BeautifulSoup, Tag
 
 def ansi(color_symbol: str) -> str:
   """
@@ -89,24 +105,52 @@ def ansi(color_symbol: str) -> str:
   }
   return code.get(color_symbol, "")
 
-def snake_case(str_to_snake : str) -> str :
-    return str_to_snake.replace(' ', '_')
-
 class Page:
     def __init__(self, input_title : str, input_link : str) -> None:
-        self.title = snake_case(input_title)
+        self.title = input_title
         self.link = input_link
     def __str__(self) -> str:
         return self.title
 
 def find_p(content):
-    # Remove empty p
+    # Remove empty p tags that are direct children of content
     for p in content.find_all('p', class_='mw-empty-elt'):
         p.decompose()
-    p = content.find_next('p')
-    return p 
+    
+    # Find the first non-empty p tag that is a direct child of content
+    p = next((child for child in content.children if isinstance(child, Tag) and child.name == 'p'), None)
+    
+    return p
+
+def find_a(content, history : list[Page]):
+    for a in content.children:
+        # Only <a> at child level
+        if isinstance(a, Tag) and a.name  == 'a':
+            href = a.get('href')
+            # article page and skip page balise and wiki help
+            if (href and href.startswith('/wiki/') and 
+                href not in ['#', '/'] and
+                not href.startswith('/wiki/Help:') ):
+                for page in history:
+                    if href is page.link:
+                       # raise ValueError(f"Loop found at {href} in page {history[len(history) - 1].link}")
+                       raise ValueError("It leads to an infinite loop !")
+                return a
+    return None
 
 def step(history : list[Page], link : str) -> list[Page] :
+    """
+    Find in link page, first paragraph with valid link 
+    to the next page until philosophy or dead end or loop
+
+    Args:
+        history (list[Page]): List of page reached at current iteration 11:47
+        link (str): Link of page to searched
+
+    Returns:
+        history (list[Page]): history with next page as last entry
+    """
+
     wikipedia = "https://en.wikipedia.org"
     # Find origine page
     response = requests.get(wikipedia + link)
@@ -121,19 +165,27 @@ def step(history : list[Page], link : str) -> list[Page] :
         # Scrap for first link
         content = soup.find('div', class_='mw-content-ltr')
         if not content:
-            raise ValueError(f"No valid content found for page {link}")
+            # raise ValueError(f"No valid content found for page {link}")
+            raise ValueError("It leads to a dead end !")
         first_paragraph = find_p(content)
-        first_valid_link = first_paragraph.find_next('a')
+        if not first_paragraph:
+            raise ValueError("It leads to a dead end !")
+        first_valid_link = find_a(first_paragraph, history)
         if not first_valid_link:
-            raise ValueError(f"No valid link found in page {link}")
-        title = first_valid_link['title']
+            # raise ValueError(f"No valid link found: \n {first_valid_link}\n in page {link}")
+            raise ValueError("It leads to a dead end !")
+        link = first_valid_link.get('href') 
+        if not link:
+            # raise ValueError(f"No valid elem link found:\n {first_valid_link}\n in page {link}")
+            raise ValueError("It leads to a dead end !")
+        title = first_valid_link.get('title')
         if not title:
-            raise ValueError(f"No valid title found in page {link}")
-        link = first_valid_link['href'] 
+            # raise ValueError(f"No valid title found from:\n {first_valid_link}\n in page {link}")
+            raise ValueError("It leads to a dead end !")
         page = Page(title.replace('_', ' '), link)
         history.append(page)
     else:
-        raise Exception(f"Error: Failed to fetch data. Status code: {response.status_code}")
+        raise Exception(f"Error: Failed to fetch data at {wikipedia}{link}. Status code: {response.status_code}")
 
     return history
 
@@ -142,13 +194,16 @@ def roads_to_philosophy(origine_title : str):
     """
     Display amount of first valid links taken to reached philosophy wikipage
     """
-    history = step([], '/wiki/' + snake_case(origine_title))
-    print(ansi("CYN") + "--> " + ansi("MAG") 
-          + history[len(history) - 1].title 
+    history = step([], '/wiki/' + origine_title.strip().replace(' ', '_'))
+    print(ansi("CYN") + "--> " + ansi("YEL") 
+          + history[0].title 
           + ansi("RESET"))
-    while history[len(history) - 1].title.lower() != 'philosophy':
-        history = step(history, history[len(history) - 1].link)
+    while history[len(history) - 1].link != '/wiki/Philosophy':
         print(ansi("CYN") + "--> " + ansi("MAG") 
+              + history[len(history) - 1].title 
+              + ansi("RESET"))
+        history = step(history, history[len(history) - 1].link)
+    print(ansi("CYN") + "--> " + ansi("BLU") 
               + history[len(history) - 1].title 
               + ansi("RESET"))
     # Display final result:
@@ -159,10 +214,10 @@ def roads_to_philosophy(origine_title : str):
     
 if __name__ == "__main__":
     if len(sys.argv) == 2 and len(sys.argv[1]) != 0 :
-        # try:
+        try:
             roads_to_philosophy(sys.argv[1])
-        # except Exception as e :
-            # print(ansi("REDB") + str(e) + ansi("RESET"), file=sys.stderr)
+        except Exception as e :
+            print(ansi("REDB") + str(e) + ansi("RESET"), file=sys.stderr)
     else:
         print(
             ansi("RED") + "Usage:\n"

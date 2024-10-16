@@ -149,3 +149,8 @@ flowchart
 Localhost *Hello World* that should work: http://localhost:8000/helloworld
 
 ### [Module 01 - Django - Basics](https://projects.intra.42.fr/projects/django-1-base-django)
+
+- [Django - Templates Tag](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/)
+- [Django - Static Files](https://docs.djangoproject.com/en/5.1/howto/static-files/)
+- [Django - Load static](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/#static)
+- [Django - Favicon](https://learndjango.com/tutorials/django-favicon-tutorial)

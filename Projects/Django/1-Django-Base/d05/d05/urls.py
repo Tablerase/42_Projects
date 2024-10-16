@@ -17,7 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# only for dev env 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('ex00/', include('ex00.urls')),
+    path('ex01/', include('ex01.urls')),
     path('admin/', admin.site.urls),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Only for dev env

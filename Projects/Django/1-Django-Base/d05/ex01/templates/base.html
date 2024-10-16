@@ -1,14 +1,20 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Django Base Title{% endblock %}</title>
     {% block style %}
-    <link href="style1.css" rel="stylesheet">
+    <link href="{% static "style1.css" %}" rel="stylesheet">
     {% endblock style %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/> 
   </head>
+  <header>
+    {% include "nav.html" %}
+  </header>
   <body>
+    <div class="background"></div>
     <div id="content">
       {% block content %}
         Awesome Base Content

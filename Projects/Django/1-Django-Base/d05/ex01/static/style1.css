@@ -8,6 +8,7 @@ body {
     align-items: center; /* Center vertically */
     min-height: 100vh; /* Full viewport height */
     text-align: center; /* Center text */
+    padding-bottom: 60px;
 }
 
 /* Full viewport background */
@@ -63,28 +64,24 @@ h2, h3, h4, p {
 h2 {
     font-size: 3rem;
     margin: 0.5em 0;
-    animation: fadeIn 2s forwards;
 }
 
 /* h3 styles */
 h3 {
     font-size: 2rem;
     margin: 0.5em 0;
-    animation: fadeIn 2s forwards 0.5s; /* Delay for effect */
 }
 
 /* h4 styles */
 h4 {
     font-size: 1.5rem;
     margin: 0.5em 0;
-    animation: fadeIn 2s forwards 1s; /* Delay for effect */
 }
 
 /* Paragraph styles */
 p {
     font-size: 1.2rem;
     margin: 0.5em 0;
-    animation: fadeIn 2s forwards 1.5s; /* Delay for effect */
 }
 
 /* List styles */
@@ -105,15 +102,6 @@ li:hover {
     background: rgba(255, 255, 255, 0.3); /* Highlight on hover */
 }
 
-/* Fade in animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 /* Nav bar */
 
 /* General reset for list styles */
@@ -132,6 +120,7 @@ nav {
     left: 0;
     right: 0; /* Stretches the nav bar across the width of the viewport */
     z-index: 1000; /* Ensures it's above other content */
+    height: 60px;
 }
 
 /* Flexbox for horizontal layout */

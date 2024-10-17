@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Exercise 02: First form{% endblock title %}
+
+{% block content %}
+<div style="display: flex;">
+    <!-- Left Section: History of submissions -->
+    <div style="flex: 1; padding: 20px; border-right: 1px solid #ccc;">
+        <h2>History of Submissions</h2>
+        <ul>
+            {% for entry in submission_history %}
+                <li>{{ entry }}</li>
+            {% empty %}
+                <li>No submissions yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Right Section: Form -->
+    <div style="flex: 1; padding: 20px;">
+        <h2>Submit Form</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+{% endblock content %}
+

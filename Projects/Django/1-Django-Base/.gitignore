@@ -1,3 +1,6 @@
 
 # env
 django_venv
+
+# Static files gathered
+d05/collected_static

@@ -150,7 +150,20 @@ Localhost *Hello World* that should work: http://localhost:8000/helloworld
 
 ### [Module 01 - Django - Basics](https://projects.intra.42.fr/projects/django-1-base-django)
 
+Template Tags:
 - [Django - Templates Tag](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/)
+
+Static files:
 - [Django - Static Files](https://docs.djangoproject.com/en/5.1/howto/static-files/)
 - [Django - Load static](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/#static)
+
+Favicon:
 - [Django - Favicon](https://learndjango.com/tutorials/django-favicon-tutorial)
+
+Forms:
+- [Django - Forms](https://docs.djangoproject.com/en/5.1/topics/forms/)
+
+Logging:
+- [Django - Logging](https://docs.djangoproject.com/en/5.1/topics/logging/)
+- [Python - Formatter](https://docs.python.org/3/library/logging.html#formatter-objects)
+

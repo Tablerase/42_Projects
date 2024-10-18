@@ -29,7 +29,8 @@ def color_shade(request):
             'active_page': 'color_shade',
             'colors': colors,
             'shades_of_colors' : shades_of_colors,
-            'range' : range(50),
+            'shade_range' : range(50),
+            'color_range' : range(4),
     }
     return render(request, 'color_shade.html', context)
 

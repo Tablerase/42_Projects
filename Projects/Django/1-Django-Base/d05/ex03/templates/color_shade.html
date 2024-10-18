@@ -6,7 +6,7 @@
 {% comment %}
   Table of shades of colors black, red, green, blue
     - each column a color
-    - each raw a different shade 
+    - each row a different shade 
 {% endcomment %}
 <table>
   <tr>
@@ -14,10 +14,10 @@
     <th>{{ color }}</th>
     {% endfor %}
   </tr>
-{% for i in range %}
+{% for i in shade_range %}
   <tr>
   {% for color in colors %}
-  <td style="background-color: {{ shades_of_colors[color][i] }};">.</td>
+  <td style="background-color: '{{ shades_of_colors[color][i] }}';">.</td>
   {% endfor %}
   </tr>
 {% endfor %}

@@ -132,7 +132,7 @@ def find_a(content, history : list[Page]):
                 href not in ['#', '/'] and
                 not href.startswith('/wiki/Help:') ):
                 for page in history:
-                    if href is page.link:
+                    if href == page.link:
                        # raise ValueError(f"Loop found at {href} in page {history[len(history) - 1].link}")
                        raise ValueError("It leads to an infinite loop !")
                 return a
@@ -154,7 +154,7 @@ def step(history : list[Page], link : str) -> list[Page] :
     wikipedia = "https://en.wikipedia.org"
     # Find origine page
     response = requests.get(wikipedia + link)
-    if response.status_code == 200:
+    if response.status_code == 200 or response.status_code == 208:
         # Add origine to history
         soup = BeautifulSoup(response.content, 'html.parser')
         if len(history) == 0 :
@@ -185,7 +185,8 @@ def step(history : list[Page], link : str) -> list[Page] :
         page = Page(title.replace('_', ' '), link)
         history.append(page)
     else:
-        raise Exception(f"Error: Failed to fetch data at {wikipedia}{link}. Status code: {response.status_code}")
+        # raise Exception(f"Error: Failed to fetch data at {wikipedia}{link} | Status code: {response.status_code}")
+        raise ValueError("It leads to a dead end !")
 
     return history
 
@@ -216,12 +217,16 @@ if __name__ == "__main__":
     if len(sys.argv) == 2 and len(sys.argv[1]) != 0 :
         try:
             roads_to_philosophy(sys.argv[1])
+        except ValueError as v :
+            print(ansi("CYNB") + str(v) + ansi("RESET"))
         except Exception as e :
             print(ansi("REDB") + str(e) + ansi("RESET"), file=sys.stderr)
     else:
         print(
             ansi("RED") + "Usage:\n"
-            + ansi("YEL") + "python3 roads_to_philosophy.py <origine_title>"
+            + ansi("YEL") + "python3 roads_to_philosophy.py <origine_title>\n"
+            + ansi("BLU") + 'py roads_to_philosophy.py "Car"\n'
+            + ansi("BLU") + 'py roads_to_philosophy.py "Baudelaire"'
             + ansi("RESET"), 
             file=sys.stderr
         )

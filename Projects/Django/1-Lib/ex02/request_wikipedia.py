@@ -114,7 +114,10 @@ def wiki_search(to_search : str):
     response = requests.get(url=wiki_endpoint, params=params)
     if response.status_code == 200:
         data = response.json()
-        data_parse = dewiki.from_string(data["parse"]["wikitext"]["*"])
+        if data.get("parse") != None:
+          data_parse = dewiki.from_string(data["parse"]["wikitext"]["*"])
+        else :
+            raise Exception(f"Error: Failed to find data for : {to_search}")
         wiki_file(data_parse, to_search)
     else:
         raise Exception(f"Error: Failed to fetch data. Status code: {response.status_code}")
@@ -130,7 +133,8 @@ if __name__ == "__main__":
     else:
         print(
             ansi("RED") + "Usage:\n"
-            + ansi("YEL") + "python3 request_wikipedia.py <parameter_to_seach>"
+            + ansi("YEL") + "python3 request_wikipedia.py <parameter_to_seach>\n"
+            + ansi("BLU") + "py request_wikipedia.py 'Baudelaire'"
             + ansi("RESET"), 
             file=sys.stderr
         )

@@ -20,7 +20,7 @@ pip install --upgrade pip
 # Installation
 # --upgrade: enforce replacement of package already installed
 echo "=============={🧰 Path Module Installation 🧰}=============="
-pip install -r requirement.txt
+pip install --upgrade -r requirement.txt
 
 # Run program
 echo "=============={🚀 Program Launch 🚀}=============="

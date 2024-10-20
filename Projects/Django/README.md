@@ -153,6 +153,9 @@ Localhost *Hello World* that should work: http://localhost:8000/helloworld
 Template Tags:
 - [Django - Templates Tag](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/)
 
+Custom Template Tags/Filters:
+- [Django - Custom Template Tags and Filters](https://docs.djangoproject.com/en/5.1/howto/custom-template-tags/)
+
 Static files:
 - [Django - Static Files](https://docs.djangoproject.com/en/5.1/howto/static-files/)
 - [Django - Load static](https://docs.djangoproject.com/en/5.1/ref/templates/builtins/#static)

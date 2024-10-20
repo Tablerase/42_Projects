@@ -6,14 +6,14 @@ def color_shade(request):
     # Color list
     colors = ['Black', 'Red', 'Green', 'Blue']
     # Grid values
-    shade = 2.5 # 255 / 50 shades / 2
+    shade = 5 # 255 / 50 shades / 2
     column_black = []
     column_red = []
     column_green = []
     column_blue = []
-    color_value = 255
+    color_value = 0
     for i in range(0, 50) :
-        color_value = color_value - shade
+        color_value = color_value + shade
         column_black.append(f'rgb({color_value},{color_value},{color_value})')
         column_red.append(f'rgb({color_value},0,0)')
         column_green.append(f'rgb(0,{color_value},0)')

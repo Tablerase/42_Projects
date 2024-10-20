@@ -5,22 +5,22 @@
 {% block content %}
 {% comment %}
   Table of shades of colors black, red, green, blue
-    - each column a color
-    - each row a different shade 
+  - each column a color
+  - each row a different shade 
 {% endcomment %}
 <table>
   <tr>
     {% for color in colors %}
-    <th>{{ color }}</th>
+      <th>{{ color }}</th>
     {% endfor %}
   </tr>
-{% for i in shade_range %}
-  <tr>
-  {% for color in colors %}
-  <td style="background-color: '{{ shades_of_colors[color][i] }}';">.</td>
+  {% load custom_filters %}
+  {% for shade_index in shade_range %}
+    <tr>
+      {% for color in colors %}
+    <td style="background-color: {{ shades_of_colors|get_item:color|get_index:shade_index }}; width: 80px; height: 40px ">{{ shade_index }}</td>
+      {% endfor %}
+    </tr>
   {% endfor %}
-  </tr>
-{% endfor %}
 </table>
-
 {% endblock content %}

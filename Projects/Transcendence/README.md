@@ -987,7 +987,7 @@ graph LR
 
 </details>
 
-### Socket.IO
+### Socket.IO (not allowed with subject constraints)
 
 Socket.IO is a JavaScript library that enables real-time, bidirectional communication between web clients and servers. It uses WebSockets when available and **falls back to other techniques** like long polling **when WebSockets are not supported**. Socket.IO provides a simple API for sending and receiving messages between clients and servers.
 

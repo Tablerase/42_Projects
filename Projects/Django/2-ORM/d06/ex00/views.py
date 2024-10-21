@@ -6,7 +6,6 @@ from django.conf import settings
 db_config = settings.DATABASES["default"]
 
 def init(request):
-    result = ''
     try:
         # Connect to db
         with psycopg.connect(**db_config) as conn:
@@ -26,6 +25,7 @@ def init(request):
                 # Execute the query
                 cur.execute(create_table_query)
                 conn.commit() 
+                result = 'OK'
     except Exception as e: 
         #Recover error 
         result = e 

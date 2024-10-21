@@ -4,7 +4,7 @@
 # source ./my_script.sh
 # quit env with cmd: deactivate
 
-venv_path="./django_venv"
+venv_path=".venv"
 
 # Setup python dev environement
 # -m : allow module to run in isolation
@@ -20,7 +20,7 @@ pip install --upgrade pip
 # Installation
 # --upgrade: enforce replacement of package already installed
 echo "=============={🧰 Path Module Installation 🧰}=============="
-pip install -r --upgrade requirements.txt
+pip install --upgrade -r requirements.txt
 
 # Run program
 # echo "=============={🚀 Program Launch 🚀}=============="

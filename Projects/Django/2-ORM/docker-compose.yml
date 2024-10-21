@@ -1,0 +1,28 @@
+version: '3'
+
+name: django_training
+
+services:
+  postgresql:
+    name: postgres
+    # https://hub.docker.com/_/postgres
+  image: postgres:17-alpine
+  restart: unless-stopped
+  environment:
+      # Dev env values (insecure)
+      POSTGRES_PASSWORD: 'secret'
+      POSTGRES_USER: 'djangouser' 
+      POSTGRES_DB: 'djangotraining'
+  ports:
+    - 5432 : 5432
+  volumes:
+    - postgres_volume:/var/lib/postgresql/data/
+
+volumes:
+  - postgres_volume:
+    driver: local
+    driver_opts:
+        type: none
+        device: ./db
+        o: bind
+

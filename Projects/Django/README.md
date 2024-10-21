@@ -170,3 +170,13 @@ Logging:
 - [Django - Logging](https://docs.djangoproject.com/en/5.1/topics/logging/)
 - [Python - Formatter](https://docs.python.org/3/library/logging.html#formatter-objects)
 
+### [Module 02 - Django - SQL](https://projects.intra.42.fr/projects/django-2-sql)
+
+- [Django - Models](https://docs.djangoproject.com/en/5.1/topics/db/models/)
+- [Django - QuerySet](https://docs.djangoproject.com/en/5.1/ref/models/querysets/)
+
+Psycopg:
+- [Psycopg - Docs](https://www.psycopg.org/docs/)
+
+SQL:
+- [PostgreSQL - Data Types](https://www.postgresql.org/docs/17/datatype.html)

@@ -65,4 +65,35 @@ def populate(request):
         result = str(e).encode('utf-8') 
     return HttpResponse(result)
 
+def display(request):
+    result = ''
+    try:
+        with psycopg2.connect(**db_config) as conn:
+            with conn.cursor() as cur:
+                select_query = """
+                SELECT * FROM ex02_movies
+                """
+                cur.execute(select_query)
+                # result of sql query
+                rows = cur.fetchall()
+                colnames = [desc[0] for desc in cur.description]
+
+                # creation of table
+                result += '<table border="1">'
+                result += '<tr>'
+                for colname in colnames:
+                    result += f'<td>{colname}</td>'
+                result += '</tr>'
+                for row in rows:
+                    result += '<tr>'
+                    for cell in row:
+                        result += f'<td>{cell}</td>'
+                    result += '</tr>'
+                result += '</table>'
+
+    except Exception as e: 
+        #Recover error 
+        # result = f'<p>Error: {str(e)}</p>'
+        result = '<p>No data available</p>'
+    return HttpResponse(result.encode('utf-8'), content_type='text/html')
 

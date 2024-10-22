@@ -172,11 +172,22 @@ Logging:
 
 ### [Module 02 - Django - SQL](https://projects.intra.42.fr/projects/django-2-sql)
 
+Links to demonstrate the exercises *(only if adminer and postgresql running)*:
+- [Ex00 - Table](http://localhost:8080/?pgsql=postgresql&username=djangouser&db=djangotraining&ns=public&select=ex00_movies)
+
+Django Models:
+
 - [Django - Models](https://docs.djangoproject.com/en/5.1/topics/db/models/)
+- [Django - Model Field Reference](https://docs.djangoproject.com/en/5.1/ref/models/fields/)
 - [Django - QuerySet](https://docs.djangoproject.com/en/5.1/ref/models/querysets/)
 
 Psycopg:
 - [Psycopg - Docs](https://www.psycopg.org/docs/)
+- [Psycopg - Connection](https://www.psycopg.org/docs/usage.html#making-a-connection)
+- [Psycopg - Cursor](https://www.psycopg.org/docs/cursor.html)
+- [Psycopg - Error Handling](https://www.psycopg.org/docs/errors.html)
+- [Psycopg - Passing parameters to SQL queries](https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries)
 
 SQL:
 - [PostgreSQL - Data Types](https://www.postgresql.org/docs/17/datatype.html)
+- [PostgreSQL - Connection parameters](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS)

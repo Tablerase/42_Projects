@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'ex00',
     'ex01',
     'ex02',
+    'ex03',
+    'ex04',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +91,14 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
 }
-
+# Config for manual access to db via psycopg
+DB_CONFIG = {
+    'dbname': DATABASES["default"]["NAME"],
+    'user': DATABASES["default"]["USER"],
+    'password': DATABASES["default"]["PASSWORD"],
+    'host': DATABASES["default"]["HOST"],
+    'port': DATABASES["default"]["PORT"],
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

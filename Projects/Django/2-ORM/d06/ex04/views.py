@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render
 import psycopg2
 
 # Import db param
@@ -12,7 +12,7 @@ def init(request):
             with conn.cursor() as cur:
                 # Query to create a table
                 create_table_query = '''
-                CREATE TABLE IF NOT EXISTS ex02_movies (
+                CREATE TABLE IF NOT EXISTS ex04_movies (
                     episode_nb INT PRIMARY KEY,
                     title VARCHAR(64) UNIQUE NOT NULL,
                     opening_crawl TEXT,
@@ -31,13 +31,14 @@ def init(request):
     return HttpResponse(result)
 
 def populate(request):
-    result = b''
+    result = ''
     try:
         with psycopg2.connect(**settings.DB_CONFIG) as conn:
             with conn.cursor() as cur:
                 insert_query = """
-                INSERT INTO ex02_movies (episode_nb, title, director, producer, release_date)
+                INSERT INTO ex04_movies (episode_nb, title, director, producer, release_date)
                 VALUES (%s,%s,%s,%s,%s)
+                ON CONFLICT DO NOTHING
                 """
                 records = [
             (1, 'The Phantom Menace', 'George Lucas', 'Rick McCallum', '1999-05-19'),
@@ -49,13 +50,23 @@ def populate(request):
             (7, 'The Force Awakens', 'J. J. Abrams', 'Kathleen Kennedy, J. J. Abrams, Bryan Burk', '2015-12-11')
                 ]
                 for record in records:
-                    cur.execute(insert_query, record)
-                    result += b'OK\n'
+                    try :
+                        cur.execute(insert_query, record)
+                        # Check if the row was inserted
+                        if cur.rowcount > 0:
+                            result += f'<p>OK: <strong>{record[1]}</strong></p>\n'
+                        else:
+                            result += f'<p><strong>{record[1]}</strong> already exists</p>\n'
+                    except psycopg2.Error as e:
+                    # except Exception as e: 
+                        result += f'<p>Error: {str(e)}</p>\n'
+                        continue
+                        # pass
                 conn.commit()
     except Exception as e: 
         #Recover error 
-        result = str(e).encode('utf-8') 
-    return HttpResponse(result)
+        result = f'<p>Error: {str(e)}</p>'
+    return HttpResponse(result.encode('utf-8'), content_type='text/html')
 
 def display(request):
     result = ''
@@ -63,7 +74,7 @@ def display(request):
         with psycopg2.connect(**settings.DB_CONFIG) as conn:
             with conn.cursor() as cur:
                 select_query = """
-                SELECT * FROM ex02_movies
+                SELECT * FROM ex04_movies
                 """
                 cur.execute(select_query)
                 # result of sql query
@@ -88,4 +99,17 @@ def display(request):
         # result = f'<p>Error: {str(e)}</p>'
         result = '<p>No data available</p>'
     return HttpResponse(result.encode('utf-8'), content_type='text/html')
+
+def remove(request):
+    if request.method == 'POST':
+        form = ...
+
+        return HttpResponseRedirect('ex04/remove')
+
+    else:
+        form = ...
+        context = {
+                'form' : form
+                }
+        return render(request, 'remove_form.html', context)
 

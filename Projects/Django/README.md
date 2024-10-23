@@ -180,6 +180,7 @@ Django Models:
 - [Django - Models](https://docs.djangoproject.com/en/5.1/topics/db/models/)
 - [Django - Model Field Reference](https://docs.djangoproject.com/en/5.1/ref/models/fields/)
 - [Django - QuerySet](https://docs.djangoproject.com/en/5.1/ref/models/querysets/)
+- [Django - Retrieving Objects](https://docs.djangoproject.com/en/5.1/topics/db/queries/#retrieving-objects)
 
 Psycopg:
 - [Psycopg - Docs](https://www.psycopg.org/docs/)

@@ -3,19 +3,11 @@ import psycopg2
 
 # Import db param
 from django.conf import settings
-db_config = settings.DATABASES["default"]
-db_config = {
-        'dbname': settings.DATABASES["default"]["NAME"],
-        'user': settings.DATABASES["default"]["USER"],
-        'password': settings.DATABASES["default"]["PASSWORD"],
-        'host': settings.DATABASES["default"]["HOST"],
-        'port': settings.DATABASES["default"]["PORT"],
-    }
 
 def init(request):
     try:
         # Connect to db
-        with psycopg2.connect(**db_config) as conn:
+        with psycopg2.connect(**settings.DB_CONFIG) as conn:
             # Access cursor to perform operations
             with conn.cursor() as cur:
                 # Query to create a table

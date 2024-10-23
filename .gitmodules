@@ -22,3 +22,7 @@
 [submodule "Projects/Transcendence/42_Transcendence.wiki"]
 	path = Projects/Transcendence/42_Transcendence.wiki
 	url = git@github.com:Tablerase/42_Transcendence.wiki.git
+[submodule "Config/IDE/Nvim_Config"]
+	path = Config/IDE/Nvim_Config
+	url = git@github.com:Tablerase/Nvim_Config.git
+    branch = main

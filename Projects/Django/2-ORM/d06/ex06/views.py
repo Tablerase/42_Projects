@@ -13,7 +13,3 @@ def init(request):
                     created TI
                 );
     """
-
-def populate(request):
-    result = "<p>Hello there</p>"
-    return HttpResponse(result.encode('utf-8'), content_type='text/html')

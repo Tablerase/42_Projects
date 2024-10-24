@@ -54,6 +54,7 @@ run_django() {
 # Function to setup Docker containers
 run_docker(){
     echo -e "=============={🐳 ${CYAN}Containers Launch${RESET} 🐳}=============="
+    mkdir -p $database_folder
     docker compose up -d
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Docker containers launched successfully.${RESET}"

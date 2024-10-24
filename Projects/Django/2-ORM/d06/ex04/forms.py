@@ -1,13 +1,10 @@
 from django import forms
 
-import psycopg2
-from django.conf import settings
-
 class Remove_Title(forms.Form):
-    try:
-        with psycopg2.connect(**settings.DB_CONFIG) as conn:
-            with conn.cursor() as curs:
-                curs.execute("SELECT title FROM ex04_movies")
-                curs.fetchall()
-    except Exception:
-        ...
+    def __init__(self, titles, *args, **kwargs):
+        super(Remove_Title, self).__init__(*args, **kwargs)
+        self.fields['title'].choices = titles
+
+    title = forms.ChoiceField(choices=[])
+    title.label = "Movie to remove"
+   

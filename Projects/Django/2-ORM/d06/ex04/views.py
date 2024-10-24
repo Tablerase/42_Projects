@@ -4,6 +4,9 @@ import psycopg2
 # Import db param
 from django.conf import settings
 
+# import forms
+from .forms import Remove_Title
+
 def init(request):
     try:
         # Connect to db
@@ -101,13 +104,29 @@ def display(request):
     return HttpResponse(result.encode('utf-8'), content_type='text/html')
 
 def remove(request):
+    try:
+        with psycopg2.connect(**settings.DB_CONFIG) as conn:
+            with conn.cursor() as curs:
+                # double title because form need a tuple with key, value
+                curs.execute("SELECT title, title FROM ex04_movies ORDER BY episode_nb")
+                titles = curs.fetchall()
+    except Exception:
+        titles = []
     if request.method == 'POST':
-        form = ...
-
-        return HttpResponseRedirect('ex04/remove')
-
+        form = Remove_Title(titles, request.POST)
+        if form.is_valid():
+            to_rm = form.cleaned_data['title']
+            try:
+                with psycopg2.connect(**settings.DB_CONFIG) as conn:
+                    with conn.cursor() as curs:
+                        curs.execute("DELETE FROM ex04_movies WHERE title = %s", (to_rm, ))
+                    conn.commit()
+            except Exception:
+                result = '<p>No data available</p>'
+                return HttpResponse(result.encode('utf-8'), content_type='text/html')
+        return HttpResponseRedirect('remove')
     else:
-        form = ...
+        form = Remove_Title(titles=titles)
         context = {
                 'form' : form
                 }

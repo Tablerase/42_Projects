@@ -173,7 +173,7 @@ Logging:
 ### [Module 02 - Django - SQL](https://projects.intra.42.fr/projects/django-2-sql)
 
 Links to demonstrate the exercises *(only if adminer and postgresql running)*:
-- [Ex00 - Table](http://localhost:8080/?pgsql=postgresql&username=djangouser&db=djangotraining&ns=public&select=ex00_movies)
+- [Adminer](http://localhost:8080/?pgsql=postgresql&username=djangouser&db=djangotraining)
 
 Django Models:
 
@@ -181,6 +181,8 @@ Django Models:
 - [Django - Model Field Reference](https://docs.djangoproject.com/en/5.1/ref/models/fields/)
 - [Django - QuerySet](https://docs.djangoproject.com/en/5.1/ref/models/querysets/)
 - [Django - Retrieving Objects](https://docs.djangoproject.com/en/5.1/topics/db/queries/#retrieving-objects)
+- [Django - Form ChoiceField](https://docs.djangoproject.com/en/5.1/ref/forms/fields/#choicefield)
+- [Django - get_or_create](https://docs.djangoproject.com/en/5.1/ref/models/querysets/#get-or-create)
 
 Psycopg:
 - [Psycopg - Docs](https://www.psycopg.org/docs/)
@@ -192,3 +194,6 @@ Psycopg:
 SQL:
 - [PostgreSQL - Data Types](https://www.postgresql.org/docs/17/datatype.html)
 - [PostgreSQL - Connection parameters](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS)
+- [PostgreSQL - SQL Syntax](https://www.postgresql.org/docs/current/sql.html)
+- [SQL - W3Schools](https://www.w3schools.com/sql/default.asp)
+- [SQL - Current Date](https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT)

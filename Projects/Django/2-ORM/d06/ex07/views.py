@@ -1,6 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render
 
 from .models import Movies
+from .forms import Update_crawl
 
 # Create your views here.
 
@@ -17,14 +18,19 @@ def populate(request):
         (7, 'The Force Awakens', 'J. J. Abrams', 'Kathleen Kennedy, J. J. Abrams, Bryan Burk', '2015-12-11')
         ]
         for record in records:
-            movie = Movies(episode_nb=record[0],
-                           title=record[1],
-                           director=record[2],
-                           producer=record[3],
-                           release_date=record[4],
-                           )
-            movie.save()
-            result += '<p>OK</p>'
+            movie, created = Movies.objects.get_or_create(
+                    episode_nb=record[0],
+                    defaults={
+                        'title': record[1],
+                        'director': record[2],
+                        'producer': record[3],
+                        'release_date': record[4],
+                        }
+                    )
+            if created:
+                result += f'<p>OK: <strong>{record[1]}</strong></p>\n'
+            else:
+                result += f'<p><strong>{record[1]}</strong> already exists</p>\n'
     except Exception as e: 
         #Recover error 
         result = f'<p>Error: {str(e)}</p>'
@@ -59,4 +65,26 @@ def display(request):
         # result = f'<p>Error: {str(e)}</p>'
         result = '<p>No data available</p>'
     return HttpResponse(result.encode('utf-8'), content_type='text/html')
+
+def update(request):
+    if request.method == 'POST':
+        form = Update_crawl(request.POST)
+        if form.is_valid():
+            to_update = form.cleaned_data['title']
+            new_opening_crawl = form.cleaned_data['opening_crawl']
+            try:
+                movie = Movies.objects.get(title=to_update)
+                movie.opening_crawl = new_opening_crawl
+                movie.save()
+            except Exception as e:
+                # result = f'<p>Error: {str(e)}</p>'
+                result = '<p>No data available</p>'
+                return HttpResponse(result.encode('utf-8'), content_type='text/html')
+        return HttpResponseRedirect('update')
+    else:
+        form = Update_crawl()
+        context = {
+                'form' : form
+                }
+        return render(request, 'update_form.html', context)
 

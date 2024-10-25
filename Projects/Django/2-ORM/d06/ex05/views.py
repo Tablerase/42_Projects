@@ -49,13 +49,16 @@ def display(request):
         result += '</tr>'
         # recover values
         rows = Movies.objects.all()
-        for row in rows:
-            result += '<tr>'
-            for field in fields:
-                value = getattr(row, field)
-                result += f'<td>{value}</td>'
-            result += '</tr>'
-        result += '</table>'
+        if len(rows) > 0:
+            for row in rows:
+                result += '<tr>'
+                for field in fields:
+                    value = getattr(row, field)
+                    result += f'<td>{value}</td>'
+                result += '</tr>'
+            result += '</table>'
+        else:
+            raise ValueError
 
     except Exception as e:
         # Recover error
@@ -72,8 +75,8 @@ def remove(request):
                 movie = Movies.objects.get(title=to_rm)
                 movie.delete()
             except Exception as e:
-                result = f'<p>Error: {str(e)}</p>'
-                # result = '<p>No data available</p>'
+                # result = f'<p>Error: {str(e)}</p>'
+                result = '<p>No data available</p>'
                 return HttpResponse(result.encode('utf-8'), content_type='text/html')
         return HttpResponseRedirect('remove')
     else:

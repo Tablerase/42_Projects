@@ -76,12 +76,15 @@ def display(request):
                 for colname in colnames:
                     result += f'<td>{colname}</td>'
                 result += '</tr>'
-                for row in rows:
-                    result += '<tr>'
-                    for cell in row:
-                        result += f'<td>{cell}</td>'
-                    result += '</tr>'
-                result += '</table>'
+                if len(rows) > 0:
+                    for row in rows:
+                        result += '<tr>'
+                        for cell in row:
+                            result += f'<td>{cell}</td>'
+                        result += '</tr>'
+                    result += '</table>'
+                else:
+                    raise ValueError
 
     except Exception as e: 
         #Recover error 

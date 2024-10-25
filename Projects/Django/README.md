@@ -183,6 +183,7 @@ Django Models:
 - [Django - Retrieving Objects](https://docs.djangoproject.com/en/5.1/topics/db/queries/#retrieving-objects)
 - [Django - Form ChoiceField](https://docs.djangoproject.com/en/5.1/ref/forms/fields/#choicefield)
 - [Django - get_or_create](https://docs.djangoproject.com/en/5.1/ref/models/querysets/#get-or-create)
+- [Django - Time at creation](https://docs.djangoproject.com/en/5.1/ref/models/fields/#datefield)
 
 Psycopg:
 - [Psycopg - Docs](https://www.psycopg.org/docs/)
@@ -190,10 +191,12 @@ Psycopg:
 - [Psycopg - Cursor](https://www.psycopg.org/docs/cursor.html)
 - [Psycopg - Error Handling](https://www.psycopg.org/docs/errors.html)
 - [Psycopg - Passing parameters to SQL queries](https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries)
+- [Pyscopg - copy from](https://www.psycopg.org/docs/cursor.html#cursor.copy_from)
 
 SQL:
 - [PostgreSQL - Data Types](https://www.postgresql.org/docs/17/datatype.html)
 - [PostgreSQL - Connection parameters](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS)
 - [PostgreSQL - SQL Syntax](https://www.postgresql.org/docs/current/sql.html)
 - [SQL - W3Schools](https://www.w3schools.com/sql/default.asp)
-- [SQL - Current Date](https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT)
+- [PostgreSQL - Current Date](https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT)
+- [PostgreSQL - Foreign Key](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK)

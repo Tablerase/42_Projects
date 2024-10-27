@@ -13,7 +13,7 @@ RESET='\033[0m'
 
 venv_path=".venv"
 project_name="d06"
-database_folder="db"
+database_folder="./db"
 
 # Function to display help message
 show_help() {
@@ -23,6 +23,7 @@ show_help() {
   echo -e "${YELLOW}  launch${RESET}   : Setup Docker containers, Python env and Run Django project"
   echo -e "${YELLOW}  env${RESET}      : Setup Python environment (install virtualenv, dependencies)"
   echo -e "${YELLOW}  django${RESET}   : Run the Django project (migrate, collectstatic, runserver)"
+  echo -e "${YELLOW}  data${RESET}     : Load data (exercices_data) into the django database"
   echo -e "${YELLOW}  docker${RESET}   : Setup Docker containers (postgresql and adminer)"
   echo -e "${YELLOW}  clean${RESET}    : Remove every containers, images, volumes, data, env"
   echo -e "${YELLOW}  help${RESET}     : Display this help message"
@@ -62,6 +63,14 @@ run_docker(){
         echo -e "${RED}Failed to launch Docker containers.${RESET}"
         exit 1
     fi
+}
+
+# Load data into Django Database
+load_data() {
+   echo -e "=============={🧮 ${CYAN}Load Data${RESET} 🧮}=============="
+   cd $project_name
+   python3 manage.py loaddata "$project_name/exercices_data/ex09_initial_data.json"
+   # python3 manage.py loaddata "$project_name/exercices_data/ex10_initial_data.json"
 }
 
 # Function to clean up the program env
@@ -121,10 +130,14 @@ case "$1" in
   launch)
     run_docker
     setup_env
+    load_data
     run_django
     ;;
   env)
     setup_env
+    ;;
+  data)
+    load_data
     ;;
   django)
     run_django

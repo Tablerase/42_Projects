@@ -20,7 +20,7 @@
 
 - 🚧 [Regex Testing Ground](https://regex101.com/)
 
-## 📝 Notes
+## ⚙️ Commands
 
 ### Python Environment
 
@@ -43,6 +43,51 @@ pip install -r requirements.txt
 # Deactivate the virtual environment
 deactivate
 ```
+
+### Django
+
+```bash
+# Create a new Django project
+django-admin startproject mysite
+```
+
+```bash
+# Create a new Django app
+python manage.py startapp myapp
+```
+
+```bash
+# Run the Django server
+python manage.py runserver
+```
+
+```bash
+# Create a new migration
+python manage.py makemigrations
+```
+
+```bash
+# Apply the migrations
+python manage.py migrate
+```
+
+```bash
+# Create a superuser
+python manage.py createsuperuser
+```
+
+```bash
+# Run the Django shell
+python manage.py shell
+``` 
+
+```bash
+# Load data from a fixture
+## a fixture is a file containing the serialized data of one or more Django models
+python manage.py loaddata mydata.json
+```
+
+## 📝 Notes
 
 ### [Module 00 - Initiations - HTML, CSS, JavaScript integration](https://projects.intra.42.fr/projects/django-0-initiation)
 
@@ -180,6 +225,7 @@ Django Models:
 - [Django - Models](https://docs.djangoproject.com/en/5.1/topics/db/models/)
 - [Django - Model Field Reference](https://docs.djangoproject.com/en/5.1/ref/models/fields/)
 - [Django - QuerySet](https://docs.djangoproject.com/en/5.1/ref/models/querysets/)
+- [Django - Making queries](https://docs.djangoproject.com/en/5.1/topics/db/queries/#making-queries)
 - [Django - Retrieving Objects](https://docs.djangoproject.com/en/5.1/topics/db/queries/#retrieving-objects)
 - [Django - Form ChoiceField](https://docs.djangoproject.com/en/5.1/ref/forms/fields/#choicefield)
 - [Django - get_or_create](https://docs.djangoproject.com/en/5.1/ref/models/querysets/#get-or-create)

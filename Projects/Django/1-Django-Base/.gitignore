@@ -3,4 +3,6 @@
 django_venv
 
 # Static files gathered
-d05/collected_static
+!d05/staticfiles/images/favicon.svg
+d05/staticfiles/*
+!d05/staticfiles/images/

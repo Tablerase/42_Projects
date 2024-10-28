@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class planets(models.Model):
+class Planets(models.Model):
     name = models.CharField(
         max_length = 64,
         unique = True,
@@ -35,7 +35,7 @@ class planets(models.Model):
     def __str__(self):
         return self.name.__str__()
 
-class people(models.Model):
+class People(models.Model):
     name = models.CharField(
         max_length = 64,
         null = False,
@@ -62,7 +62,7 @@ class people(models.Model):
     mass = models.FloatField(
         null = True,
     )
-    homeworld = models.ForeignKey(planets, on_delete = models.CASCADE, null = True)
+    homeworld = models.ForeignKey(Planets, on_delete = models.CASCADE, null = True)
 
     created = models.DateTimeField(auto_now_add=True, null = True)
     updated = models.DateTimeField(auto_now=True, null = True)
@@ -95,7 +95,7 @@ class Movies(models.Model):
             null=False,
             )
 
-    characters = models.ManyToManyField(people)
+    characters = models.ManyToManyField('People', related_name='movies')
 
     def __str__(self):
         return self.title.__str__()

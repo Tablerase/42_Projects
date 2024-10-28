@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'ex07',
     'ex08',
     'ex09',
+    'ex10',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+# Changed to False to avoid ex09 warnings with deprecated timezone format
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -230,6 +230,7 @@ Django Models:
 - [Django - Form ChoiceField](https://docs.djangoproject.com/en/5.1/ref/forms/fields/#choicefield)
 - [Django - get_or_create](https://docs.djangoproject.com/en/5.1/ref/models/querysets/#get-or-create)
 - [Django - Time at creation](https://docs.djangoproject.com/en/5.1/ref/models/fields/#datefield)
+- [Django - Date Widget](https://docs.djangoproject.com/en/5.1/ref/forms/widgets/#django.forms.SelectDateWidget)
 
 Psycopg:
 - [Psycopg - Docs](https://www.psycopg.org/docs/)

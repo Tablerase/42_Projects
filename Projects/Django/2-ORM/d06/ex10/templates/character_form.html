@@ -1,0 +1,16 @@
+{% if characters %}
+  {% for character in characters %}
+  <p>{{ character.name }} - {{ character.gender }} 
+  - {{ character.movie }} - {{ character.homeworld }} 
+  - {{ character.homeworld_diameter }}
+  </p>
+  {% endfor %}
+{% else %}
+  <p>Nothing corresponding to your research</p>
+{% endif %}
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="find character">
+</form>

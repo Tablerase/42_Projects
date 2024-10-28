@@ -31,5 +31,6 @@ urlpatterns = [
     path('ex07/', include('ex07.urls')),
     path('ex08/', include('ex08.urls')),
     path('ex09/', include('ex09.urls')),
+    path('ex10/', include('ex10.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

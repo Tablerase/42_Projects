@@ -69,7 +69,7 @@ run_docker(){
 load_data() {
    echo -e "=============={🧮 ${CYAN}Load Data${RESET} 🧮}=============="
    cd $project_name
-   python3 manage.py loaddata "$project_name/exercices_data/ex09_initial_data.json"
+   python3 manage.py loaddata "$project_name/exercices_data/ex09_initial_data.json" > /dev/null 2>&1
    # python3 manage.py loaddata "$project_name/exercices_data/ex10_initial_data.json"
 }
 

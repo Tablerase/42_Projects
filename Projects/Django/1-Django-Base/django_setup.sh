@@ -23,8 +23,8 @@ echo "=============={🧰 Path Module Installation 🧰}=============="
 pip install --upgrade -r requirements.txt
 
 # Run program
-# echo "=============={🚀 Program Launch 🚀}=============="
-# cd hello_project
-# python3 manage.py migrate
-# python3 manage.py collectstatic --no-input
-# python3 manage.py runserver
+echo "=============={🚀 Program Launch 🚀}=============="
+cd d05
+python3 manage.py migrate
+python3 manage.py collectstatic --no-input
+python3 manage.py runserver

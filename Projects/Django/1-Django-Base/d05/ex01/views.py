@@ -7,7 +7,7 @@ def django(request):
 def display(request):
     return render(request, 'display.html', {'active_page': 'display'})
 
-def template(request):
+def templates(request):
     # List of Django template tags
     django_tags = [
         'if', 
@@ -29,6 +29,6 @@ def template(request):
     context = {
         'django_tags': django_tags,
         'control': control,
-        'active_page': 'template'
+        'active_page': 'templates'
     }
-    return render(request, 'template.html', context)
+    return render(request, 'templates.html', context)

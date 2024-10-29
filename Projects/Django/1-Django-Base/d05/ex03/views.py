@@ -6,7 +6,7 @@ def color_shade(request):
     # Color list
     colors = ['Black', 'Red', 'Green', 'Blue']
     # Grid values
-    shade = 5 # 255 / 50 shades / 2
+    shade = 5 # ~ 255 / 50 shades
     column_black = []
     column_red = []
     column_green = []

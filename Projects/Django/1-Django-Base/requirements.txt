@@ -6,4 +6,4 @@ django == 5.1.2
 # Database
 ## PostgreSQL
 ### psycopg2 (only if building with old dependency)
-psycopg[binary] == 3.2.3
+psycopg2-binary == 2.9.10

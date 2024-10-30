@@ -1,0 +1,14 @@
+name: django_training
+
+services:
+  adminer:
+    container_name: adminer
+    # https://hub.docker.com/_/adminer
+    image: adminer
+    environment:
+        ADMINER_DESIGN: 'dracula'
+        ADMINER_DEFAULT_SERVER: 'SQLite 3'
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Web_Tips/db.sqlite3:/database/db.sqlite3

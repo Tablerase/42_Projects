@@ -12,7 +12,7 @@ CYAN='\033[0;36m'
 RESET='\033[0m'
 
 venv_path=".venv"
-project_name="Web_Tips"
+project_name="ex"
 #database_folder="./db"
 
 # Function to display help message
@@ -125,7 +125,7 @@ cleanup() {
         fi
     else
         echo "No virtual environment is currently active."
-    f
+    fi
     if [ -d "$venv_path" ]; then
         rm -rf $venv_path
         if [ $? -eq 0 ]; then

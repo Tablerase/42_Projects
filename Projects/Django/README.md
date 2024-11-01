@@ -247,3 +247,14 @@ SQL:
 - [SQL - W3Schools](https://www.w3schools.com/sql/default.asp)
 - [PostgreSQL - Current Date](https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT)
 - [PostgreSQL - Foreign Key](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK)
+
+### [Module 03 - Sessions](https://projects.intra.42.fr/projects/django-3-sessions)
+
+- [Django - Sessions](https://docs.djangoproject.com/en/4.2/topics/http/sessions/)
+- [Django - Middleware](https://docs.djangoproject.com/en/4.2/topics/http/middleware/)
+- [Django - Authentication](https://docs.djangoproject.com/en/4.2/topics/auth/)
+
+Bootstrap:
+- [Bootstrap - Components](https://getbootstrap.com/docs/5.1/components)
+- [Bootstrap - Navbar](https://getbootstrap.com/docs/5.1/components/navbar/)
+- [Bootstrap - Authentication](https://getbootstrap.com/docs/5.1/examples/sign-in/)

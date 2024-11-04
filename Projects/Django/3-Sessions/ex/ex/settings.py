@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_bootstrap5',
+    'user_manager',
     'life_pro_tips',
 ]
 
@@ -49,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'life_pro_tips.middleware.RandomNameMiddleware',
+    'user_manager.middleware.RandomNameMiddleware',
 ]
 
 ROOT_URLCONF = 'ex.urls'
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'ex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,6 +85,10 @@ DATABASES = {
     }
 }
 
+
+# User management
+# https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#substituting-a-custom-user-model
+AUTH_USER_MODEL = 'user_manager.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

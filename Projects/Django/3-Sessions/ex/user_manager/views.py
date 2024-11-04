@@ -67,5 +67,7 @@ def register_view(request):
     return render(request, 'register.html', context)
 
 def logout_view(request):
-    # Implement logout logic
-    pass
+    logout(request)
+    next_page = request.GET.get('next') or request.META.get('HTTP_REFERER')
+    print(next_page)
+    return redirect('home')

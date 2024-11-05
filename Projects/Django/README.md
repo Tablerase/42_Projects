@@ -255,8 +255,104 @@ SQL:
 - [Django - Authentication](https://docs.djangoproject.com/en/4.2/topics/auth/)
 - [Django - User - Model](https://docs.djangoproject.com/en/4.2/ref/contrib/auth/#django.contrib.auth.models.User)
 - [Django - Custom User - Model](https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#substituting-a-custom-user-model)
+- [Django - ModelForm](https://docs.djangoproject.com/en/4.2/topics/forms/modelforms/)
+- [Django - Permissions](https://docs.djangoproject.com/en/4.2/topics/auth/default/#permissions-and-authorization)
+- [Django - Decorators](https://docs.djangoproject.com/en/4.2/topics/http/decorators/)
+
+<table>
+  <tr>
+    <th>Decorator</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td><code>@login_required</code></td>
+    <td>Ensures that the user is logged in before accessing the view.</td>
+    <td>
+      <pre><code class="python">
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def my_view(request):
+    return HttpResponse("Hello, World!")
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>@permission_required</code></td>
+    <td>Checks if the user has a specific permission before accessing the view.</td>
+    <td>
+      <pre><code class="python">
+from django.contrib.auth.decorators import permission_required
+
+@permission_required('app_label.permission_code')
+def my_view(request):
+    return HttpResponse("Hello, World!")
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>@user_passes_test</code></td>
+    <td>Allows access to the view only if the user passes a given test.</td>
+    <td>
+      <pre><code class="python">
+from django.contrib.auth.decorators import user_passes_test
+
+def check_user(user):
+    return user.is_superuser
+
+@user_passes_test(check_user)
+def my_view(request):
+    return HttpResponse("Hello, World!")
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>@require_http_methods</code></td>
+    <td>Restricts access to the view to specific HTTP methods.</td>
+    <td>
+      <pre><code class="python">
+from django.views.decorators.http import require_http_methods
+
+@require_http_methods(["GET", "POST"])
+def my_view(request):
+    return HttpResponse("Hello, World!")
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>@csrf_exempt</code></td>
+    <td>Exempts the view from CSRF verification.</td>
+    <td>
+      <pre><code class="python">
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def my_view(request):
+    return HttpResponse("Hello, World!")
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>@cache_page</code></td>
+    <td>Caches the view's response for a specified amount of time.</td>
+    <td>
+      <pre><code class="python">
+from django.views.decorators.cache import cache_page
+
+@cache_page(60 * 15)
+def my_view(request):
+    return HttpResponse("Hello, World!")
+      </code></pre>
+    </td>
+  </tr>
+</table>
 
 Bootstrap:
 - [Bootstrap - Components](https://getbootstrap.com/docs/5.1/components)
 - [Bootstrap - Navbar](https://getbootstrap.com/docs/5.1/components/navbar/)
 - [Bootstrap - Authentication](https://getbootstrap.com/docs/5.1/examples/sign-in/)
+- [Bootstrap - Forms](https://getbootstrap.com/docs/5.1/forms/overview/)
+
+
+

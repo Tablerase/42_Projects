@@ -69,5 +69,4 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     next_page = request.GET.get('next') or request.META.get('HTTP_REFERER')
-    print(next_page)
     return redirect('home')

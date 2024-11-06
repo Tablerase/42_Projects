@@ -34,6 +34,7 @@ def upvote_tip(request, tip_id):
         #Update or create a vote
         vote.vote_type = Vote.UPVOTE
         vote.save()
+    vote.tip.author.update_reputation()
     return redirect('home')
 
 @login_required(login_url='/user/login')
@@ -46,6 +47,7 @@ def downvote_tip(request, tip_id):
         else:
             vote.vote_type = Vote.DOWNVOTE
             vote.save()
+    vote.tip.author.update_reputation()
     return redirect('home')
 
 @login_required(login_url='/user/login')
@@ -53,4 +55,5 @@ def delete_tip(request, tip_id):
     tip = get_object_or_404(Tip, id=tip_id)
     if tip.author == request.user or request.user.has_perm('life_pro_tips.delete_tip'):
         tip.delete()
+    tip.author.update_reputation()
     return redirect('home')

@@ -15,6 +15,8 @@ venv_path=".venv"
 project_name="ex"
 #database_folder="./db"
 
+#TODO: add this at start : py manage.py create_groups
+
 # Function to display help message
 show_help() {
   echo -e "${CYAN}Usage:${RESET}"
@@ -49,6 +51,7 @@ run_django() {
   python3 manage.py makemigrations
   python3 manage.py migrate
   python3 manage.py collectstatic --no-input
+  python3 manage.py create_groups
   python3 manage.py runserver
 }
 

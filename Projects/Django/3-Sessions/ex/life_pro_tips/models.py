@@ -1,7 +1,8 @@
 from django.db import models
-from user_manager.models import CustomUser
+from django.conf import settings
 
-# Create your models here.
+# prevent circular import problem
+CustomUser = settings.AUTH_USER_MODEL
 
 class Tip(models.Model):
     content = models.TextField()

@@ -258,6 +258,8 @@ SQL:
 - [Django - ModelForm](https://docs.djangoproject.com/en/4.2/topics/forms/modelforms/)
 - [Django - Permissions](https://docs.djangoproject.com/en/4.2/topics/auth/default/#permissions-and-authorization)
 - [Blog - Django - Permissions Usages](https://www.honeybadger.io/blog/django-permissions/)
+- [Django - Groups](https://docs.djangoproject.com/en/4.2/topics/auth/default/#groups)
+- [Django - Custom commands](https://docs.djangoproject.com/en/5.1/howto/custom-management-commands/)
 
 <details>
 <summary> Django - Permissions </summary>
@@ -367,5 +369,42 @@ Bootstrap:
 - [Bootstrap - Authentication](https://getbootstrap.com/docs/5.1/examples/sign-in/)
 - [Bootstrap - Forms](https://getbootstrap.com/docs/5.1/forms/overview/)
 
+Tips_Exercice Diagram:
 
+```mermaid
+classDiagram
+    class CustomUser {
+        CharField username
+        BooleanField is_staff
+        BooleanField is_superuser
+        BooleanField is_active
+        ManyToManyField groups
+        ManyToManyField user_permissions
+        +__str__() str
+    }
+    class CustomUserManager {
+        +create_user(username, password, **extra_fields) CustomUser
+        +create_superuser(username, password, **extra_fields) CustomUser
+    }
+    class Tip {
+        TextField content
+        ForeignKey author
+        DateField date
+        DateField last_activity
+        ManyToManyField votes
+        +upvote_count() int
+        +downvote_count() int
+        +__str__() str
+    }
+    class Vote {
+        CharField vote_type
+        ForeignKey user
+        ForeignKey tip
+    }
+    CustomUserManager --> CustomUser : manages >
+    CustomUser "1" --> "0..*" Tip : authored >
+    CustomUser "0..*" --> "0..*" Tip : votes >
+    CustomUser "1" --> "0..*" Vote : cast >
+    Tip "1" --> "0..*" Vote : received >
+```
 

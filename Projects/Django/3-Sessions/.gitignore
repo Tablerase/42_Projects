@@ -2,6 +2,10 @@
 # Static files gathered
 staticfiles
 
+# Ignore migrations files except __init__.py
+**/migrations/*
+!**/migrations/__init__.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

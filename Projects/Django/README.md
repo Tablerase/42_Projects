@@ -257,6 +257,19 @@ SQL:
 - [Django - Custom User - Model](https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#substituting-a-custom-user-model)
 - [Django - ModelForm](https://docs.djangoproject.com/en/4.2/topics/forms/modelforms/)
 - [Django - Permissions](https://docs.djangoproject.com/en/4.2/topics/auth/default/#permissions-and-authorization)
+- [Blog - Django - Permissions Usages](https://www.honeybadger.io/blog/django-permissions/)
+
+<details>
+<summary> Django - Permissions </summary>
+
+Admin Custom User:
+![Admin Custom User](Media/permissions_with_custom_user.png)
+
+Admin Panel - Custom User permissions:
+![Admin Panel - Custom User permissions](Media/permissions_admin_panel_custom_user.png)
+
+</details>
+
 - [Django - Decorators](https://docs.djangoproject.com/en/4.2/topics/http/decorators/)
 
 <table>

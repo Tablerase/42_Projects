@@ -13,7 +13,6 @@ def home(request):
             return redirect('home')
     else:
         form = TipForm()
-
     tips_list = Tip.objects.all().order_by('-date')
     context = {
         'tips_list': tips_list,
@@ -48,6 +47,6 @@ def downvote_tip(request, tip_id):
 @login_required(login_url='/user/login')
 def delete_tip(request, tip_id):
     tip = get_object_or_404(Tip, id=tip_id)
-    if tip.author == request.user:
+    if tip.author == request.user or request.user.has_perm('life_pro_tips.delete_tip'):
         tip.delete()
     return redirect('home')

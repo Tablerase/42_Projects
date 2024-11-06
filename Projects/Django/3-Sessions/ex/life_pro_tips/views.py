@@ -5,12 +5,15 @@ from .models import Tip, Vote
 
 def home(request):
     if request.method == 'POST':
-        form = TipForm(request.POST)
-        if form.is_valid():
-            tip = form.save(commit=False)
-            tip.author = request.user
-            tip.save()
-            return redirect('home')
+        if request.user.is_authenticated:
+            form = TipForm(request.POST)
+            if form.is_valid():
+                tip = form.save(commit=False)
+                tip.author = request.user
+                tip.save()
+                return redirect('home')
+        else:
+            return redirect('/user/login')
     else:
         form = TipForm()
     tips_list = Tip.objects.all().order_by('-date')
@@ -36,12 +39,13 @@ def upvote_tip(request, tip_id):
 @login_required(login_url='/user/login')
 def downvote_tip(request, tip_id):
     tip = get_object_or_404(Tip, id=tip_id)
-    vote, created = Vote.objects.get_or_create(user=request.user, tip=tip)
-    if not created and vote.vote_type == Vote.DOWNVOTE:
-        vote.delete()
-    else:
-        vote.vote_type = Vote.DOWNVOTE
-        vote.save()
+    if request.user.has_perm('life_pro_tips.downvote_tip') or request.user == tip.author:
+        vote, created = Vote.objects.get_or_create(user=request.user, tip=tip)
+        if not created and vote.vote_type == Vote.DOWNVOTE:
+            vote.delete()
+        else:
+            vote.vote_type = Vote.DOWNVOTE
+            vote.save()
     return redirect('home')
 
 @login_required(login_url='/user/login')

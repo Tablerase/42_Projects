@@ -270,7 +270,7 @@ Admin Panel - Custom User permissions:
 
 </details>
 
-- [Django - Decorators](https://docs.djangoproject.com/en/4.2/topics/http/decorators/)
+- [Django - Http - Decorators](https://docs.djangoproject.com/en/4.2/topics/http/decorators/)
 
 <table>
   <tr>

@@ -18,6 +18,14 @@ class Tip(models.Model):
     @property
     def downvote_count(self):
         return Vote.objects.filter(tip=self, vote_type=Vote.DOWNVOTE).count()
+    
+    class Meta:
+        permissions = [
+            ('downvote_tip', 'Downvote a tip'),
+        ]
+    
+    def __str__(self):
+        return self.content
 
 class Vote(models.Model):
     UPVOTE = 'U'

@@ -217,6 +217,8 @@ Logging:
 
 ### [Module 02 - Django - SQL](https://projects.intra.42.fr/projects/django-2-sql)
 
+![CRUD](https://miro.medium.com/v2/resize:fit:1400/1*2eBdh0vLZjUyCDF6x1EqvQ.png)
+
 Links to demonstrate the exercises *(only if adminer and postgresql running)*:
 - [Adminer](http://localhost:8080/?pgsql=postgresql&username=djangouser&db=djangotraining)
 
@@ -369,7 +371,8 @@ Bootstrap:
 - [Bootstrap - Authentication](https://getbootstrap.com/docs/5.1/examples/sign-in/)
 - [Bootstrap - Forms](https://getbootstrap.com/docs/5.1/forms/overview/)
 
-Tips_Exercice Diagram:
+<details>
+<summary>📝 Exercice UML Diagram</summary>
 
 ```mermaid
 classDiagram
@@ -378,9 +381,11 @@ classDiagram
         BooleanField is_staff
         BooleanField is_superuser
         BooleanField is_active
+        IntegerField reputation
         ManyToManyField groups
         ManyToManyField user_permissions
         +__str__() str
+        +update_reputation() void
     }
     class CustomUserManager {
         +create_user(username, password, **extra_fields) CustomUser
@@ -408,3 +413,11 @@ classDiagram
     Tip "1" --> "0..*" Vote : received >
 ```
 
+</details>
+
+### [Module 03 - Advanced Django](https://projects.intra.42.fr/projects/django-3-advanced)
+
+- [Django - Base vs Generic Views](https://docs.djangoproject.com/en/4.2/ref/class-based-views/#base-vs-generic-views)
+- [Django - Class Based Views](https://docs.djangoproject.com/en/4.2/topics/class-based-views/)
+- [Django - FormView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-editing/#formview)
+ 

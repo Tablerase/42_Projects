@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Articles{% endblock title %}
+
+{% block content %}
+
+{% if articles %}
+<table>
+  <thead>
+    {% for field in articles.model._meta.fields %}
+      <th>{{ field.verbose_name }}</th>
+    {% endfor %}
+  </thead>
+  <tbody>
+    {% for article in articles %}
+    <tr>
+      {% for field in article %}
+      <td>
+        {{ field }}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+No data available
+{% endif %}
+
+{% endblock content %}

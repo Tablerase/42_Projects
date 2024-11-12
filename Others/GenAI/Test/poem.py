@@ -2,7 +2,7 @@ import openai
 
 client = openai.OpenAI()
 
-completion = client.chat.completions.create(
+response = client.chat.completions.create(
     model='gpt-4o-mini',
     messages=[
         { 'role': 'system', 'content': 'You are a helpful assistant.'},
@@ -10,7 +10,11 @@ completion = client.chat.completions.create(
             'role': 'user',
             'content': 'Write a poem about GenerativeAI.'
         }
-    ]
+    ],
+    stream=True
 )
 
-print(completion.choices[0].message)
+for chunk in response:
+    content = chunk.choices[0].delta.content
+    if chunk and content:
+        print(content, end='')

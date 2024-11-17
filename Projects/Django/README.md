@@ -420,4 +420,5 @@ classDiagram
 - [Django - Base vs Generic Views](https://docs.djangoproject.com/en/4.2/ref/class-based-views/#base-vs-generic-views)
 - [Django - Class Based Views](https://docs.djangoproject.com/en/4.2/topics/class-based-views/)
 - [Django - FormView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-editing/#formview)
+  - [GeeksforGeeks - Django FormView](https://www.geeksforgeeks.org/formview-class-based-views-django/)
  

@@ -92,6 +92,13 @@ cleanup() {
     fi
 }
 
+# Function to access the database shell
+db_shell() {
+    echo -e "=============={🐚 ${CYAN}Database Shell${RESET} 🐚}=============="
+    cd $project_name
+    python3 manage.py dbshell
+}
+
 # Handle script arguments
 case "$1" in
   launch)
@@ -109,6 +116,9 @@ case "$1" in
     ;;
   help)
     show_help
+    ;;
+  db_shell)
+    db_shell
     ;;
   *)
     echo -e "${RED}Invalid option! Use 'help' for usage information.${RESET}"

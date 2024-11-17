@@ -3,12 +3,12 @@
 # Django
 ##
 
+# But keep __init__.py (to ensure the folder is a module)
+!*/migrations/__init__.py
+
 # Ignore Django migration files
 **/migrations/*.py
 **/migrations/*.pyc
-
-# But keep __init__.py (to ensure the folder is a module)
-!*/migrations/__init__.py
 
 # Static files gathered
 staticfiles

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block title %}Articles{% endblock title %}
 
@@ -6,20 +7,24 @@
 <h1>Articles</h1>
 
 {% if articles %}
-<table>
+<table border="1">
   <thead>
-    {% for field in articles.model.meta.fields %}
-      <th>{{ field.verbose_name }}</th>
+    {% for field in fields %}
+      <th>{{ field }}</th>
     {% endfor %}
   </thead>
   <tbody>
     {% for article in articles %}
     <tr>
-      {% for field in article %}
+      {% for field in fields %}
       <td>
-        {{ field }}
+        {{ article|get_attr:field }}
       </td>
       {% endfor %}
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="{{ fields|length }}">No articles found.</td>
     </tr>
     {% endfor %}
   </tbody>

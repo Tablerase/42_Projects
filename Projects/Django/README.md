@@ -421,4 +421,14 @@ classDiagram
 - [Django - Class Based Views](https://docs.djangoproject.com/en/4.2/topics/class-based-views/)
 - [Django - FormView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-editing/#formview)
   - [GeeksforGeeks - Django FormView](https://www.geeksforgeeks.org/formview-class-based-views-django/)
- 
+- [Django - Fixture](https://docs.djangoproject.com/en/4.2/topics/db/fixtures/#fixtures-explanation)
+
+```bash
+# Create a fixture
+py manage.py dumpdata articles.Article > articles_fixture.json
+```
+
+```bash
+# Load a fixture
+py manage.py loaddata articles_fixture.json
+```

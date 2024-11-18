@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Login{% endblock title %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon/lock_and_key.ico' %}">
+{% endblock favicon %}
 
 {% block content %}
 <div class="container mt-5">

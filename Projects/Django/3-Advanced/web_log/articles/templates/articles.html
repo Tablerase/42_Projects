@@ -10,16 +10,20 @@
 <table border="1">
   <thead>
     {% for field in fields %}
+      {% if field != 'content' %}
       <th>{{ field }}</th>
+      {% endif %}
     {% endfor %}
   </thead>
   <tbody>
     {% for article in articles %}
     <tr>
       {% for field in fields %}
-      <td>
-        {{ article|get_attr:field }}
-      </td>
+        {% if field != 'content' %}
+        <td>
+          {{ article|get_attr:field }}
+        </td>
+        {% endif %}
       {% endfor %}
     </tr>
     {% empty %}

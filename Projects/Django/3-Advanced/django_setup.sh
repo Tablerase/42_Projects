@@ -14,6 +14,7 @@ RESET='\033[0m'
 venv_path=".venv"
 project_name="web_log"
 database_folder="$project_name/db.sqlite3"
+fixtures_path="fixtures/demo_articles_fixture.json"
 
 # Function to display help message
 show_help() {
@@ -23,6 +24,7 @@ show_help() {
   echo -e "${YELLOW}  launch${RESET}   : Setup Python env and Run Django project"
   echo -e "${YELLOW}  env${RESET}      : Setup Python environment (install virtualenv, dependencies)"
   echo -e "${YELLOW}  django${RESET}   : Run the Django project (migrate, collectstatic, runserver)"
+  echo -e "${YELLOW}  load${RESET}     : Load the initial data into the database"
   echo -e "${YELLOW}  clean${RESET}    : Remove every data, env"
   echo -e "${YELLOW}  help${RESET}     : Display this help message"
 }
@@ -48,6 +50,13 @@ run_django() {
   python3 manage.py migrate
   python3 manage.py collectstatic --no-input
   python3 manage.py runserver
+}
+
+# Function to load the initial data into the database
+load_data() {
+  echo -e "=============={📥 ${CYAN}Loading Data${RESET} 📥}=============="
+  cd $project_name
+  python3 manage.py loaddata $fixtures_path
 }
 
 # Function to setup Docker containers
@@ -110,6 +119,9 @@ case "$1" in
     ;;
   django)
     run_django
+    ;;
+  load)
+    load_data
     ;;
   clean)
     cleanup

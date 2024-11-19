@@ -14,7 +14,11 @@ RESET='\033[0m'
 venv_path=".venv"
 project_name="web_log"
 database_folder="$project_name/db.sqlite3"
-fixtures_path="fixtures/demo_articles_fixture.json"
+fixtures_path="fixtures/"
+declare -a fixtures=(
+    "$fixtures_path/users.json"
+    "$fixtures_path/articles.json"
+)
 
 # Function to display help message
 show_help() {
@@ -24,8 +28,10 @@ show_help() {
   echo -e "${YELLOW}  launch${RESET}   : Setup Python env and Run Django project"
   echo -e "${YELLOW}  env${RESET}      : Setup Python environment (install virtualenv, dependencies)"
   echo -e "${YELLOW}  django${RESET}   : Run the Django project (migrate, collectstatic, runserver)"
-  echo -e "${YELLOW}  load${RESET}     : Load the initial data into the database"
+  echo -e "${YELLOW}  fixtures${RESET} : Load the initial data into the database"
   echo -e "${YELLOW}  clean${RESET}    : Remove every data, env"
+  echo -e "${YELLOW}  db_shell${RESET} : Access the database shell"
+  echo -e "${YELLOW}  superuser${RESET}: Create a superuser"
   echo -e "${YELLOW}  help${RESET}     : Display this help message"
 }
 
@@ -50,13 +56,6 @@ run_django() {
   python3 manage.py migrate
   python3 manage.py collectstatic --no-input
   python3 manage.py runserver
-}
-
-# Function to load the initial data into the database
-load_data() {
-  echo -e "=============={📥 ${CYAN}Loading Data${RESET} 📥}=============="
-  cd $project_name
-  python3 manage.py loaddata $fixtures_path
 }
 
 # Function to setup Docker containers
@@ -101,11 +100,31 @@ cleanup() {
     fi
 }
 
+# Function to load the initial data into the database
+load_fixtures() {
+  echo -e "=============={📥 ${CYAN}Loading Data${RESET} 📥}=============="
+  cd $project_name
+  for fixture in "${fixtures[@]}"; do
+    if [ ! -f "$fixture" ]; then
+        echo -e "${RED}Fixture file not found: $fixture${RESET}"
+        exit 1
+    fi
+    python3 manage.py loaddata $fixture
+  done
+}
+
 # Function to access the database shell
 db_shell() {
     echo -e "=============={🐚 ${CYAN}Database Shell${RESET} 🐚}=============="
     cd $project_name
     python3 manage.py dbshell
+}
+
+# Function to create a superuser
+superuser() {
+    echo -e "=============={🦸 ${CYAN}Superuser Creation${RESET} 🦸}=============="
+    cd $project_name
+    python3 manage.py createsuperuser
 }
 
 # Handle script arguments
@@ -120,8 +139,11 @@ case "$1" in
   django)
     run_django
     ;;
-  load)
-    load_data
+  fixtures)
+    load_fixtures
+    ;;
+  superuser)
+    superuser
     ;;
   clean)
     cleanup

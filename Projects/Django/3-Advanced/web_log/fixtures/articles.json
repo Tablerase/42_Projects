@@ -1,44 +1,5 @@
 [
   {
-    "model": "auth.user",
-    "pk": 2,
-    "fields": {
-      "username": "SyntaxTerror",
-      "email": "SyntaxTerror@example.com",
-      "password": "insecure_demo_secret",
-      "is_staff": false,
-      "is_superuser": false,
-      "is_active": true,
-      "date_joined": "2024-11-12T00:00:00Z"
-    }
-  },
-  {
-    "model": "auth.user",
-    "pk": 3,
-    "fields": {
-      "username": "RootOfAllEvil",
-      "email": "RootOfAllEvil@example.com", 
-      "password": "insecure_demo_secret",
-      "is_staff": false,
-      "is_superuser": false,
-      "is_active": true,
-      "date_joined": "2024-11-13T00:00:00Z"
-    }
-  },
-  {
-    "model": "auth.user",
-    "pk": 4,
-    "fields": {
-      "username": "AI_M_Bot",
-      "email": "AI_M_Bot@example.com",
-      "password": "insecure_demo_secret",
-      "is_staff": false,
-      "is_superuser": false,
-      "is_active": true,
-      "date_joined": "2024-11-14T00:00:00Z"
-    }
-  },
-  {
     "model": "articles.article",
     "pk": 1,
     "fields": {

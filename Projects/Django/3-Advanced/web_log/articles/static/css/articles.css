@@ -1,0 +1,91 @@
+@import url('/static/base/css/colors.css');
+
+/* =========================== Article Tables ============================== */
+
+.article-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.article-table th, .article-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.article-table th {
+  background-color: light-dark(var(--light-accent-color), var(--dark-accent-color));
+}
+
+.article-table tr {
+  cursor: pointer;
+}
+
+.article-table tr:hover {
+  background-color: light-dark(var(--light-hover-color), var(--dark-hover-color));
+}
+
+/* Style for the pagination links */
+.step-links {
+  margin-top: 20px;
+}
+
+.step-links a {
+  margin: 0 5px;
+  text-decoration: none;
+  color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+}
+
+.step-links a:hover {
+  text-decoration: underline;
+}
+
+.step-links .current {
+  margin: 0 5px;
+}
+
+/* =========================== Detail ============================== */
+article.post {
+  display: grid;
+  grid-template-columns: minmax(1.2rem, 1fr) minmax(auto, 57ch) minmax(1.2rem, 1fr);
+}
+
+/* position text paragraphs and all headings into the second (middle) column */
+article.post h1,
+article.post h2,
+article.post h3,
+article.post h4,
+article.post h5,
+article.post h6 {
+  grid-column: 2;
+  text-align: center;
+}
+article.post p {
+  grid-column: 2;
+  color: #4c4f69;
+}
+article.post h1 {
+  font-size:30px;
+  text-align:center;
+  line-height:1.5em;
+  padding-bottom:45px;
+  font-family:"Playfair Display", serif;
+  text-transform:uppercase;
+  letter-spacing: 2px;
+  color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+}
+
+/* position images to take up all three columns */
+article img {
+  grid-column: 1 / 4;
+  width: 100%;
+  max-width: 100ch;
+  justify-self: center;
+}
+
+/* Add spacing between author and created spans */
+article.post .article-footer {
+  color: #6c6f85;
+  justify-content: space-between;
+  display: inline-flex;
+}

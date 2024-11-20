@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}{{ article.title }}{% endblock title %}
+
+{% block style %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+{% if article %}
+<article class="post">
+  <h1>{{ article.title }}</h1>
+  <p>{{ article.synopsis }}</p>
+  <p>{{ article.content }}</p>
+  <p class="article-footer">
+    <small class="author">Author: {{ article.author }}</small>
+    <small class="created">Created: {{ article.created }}</small>
+  </p>
+</article>
+{% else %}
+<article>
+No data available
+</article>
+{% endif %}
+
+{% endblock content %}

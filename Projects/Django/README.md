@@ -417,6 +417,17 @@ classDiagram
 
 ### [Module 03 - Advanced Django](https://projects.intra.42.fr/projects/django-3-advanced)
 
+#### Permissions
+
+With class views decorators are not used, instead, we use mixins during the class definition.
+
+```python
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class MyView(LoginRequiredMixin, View):
+    pass
+```
+
 - [Django - Base vs Generic Views](https://docs.djangoproject.com/en/4.2/ref/class-based-views/#base-vs-generic-views)
 - [Django - Class Based Views](https://docs.djangoproject.com/en/4.2/topics/class-based-views/)
 - [Django - FormView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-editing/#formview)
@@ -436,5 +447,10 @@ py manage.py loaddata articles_fixture.json
 
 - [Django - List of Class Views](https://docs.djangoproject.com/en/4.2/ref/class-based-views/)
   - [Django - ListView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-display/#listview)
+  - [Django - LogoutView](https://docs.djangoproject.com/en/5.1/topics/auth/default/#django.contrib.auth.views.LogoutView)
+  - [Django - LoginView](https://docs.djangoproject.com/en/4.2/topics/auth/default/#django.contrib.auth.views.LoginView)
+  - [Django - RedirectView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/base/#redirectview)
+  - [Django - DetailView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-display/#detailview)
 
+- [Article grid layout](https://mastery.games/post/article-grid-layout/)
 

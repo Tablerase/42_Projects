@@ -1,0 +1,25 @@
+{% load static %}
+
+<nav class="nav-tab">
+  <div class="tab-container">
+    <input type="radio" name="tab" id="tab1" class="tab tab--1" data-url="{% url 'home' %}" />
+    <label class="tab_label" for="tab1">Home</label>
+
+    <input type="radio" name="tab" id="tab2" class="tab tab--2" data-url="{% url 'articles' %}" />
+    <label class="tab_label" for="tab2">Articles</label>
+
+    <input type="radio" name="tab" id="tab3" class="tab tab--3" data-url="{% url 'publications' %}" />
+    <label class="tab_label" for="tab3">Publications</label>
+    {% if user.is_authenticated %}
+      <input type="radio" name="tab" id="tab4" class="tab tab--4" data-url="{% url 'logout' %}" />
+      <label class="tab_label" for="tab4">Logout</label>
+    {% else %}
+      <input type="radio" name="tab" id="tab4-logout" class="tab tab--4-logout" data-url="{% url 'login' %}" />
+      <label class="tab_label" for="tab4-logout">Login</label>
+    {% endif %}
+
+    <div class="indicator"></div>
+  </div>
+</nav>
+
+<script src="{% static 'base/js/navbar.js' %}"></script>

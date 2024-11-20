@@ -10,7 +10,6 @@
   --dark-subtext-color: #bac2de;
   --dark-background-color: #333;
   --dark-border-color: #ddd;
-  --dark-hover-color: #f1f1f1;
 
   /* Light mode */
   --light-primary-color: #7287fd;
@@ -20,6 +19,4 @@
   --light-subtext-color: #6c6f85;
   --light-background-color: #fff;
   --light-border-color: #444;
-  --light-hover-color: #444;
 }
-

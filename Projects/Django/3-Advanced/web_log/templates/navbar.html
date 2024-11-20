@@ -10,12 +10,16 @@
 
     <input type="radio" name="tab" id="tab3" class="tab tab--3" data-url="{% url 'publications' %}" />
     <label class="tab_label" for="tab3">Publications</label>
+
+    <input type="radio" name="tab" id="favorites" class="tab tab--favorites" data-url="{% url 'favorites' %}" />
+    <label class="tab_label" for="favorites">Favorites</label>
+
     {% if user.is_authenticated %}
-      <input type="radio" name="tab" id="tab4" class="tab tab--4" data-url="{% url 'logout' %}" />
-      <label class="tab_label" for="tab4">Logout</label>
+      <input type="radio" name="tab" id="tab-log" class="tab tab--log" data-url="{% url 'logout' %}" />
+      <label class="tab_label" for="tab-log">Logout</label>
     {% else %}
-      <input type="radio" name="tab" id="tab4-logout" class="tab tab--4-logout" data-url="{% url 'login' %}" />
-      <label class="tab_label" for="tab4-logout">Login</label>
+      <input type="radio" name="tab" id="tab-logout" class="tab tab--log-logout" data-url="{% url 'login' %}" />
+      <label class="tab_label" for="tab-logout">Login</label>
     {% endif %}
 
     <div class="indicator"></div>

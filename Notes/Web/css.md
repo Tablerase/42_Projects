@@ -10,77 +10,84 @@ selector {
 ```
 
 ## CSS Selectors
-* **Element Selector**: Selects all elements with the specified element name.
+* **Element Selector** `element` : Selects all elements with the specified element name.
 ```css
 p {
     color: red;
 }
 ```
 
-* **Class Selector**: Selects all elements with the specified class name.
+* **Class Selector** `.` : Selects all elements with the specified class name.
 ```css
 .class {
     color: red;
 }
 ```
 
-* **ID Selector**: Selects a single element with the specified id attribute.
+* **ID Selector** `#` : Selects a single element with the specified id attribute.
 ```css
 #id {
     color: red;
 }
 ```
 
-* **Universal Selector**: Selects all elements on the page.
+* **Universal Selector** `*` : Selects all elements on the page.
 ```css
 * {
     color: red;
 }
 ```
 
-* **Group Selector**: Selects all elements with the specified class name.
+* **Group Selector** `,` : Selects all elements with the specified class name.
 ```css
 h1, h2, h3 {
     color: red;
 }
 ```
 
-* **Descendant Selector**: Selects all elements that are descendants of a specified element.
+* **Descendant Selector** ` ` : Selects all elements that are descendants of a specified element.
 ```css
 div p {
     color: red;
 }
 ```
 
-* **Child Selector**: Selects all elements that are direct children of a specified element.
+* **Child Selector** `>` : Selects all elements that are direct children of a specified element.
 ```css
 div > p {
     color: red;
 }
 ```
 
-* **Adjacent Sibling Selector**: Selects all elements that are the adjacent siblings of a specified element.
+* **Adjacent Sibling Selector** `+` : Selects all elements that are the adjacent siblings of a specified element.
 ```css
 h1 + p {
     color: red;
 }
 ```
 
-* **Attribute Selector**: Selects elements based on the presence or value of a specified attribute.
+* **General Sibling Selector** `~` : Selects all elements that are siblings of a specified element.
+```css
+h1 ~ p {
+    color: red;
+}
+```
+
+* **Attribute Selector** `[]` : Selects elements based on the presence or value of a specified attribute.
 ```css
 a[target="_blank"] {
     color: red;
 }
 ```
 
-* **Pseudo-class Selector**: Selects elements based on a certain state or condition.
+* **Pseudo-class Selector** `:` : Selects elements based on a certain state or condition.
 ```css
 a:hover {
     color: red;
 }
 ```
 
-* **Pseudo-element Selector**: Selects a specific part of an element.
+* **Pseudo-element Selector** `::` : Selects a specific part of an element.
 ```css
 p::first-line {
     color: red;

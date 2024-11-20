@@ -11,6 +11,7 @@
 
 * 🤔 [Python Quick Recap](https://learnxinyminutes.com/docs/python/)
 * 📏 [Python Style Guide](https://peps.python.org/pep-0008/)
+  - Formatter: [autopep8](https://pypi.org/project/autopep8/)
 
 ### 🌐 HTML
 

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block style %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock style %}
+
+{% block title %}Favorites{% endblock title %}
+
+{% block content %}
+<h1>Favorites</h1>
+
+{% if favorite_articles %}
+<div class="article-list">
+  <ul>
+    {% for article in favorite_articles %}
+    <li>
+      <a href="{% url 'details' article.pk %}">
+        {{ article.title }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% else %}
+<p>No favorite articles yet</p>
+{% endif %}
+{% endblock content %}

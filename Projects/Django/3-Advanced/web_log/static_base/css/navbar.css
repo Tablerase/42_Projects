@@ -1,3 +1,5 @@
+@import url('/static/base/css/colors.css');
+
 .nav-tab {
   position: fixed;
   bottom: 5px;
@@ -20,7 +22,7 @@
   content: "";
   width: 130px;
   height: 28px;
-  background: #ffffff;
+  background: light-dark(var(--light-primary-color), var(--dark-primary-color));
   position: absolute;
   top: 2px;
   left: 2px;
@@ -54,9 +56,13 @@
   border: 0;
 
   font-size: 0.75rem;
-  opacity: 0.6;
+  opacity: 0.8;
 
   cursor: pointer;
+}
+
+.tab:checked + .tab_label {
+  color: light-dark(var(--light-accent-color), var(--dark-accent-color));
 }
 
 .tab--1:checked ~ .indicator {
@@ -71,11 +77,15 @@
   left: calc(130px * 2 + 2px);
 }
 
-.tab--4:checked ~ .indicator {
+.tab--favorites:checked ~ .indicator {
   left: calc(130px * 3 + 2px);
 }
-.tab--4-logout:checked ~ .indicator {
-  left: calc(130px * 3 + 2px);
+
+.tab--log:checked ~ .indicator {
+  left: calc(130px * 4 + 2px);
+}
+.tab--log-logout:checked ~ .indicator {
+  left: calc(130px * 4 + 2px);
 }
 
 /* https://uiverse.io/zanina-yassine/curly-shrimp-52 */

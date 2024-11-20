@@ -1,0 +1,18 @@
+[
+{
+  "model": "articles.userfavoritearticle",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "article": 1
+  }
+},
+{
+  "model": "articles.userfavoritearticle",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "article": 4
+  }
+}
+]

@@ -18,6 +18,7 @@ fixtures_path="fixtures/"
 declare -a fixtures=(
     "$fixtures_path/users.json"
     "$fixtures_path/articles.json"
+    "$fixtures_path/favorites.json"
 )
 
 # Function to display help message

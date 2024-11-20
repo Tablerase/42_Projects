@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
+{% load static %}
+
+{% block style %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock style %}
 
 {% block title %}Publications{% endblock title %}
 
@@ -7,7 +13,7 @@
 <h1>Publications</h1>
 
 {% if publications %}
-<table border="1">
+<table class="article-table"> 
   <thead>
     {% for field in fields %}
       {% if field != 'content' and field != 'author' and field != 'id' %}
@@ -17,7 +23,7 @@
   </thead>
   <tbody>
     {% for publication in publications %}
-    <tr>
+    <tr class="link" onclick='window.location.href="{% url "details" publication.pk %}"'>
       {% for field in fields %}
         {% if field != 'content' and field != 'author' and field != 'id' %}
         <td>

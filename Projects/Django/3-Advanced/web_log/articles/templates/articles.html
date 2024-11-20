@@ -25,7 +25,7 @@
   </thead>
   <tbody>
     {% for article in articles %}
-    <tr onclick="window.location.href='{% url 'details' article.pk %}'">
+    <tr class="link" onclick="window.location.href='{% url 'details' article.pk %}'">
       {% for field in fields %}
         {% if field != 'content' %}
         <td>

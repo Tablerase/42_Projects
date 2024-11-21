@@ -418,6 +418,13 @@ classDiagram
 
 ### [Module 03 - Advanced Django](https://projects.intra.42.fr/projects/django-3-advanced)
 
+#### Subject inconsistencies
+
+- Your repo will have the form of a single Django LTS project. It will not split in ex-
+ercises, as usual. Each one will add a functionality to the project. The functionality
+and its implementation will be graded.
+  - But each exercise indicates to turn in a specific folders, so it's not clear if we should submit the whole project or just the specific folder for each exercise.
+
 #### Permissions
 
 With class views decorators are not used, instead, we use mixins during the class definition.

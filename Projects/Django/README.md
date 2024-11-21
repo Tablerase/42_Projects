@@ -452,6 +452,7 @@ py manage.py loaddata articles_fixture.json
   - [Django - LoginView](https://docs.djangoproject.com/en/4.2/topics/auth/default/#django.contrib.auth.views.LoginView)
   - [Django - RedirectView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/base/#redirectview)
   - [Django - DetailView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-display/#detailview)
+  - [Django - CreateView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-editing/#createview)
 
 - [Article grid layout](https://mastery.games/post/article-grid-layout/)
 

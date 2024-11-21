@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block title %}Register{% endblock title %}
+
+{% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon/lock_and_key.ico' %}">
+{% endblock favicon %}
+
+{% block style %}
+  {{ block.super }}
+  <!-- {% bootstrap_css %} -->
+{% endblock style %}
+
+{% block content %}
+<h1>Register</h1>
+{% if user.is_authenticated %}
+  <p>You are already logged in.</p>
+{% else %}
+  <div class="container mt-5">
+      <form method="post" class="needs-validation" novalidate>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Sign up</button>
+      </form>
+  </div>
+{% endif %}
+{% endblock content %}

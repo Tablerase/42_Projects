@@ -1,0 +1,130 @@
+@import url('/static/base/css/colors.css');
+
+/* =========================== Article Tables ============================== */
+
+.article-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.article-table th, .article-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.article-table th {
+  background-color: light-dark(var(--light-accent-color), var(--dark-accent-color));
+}
+
+.article-table tr.link {
+  cursor: pointer;
+}
+
+.article-table tr:hover {
+  background-color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+}
+
+/* Style for the pagination links */
+.step-links {
+  margin-top: 20px;
+}
+
+.step-links a {
+  margin: 0 5px;
+  text-decoration: none;
+  color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+}
+
+.step-links a:hover {
+  text-decoration: underline;
+}
+
+.step-links .current {
+  margin: 0 5px;
+}
+
+/* =========================== Detail ============================== */
+
+article.post {
+  display: grid;
+  grid-template-columns: minmax(1.2rem, 1fr) minmax(auto, 57ch) minmax(1.2rem, 1fr);
+}
+
+/* position text paragraphs and all headings into the second (middle) column */
+article.post h1,
+article.post h2,
+article.post h3,
+article.post h4,
+article.post h5,
+article.post h6 {
+  grid-column: 2;
+  text-align: center;
+}
+article.post p {
+  grid-column: 2;
+  color: #4c4f69;
+}
+
+/* position images to take up all three columns */
+article img {
+  grid-column: 1 / 4;
+  width: 100%;
+  max-width: 100ch;
+  justify-self: center;
+}
+
+/* Add spacing between author and created spans */
+article.post .article-footer {
+  color: #6c6f85;
+  justify-content: space-between;
+  display: inline-flex;
+}
+
+/* =========================== Favorites Articles ============================== */
+
+.article-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.article-list ul li {
+  position: relative;
+  left: 0;
+  list-style: none;
+  margin: 4px 0;
+  border-left: 2px solid light-dark(var(--light-primary-color), var(--dark-primary-color));
+  transition: 0.5s;
+  cursor: pointer;
+}
+.article-list ul li:hover {
+  left: 10px;
+}
+.article-list ul li a {
+  position: relative;
+  padding: 8px;
+  padding-left: 12px;
+  display: inline-block;
+  text-decoration: none;
+  z-index: 1;
+  transition: 0.5s;
+}
+.article-list ul li:hover a {
+  color: light-dark(var(--light-accent-color), var(--dark-accent-color));
+}
+.article-list ul li:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: light-dark(var(--light-primary-color), var(--dark-primary-color));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 0.5s;
+}
+.article-list ul li:hover:before {
+  transform: scaleX(1);
+}
+
+/* list source: https://codepen.io/porsake/pen/RwVwJya */

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block title %}Publish{% endblock title %}
+
+{% block content %}
+<h1>Register</h1>
+{% if user.is_authenticated %}
+  <div class="container mt-5">
+      <form method="post" class="needs-validation" novalidate>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+  </div>
+{% else %}
+<p>You are not logged in.</p>
+{% endif %}
+{% endblock content %}

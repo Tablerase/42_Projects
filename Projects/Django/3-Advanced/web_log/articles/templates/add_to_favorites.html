@@ -1,0 +1,8 @@
+<div class="container mt-5">
+  <form action="{% url 'add_to_favorites' %}" method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add to favorites</button>
+  </form>
+</div>
+<!-- action="{% url 'add_to_favorites' %}"  -->

@@ -20,6 +20,9 @@
     <small class="author">Author: {{ article.author }}</small>
     <small class="created">Created: {{ article.created }}</small>
   </p>
+  {% if user.is_authenticated %}
+    {% include 'add_to_favorites.html' %}
+  {% endif %}
 </article>
 {% else %}
 <article>

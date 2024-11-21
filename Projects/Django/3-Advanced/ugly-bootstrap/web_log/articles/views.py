@@ -13,6 +13,7 @@ class ArticlesView(ListView):
     template_name = 'articles.html'
     context_object_name = 'articles'
     paginate_by = 10
+    ordering = ['-created']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,6 +27,7 @@ class PublicationsView(LoginRequiredMixin, ListView):
     model = Article
     template_name = 'publications.html'
     context_object_name = 'publications'
+    ordering = ['-created']
 
     def get_queryset(self):
         return Article.objects.filter(author=self.request.user)

@@ -17,6 +17,7 @@
           <th>{{ field }}</th>
           {% endif %}
         {% endfor %}
+        <th>published</th>
       </tr>
     </thead>
     <tbody>
@@ -25,10 +26,15 @@
         {% for field in fields %}
           {% if field != 'content' %}
           <td>
-            {{ article|get_attr:field }}
+            {% if field == 'synopsis' %}
+              {{ article|get_attr:field|truncate_str:20 }}
+            {% else %}
+              {{ article|get_attr:field }}
+            {% endif %}
           </td>
           {% endif %}
         {% endfor %}
+        <td>{{ article.created|time_since }} ago</td>
       </tr>
       {% endfor %}
     </tbody>

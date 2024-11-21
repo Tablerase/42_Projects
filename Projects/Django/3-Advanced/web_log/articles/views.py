@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, RedirectView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 from .models import Article, UserFavoriteArticle
 from .forms import UserFavoriteArticleForm
@@ -72,9 +73,7 @@ class DetailsPage(DetailView):
         return context
 
 
-class PublishView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('login')
-
+class PublishView(CreateView):
     model = Article
     template_name = 'publish.html'
     success_url = reverse_lazy('home')
@@ -85,21 +84,18 @@ class PublishView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class AddFavoriteView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('login')
-
+class AddFavoriteView(CreateView):
     model = UserFavoriteArticle
     form_class = UserFavoriteArticleForm
     template_name = 'add_to_favorites.html'
     success_url = reverse_lazy('favorites')
 
-    def get_initial(self):
-        initial = super().get_initial()
-        article_id = self.kwargs.get('article_id')
-        print(article_id)
-        initial['article'] = get_object_or_404(Article, id=article_id)
-        return initial
-
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        if UserFavoriteArticle.objects.filter(user=self.request.user, article=form.instance.article).exists():
+            return JsonResponse({'success': 'Already', 'errors': 'This article is already in your favorites.'})
+        self.object = form.save()
+        return JsonResponse({'success': 'Add'})
+
+    def form_invalid(self, form):
+        return JsonResponse({'success': 'Error', 'errors': form.errors})

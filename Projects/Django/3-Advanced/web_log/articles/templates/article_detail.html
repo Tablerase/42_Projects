@@ -10,24 +10,33 @@
 {% endblock style %}
 
 {% block content %}
-
 {% if article %}
-<article class="post">
-  <h1>{{ article.title }}</h1>
-  <p>{{ article.synopsis }}</p>
-  <p>{{ article.content }}</p>
-  <p class="article-footer">
-    <small class="author">Author: {{ article.author }}</small>
-    <small class="created">Created: {{ article.created }}</small>
-  </p>
+  <article class="post">
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.synopsis }}</p>
+    <p>{{ article.content }}</p>
+    <p class="article-footer">
+      <small class="author">Author: {{ article.author }}</small>
+      <small class="created">Created: {{ article.created }}</small>
+    </p>
+  </article>
   {% if user.is_authenticated %}
-    {% include 'add_to_favorites.html' %}
+  <div id="favorite-form-container">
+    <form id="favorite-form" method="post" action="{% url 'add_to_favorites' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Add to favorites</button>
+    </form>
+  </div>
   {% endif %}
-</article>
 {% else %}
-<article>
-No data available
-</article>
+  <article>
+    No data available
+  </article>
 {% endif %}
 
 {% endblock content %}
+
+{% block script_body %}
+<script src="{% static 'js/add_to_favorites.js' %}"></script>
+{% endblock script_body %}

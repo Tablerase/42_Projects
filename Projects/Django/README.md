@@ -436,6 +436,8 @@ class MyView(LoginRequiredMixin, View):
     pass
 ```
 
+#### Class Views
+
 - [Django - Base vs Generic Views](https://docs.djangoproject.com/en/4.2/ref/class-based-views/#base-vs-generic-views)
 - [Django - Class Based Views](https://docs.djangoproject.com/en/4.2/topics/class-based-views/)
 - [Django - FormView](https://docs.djangoproject.com/en/4.2/ref/class-based-views/generic-editing/#formview)
@@ -463,3 +465,172 @@ py manage.py loaddata articles_fixture.json
 
 - [Article grid layout](https://mastery.games/post/article-grid-layout/)
 
+#### Internationalization
+
+- [Django - Internationalization](https://docs.djangoproject.com/en/4.2/topics/i18n/)
+- [Django - Discovers language preference](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#how-django-discovers-language-preference)
+  - [Django - Languages setting](https://docs.djangoproject.com/en/4.2/ref/settings/#languages)
+- [Django - Translations](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/)
+  - [Django - Comments for translators](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#comments-for-translators)
+  - [Django - Python Translation](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#internationalization-in-python-code)
+  - [Django - Template Translation](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#internationalization-in-template-code)
+  - [Django - JavaScript Translation](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#internationalization-in-javascript-code)
+
+```bash
+# Create a new language file
+py manage.py makemessages -l fr
+```
+
+```bash
+# Create a new language file for all languages
+py manage.py makemessages -a
+```
+
+```bash
+# Create a new language file for a djangojs
+py manage.py makemessages -d djangojs -l fr
+```
+
+```bash
+# Compile the language file
+py manage.py compilemessages
+```
+
+##### Django Translation Functions
+
+Lazy functions are used to avoid translating strings that are not displayed. They are evaluated when the string is displayed.
+
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Description</th>
+      <th>Usage Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>gettext</code></td>
+      <td>Translates a string into the current language.</td>
+      <td>
+
+```python
+from django.utils.translation import gettext as _
+
+translated_string = _("Hello, world!")
+```
+</td>
+    </tr>
+    <tr>
+      <td><code>gettext_lazy</code></td>
+      <td>Lazily translates a string, useful for module-level variables.</td>
+      <td>
+
+```python
+from django.utils.translation import gettext_lazy as _
+
+translated_string = _("Hello, world!")
+```
+</td>
+    </tr>
+    <tr>
+      <td><code>ngettext</code></td>
+      <td>Translates a string with pluralization.</td>
+      <td>
+
+```python
+from django.utils.translation import ngettext
+
+translated_string = ngettext("%d apple", "%d apples", apple_count) % apple_count
+```
+</td>
+    </tr>
+    <tr>
+      <td><code>ngettext_lazy</code></td>
+      <td>Lazily translates a string with pluralization.</td>
+      <td>
+
+```python
+from django.utils.translation import ngettext_lazy
+
+translated_string = ngettext_lazy("%d apple", "%d apples")
+```
+
+</td>
+    </tr>
+    <tr>
+      <td><code>pgettext</code></td>
+      <td>Translates a string with context to avoid ambiguity.</td>
+      <td>
+
+```python
+from django.utils.translation import pgettext
+
+translated_string = pgettext("greeting", "Hello")
+```
+</td>
+    </tr>
+    <tr>
+      <td><code>pgettext_lazy</code></td>
+      <td>Lazily translates a string with context.</td>
+      <td>
+
+```python
+from django.utils.translation import pgettext_lazy
+
+translated_string = pgettext_lazy("greeting", "Hello")
+```
+</td>
+    </tr>
+    <tr>
+      <td><code>npgettext</code></td>
+      <td>Translates a string with context and pluralization.</td>
+      <td>
+
+```python
+from django.utils.translation import npgettext
+
+translated_string = npgettext("fruit", "%d apple", "%d apples", apple_count) % apple_count
+```
+</td>
+    </tr>
+    <tr>
+      <td><code>npgettext_lazy</code></td>
+      <td>Lazily translates a string with context and pluralization.</td>
+      <td>
+
+```python
+from django.utils.translation import npgettext_lazy
+
+translated_string = npgettext_lazy("fruit", "%d apple", "%d apples")
+```
+</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Testing
+
+- [Django - Testing](https://docs.djangoproject.com/en/4.2/topics/testing/)
+- [Django - TestCase](https://docs.djangoproject.com/en/4.2/topics/testing/tools/#django.test.TestCase)
+- [Django - Client](https://docs.djangoproject.com/en/4.2/topics/testing/tools/#django.test.Client)
+
+```bash
+# Run tests
+py manage.py test
+```
+
+```bash
+# Run tests with coverage
+coverage run manage.py test
+```
+
+```bash
+# Generate coverage report
+coverage report
+```
+
+```bash
+# Generate coverage HTML report
+coverage html
+```

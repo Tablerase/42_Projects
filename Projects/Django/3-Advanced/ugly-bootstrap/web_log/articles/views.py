@@ -1,4 +1,3 @@
-from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, RedirectView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -75,7 +74,9 @@ class DetailsPage(DetailView):
         return context
 
 
-class PublishView(CreateView):
+class PublishView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+
     model = Article
     template_name = 'publish.html'
     success_url = reverse_lazy('home')
@@ -86,7 +87,9 @@ class PublishView(CreateView):
         return super().form_valid(form)
 
 
-class AddFavoriteView(CreateView):
+class AddFavoriteView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+
     model = UserFavoriteArticle
     form_class = UserFavoriteArticleForm
     template_name = 'add_to_favorites.html'

@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load static %}
+
+<div class="language-switcher">
+  <form action="{% url 'set_language' %}" method="post" class="form-inline" id="language-form">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ redirect_to }}" />
+    <div class="form-group">
+      <!-- <label for="language" class="sr-only">{% trans "Language" %}</label> -->
+      <select name="language" id="language" class="form-control" onchange="document.getElementById('language-form').submit();">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% for lang in LANGUAGES %}
+          <option value="{{ lang.0 }}"{% if lang.0 == LANGUAGE_CODE %} selected{% endif %}>
+            {{ lang.1 }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <noscript>
+      <button type="submit" class="btn btn-primary ml-2">{% trans "Switch language" %}</button>
+    </noscript>
+  </form>
+</div>

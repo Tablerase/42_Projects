@@ -26,14 +26,16 @@ show_help() {
   echo -e "${CYAN}Usage:${RESET}"
   echo -e "${GREEN}  source ./my_script.sh <launch|env|django|help>${RESET}"
   echo -e "${CYAN}Commands:${RESET}"
-  echo -e "${YELLOW}  launch${RESET}   : Setup Python env and Run Django project"
-  echo -e "${YELLOW}  env${RESET}      : Setup Python environment (install virtualenv, dependencies)"
-  echo -e "${YELLOW}  django${RESET}   : Run the Django project (migrate, collectstatic, runserver)"
-  echo -e "${YELLOW}  fixtures${RESET} : Load the initial data into the database"
-  echo -e "${YELLOW}  clean${RESET}    : Remove every data, env"
-  echo -e "${YELLOW}  db_shell${RESET} : Access the database shell"
-  echo -e "${YELLOW}  superuser${RESET}: Create a superuser"
-  echo -e "${YELLOW}  help${RESET}     : Display this help message"
+  echo -e "${YELLOW}  launch${RESET}       : Setup Python env and Run Django project"
+  echo -e "${YELLOW}  env${RESET}          : Setup Python environment (install virtualenv, dependencies)"
+  echo -e "${YELLOW}  django${RESET}       : Run the Django project (migrate, collectstatic, runserver)"
+  echo -e "${YELLOW}  fixtures${RESET}     : Load the initial data into the database"
+  echo -e "${YELLOW}  transmake${RESET}    : Update the translations files of the project"
+  echo -e "${YELLOW}  transcompile${RESET} : Compile the translations files of the project"
+  echo -e "${YELLOW}  clean${RESET}        : Remove every data, env"
+  echo -e "${YELLOW}  db_shell${RESET}     : Access the database shell"
+  echo -e "${YELLOW}  superuser${RESET}    : Create a superuser"
+  echo -e "${YELLOW}  help${RESET}         : Display this help message"
 }
 
 # Function to setup Python environment
@@ -128,6 +130,18 @@ superuser() {
     python3 manage.py createsuperuser
 }
 
+# Function to update the translations files of the project
+transmake() {
+    echo -e "=============={🌐 ${CYAN}Updating Translations${RESET} 🌐}=============="
+    django-admin makemessages -a
+}
+
+# Function to compile the translations files of the project
+transcompile() {
+    echo -e "=============={🌐 ${CYAN}Compiling Translations${RESET} 🌐}=============="
+    django-admin compilemessages
+}
+
 # Handle script arguments
 case "$1" in
   launch)
@@ -142,6 +156,12 @@ case "$1" in
     ;;
   fixtures)
     load_fixtures
+    ;;
+  transmake)
+    transmake
+    ;;
+  transcompile)
+    transcompile
     ;;
   superuser)
     superuser

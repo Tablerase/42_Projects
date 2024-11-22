@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from django.utils.translation import pgettext_lazy as _pl
 import os
 from pathlib import Path
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Add for internationalization
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'web_log.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'base/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,13 +108,25 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+# Restrict translation to languages in the list
+LANGUAGES = [
+    ('en', _pl("Language", "English")),
+    ('fr', _pl("Language", "French"))
+]
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
+LOCAL_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -122,7 +136,7 @@ STATIC_URL = 'static/'
 # Extra static outside of app static dir
 STATICFILES_DIRS = [
     # (prefix, paht)
-    ('base', BASE_DIR / 'static_base'),
+    ('base', BASE_DIR / 'base/static'),
     # add more static directories here
 ]
 

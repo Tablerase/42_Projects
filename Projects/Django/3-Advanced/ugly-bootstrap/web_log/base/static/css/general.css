@@ -1,0 +1,55 @@
+@import url('/static/base/css/colors.css');
+
+/* =========================== General ============================== */
+
+h1 {
+  font-size:30px;
+  text-align:center;
+  line-height:1.5em;
+  padding-bottom:45px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform:uppercase;
+  letter-spacing: 2px;
+  color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* =========================== Navigation ============================== */
+
+.nav-item.active {
+  background-color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+  color: white;
+}
+
+/* =========================== Language ============================== */
+
+.language-switcher {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
+
+/* =========================== Post ============================== */
+
+article.post {
+  display: grid;
+  grid-template-columns: minmax(1.2rem, 1fr) minmax(auto, 57ch) minmax(1.2rem, 1fr);
+}
+
+/* position text paragraphs and all headings into the second (middle) column */
+article.post h1,
+article.post h2,
+article.post h3,
+article.post h4,
+article.post h5,
+article.post h6 {
+  grid-column: 2;
+  text-align: center;
+}
+article.post p {
+  grid-column: 2;
+  color: #4c4f69;
+}

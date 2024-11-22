@@ -44,7 +44,7 @@ class RegisterFormAccess(TestCase):
             'password1': 'newpassword',
             'password2': 'newpassword'
         })
-        print(response.content)
+
         # Verify newuser was not created
         self.assertFalse(User.objects.filter(username='newuser').exists())
         self.assertEqual(response.status_code, 200)

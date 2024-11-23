@@ -1,25 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timesince, timezone
-from django.utils.translation import pgettext_lazy as _pl
+from django.utils.translation import pgettext_lazy
 
 
 class Article(models.Model):
     title = models.CharField(
-        verbose_name=_pl("label Article title", "title"),
+        verbose_name=pgettext_lazy("label Article title", "title"),
         max_length=64)
     author = models.ForeignKey(
         User,
-        verbose_name=_pl("label Article author", "author"),
+        verbose_name=pgettext_lazy("label Article author", "author"),
         on_delete=models.CASCADE)
     created = models.DateTimeField(
-        verbose_name=_pl("label Article creation date", "created"),
+        verbose_name=pgettext_lazy("label Article creation date", "created"),
         auto_now_add=True)
     synopsis = models.CharField(
-        verbose_name=_pl("label Article synopsis", "synopsis"),
+        verbose_name=pgettext_lazy("label Article synopsis", "synopsis"),
         max_length=312)
     content = models.TextField(
-        verbose_name=_pl("label Article content", "content"),
+        verbose_name=pgettext_lazy("label Article content", "content"),
     )
 
     @property

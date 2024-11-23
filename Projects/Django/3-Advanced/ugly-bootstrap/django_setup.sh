@@ -32,6 +32,7 @@ show_help() {
   echo -e "${YELLOW}  fixtures${RESET}     : Load the initial data into the database"
   echo -e "${YELLOW}  transmake${RESET}    : Update the translations files of the project"
   echo -e "${YELLOW}  transcompile${RESET} : Compile the translations files of the project"
+  echo -e "${YELLOW}  test${RESET}         : Run the tests"
   echo -e "${YELLOW}  clean${RESET}        : Remove every data, env"
   echo -e "${YELLOW}  db_shell${RESET}     : Access the database shell"
   echo -e "${YELLOW}  superuser${RESET}    : Create a superuser"
@@ -57,10 +58,10 @@ run_django() {
   cd $project_name
   python3 manage.py makemigrations
   python3 manage.py migrate
-  python3 manage.py collectstatic --no-input
+  python3 manage.py collectstatic --no-input 
   python3 manage.py runserver
 }
-
+  python3 manage.py loaddata users.json
 # Function to setup Docker containers
 run_docker(){
     echo -e "=============={🐳 ${CYAN}Containers Launch${RESET} 🐳}=============="
@@ -131,15 +132,24 @@ superuser() {
 }
 
 # Function to update the translations files of the project
-transmake() {
+run_translation_make() {
     echo -e "=============={🌐 ${CYAN}Updating Translations${RESET} 🌐}=============="
-    django-admin makemessages -a
+    cd $project_name
+    python3 manage.py makemessages -a
 }
 
 # Function to compile the translations files of the project
-transcompile() {
+run_translation_compile() {
     echo -e "=============={🌐 ${CYAN}Compiling Translations${RESET} 🌐}=============="
-    django-admin compilemessages
+    cd $project_name
+    python3 manage.py compilemessages
+}
+
+# Function to run the tests
+run_tests() {
+    echo -e "=============={🧪 ${CYAN}Running Tests${RESET} 🧪}=============="
+    cd $project_name
+    python3 manage.py test
 }
 
 # Handle script arguments
@@ -158,10 +168,13 @@ case "$1" in
     load_fixtures
     ;;
   transmake)
-    transmake
+    run_translation_make
     ;;
   transcompile)
-    transcompile
+    run_translation_compile
+    ;;
+  test)
+    run_tests
     ;;
   superuser)
     superuser

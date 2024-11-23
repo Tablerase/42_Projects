@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% load django_bootstrap5 %}
 {% load custom_filters %}
 
 {% block title %}Articles{% endblock title %}
 {% block content %}
 <h1>Articles</h1>
+
+{% translate "Hello" %}
 
 {% if articles %}
 <div class="table-responsive">

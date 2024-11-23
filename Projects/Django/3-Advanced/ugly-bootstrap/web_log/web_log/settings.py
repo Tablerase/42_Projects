@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from django.utils.translation import pgettext_lazy as _pl
+from django.utils.translation import pgettext_lazy
 import os
 from pathlib import Path
 
@@ -112,8 +112,8 @@ LANGUAGE_CODE = 'en'
 
 # Restrict translation to languages in the list
 LANGUAGES = [
-    ('en', _pl("Language", "English")),
-    ('fr', _pl("Language", "French"))
+    ('en', "English"),
+    ('fr', "French")
 ]
 
 TIME_ZONE = 'UTC'

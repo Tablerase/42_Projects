@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-23 01:48+0000\n"
+"POT-Creation-Date: 2024-11-23 12:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,9 +43,10 @@ msgctxt "label Article content"
 msgid "content"
 msgstr "contenu"
 
-#: articles/templates/articles.html:11
-msgid "Hello"
-msgstr "Coucou"
+#. Translators: table header for since column
+#: articles/templates/articles.html:22
+msgid "since"
+msgstr "depuis"
 
 #. Translators: Label of last articles page
 #: base/templates/navbar.html:17

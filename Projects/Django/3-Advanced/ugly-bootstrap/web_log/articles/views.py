@@ -16,7 +16,8 @@ class ArticlesView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['fields'] = [field.name for field in Article._meta.fields]
+        context['fields'] = [(field.name, field.verbose_name)
+                             for field in Article._meta.fields]
         return context
 
 

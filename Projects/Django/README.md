@@ -476,6 +476,8 @@ py manage.py loaddata articles_fixture.json
   - [Django - Template Translation](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#internationalization-in-template-code)
   - [Django - JavaScript Translation](https://docs.djangoproject.com/en/4.2/topics/i18n/translation/#internationalization-in-javascript-code)
 
+- 🦮 [Guide - Django Translation](https://lokalise.com/blog/django-i18n-beginners-guide/)
+
 ```bash
 # Create a new language file
 py manage.py makemessages -l fr

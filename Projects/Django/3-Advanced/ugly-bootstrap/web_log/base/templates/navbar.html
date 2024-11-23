@@ -36,7 +36,7 @@
         {% if user.is_authenticated %}
         <li class="nav-item">
           {# Translators: Status indicating logged user name #}
-          <a class="nav-link">{% translate "Logged as"%} {{ user.username }}</a>
+          <a class="nav-link">{% translate "Logged as"%} <strong>{{ user.username }}</strong></a>
         </li>
         <li class="nav-item">
           {# Translators: Label for loggout link #}

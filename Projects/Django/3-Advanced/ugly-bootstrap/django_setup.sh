@@ -135,14 +135,14 @@ superuser() {
 run_translation_make() {
     echo -e "=============={🌐 ${CYAN}Updating Translations${RESET} 🌐}=============="
     cd $project_name
-    python3 manage.py makemessages -a
+    ./manage.py makemessages -a
 }
 
 # Function to compile the translations files of the project
 run_translation_compile() {
     echo -e "=============={🌐 ${CYAN}Compiling Translations${RESET} 🌐}=============="
     cd $project_name
-    python3 manage.py compilemessages
+    ./manage.py compilemessages
 }
 
 # Function to run the tests

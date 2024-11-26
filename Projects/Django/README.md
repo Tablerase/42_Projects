@@ -636,3 +636,6 @@ coverage report
 # Generate coverage HTML report
 coverage html
 ```
+
+### [Module 03 - Final](https://projects.intra.42.fr/projects/django-3-final)
+

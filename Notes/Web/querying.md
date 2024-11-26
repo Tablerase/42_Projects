@@ -24,7 +24,7 @@ In web development, querying is often done using AJAX. AJAX is a set of web deve
 
 Other ways to query data in web development include using a database query language like SQL or using a web development framework like Django or Ruby on Rails.
 
-### AJAX
+### [AJAX](https://www.ibm.com/docs/en/rational-soft-arch/9.7.0?topic=page-asynchronous-javascript-xml-ajax-overview)
 
 AJAX stands for Asynchronous JavaScript and XML. It is a set of web development techniques that allows web pages to be updated asynchronously by exchanging data with a web server behind the scenes. This means that it is possible to update parts of a web page without reloading the entire page.
 

@@ -12,7 +12,7 @@ CYAN='\033[0;36m'
 RESET='\033[0m'
 
 venv_path=".venv"
-project_name="web_log"
+project_name="d09"
 database_folder="$project_name/db.sqlite3"
 fixtures_path="fixtures/"
 declare -a fixtures=(

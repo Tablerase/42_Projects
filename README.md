@@ -26,7 +26,7 @@ Notes and projects during my time at 42.
 #### Rank 5
 * [Inception](./Projects/Inception)
 * [CPP Modules [5-9]](./Projects/CPP_Modules)
-* [WebServ](https://github.com/Tablerase/42_WebServ/tree/main)
+* [WebServ](./Projects/WebServ)
 
 #### Rank 4
 

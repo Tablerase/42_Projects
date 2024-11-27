@@ -639,3 +639,8 @@ coverage html
 
 ### [Module 03 - Final](https://projects.intra.42.fr/projects/django-3-final)
 
+#### Ajax
+
+- [AJAX avec Django](https://www.docstring.fr/blog/les-requetes-ajax-avec-django/)
+  - [AJAX / Jquery with Django](https://testdriven.io/blog/django-ajax-xhr/#jquery-ajax_1)
+- [Django - CSRF with AJAX](https://docs.djangoproject.com/en/4.2/howto/csrf/#using-csrf-protection-with-ajax)

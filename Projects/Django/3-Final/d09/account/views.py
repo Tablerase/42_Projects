@@ -1,19 +1,9 @@
+from django.shortcuts import render
+from django.contrib.auth import login, logout
 from django.http import JsonResponse
-from django.views.generic import FormView, TemplateView
-from django.contrib.auth.views import LoginView as DjangoLoginView
-from django.contrib.auth.views import LogoutView as DjangoLogoutView
-from django.contrib.auth import login
+from django.views.generic import View
 from django.contrib.auth.forms import AuthenticationForm
-
-
-class AccountView(TemplateView):
-    template_name = 'account.html'
-    content_type = 'text/html'
-
-    form = AuthenticationForm
-    extra_context = {
-        'form': form,
-    }
+from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
 
 
 class LoginView(DjangoLoginView):
@@ -22,17 +12,25 @@ class LoginView(DjangoLoginView):
     def form_valid(self, form):
         user = form.get_user()
         login(self.request, user)
-        if self.request.is_ajax():
-            return JsonResponse({
-                'message': 'Login successful!'
-            })
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'message': 'Login successful!'})
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'message': 'Login failed. Please try again.'}, status=400)
         return super().form_invalid(form)
 
 
 class LogoutView(DjangoLogoutView):
-    next_page = '/'
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'message': 'Logout successful!'})
+        return super().post(request, *args, **kwargs)
+
+
+class AccountView(View):
+    def get(self, request):
+        form = AuthenticationForm()
+        return render(request, 'account.html', {'form': form})

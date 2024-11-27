@@ -1,50 +1,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<form id="login-form" method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+{% load static %}
 
-<button id="logout-button" style="display:none;">Logout</button>
 
-<div id="message"></div>
 
-<script>
-$(document).ready(function() {
-$('#login-form').on('submit', function(event) {
-  event.preventDefault();
-  $.ajax({
-    url: $(this).attr('action'),
-    type: 'POST',
-    data: $(this).serialize(),
-    success: function(response) {
-        $('#message').html('<p>Login successful!</p>');
-        $('#login-form').hide();
-        $('#logout-button').show();
-    },
-    error: function(response) {
-        $('#message').html('<p>Login failed. Please try again.</p>');
-    }
-  });
-});
 
-$('#logout-button').on('click', function() {
-  $.ajax({
-      url: '{% url "logout" %}',
-      type: 'POST',
-      data: {
-          'csrfmiddlewaretoken': '{{ csrf_token }}'
-      },
-      success: function(response) {
-          $('#message').html('<p>Logout successful!</p>');
-          $('#login-form').show();
-          $('#logout-button').hide();
-      },
-      error: function(response) {
-          $('#message').html('<p>Logout failed. Please try again.</p>');
-      }
-    });
-  });
-});
-</script>
+
+
+
+<script src="{% static 'js/authentication.js' %}"></script>

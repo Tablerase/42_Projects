@@ -1,11 +1,79 @@
+{% load static %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-{% load static %}
 
 
+<div id="login-form">
+  <h2>Login</h2>
+  <form id="loginForm">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+  </form>
+</div>
+<div id="logout-form" style="display:none;">
+  <h2>Logout</h2>
+  <button id="logoutButton">Logout</button>
+</div>
 
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
 
+$.ajaxSetup({
+  beforeSend: function(xhr, settings){
+    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain){
+      xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+  }
+});
 
+$(document).ready(function() {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "login" %}',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.success) {
+                    $('#login-form').hide();
+                    $('#logout-form').show();
+                } else {
+                    alert('Login failed: ' + JSON.stringify(response.errors));
+                }
+            }
+        });
+    });
 
-
-<script src="{% static 'js/authentication.js' %}"></script>
+    $('#logoutButton').on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "logout" %}',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.success) {
+                    $('#logout-form').hide();
+                    $('#login-form').show();
+                } else {
+                    alert('Logout failed: ' + JSON.stringify(response.errors));
+                }
+            }
+        });
+    });
+});
+</script>

@@ -8,17 +8,19 @@ from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView a
 
 class LoginView(DjangoLoginView):
     authentication_form = AuthenticationForm
+    template_name = 'login.html'
 
     def form_valid(self, form):
         user = form.get_user()
         login(self.request, user)
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'message': 'Login successful!'})
+            return JsonResponse({'success': True, 'message': 'Login successful!'})
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        print(form.errors)
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'message': 'Login failed. Please try again.'}, status=400)
+            return JsonResponse({'success': False, 'message': form.errors.as_text()}, status=400)
         return super().form_invalid(form)
 
 
@@ -26,7 +28,7 @@ class LogoutView(DjangoLogoutView):
     def post(self, request, *args, **kwargs):
         logout(request)
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'message': 'Logout successful!'})
+            return JsonResponse({'success': True, 'message': 'Logout successful!'})
         return super().post(request, *args, **kwargs)
 
 

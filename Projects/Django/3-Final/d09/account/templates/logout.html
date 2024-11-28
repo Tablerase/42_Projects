@@ -1,0 +1,5 @@
+<form method="POST" id="logout-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input id="ajax-logout" type="submit" value="Logout">
+</form>

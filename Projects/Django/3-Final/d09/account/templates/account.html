@@ -1,79 +1,133 @@
 {% load static %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
-<div id="login-form">
+<div id="loginForm">
   <h2>Login</h2>
-  <form id="loginForm">
-      <input type="text" name="username" placeholder="Username" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-  </form>
 </div>
-<div id="logout-form" style="display:none;">
+<div id="logoutForm" style="display: none">
   <h2>Logout</h2>
-  <button id="logoutButton">Logout</button>
+  <button id="logout-button">Logout</button>
 </div>
 
 <script>
-function getCookie(name) {
+  function getCookie(name) {
     let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
         }
+      }
     }
     return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-
-$.ajaxSetup({
-  beforeSend: function(xhr, settings){
-    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain){
-      xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    }
   }
-});
+  const cookie_csrftoken = getCookie("csrftoken");
 
-$(document).ready(function() {
-    $('#loginForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "login" %}',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    $('#login-form').hide();
-                    $('#logout-form').show();
-                } else {
-                    alert('Login failed: ' + JSON.stringify(response.errors));
-                }
-            }
-        });
+  // Get Handling for csrf form recovery
+
+  function fetchLogoutFormHtml() {
+    $.ajax({
+      type: "GET",
+      url: '{% url "logout" %}',
+      success: function (response) {
+        $("#logoutForm").html(`
+          <h2>Logout</h2>
+          <button id="logout-button">Logout</button>
+          <input type="hidden" name="csrfmiddlewaretoken" value="${response.csrf_token}">
+        `);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching form HTML:", error);
+      },
+    });
+  }
+
+  function fetchLoginFormHtml() {
+    $.ajax({
+      type: "GET",
+      url: '{% url "login" %}',
+      success: function (response) {
+        $("#loginForm").html(response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching form HTML:", error);
+      },
+    });
+  }
+
+  function updateLoginStatus() {
+    $.ajax({
+      type: "GET",
+      url: '{% url "login_status" %}',
+      success: function (response) {
+        if (response.is_logged_in) {
+          console.log("user logged in");
+          $("#loginForm").hide();
+          fetchLogoutFormHtml();
+          $("#logoutForm").show();
+        } else {
+          console.log("user not logged");
+          $("#logoutForm").hide();
+          fetchLoginFormHtml();
+          $("#loginForm").show();
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error checking login status:", error);
+      },
+    });
+  }
+
+  // Post Handling for forms
+
+  $(document).ready(function () {
+    // check login status
+    updateLoginStatus();
+
+    $(document).on("submit", "#login-form", function (e) {
+      e.preventDefault();
+      const csrfToken = $('input[name="csrfmiddlewaretoken"]').val(); // Get CSRF token from hidden input
+      $.ajax({
+        type: "POST",
+        url: '{% url "login" %}',
+        data: $(this).serialize(),
+        headers: {
+          "X-Csrftoken": csrfToken,
+        },
+        success: function (response) {
+          if (response.success) {
+            $("#loginForm").hide();
+            $("#logoutForm").show();
+          } else {
+            alert("Login failed: " + JSON.stringify(response.errors));
+          }
+        },
+      });
+      updateLoginStatus();
     });
 
-    $('#logoutButton').on('click', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "logout" %}',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    $('#logout-form').hide();
-                    $('#login-form').show();
-                } else {
-                    alert('Logout failed: ' + JSON.stringify(response.errors));
-                }
-            }
-        });
+    $(document).on("click", "#logout-button", function (e) {
+      e.preventDefault();
+      const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+      $.ajax({
+        type: "POST",
+        url: '{% url "logout" %}',
+        headers: {
+          "X-Csrftoken": csrfToken,
+        },
+        success: function (response) {
+          if (response.success) {
+            $("#logoutForm").hide();
+            $("#loginForm").show();
+          } else {
+            alert("Logout failed: " + JSON.stringify(response.errors));
+          }
+        },
+      });
+      updateLoginStatus();
     });
-});
+  });
 </script>

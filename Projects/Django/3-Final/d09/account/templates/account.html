@@ -1,13 +1,13 @@
 {% load static %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<div id="loginForm">
-  <h2>Login</h2>
-</div>
-<div id="logoutForm" style="display: none">
-  <h2>Logout</h2>
-  <button id="logout-button">Logout</button>
-</div>
+{%if user.is_authenticated %}
+<div id="loginForm" style="display: none"></div>
+<div id="logoutForm"></div>
+{% else %}
+<div id="loginForm"></div>
+<div id="logoutForm" style="display: none"></div>
+{% endif %}
 
 <script>
   function getCookie(name) {
@@ -24,86 +24,94 @@
     }
     return cookieValue;
   }
-  const cookie_csrftoken = getCookie("csrftoken");
-
-  // Get Handling for csrf form recovery
-
-  function fetchLogoutFormHtml() {
-    $.ajax({
-      type: "GET",
-      url: '{% url "logout" %}',
-      success: function (response) {
-        $("#logoutForm").html(`
-          <h2>Logout</h2>
-          <button id="logout-button">Logout</button>
-          <input type="hidden" name="csrfmiddlewaretoken" value="${response.csrf_token}">
-        `);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error fetching form HTML:", error);
-      },
-    });
-  }
-
-  function fetchLoginFormHtml() {
-    $.ajax({
-      type: "GET",
-      url: '{% url "login" %}',
-      success: function (response) {
-        $("#loginForm").html(response);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error fetching form HTML:", error);
-      },
-    });
-  }
-
-  function updateLoginStatus() {
-    $.ajax({
-      type: "GET",
-      url: '{% url "login_status" %}',
-      success: function (response) {
-        if (response.is_logged_in) {
-          console.log("user logged in");
-          $("#loginForm").hide();
-          fetchLogoutFormHtml();
-          $("#logoutForm").show();
-        } else {
-          console.log("user not logged");
-          $("#logoutForm").hide();
-          fetchLoginFormHtml();
-          $("#loginForm").show();
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("Error checking login status:", error);
-      },
-    });
-  }
-
-  // Post Handling for forms
 
   $(document).ready(function () {
+    /**
+     * Setup CSRF token before request
+     * sometimes fails due to security featured protecting forms: update of session csrf token taking too long
+     * */
+    $.ajaxSetup({
+      beforeSend: function (xhr, settings) {
+        if (
+          !(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))
+        ) {
+          // Only send the token to relative URLs i.e. locally.
+          xhr.setRequestHeader("X-Csrftoken", getCookie("csrftoken"));
+        }
+      },
+    });
+
+    function fetchLogoutFormHtml() {
+      $.ajax({
+        type: "GET",
+        url: '{% url "logout" %}',
+        success: function (response) {
+          $("#logoutForm").html(`
+            <h2>Logged as ${response.username}</h2>
+          <button id="logout-button">Logout</button>
+        `);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching form HTML:", error);
+        },
+      });
+    }
+
+    function fetchLoginFormHtml() {
+      $.ajax({
+        type: "GET",
+        url: '{% url "login" %}',
+        success: function (response) {
+          $("#loginForm").html(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching form HTML:", error);
+        },
+      });
+    }
+
+    function updateLoginStatus() {
+      $.ajax({
+        type: "GET",
+        url: '{% url "login_status" %}',
+        success: function (response) {
+          if (response.is_logged_in) {
+            console.log("user logged in");
+            $("#loginForm").hide();
+            fetchLogoutFormHtml();
+            $("#logoutForm").show();
+          } else {
+            console.log("user not logged");
+            $("#logoutForm").hide();
+            fetchLoginFormHtml();
+            $("#loginForm").show();
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error checking login status:", error);
+        },
+      });
+    }
     // check login status
     updateLoginStatus();
 
     $(document).on("submit", "#login-form", function (e) {
       e.preventDefault();
-      const csrfToken = $('input[name="csrfmiddlewaretoken"]').val(); // Get CSRF token from hidden input
       $.ajax({
         type: "POST",
         url: '{% url "login" %}',
         data: $(this).serialize(),
-        headers: {
-          "X-Csrftoken": csrfToken,
-        },
         success: function (response) {
           if (response.success) {
             $("#loginForm").hide();
             $("#logoutForm").show();
           } else {
-            alert("Login failed: " + JSON.stringify(response.errors));
+            alert("Login failed: " + response.message.__all__);
           }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error during login:", error);
+          alert("Login failed: " + error);
         },
       });
       updateLoginStatus();
@@ -111,13 +119,9 @@
 
     $(document).on("click", "#logout-button", function (e) {
       e.preventDefault();
-      const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
       $.ajax({
         type: "POST",
         url: '{% url "logout" %}',
-        headers: {
-          "X-Csrftoken": csrfToken,
-        },
         success: function (response) {
           if (response.success) {
             $("#logoutForm").hide();
@@ -125,6 +129,10 @@
           } else {
             alert("Logout failed: " + JSON.stringify(response.errors));
           }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error during logout:", error);
+          alert("Logout failed: " + error);
         },
       });
       updateLoginStatus();

@@ -233,4 +233,4 @@ Let's look at some common sorting algorithms and their complexities:
   - Time Complexity: Best - $O(n log(n))$, Average - $O(n log(n))$, Worst - $O(n log(n))$
   - Space Complexity: $O(1)$
 
-![Complexity](https://victoria.dev/blog/a-coffee-break-introduction-to-time-complexity-of-algorithms/graph.png)
+![Complexity](https://victoria.dev/posts/a-coffee-break-introduction-to-time-complexity-of-algorithms/graph.png)

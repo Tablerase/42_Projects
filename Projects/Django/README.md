@@ -641,6 +641,70 @@ coverage html
 
 #### Ajax
 
+Ajax is a technique for creating fast and dynamic web pages. It allows web pages to be updated asynchronously by exchanging small amounts of data with the server behind the scenes.
+
 - [AJAX avec Django](https://www.docstring.fr/blog/les-requetes-ajax-avec-django/)
   - [AJAX / Jquery with Django](https://testdriven.io/blog/django-ajax-xhr/#jquery-ajax_1)
 - [Django - CSRF with AJAX](https://docs.djangoproject.com/en/4.2/howto/csrf/#using-csrf-protection-with-ajax)
+
+#### Websockets
+
+WebSockets is a communication protocol that provides full-duplex communication channels over a single TCP connection.
+
+<details>
+<summary>📝 Websocket Protocol</summary>
+
+```mermaid
+---
+title: "Websocket Protocol"
+config:
+  look: default
+  fontFamily: sans-sherif
+  theme: base
+---
+sequenceDiagram
+    participant User
+    participant Server
+    
+    critical Etablish a websocket connection
+      User->>Server: Etablish connection request
+      Note right of User: Upgrade Request (ws://) or (wss://)
+      Server->>User: Connection established
+      Note left of Server: Upgrade to Websocket (101 Switching Protocols)
+    end
+
+    par Bidirectional communication
+      User->>Server: Send message
+      Server->>User: Message
+    end
+
+    User->>Server: Close connection request
+    Server->>User: Connection closed
+```
+
+</details>
+
+- [Django - channels](https://channels.readthedocs.io/en/stable/)
+- [Jquery with websockets](https://clouddevs.com/jquery/real-time-applications-with-websockets/)
+
+```mermaid
+---
+title: "Chatrooms"
+config:
+  look: default
+  fontFamily: sans-sherif
+  theme: base
+---
+sequenceDiagram
+    participant User
+    participant Server
+    participant Database
+    User->>Server: Connect to chatroom
+    Server->>Database: Fetch messages
+    Database-->>Server: Messages
+    Server-->>User: Messages
+    User->>Server: Send message
+    Server->>Database: Save message
+    Database-->>Server: Message saved
+    Server-->>User: Message saved
+```

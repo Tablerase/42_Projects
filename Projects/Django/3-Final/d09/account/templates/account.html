@@ -103,8 +103,7 @@
         data: $(this).serialize(),
         success: function (response) {
           if (response.success) {
-            $("#loginForm").hide();
-            $("#logoutForm").show();
+            updateLoginStatus();
           } else {
             alert("Login failed: " + response.message.__all__);
           }
@@ -114,7 +113,6 @@
           alert("Login failed: " + error);
         },
       });
-      updateLoginStatus();
     });
 
     $(document).on("click", "#logout-button", function (e) {
@@ -124,8 +122,7 @@
         url: '{% url "logout" %}',
         success: function (response) {
           if (response.success) {
-            $("#logoutForm").hide();
-            $("#loginForm").show();
+            updateLoginStatus();
           } else {
             alert("Logout failed: " + JSON.stringify(response.errors));
           }
@@ -135,7 +132,6 @@
           alert("Logout failed: " + error);
         },
       });
-      updateLoginStatus();
     });
   });
 </script>

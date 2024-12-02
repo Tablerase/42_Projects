@@ -687,6 +687,9 @@ sequenceDiagram
 - [Django - channels](https://channels.readthedocs.io/en/stable/)
 - [Jquery with websockets](https://clouddevs.com/jquery/real-time-applications-with-websockets/)
 
+<details>
+<summary>📝 Chatrooms Sequence Diagram</summary>
+
 ```mermaid
 ---
 title: "Chatrooms"
@@ -708,3 +711,5 @@ sequenceDiagram
     Database-->>Server: Message saved
     Server-->>User: Message saved
 ```
+
+</details>

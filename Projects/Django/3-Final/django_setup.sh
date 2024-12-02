@@ -14,12 +14,6 @@ RESET='\033[0m'
 venv_path=".venv"
 project_name="d09"
 database_folder="$project_name/db.sqlite3"
-fixtures_path="fixtures/"
-declare -a fixtures=(
-    "$fixtures_path/users.json"
-    "$fixtures_path/articles.json"
-    "$fixtures_path/favorites.json"
-)
 
 # Function to display help message
 show_help() {
@@ -29,10 +23,8 @@ show_help() {
   echo -e "${YELLOW}  launch${RESET}       : Setup Python env and Run Django project"
   echo -e "${YELLOW}  env${RESET}          : Setup Python environment (install virtualenv, dependencies)"
   echo -e "${YELLOW}  django${RESET}       : Run the Django project (migrate, collectstatic, runserver)"
-  echo -e "${YELLOW}  fixtures${RESET}     : Load the initial data into the database"
-  echo -e "${YELLOW}  transmake${RESET}    : Update the translations files of the project"
-  echo -e "${YELLOW}  transcompile${RESET} : Compile the translations files of the project"
-  echo -e "${YELLOW}  test${RESET}         : Run the tests"
+  echo -e "${YELLOW}  run_docker${RESET}   : Setup Docker containers"
+  echo -e "${YELLOW}  stop_docker${RESET}  : Stop Docker containers"
   echo -e "${YELLOW}  clean${RESET}        : Remove every data, env"
   echo -e "${YELLOW}  db_shell${RESET}     : Access the database shell"
   echo -e "${YELLOW}  superuser${RESET}    : Create a superuser"
@@ -65,12 +57,23 @@ run_django() {
 # Function to setup Docker containers
 run_docker(){
     echo -e "=============={🐳 ${CYAN}Containers Launch${RESET} 🐳}=============="
-    mkdir -p $database_folder
     docker compose up -d
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Docker containers launched successfully.${RESET}"
     else
         echo -e "${RED}Failed to launch Docker containers.${RESET}"
+        exit 1
+    fi
+}
+
+# Function to stop Docker containers
+stop_docker(){
+    echo -e "=============={🛑 ${CYAN}Containers Stop${RESET} 🛑}=============="
+    docker compose down
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Docker containers stopped successfully.${RESET}"
+    else
+        echo -e "${RED}Failed to stop Docker containers.${RESET}"
         exit 1
     fi
 }
@@ -104,19 +107,6 @@ cleanup() {
     fi
 }
 
-# Function to load the initial data into the database
-load_fixtures() {
-  echo -e "=============={📥 ${CYAN}Loading Data${RESET} 📥}=============="
-  cd $project_name
-  for fixture in "${fixtures[@]}"; do
-    if [ ! -f "$fixture" ]; then
-        echo -e "${RED}Fixture file not found: $fixture${RESET}"
-        exit 1
-    fi
-    python3 manage.py loaddata $fixture
-  done
-}
-
 # Function to access the database shell
 db_shell() {
     echo -e "=============={🐚 ${CYAN}Database Shell${RESET} 🐚}=============="
@@ -131,31 +121,11 @@ superuser() {
     python3 manage.py createsuperuser
 }
 
-# Function to update the translations files of the project
-run_translation_make() {
-    echo -e "=============={🌐 ${CYAN}Updating Translations${RESET} 🌐}=============="
-    cd $project_name
-    ./manage.py makemessages -a
-}
-
-# Function to compile the translations files of the project
-run_translation_compile() {
-    echo -e "=============={🌐 ${CYAN}Compiling Translations${RESET} 🌐}=============="
-    cd $project_name
-    ./manage.py compilemessages
-}
-
-# Function to run the tests
-run_tests() {
-    echo -e "=============={🧪 ${CYAN}Running Tests${RESET} 🧪}=============="
-    cd $project_name
-    python3 manage.py test
-}
-
 # Handle script arguments
 case "$1" in
   launch)
     setup_env
+    run_docker
     run_django
     ;;
   env)
@@ -164,19 +134,13 @@ case "$1" in
   django)
     run_django
     ;;
-  fixtures)
-    load_fixtures
+  run_docker)
+    run_docker
     ;;
-  transmake)
-    run_translation_make
+  stop_docker)
+    stop_docker
     ;;
-  transcompile)
-    run_translation_compile
-    ;;
-  test)
-    run_tests
-    ;;
-  superuser)
+ superuser)
     superuser
     ;;
   clean)

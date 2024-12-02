@@ -1,10 +1,10 @@
 # requirement.txt
 
 # Django
-## LTS version (not latest) - end in 2026
+## LTS version - ends in 2026
 django == 4.2.16
 django-bootstrap5 == 24.3
 
-# Database
-## PostgreSQL
-# psycopg == 3.2.3
+## Django Websockets and Async Server
+channels[daphne] == 4.2.0
+channels-redis == 4.2.0

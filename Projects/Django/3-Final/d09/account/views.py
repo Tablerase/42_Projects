@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import login, logout
+from django.urls import reverse
 from django.http import JsonResponse
 from django.views.generic import View
 from django.contrib.auth.forms import AuthenticationForm
@@ -16,7 +17,7 @@ class LoginView(DjangoLoginView):
     redirect_authenticated_user = False
     authentication_form = AuthenticationForm
     template_name = 'login.html'
-    success_url = '/account'
+    redirect_field_name = next
 
     def form_valid(self, form):
         user = form.get_user()
@@ -24,6 +25,11 @@ class LoginView(DjangoLoginView):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': True, 'message': 'Login successful!'})
         return super().form_valid(form)
+
+    def get_success_url(self):
+        # Overide redirection
+        next_url = self.request.GET.get(self.redirect_field_name)
+        return next_url or reverse('chat_index')
 
     def form_invalid(self, form):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':

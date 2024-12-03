@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container mt-5">
+  <h1 class="room-name">{{ room_name }}</h1>
   <div class="form-group">
     <textarea id="chat-log" class="form-control" rows="10" readonly></textarea>
   </div>
@@ -26,7 +27,25 @@
 
     chatSocket.onmessage = function (e) {
       const data = JSON.parse(e.data);
-      $("#chat-log").val($("#chat-log").val() + data.message + "\n");
+      // Setup chat at init connexion or refresh
+      if (data.init === true) {
+        $("#chat-log").val("");
+        if (data.messages.length === 0) {
+          $("#chat-log").val("No messages for now\n");
+        } else {
+          data.messages.forEach((msg) => {
+            $("#chat-log").val(
+              $("#chat-log").val() + msg.author + ": " + msg.message + "\n"
+            );
+          });
+        }
+      }
+      // Behaviour when receiving msg
+      else {
+        $("#chat-log").val(
+          $("#chat-log").val() + data.author + ": " + data.message + "\n"
+        );
+      }
     };
 
     chatSocket.onclose = function (e) {

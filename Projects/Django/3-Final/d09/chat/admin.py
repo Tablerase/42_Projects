@@ -1,3 +1,21 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Chatroom, Message
+
+
+class AdminChatRoom(admin.ModelAdmin):
+    list_display = ('name', 'last_messages')
+    list_filter = ('name', )
+
+    def last_messages(self, obj):
+        messages = Message.objects.filter(chat_room=obj).order_by('-timestamp')
+        return messages or "No message for now"
+    last_messages.short_description = 'Last messages'
+
+
+class AdminMessage(admin.ModelAdmin):
+    list_display = ('author', 'content', 'chat_room')
+
+
+admin.site.register(Chatroom, AdminChatRoom)
+admin.site.register(Message, AdminMessage)

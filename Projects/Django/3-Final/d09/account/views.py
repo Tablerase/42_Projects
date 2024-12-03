@@ -14,10 +14,8 @@ def login_status(request):
 
 
 class LoginView(DjangoLoginView):
-    redirect_authenticated_user = False
     authentication_form = AuthenticationForm
     template_name = 'login.html'
-    redirect_field_name = next
 
     def form_valid(self, form):
         user = form.get_user()
@@ -27,8 +25,9 @@ class LoginView(DjangoLoginView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        # Overide redirection
-        next_url = self.request.GET.get(self.redirect_field_name)
+        # Override redirection
+        next_url = self.request.POST.get(
+            self.redirect_field_name) or self.request.GET.get(self.redirect_field_name)
         return next_url or reverse('chat_index')
 
     def form_invalid(self, form):

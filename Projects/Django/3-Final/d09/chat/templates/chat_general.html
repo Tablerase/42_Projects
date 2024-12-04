@@ -28,8 +28,10 @@
     chatSocket.onmessage = function (e) {
       const data = JSON.parse(e.data);
       // Setup chat at init connexion or refresh
-      if (data.init === true) {
-        $("#chat-log").val("");
+      console.log(data.type);
+      console.log(data);
+      if (data.type === "init") {
+        $("#chat-log").val(""); // Clear div cache on refresh
         if (data.messages.length === 0) {
           $("#chat-log").val("No messages for now\n");
         } else {
@@ -40,8 +42,15 @@
           });
         }
       }
+      if (data.type === "user_status") {
+        if (data.status === "join") {
+          $("#chat-log").val(
+            $("#chat-log").val() + data.user + " has joined the chat" + "\n"
+          );
+        }
+      }
       // Behaviour when receiving msg
-      else {
+      if (data.type === "chat") {
         $("#chat-log").val(
           $("#chat-log").val() + data.author + ": " + data.message + "\n"
         );

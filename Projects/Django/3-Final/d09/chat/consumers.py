@@ -21,7 +21,7 @@ class ChatConsumer(WebsocketConsumer):
         messages = chatroom.last_messages()
         if messages is None:
             self.send(text_data=json.dumps({
-                "init": True,
+                "type": "init",
                 "messages": []
             }))
         else:
@@ -31,9 +31,17 @@ class ChatConsumer(WebsocketConsumer):
                 for msg in messages
             ]
             self.send(text_data=json.dumps({
-                "init": True,
+                "type": "init",
                 "messages": previous_messages
             }))
+            # Inform groud that a new user join
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name, {
+                    "type": "user.status",
+                    "status": "join",
+                    "user": self.scope['user'].username,
+                }
+            )
 
     def disconnect(self, code):
         async_to_sync(self.channel_layer.group_discard)(
@@ -69,7 +77,19 @@ class ChatConsumer(WebsocketConsumer):
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
+            "type": "chat",
             "message": message,
             "author": author,
             "timestamp": timestamp
+        }))
+
+    # Receive user status from room group
+    def user_status(self, event):
+        user = event["user"]
+        status = event["status"]
+
+        self.send(text_data=json.dumps({
+            "type": "user_status",
+            "user": user,
+            "status": status,
         }))

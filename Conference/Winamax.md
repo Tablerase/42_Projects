@@ -44,3 +44,6 @@ Front-End
 2500 € brut/mois
 Les stages débutent en Février
 Contacter sur LinkedIn les intervenants si intéressé
+
+# Conf 2 - High Payload
+

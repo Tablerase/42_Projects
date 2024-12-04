@@ -7,10 +7,13 @@ from .models import Chatroom, Message
 
 
 class ChatConsumer(WebsocketConsumer):
+    connected_users = {}
+
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
 
+        # Add user to channel
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
         )
@@ -34,16 +37,52 @@ class ChatConsumer(WebsocketConsumer):
                 "type": "init",
                 "messages": previous_messages
             }))
-            # Inform groud that a new user join
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name, {
-                    "type": "user.status",
-                    "status": "join",
-                    "user": self.scope['user'].username,
-                }
-            )
+
+        # Inform groud that a new user join
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, {
+                "type": "user.status",
+                "status": "join",
+                "user": self.scope['user'].username,
+            }
+        )
+
+        # Add user to the connected users list
+        if self.room_group_name not in self.connected_users:
+            self.connected_users[self.room_group_name] = set()
+        self.connected_users[self.room_group_name].add(
+            self.scope['user'].username)
+        # Send the list of connected users to the group
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, {
+                "type": "userlist",
+                "users": list(self.connected_users[self.room_group_name])
+            }
+        )
 
     def disconnect(self, code):
+        # Remove user from the connected users list
+        self.connected_users[self.room_group_name].remove(
+            self.scope['user'].username)
+
+        # Inform group that a user left
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, {
+                "type": "user.status",
+                "status": "left",
+                "user": self.scope['user'].username,
+            }
+        )
+
+        # Send the updated list of connected users to the group
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, {
+                "type": "userlist",
+                "users": list(self.connected_users[self.room_group_name])
+            }
+        )
+
+        # Remove user from channel
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name, self.channel_name
         )
@@ -92,4 +131,12 @@ class ChatConsumer(WebsocketConsumer):
             "type": "user_status",
             "user": user,
             "status": status,
+        }))
+
+    def userlist(self, event):
+        users = event["users"]
+
+        self.send(text_data=json.dumps({
+            "type": "userlist",
+            "users": users,
         }))

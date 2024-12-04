@@ -8,8 +8,11 @@ class AdminChatRoom(admin.ModelAdmin):
     list_filter = ('name', )
 
     def last_messages(self, obj):
-        messages = Message.objects.filter(chat_room=obj).order_by('-timestamp')
-        return messages or "No message for now"
+        messages = Message.objects.filter(
+            chat_room=obj).order_by('-timestamp')[:10]
+        if messages:
+            return ", ".join([f"{msg.author}: {msg.content}" for msg in messages])
+        return "No message for now"
     last_messages.short_description = 'Last messages'
 
 

@@ -11,7 +11,8 @@ class Chatroom(models.Model):
         return self.name
 
     def last_messages(self):
-        messages = Message.objects.filter(chat_room=self)
+        messages = Message.objects.filter(
+            chat_room=self).order_by('-timestamp')[:3]
         return messages
 
 

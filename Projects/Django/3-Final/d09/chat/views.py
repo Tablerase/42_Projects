@@ -15,3 +15,23 @@ class GeneralPage(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['room_name'] = 'general'
         return context
+
+
+class EvilPage(LoginRequiredMixin, TemplateView):
+    login_url = 'login'
+    template_name = 'chat_general.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['room_name'] = 'evil'
+        return context
+
+
+class GoodPage(LoginRequiredMixin, TemplateView):
+    login_url = 'login'
+    template_name = 'chat_general.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['room_name'] = 'good'
+        return context

@@ -3,14 +3,25 @@
 /* =========================== General ============================== */
 
 h1 {
-  font-size:30px;
-  text-align:center;
-  line-height:1.5em;
-  padding-bottom:45px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform:uppercase;
-  letter-spacing: 2px;
+  font-size: 36px;
+  text-align: center;
+  line-height: 1.5em;
+  padding-bottom: 30px;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
   color: light-dark(var(--light-primary-color), var(--dark-primary-color));
+  border-bottom: 2px solid light-dark(var(--light-primary-color), var(--dark-primary-color));
 }
 
+h2 {
+  font-size: 28px;
+  text-align: left;
+  line-height: 1.2em;
+  padding-bottom: 20px;
+  font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  color: light-dark(var(--light-secondary-color), var(--dark-secondary-color));
+}
 

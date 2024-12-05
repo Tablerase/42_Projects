@@ -88,6 +88,16 @@ python manage.py shell
 python manage.py loaddata mydata.json
 ```
 
+```bash
+# Reset the database
+python manage.py flush
+```
+
+```bash
+# Run the tests
+python manage.py test
+```
+
 ## 📝 Notes
 
 ### [Module 00 - Initiations - HTML, CSS, JavaScript integration](https://projects.intra.42.fr/projects/django-0-initiation)

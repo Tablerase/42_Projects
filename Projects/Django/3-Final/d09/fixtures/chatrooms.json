@@ -1,0 +1,5 @@
+[
+  { "model": "chat.chatroom", "pk": 1, "fields": { "name": "general" } },
+  { "model": "chat.chatroom", "pk": 2, "fields": { "name": "evil" } },
+  { "model": "chat.chatroom", "pk": 3, "fields": { "name": "good" } }
+]

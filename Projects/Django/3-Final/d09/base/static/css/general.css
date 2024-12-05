@@ -1,4 +1,4 @@
-@import url('/static/base/css/colors.css');
+@import url("/static/base/css/colors.css");
 
 /* =========================== General ============================== */
 
@@ -7,11 +7,12 @@ h1 {
   text-align: center;
   line-height: 1.5em;
   padding-bottom: 30px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   text-transform: uppercase;
   letter-spacing: 3px;
   color: light-dark(var(--light-primary-color), var(--dark-primary-color));
-  border-bottom: 2px solid light-dark(var(--light-primary-color), var(--dark-primary-color));
+  border-bottom: 2px solid
+    light-dark(var(--light-primary-color), var(--dark-primary-color));
 }
 
 h2 {
@@ -19,9 +20,18 @@ h2 {
   text-align: left;
   line-height: 1.2em;
   padding-bottom: 20px;
-  font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+  font-family: "Verdana", Geneva, Tahoma, sans-serif;
   text-transform: capitalize;
   letter-spacing: 1px;
   color: light-dark(var(--light-secondary-color), var(--dark-secondary-color));
 }
 
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+.card-link:hover .card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+}

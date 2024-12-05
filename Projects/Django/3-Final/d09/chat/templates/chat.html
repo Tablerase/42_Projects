@@ -1,7 +1,37 @@
-{% load static %}
-
-<ul>
-  <li><a href='{% url "chat_general" %}'>Chat General</a></li>
-  <li><a href='{% url "chat_evil" %}'>Chat evil</a></li>
-  <li><a href='{% url "chat_good" %}'>Chat good</a></li>
-</ul>
+{% extends 'base.html' %} {% load static %}
+<!-- Title -->
+{% block title %} Chat {% endblock title %}
+<!-- Content -->
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <a href='{% url "chat_general" %}' class="card-link">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Chat General</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href='{% url "chat_evil" %}' class="card-link">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Chat Evil</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href='{% url "chat_good" %}' class="card-link">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Chat Good</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

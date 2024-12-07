@@ -2,7 +2,7 @@
 
 # Django
 ## LTS version (not latest) - end in 2026
-django == 4.2.16
+django == 4.2.17
 django-bootstrap5 == 24.3
 
 # Database

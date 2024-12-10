@@ -23,6 +23,28 @@
 
 ## ⚙️ Commands
 
+### Repo script commands
+
+```bash
+# Display available commands
+./django-setup.sh help
+```
+
+```bash
+# Setup env
+source ./django-setup.sh env
+```
+
+```bash
+# Run the Django server
+./django-setup.sh django
+```
+
+```bash
+# Load the data (when needed) - after the migrations
+./django-setup.sh load_fixtures
+```
+
 ### Python Environment
 
 ```bash

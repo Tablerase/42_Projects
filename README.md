@@ -6,11 +6,22 @@ Notes and projects during my time at 42.
 
 ## Projects
 
+<details>
+<summary>
+
 ### 🔮 Post Common Core
+
+</summary>
 
 #### Object Oriented Programming
 
 * [Piscine Python Django](./Projects/Django)
+
+#### Web
+
+* [Matcha](./Projects/Matcha)
+
+</details>
 
 <details>
 <summary>
@@ -92,6 +103,31 @@ Notes and projects during my time at 42.
 
 ```mermaid
 gantt
+    title 42 Post Common Core
+    dateFormat  YYYY-MM-DD
+    axisFormat %Y-%m
+    todayMarker on
+
+    section Goals
+    Internship : crit, milestone, m1, 2025-05-01, 1d
+
+    section DevOps
+    InceptionOfThings : active, 2025-03-01, 8w
+
+    section Mobile
+    SwiftyCompanion : active, 2025-02-01, 4w
+    Piscine Mobile (React Native) : active, 2025-01-20, 4w
+
+    section Web
+    Matcha (Express Node) : active, 2024-12-10, 6w
+
+    section Object Oriented Programming
+    Piscine Django : done, 2024-10-01, 2024-12-08
+```
+
+
+```mermaid
+gantt
     title 42 Projects
     dateFormat  YYYY-MM-DD
     axisFormat %Y-%m
@@ -99,10 +135,6 @@ gantt
 
     section Goals
     End of Common Core : milestone, crit, m1, 2024-09-07, 2024-09-20
-
-
-    section Post Common Core
-    Piscine Django : done, 2024-09-23, 4w
 
     section Rank 6
     Transcendence : done, 2024-07-25, 2024-09-07

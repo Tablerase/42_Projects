@@ -63,7 +63,11 @@ graph TD
 ```
 
 - Frontend: React, Material-UI
-- Backend: Node.js, Express, Socket.IO
+- Backend: Node.js, Express, Socket.IO, PostgreSQL
+
+## API
+
+- [RESTful API - Best practices guide](https://daily.dev/blog/restful-api-design-best-practices-guide-2024)
 
 ## Packages
 
@@ -75,11 +79,15 @@ CORS is a node.js package for providing a Connect/Express middleware that can be
 
 CORS is a security feature implemented in browsers that restricts websites from making requests to a different domain than the one that served the website. This is to prevent malicious websites from making requests to other websites on behalf of the user. CORS works by adding an `Origin` header to the request that specifies the domain that the request is coming from. The server then checks this header and decides whether to allow the request or not.
 
+### Zod
+
+Zod is a TypeScript-first schema declaration and validation library.
+
 ## Express
 
 Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
 
-### Resources
+#### Resources
 
 - [Express](https://expressjs.com/)
 - [MDN Web Docs - Express](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction)
@@ -94,8 +102,16 @@ Middleware functions are functions that have access to the request object (`req`
 
 - [MDN Web Docs - Headers - Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization)
 
+### Testing
+
+- [OWASP - Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+- [OWASP - ZAP](https://www.zaproxy.org/)
+
+ZAP (Zed Attack Proxy) is a free, open-source penetration testing tool that helps you find security vulnerabilities in your web applications. It is designed to be used by people with a wide range of security experience and as such is ideal for developers and functional testers who are new to penetration testing.
+
 ### Forms
 
+- [Zod - Form Validation](https://zod.dev/)
 - [Express-validator](https://express-validator.github.io/docs/)
 
 #### CSRF (Cross-Site Request Forgery)
@@ -159,6 +175,15 @@ const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
 ##### The token expiration time
 
 The token expiration time is the time after which the token is no longer valid. It should be **short enough to prevent misuse** but **long enough to allow the user to use the application**.
+
+#### Handling Token Expiration
+
+JWTs can be set with an expiration time (expiresIn) and you need to handle this case on both the client and server side.
+
+- On the client side, you can check the expiration time and refresh the token when it expires.
+- On the server side, if the token is expired, it will return an error (HTTP status code 401 or 403), and you can send a new token (e.g., by logging in again or using a refresh token mechanism).
+
+[Medium - Approach for JWT Refresh Token](https://medium.com/kocsistem/what-is-the-best-approach-for-jwt-refresh-token-682de2f5c43c)
 
 #### Authenticate a token
 

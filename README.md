@@ -15,74 +15,75 @@ Notes and projects during my time at 42.
 
 #### Object Oriented Programming
 
-* [Piscine Python Django](./Projects/Django)
+- [Piscine Python Django](./Projects/Django)
 
 #### Web
 
-* [Matcha](./Projects/Matcha)
+- [Matcha](./Projects/Matcha)
 
 </details>
 
 <details>
 <summary>
 
-### 🦄 Common Core  
+### 🦄 Common Core
 
 </summary>
 
 #### Rank 6
 
-* [Transcendence](./Projects/Transcendence)
+- [Transcendence](./Projects/Transcendence)
 
 #### Rank 5
-* [Inception](./Projects/Inception)
-* [CPP Modules [5-9]](./Projects/CPP_Modules)
-* [WebServ](./Projects/WebServ)
+
+- [Inception](./Projects/Inception)
+- [CPP Modules [5-9]](./Projects/CPP_Modules)
+- [WebServ](./Projects/WebServ)
 
 #### Rank 4
 
-* [NetPractice](./Projects/NetPractice/)
-* [CPP Modules [0-4]](./Projects/CPP_Modules)
-* [Cube3D](./Projects/Cube3D/)
+- [NetPractice](./Projects/NetPractice/)
+- [CPP Modules [0-4]](./Projects/CPP_Modules)
+- [Cube3D](./Projects/Cube3D/)
 
 #### Rank 3
 
-* [Philosophers](./Projects/Philosophers/)
-* [MiniShell](./Projects/MiniShell/)
+- [Philosophers](./Projects/Philosophers/)
+- [MiniShell](./Projects/MiniShell/)
 
 #### Rank 2
 
-* [Pipex](./Projects/Pipex/)
-* [Push_Swap](./Projects/Push_swap/)
-* [Fract-ol](./Projects/Fract-ol/)
+- [Pipex](./Projects/Pipex/)
+- [Push_Swap](./Projects/Push_swap/)
+- [Fract-ol](./Projects/Fract-ol/)
 
 #### Rank 1
 
-* [Ft_Printf](./Projects/Ft_printf/)
-* [GetNextLine](./Projects/GetNextLine/)
-* [Born2BeRoot](./Projects/Born2BeRoot/)
+- [Ft_Printf](./Projects/Ft_printf/)
+- [GetNextLine](./Projects/GetNextLine/)
+- [Born2BeRoot](./Projects/Born2BeRoot/)
 
 #### Rank 0
 
-* [Libft](./Projects/Libft/)
-* [PiscineReloaded](./Projects/PiscineReloaded/)
+- [Libft](./Projects/Libft/)
+- [PiscineReloaded](./Projects/PiscineReloaded/)
 
 </details>
 
 ## [Notes](./Notes/)
 
-* [Color/Ascii (e.g in Terminal)](./Notes/ascii-art.md)
-* [Git](./Notes/git.md)
-* [Git Conventions](./Notes/git-conventions.md)
-* [Computer Science](./Notes/computer_science.md)
-* [Makefile](./Notes/makefile.md)
-* [Useful Links](./Notes/useful_links.md)
+- [Color/Ascii (e.g in Terminal)](./Notes/ascii-art.md)
+- [Git](./Notes/git.md)
+- [Git Conventions](./Notes/git-conventions.md)
+- [Computer Science](./Notes/computer_science.md)
+- [Makefile](./Notes/makefile.md)
+- [Useful Links](./Notes/useful_links.md)
 
 ## [Configs](./Config/)
 
-* [Gnome Customization - Themes, Icons, Buttons...](./Config/Theme/gnome-customization/)
-* [VirtualBox - Shared Folder](https://www.golinuxcloud.com/virtualbox-shared-folder/)
-* [IDE](./Config/IDE/)
+- [Gnome Customization - Themes, Icons, Buttons...](./Config/Theme/gnome-customization/)
+- [VirtualBox - Shared Folder](https://www.golinuxcloud.com/virtualbox-shared-folder/)
+- [IDE](./Config/IDE/)
 
 ## About this repository
 
@@ -93,10 +94,12 @@ Notes and projects during my time at 42.
 
 > [!NOTE]\
 > Recommened extensions for better experience in `vscode` are as follows:
-> * [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
+>
+> - [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
+>
 >   - ID: `bierner.markdown-preview-github-styles`
-> 
-> * [Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+>
+> - [Markdown Preview Mermaid](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
 >   - ID: `bierner.markdown-mermaid`
 
 ## Timeline
@@ -109,10 +112,13 @@ gantt
     todayMarker on
 
     section Goals
-    Internship : crit, milestone, m1, 2025-05-01, 1d
+    Internship : crit, 2025-09-01, 2026-03-01
 
     section DevOps
-    InceptionOfThings : active, 2025-03-01, 8w
+    InceptionOfThings : active, 2025-04-01, 8w
+
+    Section IoT
+    Piscine Embedded : active, 2025-03-01, 4w
 
     section Mobile
     SwiftyCompanion : active, 2025-02-01, 4w
@@ -121,10 +127,9 @@ gantt
     section Web
     Matcha (Express Node) : active, 2024-12-10, 6w
 
-    section Object Oriented Programming
+    section OOP
     Piscine Django : done, 2024-10-01, 2024-12-08
 ```
-
 
 ```mermaid
 gantt
@@ -149,7 +154,7 @@ gantt
     NetPractice : done, 2024-04-22, 2024-05-03
     CPP Modules[0-4] : done, 2024-03-28, 2024-04-22
     Cube3D :done, 2024-03-07, 2024-03-28
-  
+
     section Rank 3
     Philosophers :done, 2024-02-21, 2024-03-07
     MiniShell :done, 2024-02-01, 2024-02-21
@@ -178,7 +183,7 @@ gantt
 
     section Events
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
-    
+
     section Conferences
     XYZ_Paris : done, 2024-09-27, 1d
 ```

@@ -107,6 +107,10 @@ interface NodeMap {
   [key: string]: NodePath;
 }
 
+/**
+ * Game logic
+ */
+
 class Game {
   entityCount: number;
   entities: Organ[];
@@ -121,6 +125,10 @@ class Game {
   }
 }
 
+/**
+ * Organism logic
+ */
+
 class Organism {
   proteins: { A: number; B: number; C: number; D: number };
   growCost: number;
@@ -128,7 +136,7 @@ class Organism {
   path: Point[];
 
   constructor() {
-    this.proteins = { A: 10, B: 0, C: 0, D: 0 };
+    this.proteins = { A: 10, B: 0, C: 1, D: 1 };
     this.growCost = 1;
     this.organs = [];
   }
@@ -329,6 +337,11 @@ class Organism {
   }
 }
 
+/**
+ * Main
+ * Game loop
+ * */
+
 let Cellularena = new Game();
 let MyOrganism = new Organism();
 
@@ -383,9 +396,9 @@ while (true) {
   const requiredActionsCount: number = parseInt(readline()); // your number of organisms, output an action for each one in any order
   for (let i = 0; i < requiredActionsCount; i++) {
     // console.log("WAIT");
-
     MyOrganism.grow(lastOrgan.id, target);
   }
+
   // Provide debug information
   console.error("Target:" + JSON.stringify(target));
   console.error("Path:" + JSON.stringify(MyOrganism.path));

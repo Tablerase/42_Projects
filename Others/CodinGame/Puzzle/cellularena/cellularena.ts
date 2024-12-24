@@ -39,18 +39,12 @@ enum OrganType {
   D = "D",
 }
 
-const ConsumableOrganType: Set<OrganType> = new Set([
+const ProteinsSources: Set<OrganType> = new Set([
   OrganType.A,
   OrganType.B,
   OrganType.C,
   OrganType.D,
 ]);
-
-enum TileType {
-  EMPTY,
-  PROTEIN_SOURCE,
-  ORGAN,
-}
 
 type Point = {
   x: number;
@@ -120,6 +114,24 @@ class Game {
     this.entities = [];
   }
 
+  findEntityById(id: number): Organ | null {
+    const result = this.entities.find((entity) => entity.id === id);
+    if (!result) {
+      console.error(`Entity not found with id ${id}`);
+    }
+    return result || null;
+  }
+
+  findEntityByCoord(coord: Point): Organ | null {
+    const result = this.entities.find(
+      (entity) => entity.coord.x === coord.x && entity.coord.y === coord.y
+    );
+    if (!result) {
+      console.error(`Entity not found at ${coord.x},${coord.y}`);
+    }
+    return result || null;
+  }
+
   updateEntities(entityInputs: Organ[]): void {
     this.entities = entityInputs;
   }
@@ -131,62 +143,127 @@ class Game {
 
 class Organism {
   proteins: { A: number; B: number; C: number; D: number };
-  growCost: number;
+  potentialGrowth: { BASIC: number; HARVESTER: number };
   organs: Organ[];
+  reachedProteinsSources: Organ[];
   path: Point[];
 
   constructor() {
     this.proteins = { A: 10, B: 0, C: 1, D: 1 };
-    this.growCost = 1;
+    this.potentialGrowth = { BASIC: 0, HARVESTER: 0 };
     this.organs = [];
+    this.reachedProteinsSources = [];
+  }
+
+  updatePotentialGrowth(): void {
+    this.potentialGrowth.BASIC = this.proteins.A / 1;
+    this.potentialGrowth.HARVESTER = this.proteins.C / 1 + this.proteins.D / 1;
   }
 
   updateEntities(entityInputs: Organ[]): void {
     this.organs = entityInputs.filter((entity) => entity.owner === Owner.ME);
   }
 
+  getDirection(start: Point, end: Point): Dir {
+    if (start.x === end.x) {
+      return start.y > end.y ? Dir.N : Dir.S;
+    } else {
+      return start.x > end.x ? Dir.W : Dir.E;
+    }
+  }
+
+  private harvest() {
+    // Recover final target
+    const target = Cellularena.findEntityByCoord(
+      this.path[this.path.length - 1]
+    );
+    // If target is a protein source, remove it from the path and add it to the proteinSources
+    if (target && ProteinsSources.has(target.type)) {
+      this.reachedProteinsSources.push(target);
+      this.path.pop();
+    }
+  }
+
+  /**
+   * Grow an organism
+   * With the appropriate type and direction depending on the target and proteins available
+   *
+   * @param id source
+   * @param coord target coordinates
+   * @returns
+   */
   grow(id: number, coord: Point) {
-    const type = "BASIC";
-    if (this.proteins.A >= 1) {
-      console.log(`GROW ${id} ${coord.x} ${coord.y} ${type}`);
-      return;
+    let growthType: OrganType = OrganType.BASIC;
+    let direction: Dir = Dir.X;
+    const nextTarget: Point | undefined = this.path.at(1);
+    const nextTargetEntity = nextTarget
+      ? Cellularena.findEntityByCoord(nextTarget)
+      : undefined;
+
+    // Find next target if it's a protein source
+    if (
+      this.path.length === 2 &&
+      nextTargetEntity &&
+      ProteinsSources.has(nextTargetEntity.type)
+    ) {
+      console.error("check harvest");
+      direction = this.getDirection(coord, nextTargetEntity.coord);
+      growthType = OrganType.HARVESTER;
+      this.reachedProteinsSources.push(nextTargetEntity);
+      this.path.pop();
     }
-    if (this.proteins.B >= 1) {
-      console.log(`GROW ${id} ${coord.x} ${coord.y} ${type}`);
-      return;
+
+    // Check if we have enough proteins to grow
+    if (this.potentialGrowth[growthType] > 0) {
+      console.log(
+        `GROW ${id} ${coord.x} ${coord.y} ${growthType} ${direction}`
+      );
+      this.path.shift();
+    } else {
+      console.log("WAIT");
     }
-    if (this.proteins.C >= 1) {
-      console.log(`GROW ${id} ${coord.x} ${coord.y} ${type}`);
-      return;
-    }
-    if (this.proteins.D >= 1) {
-      console.log(`GROW ${id} ${coord.x} ${coord.y} ${type}`);
-      return;
-    }
-    console.log("WAIT");
+  }
+
+  private potentialTargets(): Organ[] {
+    return Cellularena.entities.filter(
+      (entity) =>
+        ProteinsSources.has(entity.type) &&
+        !this.organs.some(
+          (organ) =>
+            organ.coord.x === entity.coord.x && organ.coord.y === entity.coord.y
+        ) &&
+        !this.reachedProteinsSources.some(
+          (source) =>
+            source.coord.x === entity.coord.x &&
+            source.coord.y === entity.coord.y
+        )
+    );
+  }
+
+  private getObstacles(): Organ[] {
+    return Cellularena.entities.filter(
+      (entity) =>
+        entity.type === OrganType.WALL ||
+        this.reachedProteinsSources.some((source) => source.id === entity.id)
+    );
   }
 
   closestTarget(): Organ | null {
     const myRoot = this.organs.find((organ) => organ.type === OrganType.ROOT);
-    if (!myRoot) return null;
+    if (!myRoot) {
+      console.error("No root found");
+      return null;
+    }
 
-    let potentialTargets: Organ[] = Cellularena.entities.filter(
-      (entity) =>
-        ConsumableOrganType.has(entity.type) &&
-        !this.organs.some(
-          (organ) =>
-            organ.coord.x === entity.coord.x && organ.coord.y === entity.coord.y
-        )
-    );
+    let potentialTargets: Organ[] = this.potentialTargets();
 
     let closest: Organ | null = null;
     let minPathLength = Infinity;
 
     // Get all wall positions
-    const walls = new Set(
-      Cellularena.entities
-        .filter((entity) => entity.type === OrganType.WALL)
-        .map((wall) => `${wall.coord.x},${wall.coord.y}`)
+    const walls = this.getObstacles().reduce(
+      (acc, entity) => acc.add(`${entity.coord.x},${entity.coord.y}`),
+      new Set<string>()
     );
 
     for (const target of potentialTargets) {
@@ -239,6 +316,7 @@ class Organism {
           (organ) => organ.coord.x === point.x && organ.coord.y === point.y
         )
     );
+
     return path;
   }
 
@@ -310,6 +388,7 @@ class Organism {
     return [goal];
   }
 
+  // TODO: Maybe change to neighbor organ around target instead of last organ
   getLastOrgan(): Organ | null {
     if (this.organs.length === 0) return null;
 
@@ -332,7 +411,7 @@ class Organism {
       }
       //   console.error(this.path);
     }
-    let target: Point = this.path.shift()!;
+    let target: Point = this.path[0];
     return target;
   }
 }
@@ -372,7 +451,6 @@ while (true) {
   }
   Cellularena.updateEntities(entities);
   MyOrganism.updateEntities(entities);
-  // console.error(MyOrganism.organs);
 
   const inputs1: string[] = readline().split(" ");
   MyOrganism.proteins = {
@@ -381,6 +459,7 @@ while (true) {
     C: parseInt(inputs1[2]),
     D: parseInt(inputs1[3]),
   };
+  MyOrganism.updatePotentialGrowth();
 
   var inputs: string[] = readline().split(" ");
   const oppA: number = parseInt(inputs[0]);
@@ -393,6 +472,8 @@ while (true) {
   const target: Point = MyOrganism.targetSelection(Cellularena.entities);
   const lastOrgan = MyOrganism.getLastOrgan()!;
 
+  console.error("Target:" + JSON.stringify(target));
+  console.error("Path:" + JSON.stringify(MyOrganism.path));
   const requiredActionsCount: number = parseInt(readline()); // your number of organisms, output an action for each one in any order
   for (let i = 0; i < requiredActionsCount; i++) {
     // console.log("WAIT");
@@ -400,6 +481,5 @@ while (true) {
   }
 
   // Provide debug information
-  console.error("Target:" + JSON.stringify(target));
   console.error("Path:" + JSON.stringify(MyOrganism.path));
 }

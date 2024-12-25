@@ -144,6 +144,7 @@ class Game {
 class Organism {
   proteins: { A: number; B: number; C: number; D: number };
   potentialGrowth: { BASIC: number; HARVESTER: number };
+  potentialTargets: Organ[];
   organs: Organ[];
   reachedProteinsSources: Organ[];
   path: Point[];
@@ -151,6 +152,7 @@ class Organism {
   constructor() {
     this.proteins = { A: 10, B: 0, C: 1, D: 1 };
     this.potentialGrowth = { BASIC: 0, HARVESTER: 0 };
+    this.potentialTargets = [];
     this.organs = [];
     this.reachedProteinsSources = [];
   }
@@ -162,6 +164,7 @@ class Organism {
 
   updateEntities(entityInputs: Organ[]): void {
     this.organs = entityInputs.filter((entity) => entity.owner === Owner.ME);
+    this.potentialTargets = this.getPotentialTargets();
   }
 
   getDirection(start: Point, end: Point): Dir {
@@ -169,18 +172,6 @@ class Organism {
       return start.y > end.y ? Dir.N : Dir.S;
     } else {
       return start.x > end.x ? Dir.W : Dir.E;
-    }
-  }
-
-  private harvest() {
-    // Recover final target
-    const target = Cellularena.findEntityByCoord(
-      this.path[this.path.length - 1]
-    );
-    // If target is a protein source, remove it from the path and add it to the proteinSources
-    if (target && ProteinsSources.has(target.type)) {
-      this.reachedProteinsSources.push(target);
-      this.path.pop();
     }
   }
 
@@ -192,22 +183,50 @@ class Organism {
    * @param coord target coordinates
    * @returns
    */
-  grow(id: number, coord: Point) {
+  grow() {
+    // Setup target and source
+    const target: Point | undefined = MyOrganism.targetSelection(
+      Cellularena.entities
+    );
+
+    // Guard clause for undefined target
+    if (!target) {
+      console.error("No valid target found");
+      console.log("WAIT");
+      return;
+    }
+
+    const sourceOrgan = MyOrganism.findClosestOrgan(target);
+
+    console.error("Target:" + JSON.stringify(target));
+    console.error("Path:" + JSON.stringify(MyOrganism.path));
+
+    // Setup growth type and direction
     let growthType: OrganType = OrganType.BASIC;
     let direction: Dir = Dir.X;
-    const nextTarget: Point | undefined = this.path.at(1);
+
+    // Guard clause for empty path
+    if (!this.path || this.path.length === 0) {
+      console.error("No valid path found");
+      console.log("WAIT");
+      return;
+    }
+
+    const nextTarget: Point | undefined =
+      this.path.length > 1 ? this.path[1] : undefined;
     const nextTargetEntity = nextTarget
       ? Cellularena.findEntityByCoord(nextTarget)
-      : undefined;
+      : null;
 
     // Find next target if it's a protein source
     if (
       this.path.length === 2 &&
+      nextTarget &&
       nextTargetEntity &&
       ProteinsSources.has(nextTargetEntity.type)
     ) {
       console.error("check harvest");
-      direction = this.getDirection(coord, nextTargetEntity.coord);
+      direction = this.getDirection(target, nextTargetEntity.coord);
       growthType = OrganType.HARVESTER;
       this.reachedProteinsSources.push(nextTargetEntity);
       this.path.pop();
@@ -216,7 +235,7 @@ class Organism {
     // Check if we have enough proteins to grow
     if (this.potentialGrowth[growthType] > 0) {
       console.log(
-        `GROW ${id} ${coord.x} ${coord.y} ${growthType} ${direction}`
+        `GROW ${sourceOrgan.id} ${target.x} ${target.y} ${growthType} ${direction}`
       );
       this.path.shift();
     } else {
@@ -224,8 +243,8 @@ class Organism {
     }
   }
 
-  private potentialTargets(): Organ[] {
-    return Cellularena.entities.filter(
+  private getPotentialTargets(): Organ[] {
+    let targets = Cellularena.entities.filter(
       (entity) =>
         ProteinsSources.has(entity.type) &&
         !this.organs.some(
@@ -238,6 +257,14 @@ class Organism {
             source.coord.y === entity.coord.y
         )
     );
+    if (targets.length === 0) {
+      console.error("No proteins sources targets found -> targeting enemies");
+      // Add enemy organs as potential targets
+      targets = Cellularena.entities.filter(
+        (entity) => entity.owner === Owner.ENEMY
+      );
+    }
+    return targets;
   }
 
   private getObstacles(): Organ[] {
@@ -248,17 +275,29 @@ class Organism {
     );
   }
 
-  closestTarget(): Organ | null {
-    const myRoot = this.organs.find((organ) => organ.type === OrganType.ROOT);
+  findClosestOrgan(target: Point | Organ): Organ {
+    let closest: Organ = this.organs[0];
+    let minDistance = Infinity;
+
+    for (const organ of this.organs) {
+      const targetPoint = "coord" in target ? target.coord : target;
+      const distance = this.manhattan(organ.coord, targetPoint);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closest = organ;
+      }
+    }
+    return closest;
+  }
+
+  closestTarget(): Organ {
+    let closest: Organ = this.potentialTargets[0];
+    let minPathLength = Infinity;
+    let myRoot = this.findClosestOrgan(closest);
     if (!myRoot) {
       console.error("No root found");
-      return null;
+      myRoot = this.organs[0];
     }
-
-    let potentialTargets: Organ[] = this.potentialTargets();
-
-    let closest: Organ | null = null;
-    let minPathLength = Infinity;
 
     // Get all wall positions
     const walls = this.getObstacles().reduce(
@@ -266,7 +305,7 @@ class Organism {
       new Set<string>()
     );
 
-    for (const target of potentialTargets) {
+    for (const target of this.potentialTargets) {
       // Use existing A* pathfinding to get path length
       const path = this.makePath(myRoot.coord, target);
 
@@ -290,12 +329,36 @@ class Organism {
   }
 
   private getNeighbors(point: Point): Point[] {
-    return [
-      { x: point.x + 1, y: point.y },
-      { x: point.x - 1, y: point.y },
-      { x: point.x, y: point.y + 1 },
-      { x: point.x, y: point.y - 1 },
-    ].filter((p) => p.x >= 0 && p.x < width && p.y >= 0 && p.y < height);
+    const neighbors: Point[] = [];
+    const directions = [
+      { x: 0, y: 1 }, // up
+      { x: 1, y: 0 }, // right
+      { x: 0, y: -1 }, // down
+      { x: -1, y: 0 }, // left
+    ];
+
+    for (const dir of directions) {
+      const newPoint = {
+        x: point.x + dir.x,
+        y: point.y + dir.y,
+      };
+
+      // Check bounds and walls
+      if (
+        newPoint.x >= 0 &&
+        newPoint.x < width &&
+        newPoint.y >= 0 &&
+        newPoint.y < height &&
+        !this.getObstacles().some(
+          (entity) =>
+            entity.coord.x === newPoint.x && entity.coord.y === newPoint.y
+        )
+      ) {
+        neighbors.push(newPoint);
+      }
+    }
+
+    return neighbors;
   }
 
   private reconstructPath(node: NodePath): Point[] {
@@ -388,19 +451,11 @@ class Organism {
     return [goal];
   }
 
-  // TODO: Maybe change to neighbor organ around target instead of last organ
-  getLastOrgan(): Organ | null {
-    if (this.organs.length === 0) return null;
-
-    const lastOrgan = this.organs[this.organs.length - 1];
-
-    return lastOrgan;
-  }
-
   targetSelection(ArenaOrgans: Organ[]): Point {
     if (!this.path || this.path.length === 0) {
       let closestTarget = this.closestTarget();
       console.error("🧫 Cellular target: " + JSON.stringify(closestTarget));
+      // TODO: Handle case where no target is found
       if (!closestTarget) {
         console.error("No targets found");
         return { x: 0, y: 0 };
@@ -467,17 +522,10 @@ while (true) {
   const oppC: number = parseInt(inputs[2]);
   const oppD: number = parseInt(inputs[3]); // opponent's protein stock
 
-  // TODO: Implement harvesting logic
-
-  const target: Point = MyOrganism.targetSelection(Cellularena.entities);
-  const lastOrgan = MyOrganism.getLastOrgan()!;
-
-  console.error("Target:" + JSON.stringify(target));
-  console.error("Path:" + JSON.stringify(MyOrganism.path));
   const requiredActionsCount: number = parseInt(readline()); // your number of organisms, output an action for each one in any order
   for (let i = 0; i < requiredActionsCount; i++) {
     // console.log("WAIT");
-    MyOrganism.grow(lastOrgan.id, target);
+    MyOrganism.grow();
   }
 
   // Provide debug information

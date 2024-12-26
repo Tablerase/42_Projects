@@ -62,6 +62,7 @@ enum Dir {
 interface OrganSpecs {
   cost: { [key: string]: number };
   production?: { [key: string]: number };
+  range?: { [key: string]: number };
 }
 
 const ORGAN_SPECS = {
@@ -71,6 +72,14 @@ const ORGAN_SPECS = {
       D: 1,
     },
     production: 1,
+    range: 1,
+  },
+  TENTACLE: {
+    cost: {
+      B: 1,
+      C: 1,
+    },
+    range: 1,
   },
   BASIC: {
     cost: {
@@ -143,23 +152,27 @@ class Game {
 
 class Organism {
   proteins: { A: number; B: number; C: number; D: number };
-  potentialGrowth: { BASIC: number; HARVESTER: number };
+  potentialGrowth: { BASIC: number; HARVESTER: number; TENTACLE: number };
   potentialTargets: Organ[];
   organs: Organ[];
   reachedProteinsSources: Organ[];
+  reachedTargets: Organ[];
   path: Point[];
 
   constructor() {
     this.proteins = { A: 10, B: 0, C: 1, D: 1 };
-    this.potentialGrowth = { BASIC: 0, HARVESTER: 0 };
+    this.potentialGrowth = { BASIC: 0, HARVESTER: 0, TENTACLE: 0 };
     this.potentialTargets = [];
     this.organs = [];
     this.reachedProteinsSources = [];
+    this.reachedTargets = [];
   }
 
   updatePotentialGrowth(): void {
     this.potentialGrowth.BASIC = this.proteins.A / 1;
-    this.potentialGrowth.HARVESTER = this.proteins.C / 1 + this.proteins.D / 1;
+    this.potentialGrowth.HARVESTER = Math.min(this.proteins.C / ORGAN_SPECS.HARVESTER.cost.C, this.proteins.D / ORGAN_SPECS.HARVESTER.cost.D);
+    this.potentialGrowth.TENTACLE = Math.min(this.proteins.B / ORGAN_SPECS.TENTACLE.cost.B, this.proteins.C / ORGAN_SPECS.TENTACLE.cost.C);
+    console.error("Potential Growth: " + JSON.stringify(this.potentialGrowth));
   }
 
   updateEntities(entityInputs: Organ[]): void {
@@ -175,6 +188,8 @@ class Organism {
     }
   }
 
+
+  // TODO: Add a path cost algo / class to establish path bases on cost and priority
   /**
    * Grow an organism
    * With the appropriate type and direction depending on the target and proteins available
@@ -185,9 +200,7 @@ class Organism {
    */
   grow() {
     // Setup target and source
-    const target: Point | undefined = MyOrganism.targetSelection(
-      Cellularena.entities
-    );
+    const target: Point | undefined = MyOrganism.targetSelection();
 
     // Guard clause for undefined target
     if (!target) {
@@ -230,6 +243,16 @@ class Organism {
       growthType = OrganType.HARVESTER;
       this.reachedProteinsSources.push(nextTargetEntity);
       this.path.pop();
+    } else if (
+      nextTarget &&
+      nextTargetEntity &&
+      nextTargetEntity.owner === Owner.ENEMY
+    ) {
+      console.error("check tentacle");
+      direction = this.getDirection(target, nextTargetEntity.coord);
+      growthType = OrganType.TENTACLE;
+      this.reachedTargets.push(nextTargetEntity);
+      this.path.pop();
     }
 
     // Check if we have enough proteins to grow
@@ -252,6 +275,11 @@ class Organism {
             organ.coord.x === entity.coord.x && organ.coord.y === entity.coord.y
         ) &&
         !this.reachedProteinsSources.some(
+          (source) =>
+            source.coord.x === entity.coord.x &&
+            source.coord.y === entity.coord.y
+        ) &&
+        !this.reachedTargets.some(
           (source) =>
             source.coord.x === entity.coord.x &&
             source.coord.y === entity.coord.y
@@ -451,7 +479,7 @@ class Organism {
     return [goal];
   }
 
-  targetSelection(ArenaOrgans: Organ[]): Point {
+  targetSelection(): Point {
     if (!this.path || this.path.length === 0) {
       let closestTarget = this.closestTarget();
       console.error("🧫 Cellular target: " + JSON.stringify(closestTarget));

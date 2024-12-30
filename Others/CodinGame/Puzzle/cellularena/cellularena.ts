@@ -81,6 +81,21 @@ const ORGAN_SPECS = {
     },
     range: 1,
   },
+  SPORER: {
+    cost: {
+      B: 1,
+      D: 1,
+    },
+    range: Infinity,
+  },
+  ROOT: {
+    cost: {
+      A: 1,
+      B: 1,
+      C: 1,
+      D: 1,
+    },
+  },
   BASIC: {
     cost: {
       A: 1,
@@ -170,8 +185,14 @@ class Organism {
 
   updatePotentialGrowth(): void {
     this.potentialGrowth.BASIC = this.proteins.A / 1;
-    this.potentialGrowth.HARVESTER = Math.min(this.proteins.C / ORGAN_SPECS.HARVESTER.cost.C, this.proteins.D / ORGAN_SPECS.HARVESTER.cost.D);
-    this.potentialGrowth.TENTACLE = Math.min(this.proteins.B / ORGAN_SPECS.TENTACLE.cost.B, this.proteins.C / ORGAN_SPECS.TENTACLE.cost.C);
+    this.potentialGrowth.HARVESTER = Math.min(
+      this.proteins.C / ORGAN_SPECS.HARVESTER.cost.C,
+      this.proteins.D / ORGAN_SPECS.HARVESTER.cost.D
+    );
+    this.potentialGrowth.TENTACLE = Math.min(
+      this.proteins.B / ORGAN_SPECS.TENTACLE.cost.B,
+      this.proteins.C / ORGAN_SPECS.TENTACLE.cost.C
+    );
     console.error("Potential Growth: " + JSON.stringify(this.potentialGrowth));
   }
 
@@ -187,7 +208,6 @@ class Organism {
       return start.x > end.x ? Dir.W : Dir.E;
     }
   }
-
 
   // TODO: Add a path cost algo / class to establish path bases on cost and priority
   /**
@@ -230,6 +250,8 @@ class Organism {
     const nextTargetEntity = nextTarget
       ? Cellularena.findEntityByCoord(nextTarget)
       : null;
+
+    // Evaluate for Sporer
 
     // Find next target if it's a protein source
     if (

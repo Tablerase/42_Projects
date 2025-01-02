@@ -13,7 +13,7 @@ Notes and projects during my time at 42.
 
 </summary>
 
-#### Object Oriented Programming
+#### Backend
 
 - [Piscine Python Django](./Projects/Django)
 

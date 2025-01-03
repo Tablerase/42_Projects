@@ -161,24 +161,22 @@ class Game {
   }
 }
 
-/**
- * Organism logic
- */
-
-class Organism {
+class BaseOrganism {
   proteins: { A: number; B: number; C: number; D: number };
-  potentialGrowth: { BASIC: number; HARVESTER: number; TENTACLE: number };
-  potentialTargets: Organ[];
-  organs: Organ[];
+  potentialGrowth: {
+    BASIC: number;
+    HARVESTER: number;
+    TENTACLE: number;
+    SPORER: number;
+  };
+  organisms: Organism[];
   reachedProteinsSources: Organ[];
   reachedTargets: Organ[];
-  path: Point[];
 
   constructor() {
+    this.organisms = [];
     this.proteins = { A: 10, B: 0, C: 1, D: 1 };
-    this.potentialGrowth = { BASIC: 0, HARVESTER: 0, TENTACLE: 0 };
-    this.potentialTargets = [];
-    this.organs = [];
+    this.potentialGrowth = { BASIC: 0, HARVESTER: 0, TENTACLE: 0, SPORER: 0 };
     this.reachedProteinsSources = [];
     this.reachedTargets = [];
   }
@@ -193,12 +191,11 @@ class Organism {
       this.proteins.B / ORGAN_SPECS.TENTACLE.cost.B,
       this.proteins.C / ORGAN_SPECS.TENTACLE.cost.C
     );
+    this.potentialGrowth.SPORER = Math.min(
+      this.proteins.B / ORGAN_SPECS.SPORER.cost.B,
+      this.proteins.D / ORGAN_SPECS.SPORER.cost.D
+    );
     console.error("Potential Growth: " + JSON.stringify(this.potentialGrowth));
-  }
-
-  updateEntities(entityInputs: Organ[]): void {
-    this.organs = entityInputs.filter((entity) => entity.owner === Owner.ME);
-    this.potentialTargets = this.getPotentialTargets();
   }
 
   getDirection(start: Point, end: Point): Dir {
@@ -207,6 +204,76 @@ class Organism {
     } else {
       return start.x > end.x ? Dir.W : Dir.E;
     }
+  }
+
+  straightPathLenght(paths: Point[]): number {
+    if (paths.length < 2) return paths.length;
+
+    let length = 1;
+    let currentDirection: "horizontal" | "vertical" | null = null;
+
+    for (let i = 1; i < paths.length; i++) {
+      const prev = paths[i - 1];
+      const curr = paths[i];
+
+      // Determine direction
+      if (prev.x === curr.x) {
+        // Vertical line
+        if (currentDirection === null || currentDirection === "vertical") {
+          currentDirection = "vertical";
+          length++;
+        } else {
+          break; // Direction changed
+        }
+      } else if (prev.y === curr.y) {
+        // Horizontal line
+        if (currentDirection === null || currentDirection === "horizontal") {
+          currentDirection = "horizontal";
+          length++;
+        } else {
+          break; // Direction changed
+        }
+      } else {
+        break; // Not a straight line
+      }
+    }
+
+    return length;
+  }
+
+  updateEntities(entityInputs: Organ[]): void {
+    let myOrgans: Organ[] = entityInputs.filter(
+      (entity) => entity.owner === Owner.ME
+    );
+    // Split organs by organism root
+    const rootIds = new Set(myOrgans.map((organ) => organ.rootId));
+    for (const rootId of rootIds) {
+      const organismOrgans = myOrgans.filter(
+        (organ) => organ.rootId === rootId
+      );
+      const newOrganism = new Organism();
+      newOrganism.organs = organismOrgans;
+      this.organisms.push(newOrganism);
+    }
+
+    // Update the targets of this organism
+    for (const organism of this.organisms) {
+      organism.potentialTargets = organism.getPotentialTargets();
+    }
+  }
+}
+
+/**
+ * Organism logic
+ */
+class Organism {
+  potentialTargets: Organ[];
+  organs: Organ[];
+  path: Point[];
+
+  constructor() {
+    this.potentialTargets = [];
+    this.organs = [];
   }
 
   // TODO: Add a path cost algo / class to establish path bases on cost and priority
@@ -220,7 +287,7 @@ class Organism {
    */
   grow() {
     // Setup target and source
-    const target: Point | undefined = MyOrganism.targetSelection();
+    const target: Point | undefined = this.targetSelection();
 
     // Guard clause for undefined target
     if (!target) {
@@ -229,10 +296,10 @@ class Organism {
       return;
     }
 
-    const sourceOrgan = MyOrganism.findClosestOrgan(target);
+    const sourceOrgan = this.findClosestOrgan(target);
 
     console.error("Target:" + JSON.stringify(target));
-    console.error("Path:" + JSON.stringify(MyOrganism.path));
+    console.error("Path:" + JSON.stringify(this.path));
 
     // Setup growth type and direction
     let growthType: OrganType = OrganType.BASIC;
@@ -261,9 +328,9 @@ class Organism {
       ProteinsSources.has(nextTargetEntity.type)
     ) {
       console.error("check harvest");
-      direction = this.getDirection(target, nextTargetEntity.coord);
+      direction = MyOrganism.getDirection(target, nextTargetEntity.coord);
       growthType = OrganType.HARVESTER;
-      this.reachedProteinsSources.push(nextTargetEntity);
+      MyOrganism.reachedProteinsSources.push(nextTargetEntity);
       this.path.pop();
     } else if (
       nextTarget &&
@@ -271,24 +338,41 @@ class Organism {
       nextTargetEntity.owner === Owner.ENEMY
     ) {
       console.error("check tentacle");
-      direction = this.getDirection(target, nextTargetEntity.coord);
+      direction = MyOrganism.getDirection(target, nextTargetEntity.coord);
       growthType = OrganType.TENTACLE;
-      this.reachedTargets.push(nextTargetEntity);
+      MyOrganism.reachedTargets.push(nextTargetEntity);
       this.path.pop();
     }
 
+    // Check for far away target in straigh path
+    const pathLineLenght = MyOrganism.straightPathLenght(this.path);
+    console.error("Check straight line path: " + pathLineLenght);
+    if (
+      (pathLineLenght > MyOrganism.potentialGrowth[OrganType.BASIC] ||
+        pathLineLenght >= 10) &&
+      MyOrganism.potentialGrowth[OrganType.SPORER]
+    ) {
+      growthType = OrganType.SPORER;
+      direction = MyOrganism.getDirection(
+        target,
+        this.path[pathLineLenght - 1]
+      );
+      this.path = [];
+    }
+
     // Check if we have enough proteins to grow
-    if (this.potentialGrowth[growthType] > 0) {
+    if (MyOrganism.potentialGrowth[growthType] > 0) {
       console.log(
         `GROW ${sourceOrgan.id} ${target.x} ${target.y} ${growthType} ${direction}`
       );
       this.path.shift();
     } else {
+      console.error("Not enought proteins to build: " + growthType);
       console.log("WAIT");
     }
   }
 
-  private getPotentialTargets(): Organ[] {
+  getPotentialTargets(): Organ[] {
     let targets = Cellularena.entities.filter(
       (entity) =>
         ProteinsSources.has(entity.type) &&
@@ -296,12 +380,12 @@ class Organism {
           (organ) =>
             organ.coord.x === entity.coord.x && organ.coord.y === entity.coord.y
         ) &&
-        !this.reachedProteinsSources.some(
+        !MyOrganism.reachedProteinsSources.some(
           (source) =>
             source.coord.x === entity.coord.x &&
             source.coord.y === entity.coord.y
         ) &&
-        !this.reachedTargets.some(
+        !MyOrganism.reachedTargets.some(
           (source) =>
             source.coord.x === entity.coord.x &&
             source.coord.y === entity.coord.y
@@ -321,7 +405,17 @@ class Organism {
     return Cellularena.entities.filter(
       (entity) =>
         entity.type === OrganType.WALL ||
-        this.reachedProteinsSources.some((source) => source.id === entity.id)
+        MyOrganism.reachedProteinsSources.some(
+          (source) => source.id === entity.id
+        ) ||
+        MyOrganism.organisms.some((org) =>
+          org.organs.some(
+            (organ) =>
+              organ.id === entity.id &&
+              organ.rootId !== this.organs[0].rootId &&
+              organ.owner === Owner.ME
+          )
+        )
     );
   }
 
@@ -527,7 +621,7 @@ class Organism {
  * */
 
 let Cellularena = new Game();
-let MyOrganism = new Organism();
+let MyOrganism = new BaseOrganism();
 
 // game loop
 while (true) {
@@ -574,10 +668,8 @@ while (true) {
 
   const requiredActionsCount: number = parseInt(readline()); // your number of organisms, output an action for each one in any order
   for (let i = 0; i < requiredActionsCount; i++) {
-    // console.log("WAIT");
-    MyOrganism.grow();
+    console.error("[🦠 Organism %d]", i);
+    MyOrganism.organisms[i].grow();
+    console.error("Path:" + JSON.stringify(MyOrganism.organisms[i].path));
   }
-
-  // Provide debug information
-  console.error("Path:" + JSON.stringify(MyOrganism.path));
 }

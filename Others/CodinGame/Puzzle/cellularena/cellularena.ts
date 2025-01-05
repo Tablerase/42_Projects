@@ -168,6 +168,7 @@ class BaseOrganism {
     HARVESTER: number;
     TENTACLE: number;
     SPORER: number;
+    ROOT: number;
   };
   organisms: Organism[];
   reachedProteinsSources: Organ[];
@@ -176,7 +177,13 @@ class BaseOrganism {
   constructor() {
     this.organisms = [];
     this.proteins = { A: 10, B: 0, C: 1, D: 1 };
-    this.potentialGrowth = { BASIC: 0, HARVESTER: 0, TENTACLE: 0, SPORER: 0 };
+    this.potentialGrowth = {
+      BASIC: 0,
+      HARVESTER: 0,
+      TENTACLE: 0,
+      SPORER: 0,
+      ROOT: 0,
+    };
     this.reachedProteinsSources = [];
     this.reachedTargets = [];
   }
@@ -194,6 +201,12 @@ class BaseOrganism {
     this.potentialGrowth.SPORER = Math.min(
       this.proteins.B / ORGAN_SPECS.SPORER.cost.B,
       this.proteins.D / ORGAN_SPECS.SPORER.cost.D
+    );
+    this.potentialGrowth.ROOT = Math.min(
+      this.proteins.A / ORGAN_SPECS.ROOT.cost.A,
+      this.proteins.B / ORGAN_SPECS.ROOT.cost.B,
+      this.proteins.C / ORGAN_SPECS.ROOT.cost.C,
+      this.proteins.D / ORGAN_SPECS.ROOT.cost.D
     );
     console.error("Potential Growth: " + JSON.stringify(this.potentialGrowth));
   }
@@ -251,9 +264,22 @@ class BaseOrganism {
       const organismOrgans = myOrgans.filter(
         (organ) => organ.rootId === rootId
       );
-      const newOrganism = new Organism();
-      newOrganism.organs = organismOrgans;
-      this.organisms.push(newOrganism);
+
+      // Check if the organism already exists
+      let existingOrganism = this.organisms.find(
+        (organism) => organism.rootId === rootId
+      );
+
+      if (existingOrganism) {
+        // Update the existing organism's organs
+        existingOrganism.organs = organismOrgans;
+      } else {
+        // Create a new organism and add it to the list
+        const newOrganism = new Organism();
+        newOrganism.rootId = rootId;
+        newOrganism.organs = organismOrgans;
+        this.organisms.push(newOrganism);
+      }
     }
 
     // Update the targets of this organism
@@ -270,10 +296,15 @@ class Organism {
   potentialTargets: Organ[];
   organs: Organ[];
   path: Point[];
+  rootId: number;
+  shoot: boolean;
+  shooter_coord: Point | null;
 
   constructor() {
+    this.path = [];
     this.potentialTargets = [];
     this.organs = [];
+    this.shoot = false;
   }
 
   // TODO: Add a path cost algo / class to establish path bases on cost and priority
@@ -286,6 +317,16 @@ class Organism {
    * @returns
    */
   grow() {
+    // Sporer shoot
+    if (this.shoot && this.shooter_coord && this.path.length > 0) {
+      const shooter = Cellularena.findEntityByCoord(this.shooter_coord);
+      console.log(`SPORE ${shooter?.id} ${this.path[0].x} ${this.path[0].y}`);
+      this.shoot = false;
+      this.shooter_coord = null;
+      this.path = [];
+      return;
+    }
+
     // Setup target and source
     const target: Point | undefined = this.targetSelection();
 
@@ -350,14 +391,31 @@ class Organism {
     if (
       (pathLineLenght > MyOrganism.potentialGrowth[OrganType.BASIC] ||
         pathLineLenght >= 10) &&
-      MyOrganism.potentialGrowth[OrganType.SPORER]
+      MyOrganism.potentialGrowth[OrganType.SPORER] &&
+      MyOrganism.potentialGrowth[OrganType.ROOT]
     ) {
       growthType = OrganType.SPORER;
       direction = MyOrganism.getDirection(
         target,
         this.path[pathLineLenght - 1]
       );
-      this.path = [];
+      // Check if the target is a protein source
+      const sporerTarget = this.path[pathLineLenght];
+      console.error("Sporer target: " + JSON.stringify(sporerTarget));
+      const sporerTargetEntity = Cellularena.findEntityByCoord(sporerTarget);
+      if (
+        sporerTargetEntity &&
+        (sporerTargetEntity.type === OrganType.A ||
+          sporerTargetEntity.type === OrganType.B ||
+          sporerTargetEntity.type === OrganType.C ||
+          sporerTargetEntity.type === OrganType.D)
+      ) {
+        this.path = [this.path[pathLineLenght - 2]];
+      } else {
+        this.path = [this.path[pathLineLenght - 1]];
+      }
+      this.shoot = true;
+      this.shooter_coord = target;
     }
 
     // Check if we have enough proteins to grow
@@ -365,6 +423,9 @@ class Organism {
       console.log(
         `GROW ${sourceOrgan.id} ${target.x} ${target.y} ${growthType} ${direction}`
       );
+      if (growthType === OrganType.SPORER) {
+        return;
+      }
       this.path.shift();
     } else {
       console.error("Not enought proteins to build: " + growthType);
@@ -437,7 +498,7 @@ class Organism {
   closestTarget(): Organ {
     let closest: Organ = this.potentialTargets[0];
     let minPathLength = Infinity;
-    let myRoot = this.findClosestOrgan(closest);
+    let myRoot = this.organs.find((organ) => organ.type === OrganType.ROOT);
     if (!myRoot) {
       console.error("No root found");
       myRoot = this.organs[0];
@@ -666,6 +727,18 @@ while (true) {
   const oppC: number = parseInt(inputs[2]);
   const oppD: number = parseInt(inputs[3]); // opponent's protein stock
 
+  console.error(
+    "Reached proteins sources: " +
+      MyOrganism.reachedProteinsSources.forEach((element) => {
+        element.coord;
+      })
+  );
+  console.error(
+    "Reached targets: " +
+      MyOrganism.reachedTargets.forEach((element) => {
+        element.coord;
+      })
+  );
   const requiredActionsCount: number = parseInt(readline()); // your number of organisms, output an action for each one in any order
   for (let i = 0; i < requiredActionsCount; i++) {
     console.error("[🦠 Organism %d]", i);

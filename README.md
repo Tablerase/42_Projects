@@ -182,6 +182,7 @@ gantt
     DigHacktion : crit, done, 2024-04-26, 2024-04-28
 
     section Events
+    CodinGame - Winter Challenge : done, 2024-12-23, 2025-01-05
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Conferences

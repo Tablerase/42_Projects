@@ -328,7 +328,7 @@ class Organism {
     }
 
     // Setup target and source
-    const target: Point | undefined = this.targetSelection();
+    const target: Point = this.targetSelection();
 
     // Guard clause for undefined target
     if (!target) {
@@ -452,6 +452,16 @@ class Organism {
             source.coord.y === entity.coord.y
         )
     );
+
+    // Optimize for the closest target
+    targets.sort((a, b) => {
+      const distanceA = this.manhattan(this.organs[0].coord, a.coord);
+      const distanceB = this.manhattan(this.organs[0].coord, b.coord);
+      return distanceA - distanceB;
+    });
+    targets = targets.slice(0, 5);
+    // console.error(targets);
+
     if (targets.length === 0) {
       console.error("No proteins sources targets found -> targeting enemies");
       // Add enemy organs as potential targets
@@ -498,7 +508,9 @@ class Organism {
   closestTarget(): Organ {
     let closest: Organ = this.potentialTargets[0];
     let minPathLength = Infinity;
-    let myRoot = this.organs.find((organ) => organ.type === OrganType.ROOT);
+    let myRoot: Organ = this.organs.find(
+      (organ) => organ.type === OrganType.ROOT
+    );
     if (!myRoot) {
       console.error("No root found");
       myRoot = this.organs[0];
@@ -526,6 +538,7 @@ class Organism {
       }
     }
 
+    // console.error("closestTarget path: " + this.path);
     return closest;
   }
 
@@ -657,6 +670,7 @@ class Organism {
   }
 
   targetSelection(): Point {
+    let target: Point;
     if (!this.path || this.path.length === 0) {
       let closestTarget = this.closestTarget();
       console.error("🧫 Cellular target: " + JSON.stringify(closestTarget));
@@ -665,13 +679,16 @@ class Organism {
         console.error("No targets found");
         return { x: 0, y: 0 };
       }
-      if (!this.path) {
+      if (!this.path || this.path.length === 0) {
         console.error("No path found");
         return { x: 0, y: 0 };
       }
       //   console.error(this.path);
+      target = this.path.at(0);
+    } else {
+      target = this.path.at(0);
     }
-    let target: Point = this.path[0];
+    console.error(target);
     return target;
   }
 }
@@ -727,18 +744,12 @@ while (true) {
   const oppC: number = parseInt(inputs[2]);
   const oppD: number = parseInt(inputs[3]); // opponent's protein stock
 
-  console.error(
-    "Reached proteins sources: " +
-      MyOrganism.reachedProteinsSources.forEach((element) => {
-        element.coord;
-      })
-  );
-  console.error(
-    "Reached targets: " +
-      MyOrganism.reachedTargets.forEach((element) => {
-        element.coord;
-      })
-  );
+  for (let source of MyOrganism.reachedProteinsSources) {
+    console.error("Reached Protein Source: " + JSON.stringify(source.coord));
+  }
+  for (let target of MyOrganism.reachedTargets) {
+    console.error("Reached Target: " + JSON.stringify(target.coord));
+  }
   const requiredActionsCount: number = parseInt(readline()); // your number of organisms, output an action for each one in any order
   for (let i = 0; i < requiredActionsCount; i++) {
     console.error("[🦠 Organism %d]", i);

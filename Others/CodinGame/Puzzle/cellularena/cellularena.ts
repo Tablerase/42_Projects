@@ -5,6 +5,17 @@
  *  - Pathfinding: https://www.redblobgames.com/pathfinding/a-star/introduction.html
  **/
 
+// Experience log:
+// Intro to typescript
+// Intro to A* pathfinding
+// Intro to cellular automata
+
+// To improve:
+// Better pathfinding algo (edge cases, cost based)
+// Better protein source targeting
+// Better enemy targeting
+// Better choice of organism growth (based on cost and priority)
+
 var inputs: string[] = readline().split(" ");
 const width: number = parseInt(inputs[0]); // columns in the game grid
 const height: number = parseInt(inputs[1]); // rows in the game grid

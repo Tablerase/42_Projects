@@ -508,7 +508,7 @@ class Organism {
   closestTarget(): Organ {
     let closest: Organ = this.potentialTargets[0];
     let minPathLength = Infinity;
-    let myRoot: Organ = this.organs.find(
+    let myRoot: Organ | undefined = this.organs.find(
       (organ) => organ.type === OrganType.ROOT
     );
     if (!myRoot) {
@@ -684,9 +684,9 @@ class Organism {
         return { x: 0, y: 0 };
       }
       //   console.error(this.path);
-      target = this.path.at(0);
+      target = this.path[0];
     } else {
-      target = this.path.at(0);
+      target = this.path[0];
     }
     console.error(target);
     return target;

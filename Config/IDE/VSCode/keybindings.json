@@ -1,18 +1,16 @@
 [
+  // ========================
   // TERMINAL
+  // ========================
   {
-    "key": "ctrl+shift+a",
+    "key": "ctrl+shift+l",
     "command": "workbench.action.terminal.focusNext",
     "when": "terminalFocus"
   },
   {
-    "key": "ctrl+shift+b",
+    "key": "ctrl+shift+h",
     "command": "workbench.action.terminal.focusPrevious",
     "when": "terminalFocus"
-  },
-  {
-    "key": "ctrl+shift+j",
-    "command": "workbench.action.togglePanel"
   },
   {
     "key": "ctrl+shift+n",
@@ -22,15 +20,29 @@
   {
     "key": "ctrl+shift+w",
     "command": "workbench.action.terminal.kill",
-    "when": "terminalFocus"
+    "when": "terminalFocus || terminalTabsFocus"
+  },
+  // Move Terminal
+  {
+    "key": "ctrl+shift+j",
+    "command": "workbench.action.terminal.moveToTerminalPanel",
+    "when": "terminalEditorFocus"
   },
   {
-    // "key": "ctrl+shift+h",
-    "key": "ctrl+x",
-    "command": "workbench.action.openPreviousRecentlyUsedEditor",
+    "key": "ctrl+shift+k",
+    "command": "workbench.action.terminal.moveToEditor",
     "when": "terminalFocus"
   },
+  // Navigate From Terminal to Editor
+  {
+    "key": "ctrl+shift+h",
+    "command": "workbench.action.openPreviousRecentlyUsedEditor",
+    "when": "terminalEditorFocus || terminalFocus"
+  },
+
+  // ========================
   // FILE TREE
+  // ========================
   {
     "key": "ctrl+l",
     "command": "workbench.action.focusActiveEditorGroup",
@@ -87,6 +99,20 @@
     "command": "workbench.action.focusActiveEditorGroup"
   },
 
+  // ========================
+  // NAVIGATE
+  // ========================
+  {
+    "key": "shift+l",
+    "command": "workbench.action.nextEditor",
+    "when": "!inputFocus && !editorFocus"
+  },
+  {
+    "key": "shift+h",
+    "command": "workbench.action.previousEditor",
+    "when": "!inputFocus && !editorFocus"
+  },
+
   // EXTRA
   {
     "key": "ctrl+shift+5",
@@ -97,7 +123,9 @@
     "command": "workbench.action.toggleZenMode"
   },
 
+  // ========================
   // INLINE CHAT
+  // ========================
   {
     "key": "ctrl+i ctrl+l",
     "command": "inlineChat.start",

@@ -73,7 +73,6 @@ Notes and projects during my time at 42.
 ## [Notes](./Notes/)
 
 - [Color/Ascii (e.g in Terminal)](./Notes/ascii-art.md)
-- [Git](./Notes/git.md)
 - [Git Conventions](./Notes/git-conventions.md)
 - [Computer Science](./Notes/computer_science.md)
 - [Makefile](./Notes/makefile.md)

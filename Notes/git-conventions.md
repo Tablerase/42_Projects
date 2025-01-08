@@ -43,18 +43,18 @@ Reviewed-by: Z
 Refs: #123
 ```
 
-| Type     | Meaning |
-|----------|---------|
-| feat     | A new feature. |
-| fix      | A bug fix. |
-| docs     | Documentation only changes. |
+| Type     | Meaning                                                                                                 |
+| -------- | ------------------------------------------------------------------------------------------------------- |
+| feat     | A new feature.                                                                                          |
+| fix      | A bug fix.                                                                                              |
+| docs     | Documentation only changes.                                                                             |
 | style    | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc). |
-| refactor | A code change that neither fixes a bug nor adds a feature. |
-| perf     | A code change that improves performance. |
-| ops      | Changes to the deployment process or scripts. |
-| test     | Adding missing tests. |
-| chore    | Changes to the build process or auxiliary tools and libraries such as documentation generation. |
-| revert   | Reverts a previous commit. |
+| refactor | A code change that neither fixes a bug nor adds a feature.                                              |
+| perf     | A code change that improves performance.                                                                |
+| ops      | Changes to the deployment process or scripts.                                                           |
+| test     | Adding missing tests.                                                                                   |
+| build    | Changes to the build process or auxiliary tools and libraries such as documentation generation.         |
+| revert   | Reverts a previous commit.                                                                              |
 
 ### Description
 
@@ -106,16 +106,15 @@ hotfix/T-number-hotfix-name
 release/v1.0.0
 ```
 
-| Type | Meaning |
-|---------|---------|
-| wip     | Work in progress. |
-| draft   | A draft branch. |
-| fix     | A branch that fixes a bug. |
-| feature | A branch that adds a new feature. |
-| hotfix  | A branch that fixes a bug in production. |
-| test    | A branch that tests a new feature or bugfix. |
-| release | A branch that prepares for a new production release. |
-| stable  | A branch that marks a stable release. |
+| Type    | Meaning                                                                    |
+| ------- | -------------------------------------------------------------------------- |
+| wip     | Work in progress.                                                          |
+| draft   | A draft branch.                                                            |
+| fix     | A branch that fixes a bug.                                                 |
+| feature | A branch that adds a new feature.                                          |
+| hotfix  | A branch that fixes a bug in production.                                   |
+| test    | A branch that tests a new feature or bugfix.                               |
+| release | A branch that prepares for a new production release.                       |
+| stable  | A branch that marks a stable release.                                      |
 | develop | A branch where the latest developments, features and updates are combined. |
-| main    | The main branch. |
-
+| main    | The main branch.                                                           |

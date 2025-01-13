@@ -27,6 +27,7 @@ State is **mutable**, and it is typically used to store property values that bel
 import useState from "react";
 
 function App() {
+  // type [state, setState] = useState(initialState);
   const [count, setCount] = useState(0);
 
   return (
@@ -45,5 +46,3 @@ Instead of create complex props drilling:
 
 Using Context allow to store data in all children of a tree, instead of adding the data to props everytime (error prone).
 ![react context pass schema](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_context_far.png&w=640&q=75)
-
-

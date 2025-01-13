@@ -37,3 +37,13 @@ function App() {
   );
 }
 ```
+
+### Managing state
+
+Instead of create complex props drilling:
+![react props drilling schema](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_prop_drilling.png&w=640&q=75)
+
+Using Context allow to store data in all children of a tree, instead of adding the data to props everytime (error prone).
+![react context pass schema](https://react.dev/_next/image?url=%2Fimages%2Fdocs%2Fdiagrams%2Fpassing_data_context_far.png&w=640&q=75)
+
+

@@ -1,7 +1,7 @@
 # requirement.txt
 
 # Django
-django == 5.1.4
+django == 5.1.5
 
 # Database
 ## PostgreSQL

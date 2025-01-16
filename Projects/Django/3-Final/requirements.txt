@@ -2,7 +2,7 @@
 
 # Django
 ## LTS version - ends in 2026
-django == 4.2.17
+django == 4.2.18
 django-bootstrap5 == 24.3
 
 ## Django Websockets and Async Server

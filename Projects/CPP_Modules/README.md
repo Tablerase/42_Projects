@@ -1,6 +1,7 @@
 # C++ Modules
 
-🏗️ [Info about some exercices parts](./cpp-exercices.md)
+> [!NOTE]\
+> 🏗️ [Info about some exercices parts (Materia, RPN, Ford-Johnson...)](./cpp-exercices.md)
 
 ## Resources
 

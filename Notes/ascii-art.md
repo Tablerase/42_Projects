@@ -2,8 +2,8 @@
 
 ## Usefull websites
 
-- 🔗 [Ascii Draw - Hand Draw](https://fsymbols.com/draw/)
-- 🔗 [Ascii Drawing - Basic](https://asciiflow.com/#/)
+- 🔗 [Ascii Drawing - Hand Draw](https://fsymbols.com/draw/)
+- 🔗 [Ascii Drawing - Better Copy/Paste - Less Flexible](https://asciiflow.com/#/)
 
 ## Unicode
 

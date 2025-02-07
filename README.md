@@ -190,5 +190,6 @@ gantt
 
 ## 42Paris
 
-- 🤖 [Friends List and Evaluator finder - 42Friends](https://friends.42paris.fr/)
+- 🤖 [Friends List/Map - 42Friends](https://friends.42paris.fr/)
+- 🔎 [Find help for your 42 Projects](https://github.com/rfautier/find_correction)
 - ⏳ [Timework tracker - 42Dashboard](https://dashboard.42paris.fr/)

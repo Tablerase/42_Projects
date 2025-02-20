@@ -28,4 +28,4 @@ url = git@github.com:Tablerase/Nvim_Config.git
 branch = main
 [submodule "Others/42AI/Piscine_ML"]
 path = Others/42AI/Piscine_ML
-url = git@github.com:Tablerase/42AI_bootcamp_python_ml.git
+url = git@github.com:Tablerase/42AI_Bootcamp_Python_ML.git

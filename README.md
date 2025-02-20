@@ -13,6 +13,10 @@ Notes and projects during my time at 42.
 
 </summary>
 
+#### Data/ML
+
+- [42AI - Piscine Python ML](./Others/42AI/Piscine_ML/)
+
 #### Backend
 
 - [Piscine Python Django](./Projects/Django)
@@ -117,10 +121,10 @@ gantt
     InceptionOfThings : active, 2025-06-01, 8w
 
     Section IoT
-    Piscine Embedded : active, 2025-03-01, 4w
+    42Chips - Piscine Embedded : active, 2025-03-01, 4w
 
     Section Data/ML
-    Piscine Python ML : active, 2025-02-10, 3w
+    42AI - Piscine Python ML : active, 2025-02-10, 3w
 
     section Mobile
     SwiftyCompanion : active, 2025-05-01, 4w

@@ -1,28 +1,31 @@
 [submodule "Projects/MiniShell/minishell"]
-	path = Projects/MiniShell/minishell
-	url = git@github.com:Tablerase/MiniShell.git
+path = Projects/MiniShell/minishell
+url = git@github.com:Tablerase/MiniShell.git
 [submodule "Projects/Cube3D/cub3D"]
-	path = Projects/Cube3D/cub3D
-	url = git@github.com:Tablerase/42_Cub3D.git
+path = Projects/Cube3D/cub3D
+url = git@github.com:Tablerase/42_Cub3D.git
 [submodule "Projects/WebServ/WebServ-Wiki"]
-	path = Projects/WebServ/WebServ-Wiki
-	url = https://github.com/Tablerase/42_WebServ.wiki.git
-    branch = master
+path = Projects/WebServ/WebServ-Wiki
+url = https://github.com/Tablerase/42_WebServ.wiki.git
+branch = master
 [submodule "Projects/WebServ/WebServ-Projet"]
-	path = Projects/WebServ/WebServ-Projet
-	url = git@github.com:Tablerase/42_WebServ.git
-    branch = main
+path = Projects/WebServ/WebServ-Projet
+url = git@github.com:Tablerase/42_WebServ.git
+branch = main
 [submodule "Projects/Inception/inception"]
-	path = Projects/Inception/inception
-	url = git@github.com:Tablerase/42_Inception.git
-	branch = main
+path = Projects/Inception/inception
+url = git@github.com:Tablerase/42_Inception.git
+branch = main
 [submodule "Projects/Transcendence/42_Transcendence"]
-	path = Projects/Transcendence/42_Transcendence
-	url = git@github.com:Tablerase/42_Transcendence.git
+path = Projects/Transcendence/42_Transcendence
+url = git@github.com:Tablerase/42_Transcendence.git
 [submodule "Projects/Transcendence/42_Transcendence.wiki"]
-	path = Projects/Transcendence/42_Transcendence.wiki
-	url = git@github.com:Tablerase/42_Transcendence.wiki.git
+path = Projects/Transcendence/42_Transcendence.wiki
+url = git@github.com:Tablerase/42_Transcendence.wiki.git
 [submodule "Config/IDE/Nvim_Config"]
-	path = Config/IDE/Nvim_Config
-	url = git@github.com:Tablerase/Nvim_Config.git
-    branch = main
+path = Config/IDE/Nvim_Config
+url = git@github.com:Tablerase/Nvim_Config.git
+branch = main
+[submodule "Others/42AI/Piscine_ML"]
+path = Others/42AI/Piscine_ML
+url = git@github.com:Tablerase/42AI_bootcamp_python_ml.git

@@ -127,7 +127,7 @@ gantt
     Piscine Mobile (React Native) : active, 2025-04-01, 4w
 
     section Web
-    Matcha (Express Node) : active, 2024-12-10, 7w
+    Matcha (Express Node) : active, 2024-12-10, 9w
 
     section OOP
     Piscine Django : done, 2024-10-01, 2024-12-08
@@ -190,3 +190,9 @@ gantt
     section Conferences
     XYZ_Paris : done, 2024-09-27, 1d
 ```
+
+## 42Paris
+
+- 🤖 [Friends List/Map - 42Friends](https://friends.42paris.fr/)
+- 🔎 [Find help for your 42 Projects](https://github.com/rfautier/find_correction)
+- ⏳ [Timework tracker - 42Dashboard](https://dashboard.42paris.fr/)

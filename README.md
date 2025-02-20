@@ -114,17 +114,20 @@ gantt
     Internship : crit, 2025-09-01, 2026-03-01
 
     section DevOps
-    InceptionOfThings : active, 2025-04-01, 8w
+    InceptionOfThings : active, 2025-06-01, 8w
 
     Section IoT
     Piscine Embedded : active, 2025-03-01, 4w
 
+    Section Data/ML
+    Piscine Python ML : active, 2025-02-10, 3w
+
     section Mobile
-    SwiftyCompanion : active, 2025-02-01, 4w
-    Piscine Mobile (React Native) : active, 2025-01-20, 4w
+    SwiftyCompanion : active, 2025-05-01, 4w
+    Piscine Mobile (React Native) : active, 2025-04-01, 4w
 
     section Web
-    Matcha (Express Node) : active, 2024-12-10, 6w
+    Matcha (Express Node) : active, 2024-12-10, 7w
 
     section OOP
     Piscine Django : done, 2024-10-01, 2024-12-08

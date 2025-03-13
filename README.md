@@ -15,11 +15,11 @@ Notes and projects during my time at 42.
 
 #### Embedded
 
-- [42Chips - Piscine Embedded](./Others/42Chips/Piscine_Embedded/)
+- [42Chips - Piscine Embedded](https://github.com/Tablerase/42Chips_Piscine_Embedded)
 
 #### Data/ML
 
-- [42AI - Piscine Python ML](./Others/42AI/Piscine_ML/)
+- [42AI - Piscine Python ML](https://github.com/Tablerase/42AI_Bootcamp_Python_ML)
 
 #### Backend
 

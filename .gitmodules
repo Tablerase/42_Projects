@@ -29,3 +29,6 @@ branch = main
 [submodule "Others/42AI/Piscine_ML"]
 path = Others/42AI/Piscine_ML
 url = git@github.com:Tablerase/42AI_Bootcamp_Python_ML.git
+[submodule "Others/42Chips/Piscine_Embedded"]
+	path = Others/42Chips/Piscine_Embedded
+	url = git@github.com:Tablerase/42Chips_Piscine_Embedded.git

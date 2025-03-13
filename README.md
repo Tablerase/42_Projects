@@ -13,6 +13,10 @@ Notes and projects during my time at 42.
 
 </summary>
 
+#### Embedded
+
+- [42Chips - Piscine Embedded](./Others/42Chips/Piscine_Embedded/)
+
 #### Data/ML
 
 - [42AI - Piscine Python ML](./Others/42AI/Piscine_ML/)

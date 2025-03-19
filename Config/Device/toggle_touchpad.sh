@@ -15,6 +15,8 @@ STATUS=$(xinput list-props $DEVICE | grep "Device Enabled" | awk '{print $4}')
 
 if [ "$STATUS" == "1" ]; then
     xinput disable $DEVICE
+    notify-send --expire-time=1000 -i /usr/share/icons/Yaru/scalable/status/fingerprint-detection-warning-symbolic.svg "Touchpad Disable"
 else
     xinput enable $DEVICE
+    notify-send --expire-time=1000 -i /usr/share/icons/Yaru/scalable/status/fingerprint-detection-complete-symbolic.svg "Touchpad Enable"
 fi

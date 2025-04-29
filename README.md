@@ -115,27 +115,28 @@ Notes and projects during my time at 42.
 gantt
     title 42 Post Common Core
     dateFormat  YYYY-MM-DD
-    axisFormat %Y-%m
+    axisFormat %m-%y
     todayMarker on
 
     section Goals
+    CV/Portfolio/Search : crit, 2025-03-15, 16w
     Internship : crit, 2025-09-01, 2026-03-01
 
     section DevOps
     InceptionOfThings : active, 2025-06-01, 8w
 
     Section IoT
-    42Chips - Piscine Embedded : active, 2025-03-01, 4w
+    42Chips - Piscine Embedded : done, 2025-03-01, 4w
 
     Section Data/ML
-    42AI - Piscine Python ML : active, 2025-02-10, 3w
+    42AI - Piscine Python ML : done, 2025-02-10, 3w
 
     section Mobile
     SwiftyCompanion : active, 2025-05-01, 4w
     Piscine Mobile (React Native) : active, 2025-04-01, 4w
 
     section Web
-    Matcha (Express Node) : active, 2024-12-10, 9w
+    Matcha (Express Node) : done, 2024-12-10, 9w
 
     section OOP
     Piscine Django : done, 2024-10-01, 2024-12-08
@@ -145,7 +146,7 @@ gantt
 gantt
     title 42 Projects
     dateFormat  YYYY-MM-DD
-    axisFormat %Y-%m
+    axisFormat %m-%Y
     todayMarker on
 
     section Goals
@@ -185,18 +186,21 @@ gantt
 gantt
     title Sides
     dateFormat  YYYY-MM-DD
-    axisFormat %Y-%m
+    axisFormat %m-%y
     todayMarker on
 
     section Hackathons
-    DigHacktion : crit, done, 2024-04-26, 2024-04-28
+    ChangeNow - RedCrossBooth - preparation : done, 2025-04-14, 2025-04-20
+    RedCross FR-AiCrisis (1st Team) : crit, done, 2025-04-04, 2025-04-05
+    DigHacktion (1st Team) : crit, done, 2024-04-26, 2024-04-28
 
     section Events
     CodinGame - Winter Challenge : done, 2024-12-23, 2025-01-05
     CodinGame - Fall Challenge : done, 2023-12-18, 2023-12-28
 
     section Conferences
-    XYZ_Paris : done, 2024-09-27, 1d
+    ChangeNow - RedCrossBooth(participant) : crit, done, 2025-04-24, 2025-04-25
+    XYZ_Paris(visitor) : done, 2024-09-27, 1d
 ```
 
 ## 42Paris

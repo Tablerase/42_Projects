@@ -16,6 +16,15 @@
 
 ⏯️ [Git Fondamentaux - FR](https://www.youtube.com/watch?v=uA2WZCQP4EI)
 
+## Git rescue
+
+- git filter repo or [BFG](https://rtyley.github.io/bfg-repo-cleaner/)
+
+```bash
+# Manual deletion
+find . -name "file_to_remove" -exec git rm --cached {} \;
+```
+
 ## Git Project Workflow
 
 A Git project has three parts:

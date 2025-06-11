@@ -29,6 +29,10 @@ Notes and projects during my time at 42.
 
 - [Matcha](./Projects/Matcha)
 
+#### Mobile
+
+- [Piscine Mobile (React Native)](https://github.com/Tablerase/42_Piscine_Mobile.git)
+
 </details>
 
 <details>
@@ -123,7 +127,7 @@ gantt
     Internship : crit, 2025-09-01, 2026-03-01
 
     section DevOps
-    InceptionOfThings : active, 2025-06-01, 8w
+    InceptionOfThings : active, 2025-07-30, 8w
 
     Section IoT
     42Chips - Piscine Embedded : done, 2025-03-01, 4w
@@ -132,8 +136,8 @@ gantt
     42AI - Piscine Python ML : done, 2025-02-10, 3w
 
     section Mobile
-    SwiftyCompanion : active, 2025-05-01, 4w
-    Piscine Mobile (React Native) : active, 2025-04-01, 4w
+    SwiftyCompanion : active, 2025-06-12, 4w
+    Piscine Mobile (React Native) : active, 2025-05, 6w
 
     section Web
     Matcha (Express Node) : done, 2024-12-10, 9w
@@ -201,10 +205,11 @@ gantt
     section Conferences
     ChangeNow - RedCrossBooth(participant) : crit, done, 2025-04-24, 2025-04-25
     XYZ_Paris(visitor) : done, 2024-09-27, 1d
+    SantExpo(visitor) : crit, done, 2025-05-19, 3d
 ```
 
 ## 42Paris
 
 - 🤖 [Friends List/Map - 42Friends](https://friends.42paris.fr/)
 - 🔎 [Find help for your 42 Projects](https://github.com/rfautier/find_correction)
-- ⏳ [Timework tracker - 42Dashboard](https://dashboard.42paris.fr/)
+- ⏳ [Worktime tracker - 42Dashboard](https://dashboard.42paris.fr/)

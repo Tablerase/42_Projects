@@ -2,7 +2,6 @@
 
 :deciduous_tree: [Binary Tree - Data Structure](https://www.programiz.com/dsa/trees)
 
-
 ## Definition
 
 A binary tree is a tree data structure in which each node has at most two children, which are referred to as the left child and the right child.
@@ -91,6 +90,7 @@ graph TD
 ```
 
 - **Balanced Binary Tree**: A balanced binary tree, also referred to as a height-balanced binary tree, is defined as a binary tree in which the height of the left and right subtree of any node differ by not more than 1.
+
 ```mermaid
 graph TD
 classDef diff fill:#8f8;
@@ -104,27 +104,29 @@ classDef diff fill:#8f8;
     2 --> 4
     2 --> 5
 ```
-  - **Unbalanced Binary Tree**: An unbalanced binary tree is a binary tree in which the height of the left and right subtree of any node differ by more than 1.
-  ```mermaid
-  graph TD
-    classDef diff1 fill:#8f8;
-    classDef diff2 fill:#f88;
-    1((1\nd = 2)):::diff2
-    2((2\nd = 1)):::diff1
-    3((3\nd = 0))
-    4((4\nd = 0))
-    5((5\nd = 1)):::diff1
-    6((6\nd = 0))
-    1 --> 2
-    1 --> 3
-    2 --> 4
-    2 --> 5
-    5 --> 6
-  ```
+
+- **Unbalanced Binary Tree**: An unbalanced binary tree is a binary tree in which the height of the left and right subtree of any node differ by more than 1.
+
+```mermaid
+graph TD
+  classDef diff1 fill:#8f8;
+  classDef diff2 fill:#f88;
+  1((1\nd = 2)):::diff2
+  2((2\nd = 1)):::diff1
+  3((3\nd = 0))
+  4((4\nd = 0))
+  5((5\nd = 1)):::diff1
+  6((6\nd = 0))
+  1 --> 2
+  1 --> 3
+  2 --> 4
+  2 --> 5
+  5 --> 6
+```
 
 d = depth of the node:
-  - $ d = |height(left) - height(right)| $
 
+- $ d = |height(left) - height(right)| $
 
 ## Traversal
 
@@ -236,6 +238,7 @@ int main()
 ```
 
 Output:
+
 ```shell
 Preorder traversal of binary tree is
 1 2 4 5 3
@@ -326,6 +329,7 @@ int main()
 ```
 
 Output:
+
 ```shell
 Inorder traversal of binary tree is
 4 2 5 1 3
@@ -417,7 +421,29 @@ int main()
 ```
 
 Output:
+
 ```shell
 Postorder traversal of binary tree is
 4 5 2 3 1
+```
+
+</details>
+
+- **Level Order**: Level by level from top to bottom and left to right.
+
+```mermaid
+graph LR
+  classDef right fill:#8f8;
+  classDef right-left fill:#af2;
+  classDef left fill:#f88;
+  classDef left-right fill:#fa3;
+  classDef root fill:#88f;
+    1((1)):::root
+    2((2)):::left
+    3((3)):::right
+    4((4)):::left
+    5((5)):::left-right
+    6((6)):::right-left
+    7((7)):::right
+    1 --> 2 --> 3 --> 4 --> 5 --> 6 --> 7
 ```

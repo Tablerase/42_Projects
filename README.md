@@ -32,6 +32,9 @@ Notes and projects during my time at 42.
 #### Mobile
 
 - [Piscine Mobile (React Native)](https://github.com/Tablerase/42_Piscine_Mobile.git)
+  - [Diary App](https://github.com/Tablerase/42_Piscine_Mobile/tree/main/Modules/mobileModule05-Data_Display/advanced_diary_app)
+  - Weather App
+- [SwiftyCompanion](https://github.com/Tablerase/42_Swifty-Companion)
 
 </details>
 

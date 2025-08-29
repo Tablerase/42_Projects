@@ -126,11 +126,10 @@ gantt
     todayMarker on
 
     section Goals
-    CV/Portfolio/Search : crit, 2025-03-15, 16w
-    Internship : crit, 2025-09-01, 2026-03-01
 
     section DevOps
-    InceptionOfThings : active, 2025-07-30, 8w
+    InceptionOfThings : active, 2025-08-20, 8w
+    Cloud1 : done, 2025-07-28, 3w
 
     Section IoT
     42Chips - Piscine Embedded : done, 2025-03-01, 4w
@@ -139,8 +138,8 @@ gantt
     42AI - Piscine Python ML : done, 2025-02-10, 3w
 
     section Mobile
-    SwiftyCompanion : active, 2025-06-12, 4w
-    Piscine Mobile (React Native) : active, 2025-05, 6w
+    SwiftyCompanion : done, 2025-06-12, 3w
+    Piscine Mobile (React Native) : done, 2025-05, 6w
 
     section Web
     Matcha (Express Node) : done, 2024-12-10, 9w

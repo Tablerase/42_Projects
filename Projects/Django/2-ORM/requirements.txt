@@ -1,9 +1,0 @@
-# requirement.txt
-
-# Django
-django == 5.1.5
-
-# Database
-## PostgreSQL
-### psycopg2 (not recommended module - only if building with old dependency): use psycopg instead
-psycopg2-binary == 2.9.10

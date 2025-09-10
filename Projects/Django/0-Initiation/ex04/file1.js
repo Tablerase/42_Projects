@@ -1,5 +1,0 @@
-function unicorn()
-{
-	puffin()
-}
-

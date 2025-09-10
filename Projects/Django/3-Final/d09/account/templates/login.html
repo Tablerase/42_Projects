@@ -1,5 +1,0 @@
-<form method="POST" id="login-form" action="{% url 'login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input id="ajax-login" type="submit" value="Login">
-</form>

@@ -34,6 +34,3 @@ url = git@github.com:Tablerase/42_Transcendence.wiki.git
 	path = Others/42Chips/Piscine_Embedded
 	url = git@github.com:Tablerase/42Chips_Piscine_Embedded.git
 	branch = main
-[submodule "Projects/InceptionOfThings"]
-	path = Projects/InceptionOfThings
-	url = git@github.com:Tablerase/InceptionOfThings.git

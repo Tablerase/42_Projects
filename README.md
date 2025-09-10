@@ -23,7 +23,7 @@ Notes and projects during my time at 42.
 
 #### Backend
 
-- [Piscine Python Django](./Projects/Django)
+- [Piscine Python Django](https://github.com/Tablerase/42_Piscine_Django)
 
 #### Web
 
@@ -35,6 +35,11 @@ Notes and projects during my time at 42.
   - [Diary App](https://github.com/Tablerase/42_Piscine_Mobile/tree/main/Modules/mobileModule05-Data_Display/advanced_diary_app)
   - Weather App
 - [SwiftyCompanion](https://github.com/Tablerase/42_Swifty-Companion)
+
+#### DevOps
+
+- [Inception of Things - Kubernetes, Gitlab, ArgoCD, Vagrant](https://github.com/Tablerase/InceptionOfThings)
+- [Cloud 1 - Ansible](https://github.com/Tablerase/Cloud1)
 
 </details>
 
@@ -128,7 +133,7 @@ gantt
     section Goals
 
     section DevOps
-    InceptionOfThings : active, 2025-08-20, 8w
+    InceptionOfThings : done, 2025-08-20, 3w
     Cloud1 : done, 2025-07-28, 3w
 
     Section IoT

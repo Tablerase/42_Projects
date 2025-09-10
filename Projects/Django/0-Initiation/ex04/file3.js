@@ -1,4 +1,0 @@
-function whale()
-{
-	unicorn();
-}

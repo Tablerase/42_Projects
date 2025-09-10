@@ -21,14 +21,14 @@ Notes and projects during my time at 42.
 
 #### Mobile
 
-- [Piscine Mobile (React Native)](https://github.com/Tablerase/42_Piscine_Mobile.git) - _React Native, Firebase, Oauth - Mobile development piscine_
+- [Piscine Mobile (React Native)](https://github.com/Tablerase/42_Piscine_Mobile.git) - _React Native, Firebase, Oauth - Mobile development bootcamp_
   - [Diary App](https://github.com/Tablerase/42_Piscine_Mobile/tree/main/Modules/mobileModule05-Data_Display/advanced_diary_app) - _Firebase, Oauth - App to write diary entries in cloud database_
   - Weather App - _API, Geolocation, Data - Location-based weather data viewer_
 - [SwiftyCompanion](https://github.com/Tablerase/42_Swifty-Companion) - _ReactNative, Oauth, API - App to search and display 42School user profile_
 
 #### Embedded
 
-- [42Chips - Piscine Embedded](https://github.com/Tablerase/42Chips_Piscine_Embedded) - _C, Bit manipulation, AVR, UART, I2C - Embedded systems discovery_
+- [42Chips - Piscine Embedded](https://github.com/Tablerase/42Chips_Piscine_Embedded) - _C, Bit manipulation, AVR, UART, I2C - Embedded systems bootcamp_
 
 #### Data/ML
 

@@ -7,39 +7,40 @@ Notes and projects during my time at 42.
 ## Projects
 
 <details>
+
 <summary>
 
 ### 🔮 Post Common Core
 
 </summary>
 
+#### DevOps
+
+- [Inception of Things](https://github.com/Tablerase/InceptionOfThings) - Team Project - _Kubernetes (K3D, K3S), Gitlab, ArgoCD, Vagrant - CI/CD with Gitlab and ArgoCD_
+- [Cloud 1](https://github.com/Tablerase/Cloud1) - _Ansible, Docker - Server setup of WordPress, MySQL, Nginx and deployment_
+
+#### Mobile
+
+- [Piscine Mobile (React Native)](https://github.com/Tablerase/42_Piscine_Mobile.git) - _React Native, Firebase, Oauth - Mobile development piscine_
+  - [Diary App](https://github.com/Tablerase/42_Piscine_Mobile/tree/main/Modules/mobileModule05-Data_Display/advanced_diary_app) - _Firebase, Oauth - App to write diary entries in cloud database_
+  - Weather App - _API, Geolocation, Data - Location-based weather data viewer_
+- [SwiftyCompanion](https://github.com/Tablerase/42_Swifty-Companion) - _ReactNative, Oauth, API - App to search and display 42School user profile_
+
 #### Embedded
 
-- [42Chips - Piscine Embedded](https://github.com/Tablerase/42Chips_Piscine_Embedded)
+- [42Chips - Piscine Embedded](https://github.com/Tablerase/42Chips_Piscine_Embedded) - _C, Bit manipulation, AVR, UART, I2C - Embedded systems discovery_
 
 #### Data/ML
 
 - [42AI - Piscine Python ML](https://github.com/Tablerase/42AI_Bootcamp_Python_ML)
 
-#### Backend
-
-- [Piscine Python Django](https://github.com/Tablerase/42_Piscine_Django)
-
 #### Web
 
-- [Matcha](./Projects/Matcha)
+- [Matcha](./Projects/Matcha) - Team Project - _TS, Express, Node.js, React, TanStack, Websockets, OAuth, PostgreSQL - Intro to React and Dating web application (client and server)_
 
-#### Mobile
+#### Backend
 
-- [Piscine Mobile (React Native)](https://github.com/Tablerase/42_Piscine_Mobile.git)
-  - [Diary App](https://github.com/Tablerase/42_Piscine_Mobile/tree/main/Modules/mobileModule05-Data_Display/advanced_diary_app)
-  - Weather App
-- [SwiftyCompanion](https://github.com/Tablerase/42_Swifty-Companion)
-
-#### DevOps
-
-- [Inception of Things - Kubernetes, Gitlab, ArgoCD, Vagrant](https://github.com/Tablerase/InceptionOfThings)
-- [Cloud 1 - Ansible](https://github.com/Tablerase/Cloud1)
+- [Piscine Python Django](https://github.com/Tablerase/42_Piscine_Django) - _Python, Django, SQLite - Web application with authentication, posts, comments, likes..._
 
 </details>
 
@@ -52,41 +53,41 @@ Notes and projects during my time at 42.
 
 #### Rank 6
 
-- [Transcendence](./Projects/Transcendence)
+- [Transcendence](./Projects/Transcendence) - Team project - _Python, Django, Js, Websockets, Docker, PostgreSQL, Grafana, Prometheus - Fullstack web application with real-time features and monitoring_
 
 #### Rank 5
 
-- [Inception](./Projects/Inception)
-- [CPP Modules [5-9]](./Projects/CPP_Modules)
-- [WebServ](./Projects/WebServ)
+- [Inception](./Projects/Inception) - _Docker, Nginx, MySQL, WordPress - Containerized web server with database and CMS_
+- [CPP Modules [5-9]](./Projects/CPP_Modules) - _C++ - Advanced OOP, Templates, Exceptions, File I/O_
+- [WebServ](./Projects/WebServ) - _C++ - Simple HTTP server_
 
 #### Rank 4
 
-- [NetPractice](./Projects/NetPractice/)
-- [CPP Modules [0-4]](./Projects/CPP_Modules)
-- [Cube3D](./Projects/Cube3D/)
+- [NetPractice](./Projects/NetPractice/) - _Network protocols (TCP, UDP, IP, ARP, ICMP)_
+- [CPP Modules [0-4]](./Projects/CPP_Modules) - _C++ - OOP, Memory Management, Inheritance, Polymorphism_
+- [Cube3D](./Projects/Cube3D/) - _C - 2D/3D game engine (raycasting)_
 
 #### Rank 3
 
-- [Philosophers](./Projects/Philosophers/)
-- [MiniShell](./Projects/MiniShell/)
+- [Philosophers](./Projects/Philosophers/) - _C - Concurrency and multithreading_
+- [MiniShell](./Projects/MiniShell/) - _C - Simple shell implementation_
 
 #### Rank 2
 
-- [Pipex](./Projects/Pipex/)
-- [Push_Swap](./Projects/Push_swap/)
-- [Fract-ol](./Projects/Fract-ol/)
+- [Pipex](./Projects/Pipex/) - _C - Unix pipes_
+- [Push_Swap](./Projects/Push_swap/) - _C - Sorting algorithm_
+- [Fract-ol](./Projects/Fract-ol/) - _C - Fractal viewer_
 
 #### Rank 1
 
-- [Ft_Printf](./Projects/Ft_printf/)
-- [GetNextLine](./Projects/GetNextLine/)
-- [Born2BeRoot](./Projects/Born2BeRoot/)
+- [Ft_Printf](./Projects/Ft_printf/) - _C - Custom printf function_
+- [GetNextLine](./Projects/GetNextLine/) - _C - Read a line from a file descriptor_
+- [Born2BeRoot](./Projects/Born2BeRoot/) - _Linux server setup and security_
 
 #### Rank 0
 
-- [Libft](./Projects/Libft/)
-- [PiscineReloaded](./Projects/PiscineReloaded/)
+- [Libft](./Projects/Libft/) - _C - Custom library_
+- [PiscineReloaded](./Projects/PiscineReloaded/) - _Collection of small C projects_
 
 </details>
 

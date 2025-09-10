@@ -23,12 +23,17 @@ url = git@github.com:Tablerase/42_Transcendence.git
 path = Projects/Transcendence/42_Transcendence.wiki
 url = git@github.com:Tablerase/42_Transcendence.wiki.git
 [submodule "Config/IDE/Nvim_Config"]
-path = Config/IDE/Nvim_Config
-url = git@github.com:Tablerase/Nvim_Config.git
-branch = main
+	path = Config/IDE/Nvim_Config
+	url = git@github.com:Tablerase/Nvim_Config.git
+	branch = main
 [submodule "Others/42AI/Piscine_ML"]
-path = Others/42AI/Piscine_ML
-url = git@github.com:Tablerase/42AI_Bootcamp_Python_ML.git
+	path = Others/42AI/Piscine_ML
+	url = git@github.com:Tablerase/42AI_Bootcamp_Python_ML.git
+	branch = main
 [submodule "Others/42Chips/Piscine_Embedded"]
 	path = Others/42Chips/Piscine_Embedded
 	url = git@github.com:Tablerase/42Chips_Piscine_Embedded.git
+	branch = main
+[submodule "Projects/InceptionOfThings"]
+	path = Projects/InceptionOfThings
+	url = git@github.com:Tablerase/InceptionOfThings.git

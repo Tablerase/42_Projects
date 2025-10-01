@@ -1,4 +1,6 @@
 /**
+ * ls -1 129-sum_root_to_leaf_numb.cpp | entr -c sh -c "g++
+129-sum_root_to_leaf_numb.cpp && ./a.out
  *
 You are given the root of a binary tree containing digits from 0 to 9 only.
 
@@ -37,20 +39,22 @@ public:
 
     goToLeaf(root, &storage, 0);
 
-    std::cout << "Sum of values: " << std::endl;
+    int result = 0;
+    // std::cout << "Sum of values: " << std::endl;
     for (int x : storage) {
-      std::cout << x << " ";
+      //   std::cout << x << " ";
+      result += x;
     }
-    std::cout << std::endl;
-
+    // std::cout << std::endl;
+    //
     // Go to leaf and store value (path)
     // Sum array of values recovered
 
-    return 0;
+    return result;
   }
   void goToLeaf(TreeNode *node, std::vector<int> *storage, int leafvalue) {
-    if (node->val) {
-      leafvalue += node->val;
+    if (node->val >= 0) {
+      leafvalue = leafvalue * 10 + node->val;
     }
     if (node->right == nullptr && node->left == nullptr) {
       storage->push_back(leafvalue);
@@ -66,6 +70,7 @@ public:
 };
 
 int main(int argc, char *argv[]) {
+  std::string line(50, '=');
   Solution test = Solution();
   /**
    *
@@ -79,7 +84,14 @@ int main(int argc, char *argv[]) {
   TreeNode tree = TreeNode(4, new TreeNode(9, new TreeNode(5), new TreeNode(1)),
                            new TreeNode(0));
 
+  std::cout << line << std::endl;
   std::cout << test.sumNumbers(&tree) << std::endl;
+  std::cout << line << std::endl;
+
+  TreeNode tree123 = TreeNode(1, new TreeNode(2), new TreeNode(3));
+
+  std::cout << test.sumNumbers(&tree123) << std::endl;
+  std::cout << line << std::endl;
 
   return 0;
 }

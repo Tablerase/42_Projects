@@ -20,6 +20,8 @@ Example 3:
 Input: target = 11, nums = [1,1,1,1,1,1,1,1]
 Output: 0
 
+https://leetcode.com/problems/minimum-size-subarray-sum/description/?envType=study-plan-v2&envId=top-interview-150
+
 TOPICS:
 Array
 Binary Search
@@ -28,30 +30,94 @@ Prefix Sum
 
 TIPS:
 https://www.geeksforgeeks.org/dsa/segment-tree-data-structure/
+https://cp-algorithms.com/data_structures/segment_tree.html#implementation
 https://algorithm-visualizer.org/dynamic-programming/sliding-window
  */
 
 
+// function minSubArrayLen(target: number, nums: number[]): number {
+//   let minWindowLen = Infinity;
+//   let currSum = 0;
+//   let windowLeft = 0;
+//   // Grow window till sum is reach
+//   for (let windowRight = 0; windowRight < nums.length; windowRight++) {
+//     console.log("=".repeat(10), "CurrentSum:", currSum, "+", nums[windowRight]);
+//     currSum += nums[windowRight];
+//     // Reduce window to find min window length for target sum
+//     while (currSum >= target) {
+//       minWindowLen = Math.min(minWindowLen, windowRight - windowLeft + 1);
+//       console.log("Window: ", windowLeft, windowRight, "CurrentSum:", currSum, "minWindowLen: ", minWindowLen);
+//       currSum -= nums[windowLeft];
+//       windowLeft++;
+//     }
+//   }
+//
+//   return minWindowLen != Infinity ? minWindowLen : 0;
+// };
+class SegmentNode {
+  sum: number;
+  childs: number;
+  constructor(sum: number = 0, childs: number = 1) {
+    this.sum = sum;
+    this.childs = childs;
+  }
+}
+
+// Learning segmentTree
 function minSubArrayLen(target: number, nums: number[]): number {
   let minWindowLen = Infinity;
-  let currSum = 0;
-  let windowLeft = 0;
-  // Grow window till sum is reach
-  for (let windowRight = 0; windowRight < nums.length; windowRight++) {
-    console.log("=".repeat(10), "CurrentSum:", currSum, "+", nums[windowRight]);
-    currSum += nums[windowRight];
-    // Reduce window to find min window length for target sum
-    while (currSum >= target) {
-      minWindowLen = Math.min(minWindowLen, windowRight - windowLeft + 1);
-      console.log("Window: ", windowLeft, windowRight, "CurrentSum:", currSum, "minWindowLen: ", minWindowLen);
-      currSum -= nums[windowLeft];
-      windowLeft++;
+  // Create segment tree array (max 4n)
+  let segmentTree: SegmentNode[] = Array.from({ length: 4 * nums.length }, () => {
+    return new SegmentNode()
+  });
+
+  function buildSegTree(array: number[], vertex: number, leftBoundary: number, rightBoundary: number) {
+    if (leftBoundary == rightBoundary) {
+      segmentTree[vertex].sum = array[leftBoundary];
+    } else {
+      const middleBoundary = Math.floor((leftBoundary + rightBoundary) / 2);
+      // recursively create child with space for parent to store sum of childs
+      buildSegTree(nums, vertex * 2 + 1, leftBoundary, middleBoundary);
+      buildSegTree(nums, vertex * 2 + 2, middleBoundary + 1, rightBoundary);
+      // parent node assignement
+      const leftNode = segmentTree[vertex * 2];
+      const rightNode = segmentTree[vertex * 2 + 1];
+      segmentTree[vertex].sum = leftNode.sum + rightNode.sum;
+      segmentTree[vertex].childs = leftNode.childs + rightNode.childs;
     }
   }
 
+  // TODO : Fix query to find min childs to reach target sum (do linear search with for loop if too complexe)
+  function minChildsToReachSum(vertex: number, left: number, right: number, target: number): number {
+    // leaf node
+    if (left === right) {
+      return segmentTree[vertex].sum >= target ? 1 : Infinity;
+    }
+
+    const mid = Math.floor((left + right) / 2);
+    const leftChild = vertex * 2 + 1;
+    const rightChild = vertex * 2 + 2;
+
+    const leftNode = segmentTree[leftChild];
+    const rightNode = segmentTree[rightChild];
+
+    if (leftNode.sum >= target) {
+      // target can be fulfilled entirely in left subtree
+      return minChildsToReachSum(leftChild, left, mid, target);
+    } else {
+      // need all left childs + some from right
+      const remaining = target - leftNode.sum;
+      const rightResult = minChildsToReachSum(rightChild, mid + 1, right, remaining);
+      return leftNode.childs + rightResult;
+    }
+  }
+
+  buildSegTree(nums, 0, 0, nums.length - 1);
+  console.log(segmentTree);
+
+  minWindowLen = minChildsToReachSum(0, 0, nums.length - 1, target);
   return minWindowLen != Infinity ? minWindowLen : 0;
 };
-
 function test(target: number, nums: number[], expected: number) {
   console.log("Array: ", nums, "Target: ", target);
   console.log("Result:", minSubArrayLen(target, nums), "Expected:", expected);

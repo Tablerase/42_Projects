@@ -33,33 +33,23 @@ https://algorithm-visualizer.org/dynamic-programming/sliding-window
 
 
 function minSubArrayLen(target: number, nums: number[]): number {
-  let sumFound = false;
-  let minWindowLen = nums.length;
-  // Reduce window length till 1 is reach
-  for (let index = 0; index < nums.length; index++) {
-    // Search in window length
-    let currWindowLen = 1;
-    let currSum = 0;
-    for (let windowIndex = 0; windowIndex < minWindowLen && windowIndex + index < nums.length; windowIndex++) {
-      currSum = currSum + nums[index + windowIndex];
-      // console.log("CurrentSum", currSum, "Index:", index, "windowIndex:", windowIndex, "currWindowLen", currWindowLen);
-      // Update if sum reached
-      if (currSum >= target) {
-        sumFound = true;
-        if (currWindowLen < minWindowLen) {
-          minWindowLen = currWindowLen;
-          if (minWindowLen == 1) {
-            return 1;
-          }
-          break;
-        }
-      }
-      currWindowLen++;
+  let minWindowLen = Infinity;
+  let currSum = 0;
+  let windowLeft = 0;
+  // Grow window till sum is reach
+  for (let windowRight = 0; windowRight < nums.length; windowRight++) {
+    console.log("=".repeat(10), "CurrentSum:", currSum, "+", nums[windowRight]);
+    currSum += nums[windowRight];
+    // Reduce window to find min window length for target sum
+    while (currSum >= target) {
+      minWindowLen = Math.min(minWindowLen, windowRight - windowLeft + 1);
+      console.log("Window: ", windowLeft, windowRight, "CurrentSum:", currSum, "minWindowLen: ", minWindowLen);
+      currSum -= nums[windowLeft];
+      windowLeft++;
     }
-    // console.log("=".repeat(50));
   }
 
-  return sumFound ? minWindowLen : 0;
+  return minWindowLen != Infinity ? minWindowLen : 0;
 };
 
 function test(target: number, nums: number[], expected: number) {
@@ -67,7 +57,8 @@ function test(target: number, nums: number[], expected: number) {
   console.log("Result:", minSubArrayLen(target, nums), "Expected:", expected);
 }
 
-test(7, [2, 3, 1, 2, 4, 3], 2)
-test(4, [1, 4, 4], 1)
-test(11, [1, 1, 1, 1, 1, 1, 1, 1], 0)
-test(11, [1, 2, 3, 4, 5], 3)
+test(15, [1, 2, 3, 4, 5], 5);
+// test(7, [2, 3, 1, 2, 4, 3], 2)
+// test(4, [1, 4, 4], 1)
+// test(11, [1, 1, 1, 1, 1, 1, 1, 1], 0)
+// test(11, [1, 2, 3, 4, 5], 3)

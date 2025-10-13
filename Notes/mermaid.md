@@ -404,8 +404,18 @@ graph TD;
 ```
 
 </td>
-    <td colspan="3">
 
+<td>
+
+```mermaid
+graph LR;
+    A@{shape: anchor, label: "anchor"}
+    A --> B[anchor]
+```
+
+</td>
+
+<td colspan="2">
 </td>
 
   </tr>

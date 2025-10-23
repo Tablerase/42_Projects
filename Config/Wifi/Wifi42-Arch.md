@@ -24,6 +24,15 @@ AutoConnect=true
 Go inside `iwctl` and do the following instructions:
 
 ```bash
+# Connect to iwctl manager
+iwctl
+```
+
+> [!IMPORTANT]\
+> iwtcl can tell you config not found. Be sure that 42Paris.8021x is in `/var/lib/iwd/`, if it's not detected it usually isnt.
+> You can also try `sudo systemctl restart iwd`.
+
+```bash
 device list            # to find your wireless device (e.g. wlan0)
 station wlan0 scan
 station wlan0 get-networks

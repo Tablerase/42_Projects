@@ -24,13 +24,14 @@ function isPalindrome(x: number): boolean {
   if (x < 0) {
     return false;
   }
-  const xs = String(x);
-  let xs_rev = "";
-  for (let lastchar = xs.length - 1; lastchar >= 0; lastchar--) {
-    xs_rev = xs_rev.concat(xs[lastchar]);
+  let rev = 0;
+  let tmp_x: number = x;
+  while (tmp_x) {
+    rev = (rev * 10) + (tmp_x % 10);
+    tmp_x = Math.floor(tmp_x / 10);
+    // console.log("rev", rev, "tmp_x", tmp_x, "x", x)
   }
-  // console.debug("String origine:", xs, "String reversed:", xs_rev);
-  if (xs_rev === xs) {
+  if (x == rev) {
     return true
   } else {
     return false
@@ -47,3 +48,4 @@ function test(x: number, expected: boolean) {
 test(121, true)
 test(-121, false)
 test(10, false)
+

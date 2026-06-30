@@ -24,27 +24,18 @@ Example 3:
  */
 
 function pivotInteger(n: number): number {
-  // rm edge case
-  if (n == 1) return n;
-
-  let sum = 0;
-  // store value from end so iteration is done in from both array start and end
-  let endMap = new Map<number, number>;
-  endMap.set(n, n);
-  // Iterate in both direction at the same time
-  for (let index = 1; index < n; index++) {
-    sum = sum + index;
-    const indexEnd = n - index + 1;
-    const endSum = endMap.get(indexEnd)! + (n - index);
-    endMap.set(n - index, endSum);
-
-    // console.debug(n - index, endMap.get(indexEnd));
-    // console.debug('sum', sum, 'endSum', endSum, 'endMap', endMap);
-    if (sum == endMap.get(index)) {
-      return index;
-    }
-  }
-  return -1;
+  // Math formula
+  /**
+   * x (x + 1) / 2 = n (n + 1) / 2 - x ( x - 1) / 2
+   * x (x + 1) = n (n + 1 ) - x ( x - 1)
+   * x^2 + x = n^2 + n - x^2 + x
+   * x^2 = n^2 + n - x^2
+   * 2 x^2 = n^2 + n
+   *         _____________
+   * x^2 = \/ (n^2 + n) / 2
+   */
+  const x = Math.sqrt((Math.pow(n, 2) + n) / 2);
+  return Number.isInteger(x) ? x : -1;
 };
 
 console.log('Pivot finding');

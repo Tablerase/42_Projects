@@ -45,3 +45,4 @@ console.debug("Test k = 1", smallestRepunitDivByK(1));
 console.debug("Test k = 2", smallestRepunitDivByK(2));
 console.debug("Test k = 3", smallestRepunitDivByK(3));
 console.debug("Test k = 19", smallestRepunitDivByK(19)); // 18
+

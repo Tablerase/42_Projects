@@ -5,17 +5,19 @@
   {
     "key": "ctrl+shift+l",
     "command": "workbench.action.terminal.focusNext",
-    "when": "terminalFocus"
+    "when": "terminalFocus|| terminalTabsFocus"
   },
   {
     "key": "ctrl+shift+h",
     "command": "workbench.action.terminal.focusPrevious",
-    "when": "terminalFocus"
+    "when": "terminalFocus|| terminalTabsFocus"
   },
   {
     "key": "ctrl+shift+n",
     "command": "workbench.action.terminal.new",
-    "when": "terminalFocus"
+    "when": "terminalFocus",
+    "category": "Terminal",
+    "description": "Create New Terminal"
   },
   {
     "key": "ctrl+shift+w",
@@ -24,22 +26,21 @@
   },
   // Move Terminal
   {
-    "key": "ctrl+shift+j",
+    "key": "ctrl+alt+j",
     "command": "workbench.action.terminal.moveToTerminalPanel",
     "when": "terminalEditorFocus"
   },
   {
-    "key": "ctrl+shift+k",
+    "key": "ctrl+alt+k",
     "command": "workbench.action.terminal.moveToEditor",
     "when": "terminalFocus"
   },
   // Navigate From Terminal to Editor
-  {
-    "key": "ctrl+shift+h",
-    "command": "workbench.action.openPreviousRecentlyUsedEditor",
-    "when": "terminalEditorFocus || terminalFocus"
-  },
-
+  // {
+  //   "key": "ctrl+w ctrl+k",
+  //   "command": "workbench.action.focusLastEditorGroup",
+  //   "when": "terminalEditorFocus || terminalFocus || terminalTabsFocus"
+  // },
   // ========================
   // FILE TREE
   // ========================
@@ -98,7 +99,6 @@
     "key": "ctrl+alt+1",
     "command": "workbench.action.focusActiveEditorGroup"
   },
-
   // ========================
   // NAVIGATE
   // ========================
@@ -112,7 +112,15 @@
     "command": "workbench.action.previousEditor",
     "when": "!inputFocus && !editorFocus"
   },
-
+  // Move Editor
+  {
+    "key": "ctrl+alt+l",
+    "command": "workbench.action.moveEditorToRightGroup"
+  },
+  {
+    "key": "ctrl+alt+h",
+    "command": "workbench.action.moveEditorToLeftGroup"
+  },
   // EXTRA
   {
     "key": "ctrl+shift+5",
@@ -122,9 +130,120 @@
     "key": "ctrl+shift+z",
     "command": "workbench.action.toggleZenMode"
   },
-
+  // Split editors
+  {
+    "key": "ctrl+w s",
+    "command": "workbench.action.splitEditorDown"
+  },
+  {
+    "key": "ctrl+w v",
+    "command": "workbench.action.splitEditorRight"
+  },
+  // Navigate between panes
+  {
+    "key": "ctrl+w h",
+    "command": "workbench.action.focusLeftGroup"
+  },
+  {
+    "key": "ctrl+w j",
+    "command": "workbench.action.focusBelowGroup"
+  },
+  {
+    "key": "ctrl+w k",
+    "command": "workbench.action.focusAboveGroup"
+  },
+  {
+    "key": "ctrl+w l",
+    "command": "workbench.action.focusRightGroup"
+  },
+  // Editor management
+  {
+    "key": "ctrl+w n",
+    "command": "workbench.action.files.newFile"
+  },
+  {
+    "key": "ctrl+w q",
+    "command": "workbench.action.closeActiveEditor"
+  },
+  {
+    "key": "ctrl+w o",
+    "command": "workbench.action.closeOtherEditors"
+  },
+  {
+    "key": "ctrl+w shift+o",
+    "command": "workbench.action.closeEditorsInOtherGroups"
+  },
+  {
+    "key": "ctrl+w r",
+    "command": "workbench.action.reopenClosedEditor"
+  },
+  {
+    "key": "ctrl+w t",
+    "command": "workbench.action.files.newUntitledFile"
+  },
+  {
+    "key": "ctrl+w g",
+    "command": "workbench.action.closeGroup"
+  },
+  {
+    "key": "ctrl+w u",
+    "command": "workbench.action.revertAndCloseActiveEditor"
+  },
+  {
+    "key": "ctrl+w m",
+    "command": "workbench.action.toggleMaximizedPanel"
+  },
+  {
+    "key": "ctrl+w c",
+    "command": "workbench.action.closeEditorsToTheRight"
+  },
+  {
+    "key": "ctrl+w a",
+    "command": "workbench.action.closeAllEditors"
+  },
+  {
+    "key": "ctrl+w f",
+    "command": "workbench.action.focusActiveEditorGroup"
+  },
+  {
+    "key": "ctrl+w 1",
+    "command": "workbench.action.focusFirstEditorGroup"
+  },
+  {
+    "key": "ctrl+w 2",
+    "command": "workbench.action.focusSecondEditorGroup"
+  },
+  {
+    "key": "ctrl+w 3",
+    "command": "workbench.action.focusThirdEditorGroup"
+  },
+  {
+    "key": "ctrl+w 4",
+    "command": "workbench.action.focusFourthEditorGroup"
+  },
+  {
+    "key": "ctrl+w 5",
+    "command": "workbench.action.focusFifthEditorGroup"
+  },
+  {
+    "key": "ctrl+w 6",
+    "command": "workbench.action.focusSixthEditorGroup"
+  },
+  // Size adjustment
+  {
+    "key": "ctrl+w =",
+    "command": "workbench.action.increaseViewSize"
+  },
+  {
+    "key": "ctrl+w -",
+    "command": "workbench.action.decreaseViewSize"
+  },
+  {
+    "key": "ctrl+w 0",
+    "command": "workbench.action.resetViewLocations"
+  },
   // ========================
-  // INLINE CHAT
+  // Copilot/Inline CHAT
   // ========================
   {
     "key": "ctrl+i ctrl+l",
@@ -132,8 +251,44 @@
     "when": "editorFocus && inlineChatHasProvider && inlineChatPossible && !editorReadonly"
   },
   {
-    "key": "ctrl+i",
-    "command": "-inlineChat.start",
+    "key": "ctrl+i ctrl+h",
+    "command": "inlineChat.stop",
     "when": "editorFocus && inlineChatHasProvider && inlineChatPossible && !editorReadonly"
+  },
+  {
+    "key": "ctrl+i ctrl+a",
+    "command": "github.copilot.chat.attachSelection",
+    "when": "editorFocus && inlineChatHasProvider && !editorReadonly"
+  },
+  // ========================
+  // SEARCH
+  // ========================
+  {
+    "key": "ctrl+s r",
+    "command": "workbench.action.replaceInFiles"
+  },
+  {
+    "key": "ctrl+shift+h",
+    "command": "-workbench.action.replaceInFiles"
+  },
+  {
+    "key": "ctrl+shift+d",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+d",
+    "command": "-editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+k v",
+    "command": "-markdown.showPreviewToSide",
+    "when": "editorFocus && !notebookEditorFocused && editorLangId =~ /^(markdown|prompt|instructions|chatagent|skill)$/"
   }
+  // {
+  //   "key": "ctrl+i",
+  //   "command": "-inlineChat.start",
+  //   "when": "editorFocus && inlineChatHasProvider && inlineChatPossible && !editorReadonly"
+  // }
 ]

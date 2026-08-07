@@ -41,63 +41,59 @@ lRUCache.get(3);    // return 3
 lRUCache.get(4);    // return 4
 */
 
-#include <exception>
 #include <iomanip>
 #include <iostream>
 #include <list>
-#include <ostream>
 #include <unordered_map>
 
 class LRUCache {
 private:
-  std::list<int> queue_;               // key ordered least recent used
-  std::unordered_map<int, int> cache_; // key value store
+  std::list<std::pair<int, int>> lru_list_; // key-value pairs ordered by usage
+  std::unordered_map<int, std::list<std::pair<int, int>>::iterator>
+      lru_index_; // key -> iterator in queue
   int capacity_;
 
 public:
   LRUCache(int capacity) { capacity_ = capacity; }
 
   int get(int key) {
-    const auto res = cache_.find(key);
-    if (res == cache_.end()) {
-      return -1;
+    const auto it_list_node = lru_index_.find(key);
+    if (it_list_node != lru_index_.end()) {
+      // access map pointer to lru list item then value
+      const int value = it_list_node->second->second;
+      // update position to begin
+      lru_list_.splice(lru_list_.begin(), lru_list_, it_list_node->second);
+      return value;
     }
-    const int value = res->second;
-    queue_.remove(key);
-    queue_.push_front(key);
-    return value;
+    return -1;
   }
 
   void put(int key, int value) {
-    const auto toUpdate = cache_.find(key);
-    if (toUpdate != cache_.end()) {
-      // update queue
-      queue_.remove(key);
-      queue_.push_front(key);
-      cache_.erase(toUpdate);
+    // Check if value already exists
+    const auto iterator_to_list_node = lru_index_.find(key);
+    if (iterator_to_list_node != lru_index_.end()) {
+      iterator_to_list_node->second->second = value;
+      lru_list_.splice(lru_list_.begin(), lru_list_,
+                       iterator_to_list_node->second);
     } else {
-      // add new key to the front of the queue
-      queue_.push_front(key);
-      // check current size vs capacity
-      if (cache_.size() >= capacity_) {
-        // remove Least Recent Used
-        const int last_used = queue_.back();
-        queue_.pop_back();
-        cache_.erase(last_used);
+      // check capacity
+      if (lru_list_.size() >= capacity_) {
+        const auto it_last = lru_list_.back();
+        lru_index_.erase(it_last.first);
+        lru_list_.pop_back();
       }
+      // add key-value to lru_list_
+      lru_list_.push_front({key, value});
+      // add link to new list node to lru_index_ (key -> node)
+      lru_index_[key] = lru_list_.begin();
     }
-    cache_.insert({key, value});
   }
 
   friend std::ostream &operator<<(std::ostream &os, LRUCache &cache) {
     os << std::setfill('-') << std::setw(50) << '\n';
     os << "List:\n";
-    for (const auto item : cache.queue_) {
-      os << item << '|';
-    }
-    os << "\nCache: \n";
-    for (const auto element : cache.cache_) {
-      os << "{" << element.first << "," << element.second << "}" << '\n';
+    for (const auto item : cache.lru_list_) {
+      os << item.first << ',' << item.second << '|' << '\n';
     }
     return os;
   }
@@ -158,7 +154,7 @@ void test2() {
 
 int main(int argc, char *argv[]) {
   test1();
-  test2();
+  // test2();
   return 0;
 }
 

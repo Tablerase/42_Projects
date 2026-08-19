@@ -8,6 +8,10 @@
 *.o
 *.out
 
+# Credential files
+*.key
+*.env
+
 # Vscode directory
 .vscode/
 

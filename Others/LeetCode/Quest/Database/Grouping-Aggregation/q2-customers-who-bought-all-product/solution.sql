@@ -3,9 +3,11 @@
 -- show tables
 \dt;
 
-\d activity;
+\d customer;
+\d product;
 
-SELECT * FROM activity;
+select * from customer;
+select * from product;
 
 -- Convention
 --  • SQL Keywords in UPPERCASE: SELECT, FROM, WHERE, GROUP BY, JOIN, ON, COUNT
@@ -13,30 +15,28 @@ SELECT * FROM activity;
 
 -- JOIN Type                      │ Behavior                                                                   │ What happens if no match?
 -- ───────────────────────────────┼────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────
---  INNER JOIN                    │ Keeps only rows that exist in BOTH tables.                                 │ Rows with no match are dropped/excluded.
+--  INNER JOIN (default)          │ Keeps only rows that exist in BOTH tables.                                 │ Rows with no match are dropped/excluded.
 --  LEFT JOIN (or LEFT OUTER JOIN)│ Keeps ALL rows from the left table, and matches what it can from the right.│ Missing right-table values become NULL.
 --  RIGHT JOIN                    │ Keeps ALL rows from the right table, and matches what it can from the left.│ Missing left-table values become NULL.
 --  FULL OUTER JOIN               │ Keeps ALL rows from both tables.                                           │ Any missing side becomes NULL.
+--  CROSS JOIN                    │ Cartesian Product                                                          │ Multiplies every row of A with every row of B.
 
 -- NOT in postgres:
 -- FLOAT(2, 3) -> use NUMERICAL(precision,scale)
 -- inline ENUM -> CREATE TYPE ... AS ENUM before using in schema
 
--- Write a solution to find the daily active user count for a period of 30 days ending 2019-07-27 inclusively. 
--- A user was active on someday if they made at least one activity on that day.
+-- Write a solution to report the customer ids from the Customer table that bought all the products in the Product table.
 --
 -- Return the result table in any order.
---
--- The result format is in the following example.
---
--- Note: Any activity from ('open_session', 'end_session', 'scroll_down', 'send_message') will be considered valid activity 
--- for a user to be considered active on a day.
-
+insert into customer(customer_id, product_key) values (1, 5);
 
 select 
-  activity_date as day,
-  count(distinct user_id) as active_users
-from activity 
-where activity_date <= '2019-07-27' and activity_date > '2019-06-27'
-group by activity_date
+  c.customer_id
+from 
+  customer c
+group by
+  c.customer_id
+having
+  count(distinct c.product_key) = (select count(*) from product)
 ;
+

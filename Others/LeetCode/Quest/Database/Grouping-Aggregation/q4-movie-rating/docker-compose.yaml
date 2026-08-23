@@ -1,0 +1,54 @@
+services:
+  database:
+    image: "postgres:18-alpine"
+    container_name: leetcode_pg
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER:-dev}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dev}
+      POSTGRES_DB: ${DB_DATABASE:-dev}
+    volumes:
+      # Any .sql file here is executed automatically on first startup!
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Comment out pgdata if you want a clean database every restart
+      - pgdata:/var/lib/postgresql
+
+volumes:
+  pgdata:
+
+# Run with:
+#     docker compose up -d
+# Tear down with:
+#     docker compose down -v
+#       (-v removes stored volume data).
+# Connecting via Terminal inside Docker:
+#     docker exec -it <container_name> psql -U <user>
+
+# Running
+# source .env && watchexec -e sql "docker compose exec -T database psql -U $DB_USER -d $DB_DATABASE < solution.sql"
+
+# Command with timing
+# -c : allow psql command, \timing on : commmand that give sql statement duration
+# -f <file>
+# -v <variable>: ON_ERROR_STOP (if set rollback before command fail)
+# source .env && watchexec -e sql "docker compose exec -T database psql -U $DB_USER -d $DB_DATABASE -v ON_ERROR_STOP=1 -c '\timing on' -f /dev/stdin < solution.sql"
+
+# Config
+# docker compose --env-file .env config
+
+# UI
+#
+# Neovim DBUI:
+# :DB <url>
+# add connection in DBUI
+#
+# TUI:
+# harlequin -a postgres "postgres://dev:dev@localhost:5432/dev"
+
+# LSP:
+# - for autocompletion (functions, tables schema values)
+# postgres-language-server init (if no config files)
+# postgres-language-server start
+# postgres-language-server stop
+

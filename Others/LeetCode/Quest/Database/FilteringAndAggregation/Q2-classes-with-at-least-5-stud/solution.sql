@@ -1,9 +1,9 @@
 -- show tables
 \dt;
 
-\d orders;
+\d courses;
 
-select * from orders;
+SELECT * FROM courses;
 
 -- Convention
 --  • SQL Keywords in UPPERCASE: SELECT, FROM, WHERE, GROUP BY, JOIN, ON, COUNT
@@ -16,14 +16,12 @@ select * from orders;
 --  RIGHT JOIN                    │ Keeps ALL rows from the right table, and matches what it can from the left.│ Missing left-table values become NULL.
 --  FULL OUTER JOIN               │ Keeps ALL rows from both tables.                                           │ Any missing side becomes NULL.
 
--- Write a solution to find the customer_number for the customer who has placed the largest number of orders.
+-- Write a solution to find all the classes that have at least five students.
 --
--- The test cases are generated so that exactly one customer will have placed more orders than any other customer.
+-- Return the result table in any order.
 
-SELECT o.customer_number
-  FROM orders o
-  GROUP BY o.customer_number
-  ORDER BY COUNT(*) DESC
-  LIMIT 1
+SELECT c.class 
+  FROM courses AS c
+  GROUP BY c.class
+  HAVING COUNT(*) >= 5
 ;
-  

@@ -1,9 +1,9 @@
 -- show tables
 \dt;
 
-\d orders;
+\d transactions;
 
-select * from orders;
+SELECT * FROM transactions;
 
 -- Convention
 --  • SQL Keywords in UPPERCASE: SELECT, FROM, WHERE, GROUP BY, JOIN, ON, COUNT
@@ -16,14 +16,34 @@ select * from orders;
 --  RIGHT JOIN                    │ Keeps ALL rows from the right table, and matches what it can from the left.│ Missing left-table values become NULL.
 --  FULL OUTER JOIN               │ Keeps ALL rows from both tables.                                           │ Any missing side becomes NULL.
 
--- Write a solution to find the customer_number for the customer who has placed the largest number of orders.
---
--- The test cases are generated so that exactly one customer will have placed more orders than any other customer.
+-- NOT in postgres:
+-- FLOAT(2, 3) -> use NUMERICAL(precision,scale)
+-- inline ENUM -> CREATE TYPE ... AS ENUM before using in schema
 
-SELECT o.customer_number
-  FROM orders o
-  GROUP BY o.customer_number
-  ORDER BY COUNT(*) DESC
-  LIMIT 1
+-- Write an SQL query to find for each month and country, the number of transactions and their total amount,
+-- the number of approved transactions and their total amount.
+--
+-- Return the result table in any order.
+
+SELECT 
+  to_char(t.trans_date, 'YYYY-MM') as month,
+  t.country as country,
+  COUNT(t.id) as trans_count,
+  COUNT(
+    CASE
+        WHEN t.state = 'approved' THEN 1
+    END
+    ) as approved_count,
+  SUM(t.amount) as trans_total_amount,
+  SUM(
+    CASE 
+    WHEN t.state = 'approved' THEN t.amount ELSE 0
+    END
+  ) as approved_total_amount
+FROM transactions t
+GROUP BY
+  t.country,
+  month
+ORDER BY
+  month ASC
 ;
-  

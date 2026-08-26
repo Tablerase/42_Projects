@@ -10,6 +10,7 @@ valid j's such that j != i and nums[j] < nums[i].
 Return the answer in an array.
  */
 
+#include <array>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -17,22 +18,20 @@ Return the answer in an array.
 using namespace std;
 
 class Solution {
-private:
-  int sumOfInferiorNumbers(int comparator, vector<int> &nums_to_compare) {
-    int sum = 0;
-    for (const int num : nums_to_compare) {
-      if (num < comparator) {
-        sum++;
-      }
-    }
-    return sum;
-  }
 
 public:
   vector<int> smallerNumbersThanCurrent(vector<int> &nums) {
     vector<int> res = {};
+    array<int, 101> count = {};
+    array<int, 101> running_totals = {};
     for (const int num : nums) {
-      res.push_back(sumOfInferiorNumbers(num, nums));
+      count[num]++;
+    }
+    for (int i = 1; i < 101; i++) {
+      running_totals[i] = running_totals[i - 1] + count[i - 1];
+    }
+    for (const int num : nums) {
+      res.push_back(running_totals[num]);
     }
     return res;
   }

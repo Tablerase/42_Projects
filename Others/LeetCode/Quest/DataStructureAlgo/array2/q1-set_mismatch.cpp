@@ -24,11 +24,9 @@ Input: nums = [1,1]
 Output: [1,2]
 */
 
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
-#include <list>
-#include <map>
-#include <sys/types.h>
 #include <vector>
 
 using namespace std;
@@ -36,33 +34,28 @@ using namespace std;
 class Solution {
 public:
   vector<int> findErrorNums(vector<int> &nums) {
-    map<int, u_int8_t> indexCount = {};
-    int duplicated = 0;
-    list<int> missing = {};
+    vector<int> model_arr(nums.size() + 1, 0);
+    model_arr[0] = 1;
 
-    // Loop over
+    int duplicated = 0;
+    int missing = 0;
     for (int i = 0; i < nums.size(); i++) {
-      // count for duplicated
-      const auto it = indexCount.find(nums[i]);
-      if (it == indexCount.end()) {
-        missing.remove(nums[i]);
-        indexCount[nums[i]] = 1;
-      } else {
+      // When value found put model_arr to 1
+      int model_nums_count = model_arr[nums[i]];
+      if (model_nums_count == 0) {
+        model_arr[nums[i]] = 1;
+
+        // For duplicated values
+      } else if (model_nums_count == 1) {
         duplicated = nums[i];
       }
-
-      if (indexCount.find(i + 1) == indexCount.end()) {
-        missing.push_back(i + 1);
-      }
-
-      std::cout << "in loop missings: ";
-      for (const int value : missing) {
-        std::cout << value << ",";
-      }
-      std::cout << "\n";
     }
-
-    return {duplicated, *missing.begin()};
+    // Search for one value missing 0 in model_arr
+    auto it = find(model_arr.begin(), model_arr.end(), 0);
+    if (it != model_arr.end()) {
+      missing = it - model_arr.begin();
+    }
+    return {duplicated, missing};
   }
 };
 

@@ -34,27 +34,40 @@ using namespace std;
 class Solution {
 public:
   vector<int> findErrorNums(vector<int> &nums) {
-    vector<int> model_arr(nums.size() + 1, 0);
-    model_arr[0] = 1;
-
     int duplicated = 0;
     int missing = 0;
-    for (int i = 0; i < nums.size(); i++) {
-      // When value found put model_arr to 1
-      int model_nums_count = model_arr[nums[i]];
-      if (model_nums_count == 0) {
-        model_arr[nums[i]] = 1;
 
-        // For duplicated values
-      } else if (model_nums_count == 1) {
-        duplicated = nums[i];
+    // nums
+    // index [0, n -1]
+    // value [1, n   ]
+
+    // Apply seen marker loop '-'
+    for (int i = 0; i < nums.size(); i++) {
+      // std::cout << std::setfill('-') << std::setw(40) << "\n";
+      // std::cout << "Index: " << i << "\n";
+      // std::cout << "Value: " << nums[i] << "\n";
+
+      // seen number
+      int index_seen = abs(nums[i]) - 1;
+      if (nums[index_seen] < 0) {
+        duplicated = abs(nums[i]);
+      } else {
+        nums[index_seen] *= -1;
+      }
+
+      // for (const int value : nums) {
+      //   std::cout << value << ",";
+      // }
+      // std::cout << "\n";
+    }
+
+    // Find missing value : > 0
+    for (int i = 0; i < nums.size(); i++) {
+      if (nums[i] > 0) {
+        missing = i + 1;
       }
     }
-    // Search for one value missing 0 in model_arr
-    auto it = find(model_arr.begin(), model_arr.end(), 0);
-    if (it != model_arr.end()) {
-      missing = it - model_arr.begin();
-    }
+
     return {duplicated, missing};
   }
 };

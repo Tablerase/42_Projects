@@ -24,7 +24,6 @@ Input: nums = [1,1]
 Output: [1,2]
 */
 
-#include <algorithm>
 #include <iomanip>
 #include <iostream>
 #include <vector>

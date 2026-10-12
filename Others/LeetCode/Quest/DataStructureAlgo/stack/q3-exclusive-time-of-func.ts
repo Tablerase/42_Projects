@@ -36,101 +36,41 @@ interface LogInfo {
 }
 
 function exclusiveTime(n: number, logs: string[]): number[] {
-  const res: number[] = [];
+  const res: number[] = Array(n).fill(0);
 
-  const squares: string[] = [];
-  const funcColors: number[] = [];
-  for (let index = 0; index < n; index++) {
-    funcColors.push(getRandomColorCode());
-  }
+  const stack: LogInfo[] = [];
+  let lastTime = -1;
 
-  let maxTimestamp = 0;
-  const logArray: LogInfo[] = [];
-
-  logs.forEach((log) => {
-    const infos = log.split(":");
-    const res = {
-      id: Number(infos[0]),
-      status: infos[1],
-      timestamp: Number(infos[2])
+  logs.forEach((log, index) => {
+    const data = log.split(":");
+    const currentLog = {
+      id: Number(data[0]),
+      status: data[1],
+      timestamp: Number(data[2])
     } as LogInfo;
-    logArray.push(res);
-    if (res.timestamp > maxTimestamp) {
-      maxTimestamp = res.timestamp;
+
+    if (currentLog.status == 'start') {
+
+      if (lastTime != -1 && stack.length != 0) {
+        const diff = currentLog.timestamp - lastTime;
+        const lastId = stack[stack.length - 1].id;
+        res[lastId] += diff;
+      }
+      lastTime = currentLog.timestamp;
+      stack.push(currentLog);
+
+    } else {
+
+      const poppedFunction = stack.pop();
+      if (poppedFunction) {
+        const diff = currentLog.timestamp - lastTime + 1;
+        res[poppedFunction.id] += diff;
+        lastTime = currentLog.timestamp + 1;
+      }
+
     }
+    // console.log(index, stack);
   })
-  console.debug("maxTimestamp", maxTimestamp);
-
-  function readLog(index: number): LogInfo {
-    const currentLogData = logs[index].split(":");
-    const currentLog: LogInfo = { id: Number(currentLogData[0]), status: currentLogData[1] as "end" | "start", timestamp: Number(currentLogData[2]) }
-    return currentLog;
-  }
-
-  let time = 0;
-  let logIndex = 0;
-  const callStack: LogInfo[] = [];
-  let currentLog: LogInfo = readLog(logIndex);
-  while (time <= maxTimestamp) {
-    // iterate over timestamp
-    // read log to find what happens at timestamp
-
-    // TODO: handle multiple event during the same unit of time (start / end for different function)
-    // TODO: handle function that span over a single unit of time
-    while (
-      (currentLog = readLog(logIndex)) &&
-      currentLog.timestamp == time &&
-      logIndex < logArray.length - 1
-    ) {
-      // console.log(currentLog, time);
-
-      // add new function when start
-      if (currentLog.status === 'start' && currentLog.timestamp <= time) {
-        callStack.push(currentLog);
-        res[currentLog.id] = isNaN(res[currentLog.id]) ? 1 : res[currentLog.id] + 1;
-        squares.push(formatColorSquare(funcColors[currentLog.id], time.toString()));
-        logIndex++;
-        continue;
-      }
-
-      // pop function when end
-      if (currentLog.status === 'end' && currentLog.timestamp <= time) {
-        callStack.pop();
-        res[currentLog.id] = isNaN(res[currentLog.id]) ? 1 : res[currentLog.id] + 1;
-        squares.push(formatColorSquare(funcColors[currentLog.id], time.toString()));
-        logIndex++;
-        continue;
-      }
-    }
-
-    // count increase on last/top function of the call stack
-    const topFunction = callStack[callStack.length > 0 ? callStack.length - 1 : 0];
-    if (topFunction) {
-      res[topFunction.id] = isNaN(res[topFunction.id]) ? 1 : res[topFunction.id] + 1;
-      squares.push(formatColorSquare(funcColors[topFunction.id], time.toString()));
-    }
-
-    time++
-  }
-  console.debug(squares.join(" "));
-
-  // let time = 0;
-  // let logIndex = 0;
-  // while (time <= maxTimestamp) {
-  //   if (
-  //     logArray[logIndex + 1 < logArray.length ? logIndex + 1 : logArray.length - 1].timestamp <= time
-  //   ) {
-  //     if (logIndex + 1 < logArray.length) {
-  //       logIndex++;
-  //       continue;
-  //     }
-  //   }
-  //   res[logArray[logIndex].id] = isNaN(res[logArray[logIndex].id]) ? 1 : res[logArray[logIndex].id] + 1;
-  //   squares.push(formatColorSquare(funcColors[logArray[logIndex].id], time.toString()));
-  //   time++;
-  // }
-  // console.debug(squares.join(" "));
-
   return res;
 };
 
@@ -144,4 +84,5 @@ test(2, ["0:start:0", "1:start:2", "1:end:5", "0:end:6"], [3, 4]);
 test(1, ["0:start:0", "0:start:2", "0:end:5", "0:start:6", "0:end:6", "0:end:7"], [8]);
 test(2, ["0:start:0", "0:start:2", "0:end:5", "1:start:6", "1:end:6", "0:end:7"], [7, 1]);
 test(8, ["0:start:0", "1:start:5", "2:start:6", "3:start:9", "4:start:11", "5:start:12", "6:start:14", "7:start:15", "1:start:24", "1:end:29", "7:end:34", "6:end:37", "5:end:39", "4:end:40", "3:end:45", "0:start:49", "0:end:54", "5:start:55", "5:end:59", "4:start:63", "4:end:66", "2:start:69", "2:end:70", "2:start:74", "6:start:78", "0:start:79", "0:end:80", "6:end:85", "1:start:89", "1:end:93", "2:end:96", "2:end:100", "1:end:102", "2:start:105", "2:end:109", "0:end:114"], [20, 14, 35, 7, 6, 9, 10, 14]);
+test(3, ["0:start:0", "0:end:0", "1:start:1", "1:end:1", "2:start:2", "2:end:2", "2:start:3", "2:end:3"], [1, 1, 2]);
 

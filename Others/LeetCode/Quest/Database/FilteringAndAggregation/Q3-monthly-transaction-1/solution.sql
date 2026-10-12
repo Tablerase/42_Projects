@@ -25,7 +25,7 @@ SELECT * FROM transactions;
 --
 -- Return the result table in any order.
 
-SELECT 
+SELECT
   to_char(t.trans_date, 'YYYY-MM') as month,
   t.country as country,
   COUNT(t.id) as trans_count,
@@ -36,7 +36,7 @@ SELECT
     ) as approved_count,
   SUM(t.amount) as trans_total_amount,
   SUM(
-    CASE 
+    CASE
     WHEN t.state = 'approved' THEN t.amount ELSE 0
     END
   ) as approved_total_amount
